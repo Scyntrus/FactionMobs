@@ -1,5 +1,8 @@
 package com.gmail.scyntrus.fmob;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityCreature;
 import net.minecraft.server.v1_4_R1.EntityLiving;
@@ -50,31 +53,21 @@ public class EntityListener implements Listener{
 		}
 	}
 	
-	@EventHandler
-	public void onPlayerInteract(PlayerInteractEntityEvent e) {
-		if (e.getRightClicked() instanceof Creature) {
-			Entity t = ((CraftCreature)e.getRightClicked()).getHandle().getGoalTarget();
-			if (t != null) {
-				e.getPlayer().sendMessage("Currently targeting " + t.getLocalizedName());
-			} else {
-				e.getPlayer().sendMessage("Not targeting anything");
-			}
-			
-		}
-	}
+//	@EventHandler
+//	public void onPlayerInteract(PlayerInteractEntityEvent e) {
+//		if (e.getRightClicked() instanceof Creature) {
+//			Entity t = ((CraftCreature)e.getRightClicked()).getHandle().getGoalTarget();
+//			if (t != null) {
+//				e.getPlayer().sendMessage("Currently targeting " + t.getLocalizedName());
+//			} else {
+//				e.getPlayer().sendMessage("Not targeting anything");
+//			}
+//			
+//		}
+//	}
 	
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {
-		for (FactionMob fmob : plugin.mobList) {
-			try {
-				if (fmob.isAlive()) {
-					fmob.updateMob();
-				} else {
-					plugin.mobList.remove(fmob);
-				}
-			} catch (Exception ex) {
-				
-			}
-		}
+		plugin.updateList();
 	}
 }

@@ -139,7 +139,8 @@ public class FactionMobs extends JavaPlugin{
 	}
 	
 	public void onDisable() {
-		saveMobList();
+		this.updateList();
+		this.saveMobList();
 	}
 	
 	public void saveMobList() {
@@ -166,6 +167,20 @@ public class FactionMobs extends JavaPlugin{
 			conf.save(new File(getDataFolder(), "data.yml"));
 		} catch (IOException e) {
 			System.out.println("Failed to save fmob data");
+		}
+	}
+	
+	public void updateList() {
+		List<FactionMob> toDelete = new ArrayList<FactionMob>();
+		for (FactionMob fmob : this.mobList) {
+			if (fmob.isAlive()) {
+				fmob.updateMob();
+			} else {
+				toDelete.add(fmob);
+			}
+		}
+		for (FactionMob fmob : toDelete) {
+			this.mobList.remove(fmob);
 		}
 	}
 }
