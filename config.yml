@@ -1,0 +1,11 @@
+# FactionMobs Config
+
+# Sets the model number of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
+model: skeleton
+
+# Set the health of the mobs
+Archer.hp: 20
+Mage.hp: 20
+Ranger.hp: 20
+Swordsman.hp: 20
+Titan.hp: 40

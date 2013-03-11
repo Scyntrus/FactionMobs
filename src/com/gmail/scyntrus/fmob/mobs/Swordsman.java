@@ -21,7 +21,8 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 	public Location spawnLoc = null;
 	public Faction faction = null;
 	public Entity attackedBy = null;
-	public static String typeName = "swordsman";
+	public static String typeName = "Swordsman";
+	public static int maxHp = 20;
 	
 	public Swordsman(World world) {
 		super(world);
@@ -106,7 +107,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 	
 	@Override
 	public int getMaxHealth() {
-        return 20;
+        return Swordsman.maxHp;
     }
 	
 	@Override
@@ -178,21 +179,21 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 
 	@Override
 	protected String aY() {
-	    return "mob.skeleton.say";
+	    return "mob.villager.default";
 	}
 
 	@Override
 	protected String aZ() {
-	    return "mob.skeleton.hurt";
+	    return "mob.villager.defaulthurt";
 	}
 
 	@Override
 	protected String ba() {
-	    return "mob.skeleton.death";
+	    return "mob.villager.defaultdeath";
 	}
 
 	@Override
 	protected void a(int i, int j, int k, int l) {
-	    makeSound("mob.skeleton.step", 0.15F, 1.0F);
+	    makeSound("mob.zombie.step", 0.15F, 1.0F);
 	}
 }

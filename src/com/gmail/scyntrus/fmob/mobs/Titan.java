@@ -5,8 +5,6 @@ import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityIronGolem;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 import net.minecraft.server.v1_4_R1.EntityPlayer;
-import net.minecraft.server.v1_4_R1.Item;
-import net.minecraft.server.v1_4_R1.ItemStack;
 import net.minecraft.server.v1_4_R1.World;
 
 import org.bukkit.Location;
@@ -21,11 +19,11 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	public Location spawnLoc = null;
 	public Faction faction = null;
 	public Entity attackedBy = null;
-	public static String typeName = "titan";
+	public static String typeName = "Titan";
+	public static int maxHp = 40;
 	
 	public Titan(World world) {
 		super(world);
-	    this.setEquipment(4, new ItemStack(Item.GOLD_HELMET));
 	    this.persistent = true;
 	}
 
@@ -105,7 +103,7 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	
 	@Override
 	public int getMaxHealth() {
-        return 40;
+        return Titan.maxHp;
     }
 	
 	@Override

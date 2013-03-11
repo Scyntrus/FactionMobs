@@ -21,7 +21,8 @@ public class Mage extends EntityWitch implements FactionMob{
 	public Location spawnLoc = null;
 	public Faction faction = null;
 	public Entity attackedBy = null;
-	public static String typeName = "mage";
+	public static String typeName = "Mage";
+	public static int maxHp = 20;
 	
 	public Mage(World world) {
 		super(world);
@@ -106,7 +107,7 @@ public class Mage extends EntityWitch implements FactionMob{
 	
 	@Override
 	public int getMaxHealth() {
-        return 20;
+        return Mage.maxHp;
     }
 	
 	@Override
@@ -178,21 +179,21 @@ public class Mage extends EntityWitch implements FactionMob{
 
 	@Override
 	protected String aY() {
-	    return "mob.skeleton.say";
+	    return "mob.villager.default";
 	}
 
 	@Override
 	protected String aZ() {
-	    return "mob.skeleton.hurt";
+	    return "mob.villager.defaulthurt";
 	}
 
 	@Override
 	protected String ba() {
-	    return "mob.skeleton.death";
+	    return "mob.villager.defaultdeath";
 	}
 
 	@Override
 	protected void a(int i, int j, int k, int l) {
-	    makeSound("mob.skeleton.step", 0.15F, 1.0F);
+	    makeSound("mob.zombie.step", 0.15F, 1.0F);
 	}
 }

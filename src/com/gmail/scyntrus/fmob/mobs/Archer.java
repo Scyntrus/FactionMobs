@@ -22,6 +22,7 @@ public class Archer extends EntitySkeleton implements FactionMob{
 	public Faction faction = null;
 	public Entity attackedBy = null;
 	public static String typeName = "Archer";
+	public static int maxHp = 20;
 	
 	public Archer(World world) {
 		super(world);
@@ -108,7 +109,7 @@ public class Archer extends EntitySkeleton implements FactionMob{
 	
 	@Override
 	public int getMaxHealth() {
-        return 20;
+        return Archer.maxHp;
     }
 	
 	@Override
@@ -176,5 +177,25 @@ public class Archer extends EntitySkeleton implements FactionMob{
 	@Override
 	public double getlocZ() {
 		return this.locZ;
+	}	
+
+	@Override
+	protected String aY() {
+	    return "mob.villager.default";
+	}
+
+	@Override
+	protected String aZ() {
+	    return "mob.villager.defaulthurt";
+	}
+
+	@Override
+	protected String ba() {
+	    return "mob.villager.defaultdeath";
+	}
+
+	@Override
+	protected void a(int i, int j, int k, int l) {
+	    makeSound("mob.zombie.step", 0.15F, 1.0F);
 	}
 }

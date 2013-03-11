@@ -10,6 +10,7 @@ import net.minecraft.server.v1_4_R1.EntityTypes;
 import net.minecraft.server.v1_4_R1.World;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
@@ -30,23 +31,49 @@ public class FactionMobs extends JavaPlugin{
 	public List<FactionMob> mobList = new ArrayList<FactionMob>();
 	
 	public void onEnable() {
+		this.saveDefaultConfig();
+		FileConfiguration config = this.getConfig();
+		int modelNum = 51;
+		switch (config.getInt("model")) {
+		case 0:
+			modelNum = 51;
+			break;
+		case 1:
+			modelNum = 54;
+			break;
+		case 2:
+			modelNum = 57;
+			break;
+		}
+		
+		Archer.maxHp = config.getInt("Archer.hp");
+		if (Archer.maxHp<1) Archer.maxHp = 1;
+		Mage.maxHp = config.getInt("Mage.hp");
+		if (Mage.maxHp<1) Mage.maxHp = 1;
+		Ranger.maxHp = config.getInt("Ranger.hp");
+		if (Ranger.maxHp<1) Ranger.maxHp = 1;
+		Swordsman.maxHp = config.getInt("Swordsman.hp");
+		if (Swordsman.maxHp<1) Swordsman.maxHp = 1;
+		Titan.maxHp = config.getInt("Titan.hp");
+		if (Titan.maxHp<1) Titan.maxHp = 1;
+		
 		this.pm = this.getServer().getPluginManager();
 	    try {
 	    	Method method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
-	    	method.invoke(EntityTypes.class, Archer.class, "Archer", 51);
+	    	method.invoke(EntityTypes.class, Archer.class, "Archer", modelNum);
 	    	
 	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
-	    	method.invoke(EntityTypes.class, Ranger.class, "Ranger", 51);
+	    	method.invoke(EntityTypes.class, Ranger.class, "Ranger", modelNum);
 
 	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
-	    	method.invoke(EntityTypes.class, Swordsman.class, "Swordsman", 51);
+	    	method.invoke(EntityTypes.class, Swordsman.class, "Swordsman", modelNum);
 
 	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
-	    	method.invoke(EntityTypes.class, Mage.class, "Mage", 120);
+	    	method.invoke(EntityTypes.class, Mage.class, "Mage", modelNum);
 	    	
 	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
