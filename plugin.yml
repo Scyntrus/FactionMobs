@@ -1,0 +1,14 @@
+name: FactionMobs
+main: com.gmail.scyntrus.fmob.FactionMobs
+author: Scyntrus
+version: 0.01
+depends: [Factions]
+commands:
+    fmspawn:
+        description: spawn something
+        usage: "/fmspawn [name]"
+permissions:
+    fmob.spawn:
+        description: Allows you to spawn a faction mob
+        default: op
+    
