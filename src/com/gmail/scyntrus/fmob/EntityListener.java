@@ -1,15 +1,10 @@
 package com.gmail.scyntrus.fmob;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityCreature;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
-import org.bukkit.entity.Creature;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -53,18 +48,13 @@ public class EntityListener implements Listener{
 		}
 	}
 	
-//	@EventHandler
-//	public void onPlayerInteract(PlayerInteractEntityEvent e) {
-//		if (e.getRightClicked() instanceof Creature) {
-//			Entity t = ((CraftCreature)e.getRightClicked()).getHandle().getGoalTarget();
-//			if (t != null) {
-//				e.getPlayer().sendMessage("Currently targeting " + t.getLocalizedName());
-//			} else {
-//				e.getPlayer().sendMessage("Not targeting anything");
-//			}
-//			
-//		}
-//	}
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEntityEvent e) {
+		if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
+			FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
+			e.getPlayer().sendMessage("This " + fmob.getTypeName() + " belongs to faction " + fmob.getFaction().getTag());
+		}
+	}
 	
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {

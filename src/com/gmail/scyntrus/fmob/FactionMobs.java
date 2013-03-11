@@ -46,11 +46,11 @@ public class FactionMobs extends JavaPlugin{
 
 	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
-	    	method.invoke(EntityTypes.class, Titan.class, "Titan", 99);
-
+	    	method.invoke(EntityTypes.class, Mage.class, "Mage", 120);
+	    	
 	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
-	    	method.invoke(EntityTypes.class, Mage.class, "Mage", 51);
+	    	method.invoke(EntityTypes.class, Titan.class, "Titan", 99);
 	    } catch (Exception e) {
 	    	pm.disablePlugin(this);
 	    	return;
@@ -173,7 +173,7 @@ public class FactionMobs extends JavaPlugin{
 	public void updateList() {
 		List<FactionMob> toDelete = new ArrayList<FactionMob>();
 		for (FactionMob fmob : this.mobList) {
-			if (fmob.isAlive()) {
+			if (fmob.isAlive() && !fmob.getFaction().isNone()) {
 				fmob.updateMob();
 			} else {
 				toDelete.add(fmob);
@@ -181,6 +181,7 @@ public class FactionMobs extends JavaPlugin{
 		}
 		for (FactionMob fmob : toDelete) {
 			this.mobList.remove(fmob);
+			fmob.die();
 		}
 	}
 }

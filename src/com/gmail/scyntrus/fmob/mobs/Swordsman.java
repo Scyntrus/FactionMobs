@@ -25,7 +25,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 	
 	public Swordsman(World world) {
 		super(world);
-	    this.setEquipment(0, new ItemStack(Item.GOLD_SWORD));
+	    this.setEquipment(0, new ItemStack(Item.IRON_SWORD));
 	    this.setEquipment(4, new ItemStack(Item.GOLD_HELMET));
 	    this.persistent = true;
 	}
@@ -174,5 +174,25 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 	@Override
 	public double getlocZ() {
 		return this.locZ;
+	}
+
+	@Override
+	protected String aY() {
+	    return "mob.skeleton.say";
+	}
+
+	@Override
+	protected String aZ() {
+	    return "mob.skeleton.hurt";
+	}
+
+	@Override
+	protected String ba() {
+	    return "mob.skeleton.death";
+	}
+
+	@Override
+	protected void a(int i, int j, int k, int l) {
+	    makeSound("mob.skeleton.step", 0.15F, 1.0F);
 	}
 }

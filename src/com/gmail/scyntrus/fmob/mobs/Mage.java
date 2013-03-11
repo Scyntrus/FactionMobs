@@ -175,4 +175,24 @@ public class Mage extends EntityWitch implements FactionMob{
 	public double getlocZ() {
 		return this.locZ;
 	}
+
+	@Override
+	protected String aY() {
+	    return "mob.skeleton.say";
+	}
+
+	@Override
+	protected String aZ() {
+	    return "mob.skeleton.hurt";
+	}
+
+	@Override
+	protected String ba() {
+	    return "mob.skeleton.death";
+	}
+
+	@Override
+	protected void a(int i, int j, int k, int l) {
+	    makeSound("mob.skeleton.step", 0.15F, 1.0F);
+	}
 }

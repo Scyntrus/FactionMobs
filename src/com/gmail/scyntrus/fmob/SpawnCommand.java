@@ -47,6 +47,10 @@ public class SpawnCommand  implements CommandExecutor{
 				player.sendMessage("You may only spawn mobs in your territory");
 				return true;
 			}
+			if (plugin.mobList.size() >= 100) {
+				player.sendMessage("There are too many faction mobs");
+				return true;
+			}
 			net.minecraft.server.v1_4_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
 			if (split.length == 0) {
 				player.sendMessage("You must specify a mob");
