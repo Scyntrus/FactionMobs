@@ -36,6 +36,7 @@ public class FmCommand  implements CommandExecutor{
 	@Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
 		if (sender instanceof Player) {
+			Player player = (Player) sender;
 			if (split.length == 0) {
 				return false;
 			} else if (split[0].equalsIgnoreCase("help")) {
@@ -52,7 +53,6 @@ public class FmCommand  implements CommandExecutor{
 						
 			
 			} else if (split[0].equalsIgnoreCase("spawn")) {
-				Player player = (Player) sender;
 				if (!player.hasPermission("fmob.spawn")) {
 					player.sendMessage(ChatColor.RED + "You do not have permission");
 					return true;
@@ -151,7 +151,6 @@ public class FmCommand  implements CommandExecutor{
 				plugin.mobList.add(newMob);
 				player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));
 			} else if (split[0].equalsIgnoreCase("color")) {
-				Player player = (Player) sender;
 				if (!player.hasPermission("fmob.spawn")) {
 					player.sendMessage(ChatColor.RED + "You do not have permission");
 					return true;

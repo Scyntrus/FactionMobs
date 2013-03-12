@@ -1,8 +1,7 @@
 package com.gmail.scyntrus.fmob;
 
 import net.minecraft.server.v1_4_R1.Entity;
-import net.minecraft.server.v1_4_R1.EntityCreature;
-import net.minecraft.server.v1_4_R1.EntityLiving;
+import net.minecraft.server.v1_4_R1.EntityWolf;
 
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
@@ -31,27 +30,46 @@ public class EntityListener implements Listener{
 	public void onEntityTarget(EntityTargetEvent e) {
 		Entity entity = ((CraftEntity) e.getEntity()).getHandle();
 		if (entity != null && entity instanceof FactionMob) {
+			e.setCancelled(true);
 			FactionMob fmob = (FactionMob) entity;
 			if (e.getTarget() != null) {
 				Entity target = ((CraftEntity) e.getTarget()).getHandle();
-				if (Utils.FactionCheck(target, ((FactionMob) entity).getFaction()) == -1) {
-					((EntityLiving) entity).setGoalTarget((EntityLiving) target);
-					((EntityCreature) entity).setTarget(target);
-					e.setCancelled(true);
+				if (Utils.FactionCheck(target, fmob.getFaction()) == -1) {
+					fmob.setTarget(target);
 					return;
 				}
 			}
-			Entity target = fmob.findTarget();
-			if (target != null) {
-				((EntityLiving) entity).setGoalTarget((EntityLiving) target);
-				((EntityCreature) entity).setTarget(target);
-				e.setCancelled(true);
-				return;
-			} else {
-				((EntityLiving) entity).setGoalTarget(null);
-				((EntityCreature) entity).setTarget(null);
-				e.setCancelled(true);
-				return;
+			fmob.findTarget();
+			return;
+		} else if (entity != null && entity instanceof EntityWolf) {
+			if (e.getTarget() != null) {
+				Entity target = ((CraftEntity) e.getTarget()).getHandle();
+				if (target instanceof FactionMob) {
+					EntityWolf wolf = (EntityWolf) entity;
+					FactionMob fmob = (FactionMob) target;
+					if (wolf.isAngry()) {
+						return;
+					} else if (wolf.isTamed()) {
+						if (wolf.getOwner() != null) {
+							if (fmob.getGoalTarget().equals(wolf.getOwner())) {
+								return;
+							}
+							switch (Utils.FactionCheck(wolf.getOwner(), fmob.getFaction())) {
+							case 1:
+							case 0:
+								e.setCancelled(true);
+								return;
+							case -1:
+								return;
+							}
+						} else {
+							e.setCancelled(true);
+							return;
+						}
+					}
+					e.setCancelled(true);
+					return;
+				}
 			}
 		}
 	}

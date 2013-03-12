@@ -1,6 +1,7 @@
 package com.gmail.scyntrus.fmob;
 
 import net.minecraft.server.v1_4_R1.Entity;
+import net.minecraft.server.v1_4_R1.EntityLiving;
 import net.minecraft.server.v1_4_R1.ItemStack;
 
 import org.bukkit.Location;
@@ -27,4 +28,6 @@ public interface FactionMob {
 	public Boolean getEnabled();
 	public double getPowerCost();
 	public double getMoneyCost();
+	public EntityLiving getGoalTarget();
+	public void setTarget(Entity entity);
 }

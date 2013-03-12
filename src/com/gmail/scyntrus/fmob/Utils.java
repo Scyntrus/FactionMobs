@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityPlayer;
 import net.minecraft.server.v1_4_R1.EntityZombie;
+import net.minecraft.server.v1_4_R1.EntityWolf;
 import net.minecraft.server.v1_4_R1.Item;
 import net.minecraft.server.v1_4_R1.ItemStack;
 import net.minecraft.server.v1_4_R1.NBTTagCompound;
@@ -36,10 +37,21 @@ public class Utils {
 			case MEMBER:
 				return 1;
 			}
-		} else {
-			if (entity instanceof EntityZombie) {
+		} else if (entity instanceof EntityWolf) {
+			EntityWolf wolf = (EntityWolf) entity;
+			if (wolf.isTamed()) {
+				if (wolf.getOwner() != null) {
+					return FactionCheck(wolf.getOwner(), faction);
+				} else {
+					return 0;
+				}
+			} else if (wolf.isAngry()) {
 				return -1;
+			} else {
+				return 0;
 			}
+		} else if (entity instanceof EntityZombie) {
+			return -1;
 		}
 		return 0;
 	}
