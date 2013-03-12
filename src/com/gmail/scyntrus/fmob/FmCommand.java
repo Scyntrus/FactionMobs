@@ -110,7 +110,7 @@ public class FmCommand  implements CommandExecutor{
 					                return true;
 					            }
 							} else {
-				            	player.sendMessage(String.format("You don't have enough money"));
+				            	player.sendMessage("You don't have enough money");
 				                return true;
 							}
 						}
@@ -120,11 +120,11 @@ public class FmCommand  implements CommandExecutor{
 					    	method.invoke(fplayer, -newMob.getPowerCost());
 					    	player.sendMessage(String.format("You spent %s power and now have %s", newMob.getPowerCost(), fplayer.getPower()));
 						} catch (Exception e) {
-			            	player.sendMessage(String.format("Failed to deduct power"));
+			            	player.sendMessage("Failed to deduct power");
 			                return true;
 						}
 					} else {
-		            	player.sendMessage(String.format("You don't have enough power"));
+		            	player.sendMessage("You don't have enough power");
 		                return true;
 					}
 				} else {
@@ -138,7 +138,7 @@ public class FmCommand  implements CommandExecutor{
 				                return true;
 				            }
 						} else {
-			            	player.sendMessage(String.format("You don't have enough money"));
+			            	player.sendMessage("You don't have enough money");
 			                return true;
 						}
 					}
