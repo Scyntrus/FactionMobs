@@ -57,14 +57,26 @@ public class FactionMobs extends JavaPlugin{
 		FileConfiguration config = this.getConfig();
 		int modelNum = 51;
 		switch (config.getInt("model")) {
-		case 0:
+		case 0: // skeleton
 			modelNum = 51;
+			FactionMobs.sndBreath = "mob.skeleton.say";
+			FactionMobs.sndHurt = "mob.skeleton.hurt";
+			FactionMobs.sndDeath = "mob.skeleton.death";
+			FactionMobs.sndStep = "mob.skeleton.step";
 			break;
-		case 1:
+		case 1: // zombie
 			modelNum = 54;
+			FactionMobs.sndBreath = "mob.zombie.say";
+			FactionMobs.sndHurt = "mob.zombie.hurt";
+			FactionMobs.sndDeath = "mob.zombie.death";
+			FactionMobs.sndStep = "mob.zombie.step";
 			break;
-		case 2:
+		case 2: // pigzombie
 			modelNum = 57;
+			FactionMobs.sndBreath = "mob.zombiepig.zpig";
+			FactionMobs.sndHurt = "mob.zombiepig.zpighurt";
+			FactionMobs.sndDeath = "mmob.zombiepig.zpigdeath";
+			FactionMobs.sndStep = "mob.zombie.step";
 			break;
 		}
 

@@ -1,7 +1,7 @@
 # FactionMobs Config
 
-# Sets the model number of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
-model: skeleton
+# Sets the model of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
+model: 1
 
 # Sets the maximum number of Faction Mobs that can spawn 
 # No monsters will naturally spawn if there are too many

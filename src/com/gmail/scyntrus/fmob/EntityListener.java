@@ -86,6 +86,9 @@ public class EntityListener implements Listener{
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {
 		plugin.updateList();
+		if (((CraftEntity)e.getEntity()).getHandle() instanceof FactionMob) {
+			e.getDrops().clear();
+		}
 	}
 	
 	@EventHandler

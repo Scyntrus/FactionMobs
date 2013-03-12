@@ -1,14 +1,15 @@
 package com.gmail.scyntrus.fmob;
 
-import org.bukkit.entity.Player;
-
 import net.minecraft.server.v1_4_R1.Entity;
+import net.minecraft.server.v1_4_R1.EntityCreeper;
+import net.minecraft.server.v1_4_R1.EntityMonster;
 import net.minecraft.server.v1_4_R1.EntityPlayer;
-import net.minecraft.server.v1_4_R1.EntityZombie;
 import net.minecraft.server.v1_4_R1.EntityWolf;
 import net.minecraft.server.v1_4_R1.Item;
 import net.minecraft.server.v1_4_R1.ItemStack;
 import net.minecraft.server.v1_4_R1.NBTTagCompound;
+
+import org.bukkit.entity.Player;
 
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Faction;
@@ -50,7 +51,9 @@ public class Utils {
 			} else {
 				return 0;
 			}
-		} else if (entity instanceof EntityZombie) {
+		} else if (entity instanceof EntityCreeper) {
+			return 1;
+		} else if (entity instanceof EntityMonster) {
 			return -1;
 		}
 		return 0;
@@ -65,23 +68,34 @@ public class Utils {
 		}
 		
 		if (color == -1) {
+			entity.setEquipment(1, new ItemStack(Item.LEATHER_BOOTS, 1, (short) 80));
+			entity.setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS, 1, (short) 80));
 			entity.setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE, 1, (short) 80));
+			entity.setEquipment(4, new ItemStack(Item.LEATHER_HELMET, 1, (short) 80));
 			return;
 		}
 		
-		ItemStack itemStack = new ItemStack(Item.LEATHER_CHESTPLATE);
+		ItemStack[] itemStacks = {
+				new ItemStack(Item.LEATHER_BOOTS), 
+				new ItemStack(Item.LEATHER_LEGGINGS), 
+				new ItemStack(Item.LEATHER_CHESTPLATE),
+				new ItemStack(Item.LEATHER_HELMET)};
 
-	    NBTTagCompound localNBTTagCompound1 = itemStack.getTag();
-
-	    if (localNBTTagCompound1 == null) {
-	      localNBTTagCompound1 = new NBTTagCompound();
-	      itemStack.setTag(localNBTTagCompound1);
+	    for (ItemStack i : itemStacks) {
+	    	NBTTagCompound n = i.getTag();
+		    if (n == null) {
+		      n = new NBTTagCompound();
+		      i.setTag(n);
+		    }
+		    NBTTagCompound n2 = n.getCompound("display");
+		    if (!n.hasKey("display")) n.setCompound("display", n2);
+		    n2.setInt("color", color);
 	    }
-	    NBTTagCompound localNBTTagCompound2 = localNBTTagCompound1.getCompound("display");
-	    if (!localNBTTagCompound1.hasKey("display")) localNBTTagCompound1.setCompound("display", localNBTTagCompound2);
-
-	    localNBTTagCompound2.setInt("color", color);
-        entity.setEquipment(3, itemStack);
+	    
+        entity.setEquipment(1, itemStacks[0]);
+        entity.setEquipment(2, itemStacks[1]);
+        entity.setEquipment(3, itemStacks[2]);
+        entity.setEquipment(4, itemStacks[3]);
         return;
 	}
 }
