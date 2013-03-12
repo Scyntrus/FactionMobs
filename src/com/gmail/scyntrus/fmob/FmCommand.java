@@ -86,28 +86,27 @@ public class FmCommand  implements CommandExecutor{
 					return true;
 				}
 				
-				if (plugin.vaultEnabled) {
-					if (plugin.econ.has(player.getName(), newMob.getMoneyCost())) {
-			            EconomyResponse r = plugin.econ.withdrawPlayer(player.getName(), newMob.getMoneyCost());
-			            if(r.transactionSuccess()) {
-			            	player.sendMessage(String.format("You paid %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
-			            } else {
-			            	player.sendMessage(String.format("An error occured: %s", r.errorMessage));
-			                return true;
-			            }
-					} else {
-		            	player.sendMessage(String.format("You don't have enough money"));
-		                return true;
-					}
-				}
-				
 				if (newMob.getPowerCost() > 0) {
 					if (fplayer.getPower() > newMob.getPowerCost()) {
-						try{ 
+						if (plugin.vaultEnabled) {
+							if (plugin.econ.has(player.getName(), newMob.getMoneyCost())) {
+					            EconomyResponse r = plugin.econ.withdrawPlayer(player.getName(), newMob.getMoneyCost());
+					            if(r.transactionSuccess()) {
+					            	player.sendMessage(String.format("You paid %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
+					            } else {
+					            	player.sendMessage(String.format("An error occured: %s", r.errorMessage));
+					                return true;
+					            }
+							} else {
+				            	player.sendMessage(String.format("You don't have enough money"));
+				                return true;
+							}
+						}
+						try { 
 					    	Method method = FPlayer.class.getDeclaredMethod("alterPower", new Class[] {double.class});
 					    	method.setAccessible(true);
 					    	method.invoke(fplayer, -newMob.getPowerCost());
-					    	player.sendMessage(String.format("You spent %s power and now have", newMob.getPowerCost(), fplayer.getPower()));
+					    	player.sendMessage(String.format("You spent %s power and now have %s", newMob.getPowerCost(), fplayer.getPower()));
 						} catch (Exception e) {
 			            	player.sendMessage(String.format("Failed to deduct power"));
 			                return true;
@@ -116,6 +115,21 @@ public class FmCommand  implements CommandExecutor{
 		            	player.sendMessage(String.format("You don't have enough power"));
 		                return true;
 					}
+				} else {
+					if (plugin.vaultEnabled) {
+						if (plugin.econ.has(player.getName(), newMob.getMoneyCost())) {
+				            EconomyResponse r = plugin.econ.withdrawPlayer(player.getName(), newMob.getMoneyCost());
+				            if(r.transactionSuccess()) {
+				            	player.sendMessage(String.format("You paid %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
+				            } else {
+				            	player.sendMessage(String.format("An error occured: %s", r.errorMessage));
+				                return true;
+				            }
+						} else {
+			            	player.sendMessage(String.format("You don't have enough money"));
+			                return true;
+						}
+					}
 				}
 				
 				newMob.setSpawn(player.getLocation());
@@ -123,7 +137,7 @@ public class FmCommand  implements CommandExecutor{
 				Utils.giveColorArmor(newMob);
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				plugin.mobList.add(newMob);
-				player.sendMessage("You have spawned a " + newMob.getTypeName());
+				player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));
 			} else if (split[0].equalsIgnoreCase("color")) {
 				Player player = (Player) sender;
 				if (!player.hasPermission("fmob.spawn")) {
@@ -147,7 +161,7 @@ public class FmCommand  implements CommandExecutor{
 					try {
 						int myColor = Integer.parseInt(split[1], 16);
 						FactionMobs.factionColors.put(fplayer.getFaction().getTag(), myColor);
-						player.sendMessage("Set your faction color to " + myColor);
+						player.sendMessage(String.format("Set your faction color to %s", Integer.toHexString(myColor)));
 						plugin.updateList();
 					} catch (NumberFormatException e) {
 						player.sendMessage(ChatColor.RED + "Invalid number");

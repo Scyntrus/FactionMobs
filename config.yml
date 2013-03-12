@@ -41,5 +41,5 @@ Swordsman.moneyCost: 0.0
 
 Titan.enabled: true
 Titan.maxHp: 40
-Titan.powerCost: 0.0
+Titan.powerCost: 1.0
 Titan.moneyCost: 0.0
