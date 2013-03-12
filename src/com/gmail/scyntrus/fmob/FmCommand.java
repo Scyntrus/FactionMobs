@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 import org.bukkit.ChatColor;
-
 import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Ranger;
@@ -39,6 +38,19 @@ public class FmCommand  implements CommandExecutor{
 		if (sender instanceof Player) {
 			if (split.length == 0) {
 				return false;
+			} else if (split[0].equalsIgnoreCase("help")) {
+				//Basic help info here.
+				if (!player.hasPermission("fmob.spawn")) {
+					player.sendMessage(ChatColor.RED + "You do not have permission");
+					return true;
+				}
+				player.sendMessage("/fm spawn [mob]");
+				player.sendMessage("Mobs: Archer, Swordsman, Ranger, Titan, Mage");
+				player.sendMessage("/fm color [color]");
+				player.sendMessage("[color] is in RRGGBB format");
+				
+						
+			
 			} else if (split[0].equalsIgnoreCase("spawn")) {
 				Player player = (Player) sender;
 				if (!player.hasPermission("fmob.spawn")) {
