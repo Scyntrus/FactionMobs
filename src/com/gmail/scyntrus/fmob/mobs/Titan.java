@@ -22,6 +22,8 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	public static String typeName = "Titan";
 	public static int maxHp = 40;
 	public static Boolean enabled = true;
+	public static double powerCost = 0;
+	public static double moneyCost = 0;
 	
 	public Titan(World world) {
 		super(world);
@@ -128,6 +130,8 @@ public class Titan extends EntityIronGolem implements FactionMob{
 		this.target = entity;
 		if (entity instanceof EntityLiving) {
 			this.setGoalTarget((EntityLiving) entity);
+		} else if (entity == null) {
+			this.setGoalTarget(null);
 		}
 	}
 	
@@ -177,5 +181,15 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	@Override
 	public Boolean getEnabled() {
 		return Titan.enabled;
+	}
+
+	@Override
+	public double getPowerCost() {
+		return Titan.powerCost;
+	}
+
+	@Override
+	public double getMoneyCost() {
+		return Titan.moneyCost;
 	}
 }

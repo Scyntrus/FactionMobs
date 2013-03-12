@@ -25,6 +25,8 @@ public class Mage extends EntityWitch implements FactionMob{
 	public static String typeName = "Mage";
 	public static int maxHp = 20;
 	public static Boolean enabled = true;
+	public static double powerCost = 0;
+	public static double moneyCost = 0;
 	
 	public Mage(World world) {
 		super(world);
@@ -132,6 +134,8 @@ public class Mage extends EntityWitch implements FactionMob{
 		this.target = entity;
 		if (entity instanceof EntityLiving) {
 			this.setGoalTarget((EntityLiving) entity);
+		} else if (entity == null) {
+			this.setGoalTarget(null);
 		}
 	}
 	
@@ -201,5 +205,15 @@ public class Mage extends EntityWitch implements FactionMob{
 	@Override
 	public Boolean getEnabled() {
 		return Mage.enabled;
+	}
+
+	@Override
+	public double getPowerCost() {
+		return Mage.powerCost;
+	}
+
+	@Override
+	public double getMoneyCost() {
+		return Mage.moneyCost;
 	}
 }

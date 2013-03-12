@@ -25,6 +25,8 @@ public class Archer extends EntitySkeleton implements FactionMob{
 	public static String typeName = "Archer";
 	public static int maxHp = 20;
 	public static Boolean enabled = true;
+	public static double powerCost = 0;
+	public static double moneyCost = 0;
 	
 	public Archer(World world) {
 		super(world);
@@ -134,6 +136,8 @@ public class Archer extends EntitySkeleton implements FactionMob{
 		this.target = entity;
 		if (entity instanceof EntityLiving) {
 			this.setGoalTarget((EntityLiving) entity);
+		} else if (entity == null) {
+			this.setGoalTarget(null);
 		}
 	}
 	
@@ -203,5 +207,15 @@ public class Archer extends EntitySkeleton implements FactionMob{
 	@Override
 	public Boolean getEnabled() {
 		return Archer.enabled;
+	}
+
+	@Override
+	public double getPowerCost() {
+		return Archer.powerCost;
+	}
+
+	@Override
+	public double getMoneyCost() {
+		return Archer.moneyCost;
 	}
 }

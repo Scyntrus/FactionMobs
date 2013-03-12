@@ -3,6 +3,7 @@ main: com.gmail.scyntrus.fmob.FactionMobs
 author: Scyntrus
 version: 0.1
 depends: [Factions]
+softdepends: [Vault]
 commands:
     fm:
         description: spawn something

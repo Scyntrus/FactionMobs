@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityTypes;
 import net.minecraft.server.v1_4_R1.World;
@@ -21,6 +22,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmail.scyntrus.fmob.mobs.Archer;
@@ -46,6 +48,9 @@ public class FactionMobs extends JavaPlugin{
 	
 	private int saveInterval = 10;
 	
+    public Economy econ = null;
+	public Boolean vaultEnabled = false;
+    
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		this.saveDefaultConfig();
@@ -81,6 +86,17 @@ public class FactionMobs extends JavaPlugin{
 		Ranger.enabled = config.getBoolean("Ranger.enabled");
 		Swordsman.enabled = config.getBoolean("Swordsman.enabled");
 		Titan.enabled = config.getBoolean("Titan.enabled");
+		
+		Archer.powerCost = config.getDouble("Archer.powerCost");
+		Archer.moneyCost = config.getDouble("Archer.moneyCost");
+		Mage.powerCost = config.getDouble("Mage.powerCost");
+		Mage.moneyCost = config.getDouble("Mage.moneyCost");
+		Ranger.powerCost = config.getDouble("Ranger.powerCost");
+		Ranger.moneyCost = config.getDouble("Ranger.moneyCost");
+		Swordsman.powerCost = config.getDouble("Swordsman.powerCost");
+		Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost");
+		Titan.powerCost = config.getDouble("Titan.powerCost");
+		Titan.moneyCost = config.getDouble("Titan.moneyCost");
 		
 		this.pm = this.getServer().getPluginManager();
 	    try {
@@ -166,6 +182,21 @@ public class FactionMobs extends JavaPlugin{
 	    if (config.getBoolean("autoSave", false)) {
 	    	this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoSaver(this), this.saveInterval * 1200L, this.saveInterval * 1200L);
 	    }
+	    
+        if (getServer().getPluginManager().getPlugin("Vault") != null) {
+            RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+            if (rsp != null) {
+                econ = rsp.getProvider();
+                if (econ != null) {
+                	vaultEnabled = true;
+                }
+            }
+        }
+        if (vaultEnabled) {
+        	System.out.println("Vault detected.");
+        } else {
+        	System.out.println("Vault not detected.");
+        }
 	}
 	
 	public void onDisable() {

@@ -1,5 +1,8 @@
 package com.gmail.scyntrus.fmob;
 
+import java.lang.reflect.Method;
+
+import net.milkbowl.vault.economy.EconomyResponse;
 import net.minecraft.server.v1_4_R1.Entity;
 
 import org.bukkit.Location;
@@ -80,6 +83,39 @@ public class FmCommand  implements CommandExecutor{
 					newMob.die();
 					return true;
 				}
+				
+				if (plugin.vaultEnabled) {
+					if (plugin.econ.has(player.getName(), newMob.getMoneyCost())) {
+			            EconomyResponse r = plugin.econ.withdrawPlayer(player.getName(), newMob.getMoneyCost());
+			            if(r.transactionSuccess()) {
+			            	player.sendMessage(String.format("You paid %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
+			            } else {
+			            	player.sendMessage(String.format("An error occured: %s", r.errorMessage));
+			                return true;
+			            }
+					} else {
+		            	player.sendMessage(String.format("You don't have enough money"));
+		                return true;
+					}
+				}
+				
+				if (newMob.getPowerCost() > 0) {
+					if (fplayer.getPower() > newMob.getPowerCost()) {
+						try{ 
+					    	Method method = FPlayer.class.getDeclaredMethod("alterPower", new Class[] {double.class});
+					    	method.setAccessible(true);
+					    	method.invoke(fplayer, -newMob.getPowerCost());
+					    	player.sendMessage(String.format("You spent %s power and now have", newMob.getPowerCost(), fplayer.getPower()));
+						} catch (Exception e) {
+			            	player.sendMessage(String.format("Failed to deduct power"));
+			                return true;
+						}
+					} else {
+		            	player.sendMessage(String.format("You don't have enough power"));
+		                return true;
+					}
+				}
+				
 				newMob.setSpawn(player.getLocation());
 				newMob.setFaction(playerfaction);
 				Utils.giveColorArmor(newMob);
@@ -117,6 +153,9 @@ public class FmCommand  implements CommandExecutor{
 					}
 				}
 			}
+		} else {
+			sender.sendMessage("You must be a player");
+			return false;
 		}
 		return true;
 	}

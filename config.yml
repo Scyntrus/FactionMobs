@@ -15,22 +15,31 @@ saveInterval: 10
 
 # Per mob config
 
-#Allowed to spawn, disabling does not remove existing mobs
+# Allowed to spawn, disabling does not remove existing mobs
 Archer.enabled: true
-#Health
+# Health
 Archer.maxHp: 20
-#Not implemented yet
-Archer.costPower: 0
-Archer.costMoney: 0
+# Faction power spent upon spawning this mob
+Archer.powerCost: 0.0
+# Money spent upon spawning this mob, requires Vault
+Archer.moneyCost: 0.0
 
 Mage.enabled: true
 Mage.maxHp: 20
+Mage.powerCost: 0.0
+Mage.moneyCost: 0.0
 
 Ranger.enabled: true
 Ranger.maxHp: 20
+Ranger.powerCost: 0.0
+Ranger.moneyCost: 0.0
 
 Swordsman.enabled: true
 Swordsman.maxHp: 20
+Swordsman.powerCost: 0.0
+Swordsman.moneyCost: 0.0
 
 Titan.enabled: true
 Titan.maxHp: 40
+Titan.powerCost: 0.0
+Titan.moneyCost: 0.0

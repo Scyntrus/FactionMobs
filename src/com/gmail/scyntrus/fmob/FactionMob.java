@@ -25,4 +25,6 @@ public interface FactionMob {
 	public void die();
 	public void setEquipment(int slot, ItemStack item);
 	public Boolean getEnabled();
+	public double getPowerCost();
+	public double getMoneyCost();
 }

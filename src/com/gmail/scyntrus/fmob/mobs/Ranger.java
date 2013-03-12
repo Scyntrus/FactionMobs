@@ -25,6 +25,8 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 	public static String typeName = "Ranger";
 	public static int maxHp = 20;
 	public static Boolean enabled = true;
+	public static double powerCost = 0;
+	public static double moneyCost = 0;
 	
 	public Ranger(World world) {
 		super(world);
@@ -132,6 +134,8 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 		this.target = entity;
 		if (entity instanceof EntityLiving) {
 			this.setGoalTarget((EntityLiving) entity);
+		} else if (entity == null) {
+			this.setGoalTarget(null);
 		}
 	}
 	
@@ -201,5 +205,15 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 	@Override
 	public Boolean getEnabled() {
 		return Ranger.enabled;
+	}
+
+	@Override
+	public double getPowerCost() {
+		return Ranger.powerCost;
+	}
+
+	@Override
+	public double getMoneyCost() {
+		return Ranger.moneyCost;
 	}
 }
