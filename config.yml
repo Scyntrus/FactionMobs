@@ -3,9 +3,34 @@
 # Sets the model number of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
 model: skeleton
 
-# Set the health of the mobs
-Archer.hp: 20
-Mage.hp: 20
-Ranger.hp: 20
-Swordsman.hp: 20
-Titan.hp: 40
+# Sets the maximum number of Faction Mobs that can spawn 
+# No monsters will naturally spawn if there are too many
+spawnLimit: 50
+
+# Enable periodic saving in case of server crash
+autoSave: false
+# Minutes between each save
+saveInterval: 10
+
+
+# Per mob config
+
+#Allowed to spawn, disabling does not remove existing mobs
+Archer.enabled: true
+#Health
+Archer.maxHp: 20
+#Not implemented yet
+Archer.costPower: 0
+Archer.costMoney: 0
+
+Mage.enabled: true
+Mage.maxHp: 20
+
+Ranger.enabled: true
+Ranger.maxHp: 20
+
+Swordsman.enabled: true
+Swordsman.maxHp: 20
+
+Titan.enabled: true
+Titan.maxHp: 40

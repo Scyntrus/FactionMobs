@@ -52,7 +52,7 @@ public class FmCommand  implements CommandExecutor{
 					player.sendMessage("You may only spawn mobs in your territory");
 					return true;
 				}
-				if (plugin.mobList.size() >= 200) {
+				if (plugin.mobList.size() >= FactionMobs.spawnLimit) {
 					player.sendMessage("There are too many faction mobs");
 					return true;
 				}
@@ -75,9 +75,14 @@ public class FmCommand  implements CommandExecutor{
 					player.sendMessage("Unrecognized mob name");
 					return true;
 				}
+				if (!newMob.getEnabled()) {
+					player.sendMessage("Spawning " + newMob.getTypeName() + " has been disabled");
+					newMob.die();
+					return true;
+				}
 				newMob.setSpawn(player.getLocation());
 				newMob.setFaction(playerfaction);
-				Utils.giveColorArmor(newMob, plugin);
+				Utils.giveColorArmor(newMob);
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				plugin.mobList.add(newMob);
 				player.sendMessage("You have spawned a " + newMob.getTypeName());
@@ -93,13 +98,17 @@ public class FmCommand  implements CommandExecutor{
 					player.sendMessage("You must be in a faction");
 					return true;
 				}
+				if (!playerfaction.getFPlayerAdmin().equals(fplayer)) {
+					player.sendMessage("You must be the faction admin");
+					return true;
+				}
 				if (split.length == 1) {
-					player.sendMessage("You must specify a color in R G B");
+					player.sendMessage("You must specify a color in RRGGBB format");
 					return true;
 				} else {
 					try {
 						int myColor = Integer.parseInt(split[1], 16);
-						plugin.factionColors.put(fplayer.getFaction().getTag(), myColor);
+						FactionMobs.factionColors.put(fplayer.getFaction().getTag(), myColor);
 						player.sendMessage("Set your faction color to " + myColor);
 						plugin.updateList();
 					} catch (NumberFormatException e) {

@@ -44,12 +44,12 @@ public class Utils {
 		return 0;
 	}
 	
-	public static void giveColorArmor(FactionMob entity, FactionMobs plugin) {
+	public static void giveColorArmor(FactionMob entity) {
 		int color = -1;
-		if (plugin.factionColors.containsKey(entity.getFaction().getTag())) {
-			color = plugin.factionColors.get(entity.getFaction().getTag());
+		if (FactionMobs.factionColors.containsKey(entity.getFaction().getTag())) {
+			color = FactionMobs.factionColors.get(entity.getFaction().getTag());
 		} else {
-			plugin.factionColors.put(entity.getFaction().getTag(), 10511680);
+			FactionMobs.factionColors.put(entity.getFaction().getTag(), 10511680);
 		}
 		
 		if (color == -1) {

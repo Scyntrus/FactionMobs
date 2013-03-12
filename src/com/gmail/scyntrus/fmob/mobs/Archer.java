@@ -24,6 +24,7 @@ public class Archer extends EntitySkeleton implements FactionMob{
 	public Entity attackedBy = null;
 	public static String typeName = "Archer";
 	public static int maxHp = 20;
+	public static Boolean enabled = true;
 	
 	public Archer(World world) {
 		super(world);
@@ -36,8 +37,8 @@ public class Archer extends EntitySkeleton implements FactionMob{
 		int tmpFire = this.fireTicks;
 		super.c();
 		this.fireTicks = tmpFire;
-		this.motX = this.motY = this.motZ = 0;
-		this.setPosition(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ());
+		this.motX = this.motZ = 0;
+		this.setPosition(spawnLoc.getX(), this.locY, spawnLoc.getZ());
 		return;
 	}
 	
@@ -197,5 +198,10 @@ public class Archer extends EntitySkeleton implements FactionMob{
 	@Override
 	protected void a(int i, int j, int k, int l) {
 	    makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
+	}
+
+	@Override
+	public Boolean getEnabled() {
+		return Archer.enabled;
 	}
 }

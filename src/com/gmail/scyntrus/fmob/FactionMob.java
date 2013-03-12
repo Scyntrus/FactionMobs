@@ -24,4 +24,5 @@ public interface FactionMob {
 	public void setHealth(int hp);
 	public void die();
 	public void setEquipment(int slot, ItemStack item);
+	public Boolean getEnabled();
 }

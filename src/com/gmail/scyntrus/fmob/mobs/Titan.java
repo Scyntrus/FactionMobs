@@ -21,6 +21,7 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	public Entity attackedBy = null;
 	public static String typeName = "Titan";
 	public static int maxHp = 40;
+	public static Boolean enabled = true;
 	
 	public Titan(World world) {
 		super(world);
@@ -171,5 +172,10 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	@Override
 	public double getlocZ() {
 		return this.locZ;
+	}
+
+	@Override
+	public Boolean getEnabled() {
+		return Titan.enabled;
 	}
 }

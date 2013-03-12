@@ -24,6 +24,7 @@ public class Mage extends EntityWitch implements FactionMob{
 	public Entity attackedBy = null;
 	public static String typeName = "Mage";
 	public static int maxHp = 20;
+	public static Boolean enabled = true;
 	
 	public Mage(World world) {
 		super(world);
@@ -195,5 +196,10 @@ public class Mage extends EntityWitch implements FactionMob{
 	@Override
 	protected void a(int i, int j, int k, int l) {
 	    makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
+	}
+
+	@Override
+	public Boolean getEnabled() {
+		return Mage.enabled;
 	}
 }

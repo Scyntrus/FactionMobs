@@ -24,6 +24,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 	public Entity attackedBy = null;
 	public static String typeName = "Swordsman";
 	public static int maxHp = 20;
+	public static Boolean enabled = true;
 	
 	public Swordsman(World world) {
 		super(world);
@@ -195,5 +196,10 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 	@Override
 	protected void a(int i, int j, int k, int l) {
 	    makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
+	}
+
+	@Override
+	public Boolean getEnabled() {
+		return Swordsman.enabled;
 	}
 }

@@ -4,14 +4,19 @@ import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityCreature;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 
+import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftMonster;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class EntityListener implements Listener{
@@ -55,7 +60,7 @@ public class EntityListener implements Listener{
 	public void onPlayerInteract(PlayerInteractEntityEvent e) {
 		if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
-			e.getPlayer().sendMessage("This " + fmob.getTypeName() + " belongs to faction " + fmob.getFaction().getTag());
+			e.getPlayer().sendMessage(ChatColor.GREEN + "This " + ChatColor.RED + fmob.getTypeName() + ChatColor.GREEN + " belongs to faction " + ChatColor.RED + fmob.getFaction().getTag());
 			e.getPlayer().sendMessage("HP: " + fmob.getHealth());
 		}
 	}
@@ -67,13 +72,45 @@ public class EntityListener implements Listener{
 	
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent e) {
-//		if (((CraftEntity) e.Entity()).getHandle() instanceof FactionMob) {
-//			Utils.giveColorArmor((FactionMob) ((CraftEntity) e.getEntity()).getHandle(), plugin);
-//		}
 		if ((((CraftEntity) e.getDamager()).getHandle() instanceof FactionMob) 
 				&& (e.getEntity() instanceof Monster) 
 				&& !(((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob)) {
-			((Monster) e.getEntity()).setTarget((LivingEntity) e.getDamager());
+			((CraftMonster) e.getEntity()).getHandle().setGoalTarget(((CraftLivingEntity) e.getDamager()).getHandle());
+			((CraftMonster) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) e.getDamager()).getHandle());
+			return;
+		}
+		if (e.getDamager() instanceof Arrow) {
+			Arrow arrow = (Arrow) e.getDamager();
+			if (arrow.getShooter() == null) {
+				return;
+			}
+			if ((((CraftLivingEntity) arrow.getShooter()).getHandle() instanceof FactionMob) 
+					&& (e.getEntity() instanceof Monster) 
+					&& !(((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob)) {
+				((CraftMonster) e.getEntity()).getHandle().setGoalTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
+				((CraftMonster) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
+				return;
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent e) {
+		EntityDamageEvent lastDamage = e.getEntity().getLastDamageCause();
+		if (lastDamage instanceof EntityDamageByEntityEvent) {
+			org.bukkit.entity.Entity entity = ((EntityDamageByEntityEvent) lastDamage).getDamager();
+			if (entity != null) {
+				if (((CraftEntity) entity).getHandle() instanceof FactionMob) {
+					FactionMob fmob = (FactionMob) ((CraftEntity) entity).getHandle();
+					e.setDeathMessage(e.getEntity().getDisplayName() + " was killed by " + ChatColor.RED + fmob.getFaction().getTag() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
+				} else if (entity instanceof Arrow){
+					Arrow arrow = (Arrow) entity;
+					if (((CraftLivingEntity) arrow.getShooter()).getHandle() instanceof FactionMob) {
+						FactionMob fmob = (FactionMob) ((CraftLivingEntity) arrow.getShooter()).getHandle();
+						e.setDeathMessage(e.getEntity().getDisplayName() + " was shot by " + ChatColor.RED + fmob.getFaction().getTag() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
+					}
+				}
+			}
 		}
 	}
 }
