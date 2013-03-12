@@ -27,6 +27,7 @@ public class Mage extends EntityWitch implements FactionMob{
 	public static Boolean enabled = true;
 	public static double powerCost = 0;
 	public static double moneyCost = 0;
+	public static double range = 12;
 	
 	public Mage(World world) {
 		super(world);
@@ -67,7 +68,7 @@ public class Mage extends EntityWitch implements FactionMob{
 				break;
 			}
 		}
-		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(10, 10, 10)) {
+		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(range, range, range)) {
 			if (!e.isDead() && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
 				found = ((CraftEntity) e).getHandle();
 				this.setTarget(found);
@@ -110,7 +111,7 @@ public class Mage extends EntityWitch implements FactionMob{
 	
 	@Override
 	public int getMaxHealth() {
-        return Mage.maxHp;
+        return maxHp;
     }
 	
 	@Override
@@ -159,7 +160,7 @@ public class Mage extends EntityWitch implements FactionMob{
 
 	@Override
 	public String getTypeName() {
-		return Mage.typeName;
+		return typeName;
 	}
 
 	@Override
@@ -204,16 +205,16 @@ public class Mage extends EntityWitch implements FactionMob{
 
 	@Override
 	public Boolean getEnabled() {
-		return Mage.enabled;
+		return enabled;
 	}
 
 	@Override
 	public double getPowerCost() {
-		return Mage.powerCost;
+		return powerCost;
 	}
 
 	@Override
 	public double getMoneyCost() {
-		return Mage.moneyCost;
+		return moneyCost;
 	}
 }

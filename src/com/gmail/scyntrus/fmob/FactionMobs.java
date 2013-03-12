@@ -13,7 +13,11 @@ import java.util.List;
 
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_4_R1.Entity;
+import net.minecraft.server.v1_4_R1.EntityIronGolem;
+import net.minecraft.server.v1_4_R1.EntityPigZombie;
+import net.minecraft.server.v1_4_R1.EntitySkeleton;
 import net.minecraft.server.v1_4_R1.EntityTypes;
+import net.minecraft.server.v1_4_R1.EntityZombie;
 import net.minecraft.server.v1_4_R1.World;
 
 import org.bukkit.Location;
@@ -39,17 +43,19 @@ public class FactionMobs extends JavaPlugin{
 	public List<FactionMob> mobList = new ArrayList<FactionMob>();
 	public static HashMap<String,Integer> factionColors = new HashMap<String,Integer>();
 	
-	public static String sndBreath = "mob.skeleton.say";
-	public static String sndHurt = "mob.skeleton.hurt";
-	public static String sndDeath = "mob.skeleton.death";
-	public static String sndStep = "mob.skeleton.step";
+	public static String sndBreath = "";
+	public static String sndHurt = "";
+	public static String sndDeath = "";
+	public static String sndStep = "";
 	
-	public static int spawnLimit = 50;
+	public int spawnLimit = 50;
+	public static Boolean attackMobs = true;
 	
 	private int saveInterval = 10;
 	
     public Economy econ = null;
 	public Boolean vaultEnabled = false;
+	
     
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
@@ -59,28 +65,29 @@ public class FactionMobs extends JavaPlugin{
 		switch (config.getInt("model")) {
 		case 0: // skeleton
 			modelNum = 51;
-			FactionMobs.sndBreath = "mob.skeleton.say";
+			//FactionMobs.sndBreath = "mob.skeleton.say";
 			FactionMobs.sndHurt = "mob.skeleton.hurt";
 			FactionMobs.sndDeath = "mob.skeleton.death";
 			FactionMobs.sndStep = "mob.skeleton.step";
 			break;
 		case 1: // zombie
 			modelNum = 54;
-			FactionMobs.sndBreath = "mob.zombie.say";
+			//FactionMobs.sndBreath = "mob.zombie.say";
 			FactionMobs.sndHurt = "mob.zombie.hurt";
 			FactionMobs.sndDeath = "mob.zombie.death";
 			FactionMobs.sndStep = "mob.zombie.step";
 			break;
 		case 2: // pigzombie
 			modelNum = 57;
-			FactionMobs.sndBreath = "mob.zombiepig.zpig";
+			//FactionMobs.sndBreath = "mob.zombiepig.zpig";
 			FactionMobs.sndHurt = "mob.zombiepig.zpighurt";
 			FactionMobs.sndDeath = "mmob.zombiepig.zpigdeath";
 			FactionMobs.sndStep = "mob.zombie.step";
 			break;
 		}
 
-		FactionMobs.spawnLimit = config.getInt("spawnLimit", FactionMobs.spawnLimit);
+		this.spawnLimit = config.getInt("spawnLimit", this.spawnLimit);
+		FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
 		
 		Archer.maxHp = config.getInt("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;
@@ -127,10 +134,30 @@ public class FactionMobs extends JavaPlugin{
 	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Mage.class, Mage.typeName, modelNum);
+
 	    	
 	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Titan.class, Titan.typeName, 99);
+	    	
+	    	//Make sure I don't override original classes
+	    	
+	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
+	    	method.setAccessible(true);
+	    	method.invoke(EntityTypes.class, EntitySkeleton.class, "Skeleton", 51);
+	    	
+	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
+	    	method.setAccessible(true);
+	    	method.invoke(EntityTypes.class, EntityZombie.class, "Zombie", 54);
+	    	
+	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
+	    	method.setAccessible(true);
+	    	method.invoke(EntityTypes.class, EntityPigZombie.class, "PigZombie", 57);
+	    	
+	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
+	    	method.setAccessible(true);
+	    	method.invoke(EntityTypes.class, EntityIronGolem.class, "VillagerGolem", 99);
+	    	
 	    } catch (Exception e) {
         	this.getLogger().severe("[Fatal Error] Unable to register mobs");
 	    	pm.disablePlugin(this);
@@ -139,7 +166,7 @@ public class FactionMobs extends JavaPlugin{
 	    this.getCommand("fm").setExecutor(new FmCommand(this));
 	    this.pm.registerEvents(new EntityListener(this), this);
 	    this.pm.registerEvents(new CommandListener(this), this);
-	    File colorFile = new File(getDataFolder(), "colors.ser");
+	    File colorFile = new File(getDataFolder(), "colors.dat");
 	    if (colorFile.exists()){
 			try {
 				FileInputStream fileInputStream = new FileInputStream(colorFile);
@@ -148,10 +175,10 @@ public class FactionMobs extends JavaPlugin{
 		    	oInputStream.close();
 		    	fileInputStream.close();
 			} catch (Exception e) {
-	        	this.getLogger().severe("Error reading faction colors file, colors.ser");
+	        	this.getLogger().severe("Error reading faction colors file, colors.dat");
 			}
 	    }
-	    File file = new File(getDataFolder(), "data.yml");
+	    File file = new File(getDataFolder(), "data.dat");
 	    if (file.exists()) {
 	    	YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
 			List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
@@ -238,20 +265,22 @@ public class FactionMobs extends JavaPlugin{
 		}
 		conf.set("data", save);
 		try {
-			conf.save(new File(getDataFolder(), "data.yml"));
+			conf.save(new File(getDataFolder(), "data.dat"));
+			System.out.println("FactionMobs data saved.");
 		} catch (IOException e) {
-        	this.getLogger().severe("Failed to save faction mob data, data.yml");
+        	this.getLogger().severe("Failed to save faction mob data, data.dat");
 		}
 		try {
-		    File colorFile = new File(getDataFolder(), "colors.ser");
+		    File colorFile = new File(getDataFolder(), "colors.dat");
 		    colorFile.createNewFile();
 			FileOutputStream fileOut = new FileOutputStream(colorFile);
 	    	ObjectOutputStream oOut = new ObjectOutputStream(fileOut);
 	    	oOut.writeObject(FactionMobs.factionColors);
 	    	oOut.close();
 	    	fileOut.close();
+			System.out.println("FactionMobs color data saved.");
 		} catch (Exception e) {
-        	this.getLogger().severe("Error writing faction colors file, colors.ser");
+        	this.getLogger().severe("Error writing faction colors file, colors.dat");
 		}
 		
 	}

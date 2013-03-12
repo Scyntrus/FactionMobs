@@ -7,6 +7,9 @@ model: 1
 # No monsters will naturally spawn if there are too many
 spawnLimit: 50
 
+# Attack naturally spawning hostile mobs
+attackMobs: true
+
 # Enable periodic saving in case of server crash
 autoSave: false
 # Minutes between each save

@@ -27,6 +27,7 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 	public static Boolean enabled = true;
 	public static double powerCost = 0;
 	public static double moneyCost = 0;
+	public static double range = 12;
 	
 	public Ranger(World world) {
 		super(world);
@@ -67,7 +68,7 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 				break;
 			}
 		}
-		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(10, 10, 10)) {
+		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(range, range, range)) {
 			if (!e.isDead() && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
 				found = ((CraftEntity) e).getHandle();
 				this.setTarget(found);
@@ -110,7 +111,7 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 	
 	@Override
 	public int getMaxHealth() {
-        return Ranger.maxHp;
+        return maxHp;
     }
 	
 	@Override
@@ -159,7 +160,7 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 
 	@Override
 	public String getTypeName() {
-		return Ranger.typeName;
+		return typeName;
 	}
 
 	@Override
@@ -204,16 +205,16 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 
 	@Override
 	public Boolean getEnabled() {
-		return Ranger.enabled;
+		return enabled;
 	}
 
 	@Override
 	public double getPowerCost() {
-		return Ranger.powerCost;
+		return powerCost;
 	}
 
 	@Override
 	public double getMoneyCost() {
-		return Ranger.moneyCost;
+		return moneyCost;
 	}
 }

@@ -24,6 +24,7 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	public static Boolean enabled = true;
 	public static double powerCost = 0;
 	public static double moneyCost = 1;
+	public static double range = 12;
 	
 	public Titan(World world) {
 		super(world);
@@ -63,7 +64,7 @@ public class Titan extends EntityIronGolem implements FactionMob{
 				break;
 			}
 		}
-		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(10, 10, 10)) {
+		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(range, range, range)) {
 			if (!e.isDead() && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
 				found = ((CraftEntity) e).getHandle();
 				this.setTarget(found);
@@ -106,7 +107,7 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	
 	@Override
 	public int getMaxHealth() {
-        return Titan.maxHp;
+        return maxHp;
     }
 	
 	@Override
@@ -155,7 +156,7 @@ public class Titan extends EntityIronGolem implements FactionMob{
 
 	@Override
 	public String getTypeName() {
-		return Titan.typeName;
+		return typeName;
 	}
 
 	@Override
@@ -180,16 +181,16 @@ public class Titan extends EntityIronGolem implements FactionMob{
 
 	@Override
 	public Boolean getEnabled() {
-		return Titan.enabled;
+		return enabled;
 	}
 
 	@Override
 	public double getPowerCost() {
-		return Titan.powerCost;
+		return powerCost;
 	}
 
 	@Override
 	public double getMoneyCost() {
-		return Titan.moneyCost;
+		return moneyCost;
 	}
 }

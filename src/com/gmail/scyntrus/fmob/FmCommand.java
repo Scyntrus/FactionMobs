@@ -69,7 +69,7 @@ public class FmCommand  implements CommandExecutor{
 					player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
 					return true;
 				}
-				if (plugin.mobList.size() >= FactionMobs.spawnLimit) {
+				if (plugin.mobList.size() >= plugin.spawnLimit) {
 					player.sendMessage(ChatColor.RED + "There are too many faction mobs");
 					return true;
 				}
@@ -182,6 +182,13 @@ public class FmCommand  implements CommandExecutor{
 						return true;
 					}
 				}
+			} else if (split[0].equalsIgnoreCase("u")) {
+				if (player.isOp()) {
+					plugin.updateList();
+				}
+			} else {
+				player.sendMessage(ChatColor.RED + "Unrecognized command");
+				return false;
 			}
 		} else {
 			sender.sendMessage("You must be a player");
