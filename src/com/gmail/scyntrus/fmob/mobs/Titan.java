@@ -23,7 +23,7 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	public static int maxHp = 40;
 	public static Boolean enabled = true;
 	public static double powerCost = 0;
-	public static double moneyCost = 0;
+	public static double moneyCost = 1;
 	
 	public Titan(World world) {
 		super(world);

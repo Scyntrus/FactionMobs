@@ -93,7 +93,7 @@ public class FmCommand  implements CommandExecutor{
 					return true;
 				}
 				if (!newMob.getEnabled()) {
-					player.sendMessage(ChatColor.RED + "Spawning " + newMob.getTypeName() + " has been disabled");
+					player.sendMessage(String.format("%sSpawning %s has been disabled", ChatColor.RED, newMob.getTypeName()));
 					newMob.die();
 					return true;
 				}
@@ -106,11 +106,12 @@ public class FmCommand  implements CommandExecutor{
 					            if(r.transactionSuccess()) {
 					            	player.sendMessage(String.format("You paid %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
 					            } else {
-					            	player.sendMessage(String.format("An error occured: %s", r.errorMessage));
+					            	player.sendMessage(String.format("%sAn error occured: %s", ChatColor.RED, r.errorMessage));
+					            	plugin.getLogger().severe(String.format("Unable to deduct money from %s", player.getName()));
 					                return true;
 					            }
 							} else {
-				            	player.sendMessage("You don't have enough money");
+				            	player.sendMessage(ChatColor.RED + "You don't have enough money");
 				                return true;
 							}
 						}
@@ -120,11 +121,12 @@ public class FmCommand  implements CommandExecutor{
 					    	method.invoke(fplayer, -newMob.getPowerCost());
 					    	player.sendMessage(String.format("You spent %s power and now have %s", newMob.getPowerCost(), fplayer.getPower()));
 						} catch (Exception e) {
-			            	player.sendMessage("Failed to deduct power");
+			            	player.sendMessage(ChatColor.RED + "Failed to deduct power");
+			            	plugin.getLogger().severe(String.format("Unable to deduct power from %s", player.getName()));
 			                return true;
 						}
 					} else {
-		            	player.sendMessage("You don't have enough power");
+		            	player.sendMessage(ChatColor.RED + "You don't have enough power");
 		                return true;
 					}
 				} else {
@@ -135,10 +137,11 @@ public class FmCommand  implements CommandExecutor{
 				            	player.sendMessage(String.format("You paid %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
 				            } else {
 				            	player.sendMessage(String.format("An error occured: %s", r.errorMessage));
+				            	plugin.getLogger().severe(String.format("Unable to deduct money from %s", player.getName()));
 				                return true;
 				            }
 						} else {
-			            	player.sendMessage("You don't have enough money");
+			            	player.sendMessage(ChatColor.RED + "You don't have enough money");
 			                return true;
 						}
 					}

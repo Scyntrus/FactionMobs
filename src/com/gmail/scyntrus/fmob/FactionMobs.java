@@ -80,35 +80,35 @@ public class FactionMobs extends JavaPlugin{
 			break;
 		}
 
-		FactionMobs.spawnLimit = config.getInt("spawnLimit");
+		FactionMobs.spawnLimit = config.getInt("spawnLimit", FactionMobs.spawnLimit);
 		
-		Archer.maxHp = config.getInt("Archer.maxHp");
+		Archer.maxHp = config.getInt("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;
-		Mage.maxHp = config.getInt("Mage.hp");
+		Mage.maxHp = config.getInt("Mage.hp", Mage.maxHp);
 		if (Mage.maxHp<1) Mage.maxHp = 1;
-		Ranger.maxHp = config.getInt("Ranger.maxHp");
+		Ranger.maxHp = config.getInt("Ranger.maxHp", Ranger.maxHp);
 		if (Ranger.maxHp<1) Ranger.maxHp = 1;
-		Swordsman.maxHp = config.getInt("Swordsman.maxHp");
+		Swordsman.maxHp = config.getInt("Swordsman.maxHp", Swordsman.maxHp);
 		if (Swordsman.maxHp<1) Swordsman.maxHp = 1;
-		Titan.maxHp = config.getInt("Titan.maxHp");
+		Titan.maxHp = config.getInt("Titan.maxHp", Titan.maxHp);
 		if (Titan.maxHp<1) Titan.maxHp = 1;
 		
-		Archer.enabled = config.getBoolean("Archer.enabled");
-		Mage.enabled = config.getBoolean("Mage.enabled");
-		Ranger.enabled = config.getBoolean("Ranger.enabled");
-		Swordsman.enabled = config.getBoolean("Swordsman.enabled");
-		Titan.enabled = config.getBoolean("Titan.enabled");
+		Archer.enabled = config.getBoolean("Archer.enabled", Archer.enabled);
+		Mage.enabled = config.getBoolean("Mage.enabled", Mage.enabled);
+		Ranger.enabled = config.getBoolean("Ranger.enabled", Ranger.enabled);
+		Swordsman.enabled = config.getBoolean("Swordsman.enabled", Swordsman.enabled);
+		Titan.enabled = config.getBoolean("Titan.enabled", Titan.enabled);
 		
-		Archer.powerCost = config.getDouble("Archer.powerCost");
-		Archer.moneyCost = config.getDouble("Archer.moneyCost");
-		Mage.powerCost = config.getDouble("Mage.powerCost");
-		Mage.moneyCost = config.getDouble("Mage.moneyCost");
-		Ranger.powerCost = config.getDouble("Ranger.powerCost");
-		Ranger.moneyCost = config.getDouble("Ranger.moneyCost");
-		Swordsman.powerCost = config.getDouble("Swordsman.powerCost");
-		Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost");
-		Titan.powerCost = config.getDouble("Titan.powerCost");
-		Titan.moneyCost = config.getDouble("Titan.moneyCost");
+		Archer.powerCost = config.getDouble("Archer.powerCost", Archer.powerCost);
+		Archer.moneyCost = config.getDouble("Archer.moneyCost", Archer.moneyCost);
+		Mage.powerCost = config.getDouble("Mage.powerCost", Mage.powerCost);
+		Mage.moneyCost = config.getDouble("Mage.moneyCost", Mage.moneyCost);
+		Ranger.powerCost = config.getDouble("Ranger.powerCost", Ranger.powerCost);
+		Ranger.moneyCost = config.getDouble("Ranger.moneyCost", Ranger.moneyCost);
+		Swordsman.powerCost = config.getDouble("Swordsman.powerCost", Swordsman.powerCost);
+		Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost", Swordsman.moneyCost);
+		Titan.powerCost = config.getDouble("Titan.powerCost", Titan.powerCost);
+		Titan.moneyCost = config.getDouble("Titan.moneyCost", Titan.moneyCost);
 		
 		this.pm = this.getServer().getPluginManager();
 	    try {
@@ -132,6 +132,7 @@ public class FactionMobs extends JavaPlugin{
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Titan.class, Titan.typeName, 99);
 	    } catch (Exception e) {
+        	this.getLogger().severe("[Fatal Error] Unable to register mobs");
 	    	pm.disablePlugin(this);
 	    	return;
 	    }
@@ -147,7 +148,7 @@ public class FactionMobs extends JavaPlugin{
 		    	oInputStream.close();
 		    	fileInputStream.close();
 			} catch (Exception e) {
-				System.out.println("Error reading faction color file");
+	        	this.getLogger().severe("Error reading faction colors file, colors.ser");
 			}
 	    }
 	    File file = new File(getDataFolder(), "data.yml");
@@ -160,15 +161,15 @@ public class FactionMobs extends JavaPlugin{
 					continue;
 				}
 				World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
-				if (mobData.get(0).equalsIgnoreCase("archer")) {
+				if (mobData.get(0).equalsIgnoreCase("Archer")) {
 					newMob = new Archer(world);
-				} else if (mobData.get(0).equalsIgnoreCase("mage")) {
+				} else if (mobData.get(0).equalsIgnoreCase("Mage")) {
 					newMob = new Mage(world);
-				} else if (mobData.get(0).equalsIgnoreCase("ranger")) {
+				} else if (mobData.get(0).equalsIgnoreCase("Ranger")) {
 					newMob = new Ranger(world);
-				} else if (mobData.get(0).equalsIgnoreCase("swordsman")) {
+				} else if (mobData.get(0).equalsIgnoreCase("Swordsman")) {
 					newMob = new Swordsman(world);
-				} else if (mobData.get(0).equalsIgnoreCase("titan")) {
+				} else if (mobData.get(0).equalsIgnoreCase("Titan")) {
 					newMob = new Titan(world);
 				} else {
 					continue;
@@ -239,7 +240,7 @@ public class FactionMobs extends JavaPlugin{
 		try {
 			conf.save(new File(getDataFolder(), "data.yml"));
 		} catch (IOException e) {
-			System.out.println("Failed to save Faction Mob data");
+        	this.getLogger().severe("Failed to save faction mob data, data.yml");
 		}
 		try {
 		    File colorFile = new File(getDataFolder(), "colors.ser");
@@ -250,7 +251,7 @@ public class FactionMobs extends JavaPlugin{
 	    	oOut.close();
 	    	fileOut.close();
 		} catch (Exception e) {
-			System.out.println("Error writing faction colors file");
+        	this.getLogger().severe("Error writing faction colors file, colors.ser");
 		}
 		
 	}

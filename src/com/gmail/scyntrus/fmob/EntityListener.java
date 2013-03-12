@@ -78,8 +78,9 @@ public class EntityListener implements Listener{
 	public void onPlayerInteract(PlayerInteractEntityEvent e) {
 		if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
-			e.getPlayer().sendMessage(ChatColor.GREEN + "This " + ChatColor.RED + fmob.getTypeName() + ChatColor.GREEN + " belongs to faction " + ChatColor.RED + fmob.getFaction().getTag());
-			e.getPlayer().sendMessage("HP: " + fmob.getHealth());
+			e.getPlayer().sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
+					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
+					fmob.getFaction().getTag(), ChatColor.GREEN, ChatColor.RED, fmob.getHealth()));
 		}
 	}
 	
