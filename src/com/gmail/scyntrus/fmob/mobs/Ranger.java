@@ -27,7 +27,6 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 	public Ranger(World world) {
 		super(world);
 	    this.setEquipment(0, new ItemStack(Item.BOW));
-	    this.setEquipment(4, new ItemStack(Item.GOLD_HELMET));
 	    this.persistent = true;
 	}
 

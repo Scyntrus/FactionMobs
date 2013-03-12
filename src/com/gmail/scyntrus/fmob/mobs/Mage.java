@@ -27,7 +27,6 @@ public class Mage extends EntityWitch implements FactionMob{
 	public Mage(World world) {
 		super(world);
 		setEquipment(0, new ItemStack(Item.POTION, 1, 8204));
-	    this.setEquipment(4, new ItemStack(Item.GOLD_HELMET));
 	    this.persistent = true;
 	}
 

@@ -5,6 +5,9 @@ import org.bukkit.entity.Player;
 import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityPlayer;
 import net.minecraft.server.v1_4_R1.EntityZombie;
+import net.minecraft.server.v1_4_R1.Item;
+import net.minecraft.server.v1_4_R1.ItemStack;
+import net.minecraft.server.v1_4_R1.NBTTagCompound;
 
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Faction;
@@ -39,5 +42,24 @@ public class Utils {
 			}
 		}
 		return 0;
+	}
+	
+	public static void giveColorArmor(FactionMob entity, int color) {
+		if (color == -1) {
+			entity.setEquipment(0, new ItemStack(Item.BOW));
+		}
+		ItemStack itemStack = new ItemStack(Item.LEATHER_CHESTPLATE);
+        NBTTagCompound tag = itemStack.tag;
+        if (tag == null) {
+            tag = new NBTTagCompound();
+            tag.setCompound("display", new NBTTagCompound());
+            itemStack.tag = tag;
+        }
+ 
+        tag = itemStack.tag.getCompound("display");
+        tag.setInt("color", color);
+        itemStack.tag.setCompound("display", tag);
+        entity.setEquipment(3, itemStack);
+        return;
 	}
 }

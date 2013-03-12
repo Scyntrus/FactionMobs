@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityTypes;
 import net.minecraft.server.v1_4_R1.World;
 
@@ -29,7 +31,9 @@ public class FactionMobs extends JavaPlugin{
 	
 	public PluginManager pm = null;
 	public List<FactionMob> mobList = new ArrayList<FactionMob>();
+	public HashMap<String,Integer> factionColors = new HashMap<String,Integer>();
 	
+	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		this.saveDefaultConfig();
 		FileConfiguration config = this.getConfig();
@@ -87,80 +91,35 @@ public class FactionMobs extends JavaPlugin{
 	    File file = new File(getDataFolder(), "data.yml");
 	    if (file.exists()) {
 	    	YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
-			@SuppressWarnings("unchecked")
-			List<List<String>> save = (List<List<String>>) conf.getList("data");
+			this.factionColors = (HashMap<String, Integer>) conf.get("colors", new HashMap<String,Integer>());
+			List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
 			for (List<String> mobData : save) {
+				FactionMob newMob = null;
+				World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
 				if (mobData.get(0).equalsIgnoreCase("archer")) {
-					World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
-					Archer newMob = new Archer(world);
-					newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
-					newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
-							Double.parseDouble(mobData.get(3)), 
-							Double.parseDouble(mobData.get(4)), 
-							Double.parseDouble(mobData.get(5))));
-					newMob.locX = Double.parseDouble(mobData.get(6));
-					newMob.locY = Double.parseDouble(mobData.get(7));
-					newMob.locZ = Double.parseDouble(mobData.get(8));
-					newMob.setHealth(Integer.parseInt(mobData.get(9)));
-					world.addEntity(newMob, SpawnReason.CUSTOM);
-					this.mobList.add(newMob);
+					newMob = new Archer(world);
 				} else if (mobData.get(0).equalsIgnoreCase("mage")) {
-					World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
-					Mage newMob = new Mage(world);
-					newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
-					newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
-							Double.parseDouble(mobData.get(3)), 
-							Double.parseDouble(mobData.get(4)), 
-							Double.parseDouble(mobData.get(5))));
-					newMob.locX = Double.parseDouble(mobData.get(6));
-					newMob.locY = Double.parseDouble(mobData.get(7));
-					newMob.locZ = Double.parseDouble(mobData.get(8));
-					newMob.setHealth(Integer.parseInt(mobData.get(9)));
-					world.addEntity(newMob, SpawnReason.CUSTOM);
-					this.mobList.add(newMob);
+					newMob = new Mage(world);
 				} else if (mobData.get(0).equalsIgnoreCase("ranger")) {
-					World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
-					Ranger newMob = new Ranger(world);
-					newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
-					newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
-							Double.parseDouble(mobData.get(3)), 
-							Double.parseDouble(mobData.get(4)), 
-							Double.parseDouble(mobData.get(5))));
-					newMob.locX = Double.parseDouble(mobData.get(6));
-					newMob.locY = Double.parseDouble(mobData.get(7));
-					newMob.locZ = Double.parseDouble(mobData.get(8));
-					newMob.setHealth(Integer.parseInt(mobData.get(9)));
-					world.addEntity(newMob, SpawnReason.CUSTOM);
-					this.mobList.add(newMob);
+					newMob = new Ranger(world);
 				} else if (mobData.get(0).equalsIgnoreCase("swordsman")) {
-					World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
-					Swordsman newMob = new Swordsman(world);
-					newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
-					newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
-							Double.parseDouble(mobData.get(3)), 
-							Double.parseDouble(mobData.get(4)), 
-							Double.parseDouble(mobData.get(5))));
-					newMob.locX = Double.parseDouble(mobData.get(6));
-					newMob.locY = Double.parseDouble(mobData.get(7));
-					newMob.locZ = Double.parseDouble(mobData.get(8));
-					newMob.setHealth(Integer.parseInt(mobData.get(9)));
-					world.addEntity(newMob, SpawnReason.CUSTOM);
-					this.mobList.add(newMob);
+					newMob = new Swordsman(world);
 				} else if (mobData.get(0).equalsIgnoreCase("titan")) {
-					World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
-					Titan newMob = new Titan(world);
-					newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
-					newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
-							Double.parseDouble(mobData.get(3)), 
-							Double.parseDouble(mobData.get(4)), 
-							Double.parseDouble(mobData.get(5))));
-					newMob.locX = Double.parseDouble(mobData.get(6));
-					newMob.locY = Double.parseDouble(mobData.get(7));
-					newMob.locZ = Double.parseDouble(mobData.get(8));
-					newMob.setHealth(Integer.parseInt(mobData.get(9)));
-					world.addEntity(newMob, SpawnReason.CUSTOM);
-					this.mobList.add(newMob);
+					newMob = new Titan(world);
+				} else {
+					continue;
 				}
+				newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
+				newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
+						Double.parseDouble(mobData.get(3)), 
+						Double.parseDouble(mobData.get(4)), 
+						Double.parseDouble(mobData.get(5))));
+				newMob.setPosition(Double.parseDouble(mobData.get(6)),
+						Double.parseDouble(mobData.get(7)),
+						Double.parseDouble(mobData.get(8)));
+				newMob.setHealth(Integer.parseInt(mobData.get(9)));
+				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
+				this.mobList.add(newMob);
 			}
 	    }
 	}
@@ -190,10 +149,11 @@ public class FactionMobs extends JavaPlugin{
 			fmob.die();
 		}
 		conf.set("data", save);
+		conf.set("colors", this.factionColors);
 		try {
 			conf.save(new File(getDataFolder(), "data.yml"));
 		} catch (IOException e) {
-			System.out.println("Failed to save fmob data");
+			System.out.println("Failed to save Faction Mob data");
 		}
 	}
 	

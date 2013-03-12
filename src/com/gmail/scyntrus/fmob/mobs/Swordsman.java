@@ -27,7 +27,6 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 	public Swordsman(World world) {
 		super(world);
 	    this.setEquipment(0, new ItemStack(Item.IRON_SWORD));
-	    this.setEquipment(4, new ItemStack(Item.GOLD_HELMET));
 	    this.persistent = true;
 	}
 

@@ -1,5 +1,7 @@
 package com.gmail.scyntrus.fmob;
 
+import net.minecraft.server.v1_4_R1.Entity;
+
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -52,48 +54,29 @@ public class SpawnCommand  implements CommandExecutor{
 				return true;
 			}
 			net.minecraft.server.v1_4_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
+			FactionMob newMob = null;
 			if (split.length == 0) {
 				player.sendMessage("You must specify a mob");
 				return true;
 			} else if (split[0].equalsIgnoreCase("archer")) {
-				Archer newMob = new Archer(world);
-				newMob.setSpawn(player.getLocation());
-				newMob.setFaction(playerfaction);
-				world.addEntity(newMob, SpawnReason.CUSTOM);
-				plugin.mobList.add(newMob);
-				player.sendMessage("You have spawned an archer");
+				newMob = new Archer(world);
 			} else if (split[0].equalsIgnoreCase("swordsman")) {
-				Swordsman newMob = new Swordsman(world);
-				newMob.setSpawn(player.getLocation());
-				newMob.setFaction(playerfaction);
-				world.addEntity(newMob, SpawnReason.CUSTOM);
-				plugin.mobList.add(newMob);
-				player.sendMessage("You have spawned a swordsman");
+				newMob = new Swordsman(world);
 			} else if (split[0].equalsIgnoreCase("ranger")) {
-				Ranger newMob = new Ranger(world);
-				newMob.setSpawn(player.getLocation());
-				newMob.setFaction(playerfaction);
-				world.addEntity(newMob, SpawnReason.CUSTOM);
-				plugin.mobList.add(newMob);
-				player.sendMessage("You have spawned a ranger");
+				newMob = new Ranger(world);
 			} else if (split[0].equalsIgnoreCase("titan")) {
-				Titan newMob = new Titan(world);
-				newMob.setSpawn(player.getLocation());
-				newMob.setFaction(playerfaction);
-				world.addEntity(newMob, SpawnReason.CUSTOM);
-				plugin.mobList.add(newMob);
-				player.sendMessage("You have spawned a titan");
+				newMob = new Titan(world);
 			} else if (split[0].equalsIgnoreCase("mage")) {
-				Mage newMob = new Mage(world);
-				newMob.setSpawn(player.getLocation());
-				newMob.setFaction(playerfaction);
-				world.addEntity(newMob, SpawnReason.CUSTOM);
-				plugin.mobList.add(newMob);
-				player.sendMessage("You have spawned a mage");
+				newMob = new Mage(world);
 			} else {
 				player.sendMessage("Unrecognized mob name");
 				return true;
 			}
+			newMob.setSpawn(player.getLocation());
+			newMob.setFaction(playerfaction);
+			world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
+			plugin.mobList.add(newMob);
+			player.sendMessage("You have spawned a " + newMob.getTypeName());
 		}
 		return true;
 	}
