@@ -44,21 +44,31 @@ public class Utils {
 		return 0;
 	}
 	
-	public static void giveColorArmor(FactionMob entity, int color) {
-		if (color == -1) {
-			entity.setEquipment(0, new ItemStack(Item.BOW));
+	public static void giveColorArmor(FactionMob entity, FactionMobs plugin) {
+		int color = -1;
+		if (plugin.factionColors.containsKey(entity.getFaction().getTag())) {
+			color = plugin.factionColors.get(entity.getFaction().getTag());
+		} else {
+			plugin.factionColors.put(entity.getFaction().getTag(), 10511680);
 		}
+		
+		if (color == -1) {
+			entity.setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE, 1, (short) 80));
+			return;
+		}
+		
 		ItemStack itemStack = new ItemStack(Item.LEATHER_CHESTPLATE);
-        NBTTagCompound tag = itemStack.tag;
-        if (tag == null) {
-            tag = new NBTTagCompound();
-            tag.setCompound("display", new NBTTagCompound());
-            itemStack.tag = tag;
-        }
- 
-        tag = itemStack.tag.getCompound("display");
-        tag.setInt("color", color);
-        itemStack.tag.setCompound("display", tag);
+
+	    NBTTagCompound localNBTTagCompound1 = itemStack.getTag();
+
+	    if (localNBTTagCompound1 == null) {
+	      localNBTTagCompound1 = new NBTTagCompound();
+	      itemStack.setTag(localNBTTagCompound1);
+	    }
+	    NBTTagCompound localNBTTagCompound2 = localNBTTagCompound1.getCompound("display");
+	    if (!localNBTTagCompound1.hasKey("display")) localNBTTagCompound1.setCompound("display", localNBTTagCompound2);
+
+	    localNBTTagCompound2.setInt("color", color);
         entity.setEquipment(3, itemStack);
         return;
 	}

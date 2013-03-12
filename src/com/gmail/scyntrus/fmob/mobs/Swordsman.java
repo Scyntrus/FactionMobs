@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
 
 import com.gmail.scyntrus.fmob.FactionMob;
+import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.Utils;
 import com.massivecraft.factions.Faction;
 
@@ -178,21 +179,21 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 
 	@Override
 	protected String aY() {
-	    return "mob.villager.default";
+	    return FactionMobs.sndBreath;
 	}
 
 	@Override
 	protected String aZ() {
-	    return "mob.villager.defaulthurt";
+	    return FactionMobs.sndHurt;
 	}
 
 	@Override
 	protected String ba() {
-	    return "mob.villager.defaultdeath";
+	    return FactionMobs.sndDeath;
 	}
 
 	@Override
 	protected void a(int i, int j, int k, int l) {
-	    makeSound("mob.zombie.step", 0.15F, 1.0F);
+	    makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
 	}
 }

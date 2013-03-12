@@ -1,7 +1,11 @@
 package com.gmail.scyntrus.fmob;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +36,11 @@ public class FactionMobs extends JavaPlugin{
 	public PluginManager pm = null;
 	public List<FactionMob> mobList = new ArrayList<FactionMob>();
 	public HashMap<String,Integer> factionColors = new HashMap<String,Integer>();
+	
+	public static String sndBreath = "mob.skeleton.say";
+	public static String sndHurt = "mob.skeleton.hurt";
+	public static String sndDeath = "mob.skeleton.death";
+	public static String sndStep = "mob.skeleton.step";
 	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
@@ -86,12 +95,23 @@ public class FactionMobs extends JavaPlugin{
 	    	pm.disablePlugin(this);
 	    	return;
 	    }
-	    this.getCommand("fmspawn").setExecutor(new SpawnCommand(this));
+	    this.getCommand("fm").setExecutor(new FmCommand(this));
 	    this.pm.registerEvents(new EntityListener(this), this);
+	    File colorFile = new File(getDataFolder(), "colors.ser");
+	    if (colorFile.exists()){
+			try {
+				FileInputStream fileInputStream = new FileInputStream(colorFile);
+		    	ObjectInputStream oInputStream = new ObjectInputStream(fileInputStream);
+		    	this.factionColors = (HashMap<String, Integer>) oInputStream.readObject();
+		    	oInputStream.close();
+		    	fileInputStream.close();
+			} catch (Exception e) {
+				System.out.println("Error reading color file");
+			}
+	    }
 	    File file = new File(getDataFolder(), "data.yml");
 	    if (file.exists()) {
 	    	YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
-			this.factionColors = (HashMap<String, Integer>) conf.get("colors", new HashMap<String,Integer>());
 			List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
 			for (List<String> mobData : save) {
 				FactionMob newMob = null;
@@ -118,6 +138,7 @@ public class FactionMobs extends JavaPlugin{
 						Double.parseDouble(mobData.get(7)),
 						Double.parseDouble(mobData.get(8)));
 				newMob.setHealth(Integer.parseInt(mobData.get(9)));
+				Utils.giveColorArmor(newMob, this);
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				this.mobList.add(newMob);
 			}
@@ -149,12 +170,26 @@ public class FactionMobs extends JavaPlugin{
 			fmob.die();
 		}
 		conf.set("data", save);
-		conf.set("colors", this.factionColors);
 		try {
 			conf.save(new File(getDataFolder(), "data.yml"));
 		} catch (IOException e) {
 			System.out.println("Failed to save Faction Mob data");
 		}
+		try {
+		    File colorFile = new File(getDataFolder(), "colors.ser");
+		    colorFile.createNewFile();
+			try {
+				FileOutputStream fileOut = new FileOutputStream(colorFile);
+		    	ObjectOutputStream oOut = new ObjectOutputStream(fileOut);
+		    	oOut.writeObject(this.factionColors);
+		    	oOut.close();
+		    	fileOut.close();
+			} catch (Exception e) {
+				System.out.println("Error reading color file");
+			}
+		} catch (Exception e) {
+		}
+		
 	}
 	
 	public void updateList() {
@@ -162,6 +197,7 @@ public class FactionMobs extends JavaPlugin{
 		for (FactionMob fmob : this.mobList) {
 			if (fmob.isAlive() && !fmob.getFaction().isNone()) {
 				fmob.updateMob();
+				Utils.giveColorArmor(fmob, this);
 			} else {
 				toDelete.add(fmob);
 			}

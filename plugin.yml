@@ -4,9 +4,9 @@ author: Scyntrus
 version: 0.1
 depends: [Factions]
 commands:
-    fmspawn:
+    fm:
         description: spawn something
-        usage: "/fmspawn [name]"
+        usage: "/fm [command] [parameters]"
 permissions:
     fmob.spawn:
         description: Allows you to spawn a faction mob

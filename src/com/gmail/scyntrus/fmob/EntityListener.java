@@ -5,8 +5,11 @@ import net.minecraft.server.v1_4_R1.EntityCreature;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -53,11 +56,24 @@ public class EntityListener implements Listener{
 		if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
 			e.getPlayer().sendMessage("This " + fmob.getTypeName() + " belongs to faction " + fmob.getFaction().getTag());
+			e.getPlayer().sendMessage("HP: " + fmob.getHealth());
 		}
 	}
 	
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {
 		plugin.updateList();
+	}
+	
+	@EventHandler
+	public void onEntityDamage(EntityDamageByEntityEvent e) {
+//		if (((CraftEntity) e.Entity()).getHandle() instanceof FactionMob) {
+//			Utils.giveColorArmor((FactionMob) ((CraftEntity) e.getEntity()).getHandle(), plugin);
+//		}
+		if ((((CraftEntity) e.getDamager()).getHandle() instanceof FactionMob) 
+				&& (e.getEntity() instanceof Monster) 
+				&& !(((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob)) {
+			((Monster) e.getEntity()).setTarget((LivingEntity) e.getDamager());
+		}
 	}
 }
