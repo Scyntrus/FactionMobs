@@ -13,6 +13,8 @@ import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
+import org.bukkit.ChatColor;
+
 import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Ranger;
@@ -40,29 +42,29 @@ public class FmCommand  implements CommandExecutor{
 			} else if (split[0].equalsIgnoreCase("spawn")) {
 				Player player = (Player) sender;
 				if (!player.hasPermission("fmob.spawn")) {
-					player.sendMessage("You do not have permission");
+					player.sendMessage(ChatColor.RED + "You do not have permission");
 					return true;
 				}
 				Location loc = player.getLocation();
 				FPlayer fplayer = FPlayers.i.get(player);
 				Faction playerfaction = fplayer.getFaction();
 				if (playerfaction.isNone()) {
-					player.sendMessage("You must be in a faction");
+					player.sendMessage(ChatColor.RED + "You must be in a faction");
 					return true;
 				}
 				Faction areafaction = Board.getFactionAt(new FLocation(loc));
 				if (!playerfaction.getTag().equals(areafaction.getTag())) {
-					player.sendMessage("You may only spawn mobs in your territory");
+					player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
 					return true;
 				}
 				if (plugin.mobList.size() >= FactionMobs.spawnLimit) {
-					player.sendMessage("There are too many faction mobs");
+					player.sendMessage(ChatColor.RED + "There are too many faction mobs");
 					return true;
 				}
 				net.minecraft.server.v1_4_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
 				FactionMob newMob = null;
 				if (split.length == 1) {
-					player.sendMessage("You must specify a mob");
+					player.sendMessage(ChatColor.RED + "You must specify a mob");
 					return true;
 				} else if (split[1].equalsIgnoreCase("Archer")) {
 					newMob = new Archer(world);
@@ -75,11 +77,11 @@ public class FmCommand  implements CommandExecutor{
 				} else if (split[1].equalsIgnoreCase("Mage")) {
 					newMob = new Mage(world);
 				} else {
-					player.sendMessage("Unrecognized mob name");
+					player.sendMessage(ChatColor.RED + "Unrecognized mob name");
 					return true;
 				}
 				if (!newMob.getEnabled()) {
-					player.sendMessage("Spawning " + newMob.getTypeName() + " has been disabled");
+					player.sendMessage(ChatColor.RED + "Spawning " + newMob.getTypeName() + " has been disabled");
 					newMob.die();
 					return true;
 				}
@@ -125,21 +127,21 @@ public class FmCommand  implements CommandExecutor{
 			} else if (split[0].equalsIgnoreCase("color")) {
 				Player player = (Player) sender;
 				if (!player.hasPermission("fmob.spawn")) {
-					player.sendMessage("You do not have permission");
+					player.sendMessage(ChatColor.RED + "You do not have permission");
 					return true;
 				}
 				FPlayer fplayer = FPlayers.i.get(player);
 				Faction playerfaction = fplayer.getFaction();
 				if (playerfaction.isNone()) {
-					player.sendMessage("You must be in a faction");
+					player.sendMessage(ChatColor.RED + "You must be in a faction");
 					return true;
 				}
 				if (!playerfaction.getFPlayerAdmin().equals(fplayer)) {
-					player.sendMessage("You must be the faction admin");
+					player.sendMessage(ChatColor.RED + "You must be the faction admin");
 					return true;
 				}
 				if (split.length == 1) {
-					player.sendMessage("You must specify a color in RRGGBB format");
+					player.sendMessage(ChatColor.RED + "You must specify a color in RRGGBB format");
 					return true;
 				} else {
 					try {
@@ -148,7 +150,7 @@ public class FmCommand  implements CommandExecutor{
 						player.sendMessage("Set your faction color to " + myColor);
 						plugin.updateList();
 					} catch (NumberFormatException e) {
-						player.sendMessage("Invalid number");
+						player.sendMessage(ChatColor.RED + "Invalid number");
 						return true;
 					}
 				}
