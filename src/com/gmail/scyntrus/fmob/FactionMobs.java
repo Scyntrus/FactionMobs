@@ -37,7 +37,7 @@ import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.massivecraft.factions.Factions;
 
 
-public class FactionMobs extends JavaPlugin{
+public class FactionMobs extends JavaPlugin {
 	
 	public PluginManager pm = null;
 	public List<FactionMob> mobList = new ArrayList<FactionMob>();
@@ -49,7 +49,8 @@ public class FactionMobs extends JavaPlugin{
 	public static String sndStep = "";
 	
 	public int spawnLimit = 50;
-	public static Boolean attackMobs = true;
+	public static boolean attackMobs = true;
+	public static boolean noWander = false;
 	
 	private int saveInterval = 10;
 	
@@ -87,6 +88,7 @@ public class FactionMobs extends JavaPlugin{
 
 		this.spawnLimit = config.getInt("spawnLimit", this.spawnLimit);
 		FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
+		FactionMobs.noWander = config.getBoolean("noWander", FactionMobs.noWander);
 		
 		Archer.maxHp = config.getInt("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;

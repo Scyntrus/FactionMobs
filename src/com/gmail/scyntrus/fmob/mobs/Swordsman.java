@@ -33,6 +33,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 		super(world);
 	    this.setEquipment(0, new ItemStack(Item.IRON_SWORD));
 	    this.persistent = true;
+	    this.fireProof = false;
 	}
 
 	@Override
@@ -40,6 +41,12 @@ public class Swordsman extends EntityPigZombie implements FactionMob{
 		int tmpFire = this.fireTicks;
 		super.c();
 		this.fireTicks = tmpFire;
+		if (this.getGoalTarget() == null) {
+			this.findTarget();
+		}
+		if (FactionMobs.noWander && this.getGoalTarget() == null) {
+		      this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), 0.5F);
+		}
 		return;
 	}
 	

@@ -42,6 +42,9 @@ public class Archer extends EntitySkeleton implements FactionMob{
 		this.fireTicks = tmpFire;
 		this.motX = this.motZ = 0;
 		this.setPosition(spawnLoc.getX(), this.locY, spawnLoc.getZ());
+		if (this.getGoalTarget() == null) {
+			this.findTarget();
+		}
 		return;
 	}
 	

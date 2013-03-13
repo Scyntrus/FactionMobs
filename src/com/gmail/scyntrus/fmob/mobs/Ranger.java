@@ -40,6 +40,12 @@ public class Ranger extends EntitySkeleton implements FactionMob{
 		int tmpFire = this.fireTicks;
 		super.c();
 		this.fireTicks = tmpFire;
+		if (this.getGoalTarget() == null) {
+			this.findTarget();
+		}
+		if (FactionMobs.noWander && this.getGoalTarget() == null) {
+		      this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), 0.5F);
+		}
 		return;
 	}
 	

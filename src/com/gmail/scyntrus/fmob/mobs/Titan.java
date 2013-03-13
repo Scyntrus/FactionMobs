@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
 
 import com.gmail.scyntrus.fmob.FactionMob;
+import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.Utils;
 import com.massivecraft.factions.Faction;
 
@@ -36,6 +37,12 @@ public class Titan extends EntityIronGolem implements FactionMob{
 		int tmpFire = this.fireTicks;
 		super.c();
 		this.fireTicks = tmpFire;
+		if (this.getGoalTarget() == null) {
+			this.findTarget();
+		}
+		if (FactionMobs.noWander && this.getGoalTarget() == null) {
+		      this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), 0.5F);
+		}
 		return;
 	}
 	

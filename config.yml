@@ -1,11 +1,12 @@
-# FactionMobs Config
+
+# ===== FactionMobs Config =====
 
 # Sets the model of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
 model: 1
 
 # Sets the maximum number of Faction Mobs that can spawn 
 # No monsters will naturally spawn if there are too many
-spawnLimit: 50
+spawnLimit: 60
 
 # Attack naturally spawning hostile mobs
 attackMobs: true
@@ -15,8 +16,10 @@ autoSave: false
 # Minutes between each save
 saveInterval: 10
 
+# Prevent mobs from wandering around
+noWander: false
 
-# Per mob config
+# === Per Mob Config ===
 
 # Allowed to spawn, disabling does not remove existing mobs
 Archer.enabled: true

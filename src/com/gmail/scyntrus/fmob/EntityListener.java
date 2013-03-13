@@ -20,7 +20,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
 
-public class EntityListener implements Listener{
+public class EntityListener implements Listener {
 	
 	FactionMobs plugin;
 	
