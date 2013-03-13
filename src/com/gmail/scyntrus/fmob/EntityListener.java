@@ -18,6 +18,8 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
+import com.gmail.scyntrus.fmob.mobs.Titan;
+
 public class EntityListener implements Listener{
 	
 	FactionMobs plugin;
@@ -32,6 +34,10 @@ public class EntityListener implements Listener{
 		if (entity != null && entity instanceof FactionMob) {
 			e.setCancelled(true);
 			FactionMob fmob = (FactionMob) entity;
+			if (fmob instanceof Titan) {
+				fmob.findTarget();
+				return;
+			}
 			if (e.getTarget() != null) {
 				Entity target = ((CraftEntity) e.getTarget()).getHandle();
 				if (Utils.FactionCheck(target, fmob.getFaction()) == -1) {

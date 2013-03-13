@@ -64,11 +64,21 @@ public class Titan extends EntityIronGolem implements FactionMob{
 				break;
 			}
 		}
+		double dist = 1000;
+		Location thisLoc;
+		double thisDist;
 		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(range, range, range)) {
 			if (!e.isDead() && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
-				found = ((CraftEntity) e).getHandle();
-				this.setTarget(found);
-				return found;
+				thisLoc = e.getLocation();
+				thisDist = Math.hypot(Math.hypot(this.locX - thisLoc.getX(), this.locY - thisLoc.getY()), this.locZ - thisLoc.getZ());
+				if (thisDist < dist) {
+					found = ((CraftEntity) e).getHandle();
+					dist = thisDist;
+					if (dist < 1.5) {
+						this.setTarget(found);
+						return found;
+					}
+				}
 			} else if (!e.isDead() && (Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == 0) && 
 					((CraftEntity) e).getHandle().equals(attackedBy)) {
 				found = ((CraftEntity) e).getHandle();
@@ -76,8 +86,8 @@ public class Titan extends EntityIronGolem implements FactionMob{
 				return found;
 			}
 		}
-		this.setTarget(null);
-		return null;
+		this.setTarget(found);
+		return found;
 	}
 	
 	@Override
@@ -192,5 +202,10 @@ public class Titan extends EntityIronGolem implements FactionMob{
 	@Override
 	public double getMoneyCost() {
 		return moneyCost;
+	}
+	
+	@Override
+	public boolean isTypeNotPersistent() {
+		return false;
 	}
 }

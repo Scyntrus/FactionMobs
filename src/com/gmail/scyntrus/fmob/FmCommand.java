@@ -60,7 +60,7 @@ public class FmCommand  implements CommandExecutor{
 				Location loc = player.getLocation();
 				FPlayer fplayer = FPlayers.i.get(player);
 				Faction playerfaction = fplayer.getFaction();
-				if (playerfaction.isNone()) {
+				if (playerfaction == null || playerfaction.isNone()) {
 					player.sendMessage(ChatColor.RED + "You must be in a faction");
 					return true;
 				}
