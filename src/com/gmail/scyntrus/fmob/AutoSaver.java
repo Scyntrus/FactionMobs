@@ -10,5 +10,6 @@ public class AutoSaver implements Runnable {
 
 	public void run() {
 		this.plugin.saveMobList();
+		System.out.println("Faction Mobs data saved via AutoSave");
     }
 }

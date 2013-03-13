@@ -56,7 +56,6 @@ public class FactionMobs extends JavaPlugin{
     public Economy econ = null;
 	public Boolean vaultEnabled = false;
 	
-    
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		this.saveDefaultConfig();
@@ -178,46 +177,6 @@ public class FactionMobs extends JavaPlugin{
 	        	this.getLogger().severe("Error reading faction colors file, colors.dat");
 			}
 	    }
-	    File file = new File(getDataFolder(), "data.dat");
-	    if (file.exists()) {
-	    	YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
-			List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
-			for (List<String> mobData : save) {
-				FactionMob newMob = null;
-				if (this.getServer().getWorld(mobData.get(1)) == null) {
-					continue;
-				}
-				World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
-				if (mobData.get(0).equalsIgnoreCase("Archer")) {
-					newMob = new Archer(world);
-				} else if (mobData.get(0).equalsIgnoreCase("Mage")) {
-					newMob = new Mage(world);
-				} else if (mobData.get(0).equalsIgnoreCase("Ranger")) {
-					newMob = new Ranger(world);
-				} else if (mobData.get(0).equalsIgnoreCase("Swordsman")) {
-					newMob = new Swordsman(world);
-				} else if (mobData.get(0).equalsIgnoreCase("Titan")) {
-					newMob = new Titan(world);
-				} else {
-					continue;
-				}
-				if (Factions.i.getByTag(mobData.get(2)) == null) {
-					continue;
-				}
-				newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
-				newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
-						Double.parseDouble(mobData.get(3)), 
-						Double.parseDouble(mobData.get(4)), 
-						Double.parseDouble(mobData.get(5))));
-				newMob.setPosition(Double.parseDouble(mobData.get(6)),
-						Double.parseDouble(mobData.get(7)),
-						Double.parseDouble(mobData.get(8)));
-				newMob.setHealth(Integer.parseInt(mobData.get(9)));
-				Utils.giveColorArmor(newMob);
-				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
-				this.mobList.add(newMob);
-			}
-	    }
 	    
 	    if (config.getBoolean("autoSave", false)) {
 	    	this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoSaver(this), this.saveInterval * 1200L, this.saveInterval * 1200L);
@@ -237,11 +196,78 @@ public class FactionMobs extends JavaPlugin{
         } else {
         	System.out.println("Vault not detected.");
         }
+        
+        this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MobLoader(this), 1L);
 	}
 	
 	public void onDisable() {
 		this.updateList();
 		this.saveMobList();
+	}
+	
+	public void loadMobList() {
+		File file = new File(getDataFolder(), "data.dat");
+	    boolean backup = false;
+	    if (file.exists()) {
+	    	YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+			@SuppressWarnings("unchecked")
+			List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
+			for (List<String> mobData : save) {
+				FactionMob newMob = null;
+				if (this.getServer().getWorld(mobData.get(1)) == null) {
+					System.out.println("Worldless Faction Mob found and removed. Did you delete or rename a world?");
+					if (!backup) {
+						backup = true;
+						try {
+							conf.save(new File(getDataFolder(), "data_backup.dat"));
+							System.out.println("Backup file saved as data_backup.dat");
+						} catch (IOException e) {
+							System.out.println("Failed to save backup file");
+						}
+					}
+					continue;
+				}
+				World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
+				if (mobData.get(0).equalsIgnoreCase("Archer")) {
+					newMob = new Archer(world);
+				} else if (mobData.get(0).equalsIgnoreCase("Mage")) {
+					newMob = new Mage(world);
+				} else if (mobData.get(0).equalsIgnoreCase("Ranger")) {
+					newMob = new Ranger(world);
+				} else if (mobData.get(0).equalsIgnoreCase("Swordsman")) {
+					newMob = new Swordsman(world);
+				} else if (mobData.get(0).equalsIgnoreCase("Titan")) {
+					newMob = new Titan(world);
+				} else {
+					continue;
+				}
+				if (Factions.i.getByTag(mobData.get(2)) == null) {
+					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
+					if (!backup) {
+						backup = true;
+						try {
+							conf.save(new File(getDataFolder(), "data_backup.dat"));
+							System.out.println("Backup file saved as data_backup.dat");
+						} catch (IOException e) {
+							System.out.println("Failed to save backup file");
+						}
+					}
+					continue;
+				}
+				newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
+				newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
+						Double.parseDouble(mobData.get(3)), 
+						Double.parseDouble(mobData.get(4)), 
+						Double.parseDouble(mobData.get(5))));
+				newMob.setPosition(Double.parseDouble(mobData.get(6)),
+						Double.parseDouble(mobData.get(7)),
+						Double.parseDouble(mobData.get(8)));
+				newMob.setHealth(Integer.parseInt(mobData.get(9)));
+				Utils.giveColorArmor(newMob);
+				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
+				this.mobList.add(newMob);
+			}
+	    }
 	}
 	
 	public void saveMobList() {

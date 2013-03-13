@@ -185,6 +185,13 @@ public class FmCommand  implements CommandExecutor{
 			} else if (split[0].equalsIgnoreCase("u")) {
 				if (player.isOp()) {
 					plugin.updateList();
+					player.sendMessage("Faction Mobs refreshed");
+				}
+			} else if (split[0].equalsIgnoreCase("s")) {
+				if (player.isOp()) {
+					plugin.saveMobList();
+					player.sendMessage("Faction Mobs data saved");
+					System.out.println("Faction Mobs data saved via command");
 				}
 			} else {
 				player.sendMessage(ChatColor.RED + "Unrecognized command");
