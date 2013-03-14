@@ -1,7 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityWolf;
@@ -209,12 +208,11 @@ public class EntityListener implements Listener {
 		if (plugin.mobLeader.containsKey(e.getPlayer().getName()) && plugin.playerSelections.containsKey(e.getPlayer().getName())) {
 			Player player = e.getPlayer();
 			Location loc = player.getLocation();
-			int cols = 4;
 			int count = 0;
 			for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
 				if (fmob.getSpawn().getWorld().getName().equals(loc.getWorld().getName())) {
-					double tmpX = ((cols/2.)+.5-(count%cols))*1.5;
-					double tmpZ = (0 - Math.floor((count / cols)) - 1)*1.5;
+					double tmpX = (1.5-(count%4))*1.5;
+					double tmpZ = ((-1.) - Math.floor(count / 4.))*1.5;
 					double tmpH = Math.hypot(tmpX, tmpZ);
 					double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
 					fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
@@ -225,10 +223,9 @@ public class EntityListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onPotionSplash(PotionSplashEvent e) { // NOT WORKING
+	public void onPotionSplash(PotionSplashEvent e) {
 		if (((CraftEntity) e.getPotion().getShooter()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity) e.getPotion().getShooter()).getHandle();
-			List<LivingEntity> toRemove = new ArrayList<LivingEntity>();
 			for (LivingEntity entity : e.getAffectedEntities()) {
 				if (Utils.FactionCheck(((CraftEntity) entity).getHandle(), fmob.getFaction()) < 1) {
 					((CraftLivingEntity) entity).getHandle().setGoalTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
@@ -236,12 +233,8 @@ public class EntityListener implements Listener {
 						((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
 					}
 				} else if (plugin.noFriendlyFire) {
-					toRemove.add(entity);
-					e.setCancelled(true);
+					e.setIntensity(entity, -1);
 				}
-			}
-			for (LivingEntity entity : toRemove) {
-				e.getAffectedEntities().remove(entity);
 			}
 		}
 	}

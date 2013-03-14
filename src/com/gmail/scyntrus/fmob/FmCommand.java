@@ -225,12 +225,11 @@ public class FmCommand  implements CommandExecutor{
 				} else if (split[1].equalsIgnoreCase("follow")) {
 					plugin.mobLeader.put(player.getName(), true);
 					Location loc = player.getLocation();
-					int cols = 4;
 					int count = 0;
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
 						if (fmob.getSpawn().getWorld().getName().equals(loc.getWorld().getName())) {
-							double tmpX = ((cols/2.)+.5-(count%cols))*1.5;
-							double tmpZ = (0 - Math.floor((count / cols)) - 1)*1.5;
+							double tmpX = (1.5-(count%4))*1.5;
+							double tmpZ = ((-1.) - Math.floor(count / 4.))*1.5;
 							double tmpH = Math.hypot(tmpX, tmpZ);
 							double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
 							fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
