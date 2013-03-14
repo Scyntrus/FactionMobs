@@ -38,7 +38,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
-	    this.bH = .3F;
+	    this.bH = FactionMobs.mobSpeed;
 	}
 
 	@Override
@@ -51,11 +51,11 @@ public class Mage extends EntityWitch implements FactionMob {
 		}
 		if (this.getGoalTarget() == null) {
 			if (this.order == null || this.order.equals("") || this.order.equals("home")) {
-				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), 0.3F);
+				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), this.bH);
 				this.order = "home";
 				return;
 			} else if (this.order.equals("poi")) {
-				this.getNavigation().a(poiX, poiY, poiZ, 0.3F);
+				this.getNavigation().a(poiX, poiY, poiZ, this.bH);
 				return;
 			} else if (this.order.equals("wander")) {
 				return;

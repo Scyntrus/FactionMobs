@@ -215,10 +215,12 @@ public class FmCommand  implements CommandExecutor{
 					player.sendMessage(ChatColor.RED + "No mobs selected");
 					player.sendMessage("Before giving orders, you must select mobs by right-clicking them");
 					return true;
-				} else if (split[1].equalsIgnoreCase("gohome")) {
+				} else if (split[1].equalsIgnoreCase("gohome") || split[1].equalsIgnoreCase("home")) {
 					plugin.mobLeader.remove(player.getName());
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
 						fmob.setOrder("home");
+						Location loc = fmob.getSpawn();
+						fmob.setPosition(loc.getX(), loc.getY(), loc.getZ());
 					}
 					player.sendMessage("You sent your mobs home");
 					return true;
@@ -246,7 +248,7 @@ public class FmCommand  implements CommandExecutor{
 					}
 					player.sendMessage("You told your mobs to stop");
 					return true;
-				} else if (split[1].equalsIgnoreCase("patrolHere")) {
+				} else if (split[1].equalsIgnoreCase("patrolHere") || split[1].equalsIgnoreCase("patrol")) {
 					plugin.mobLeader.remove(player.getName());
 					Location loc = player.getLocation();
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
@@ -286,11 +288,18 @@ public class FmCommand  implements CommandExecutor{
 						return true;
 					}
 					Location loc = player.getLocation();
+					int count = 0;
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
 						if (fmob.getSpawn().getWorld().equals(loc.getWorld())) {
+							double tmpX = (1.5-(count%4))*1.5;
+							double tmpZ = ((-1.) - Math.floor(count / 4.))*1.5;
+							double tmpH = Math.hypot(tmpX, tmpZ);
+							double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
+							tmpX = loc.getX() + tmpH*Math.cos(angle);
+							tmpZ = loc.getZ() + tmpH*Math.sin(angle);
+							fmob.setPoi(tmpX, loc.getY(), tmpZ);
+							fmob.setPosition(tmpX, loc.getY(), tmpZ);
 							fmob.setOrder("poi");
-							fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
-							fmob.setPosition(loc.getX(), loc.getY(), loc.getZ());
 						} else {
 							player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
 						}

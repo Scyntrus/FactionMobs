@@ -61,10 +61,14 @@ public class FactionMobs extends JavaPlugin {
     public Economy econ = null;
 	public Boolean vaultEnabled = false;
 	
+	public static float mobSpeed = .3F; // Needs to be adjusted
+	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		this.saveDefaultConfig();
 		FileConfiguration config = this.getConfig();
+		config.options().copyDefaults(true);
+    	this.saveConfig();
 		int modelNum = 51;
 		switch (config.getInt("model")) {
 		case 0: // skeleton
