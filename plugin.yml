@@ -10,6 +10,15 @@ commands:
         usage: "/fm [spawn|color] [parameters]"
 permissions:
     fmob.spawn:
-        description: Allows you to spawn a faction mob
+        description: Allows you to use /fm spawn
         default: op
+    fmob.color:
+        description: Allows you to use /fm color
+        default: op
+    fmob.order:
+        description: Allows you to use /fm order
+        default: true
+    fmob.order.tp:
+        description: Allows you to use /fm order [tpSpawn,tpHere]
+        default: false
     

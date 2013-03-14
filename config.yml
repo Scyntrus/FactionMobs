@@ -2,7 +2,7 @@
 # ===== FactionMobs Config =====
 
 # Sets the model of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
-model: 1
+model: 2
 
 # Sets the maximum number of Faction Mobs that can spawn 
 # No monsters will naturally spawn if there are too many
@@ -16,8 +16,8 @@ autoSave: false
 # Minutes between each save
 saveInterval: 10
 
-# Prevent mobs from wandering around
-noWander: false
+# Prevent mobs from damaging friendly players and mobs
+noFriendlyFire: true
 
 # === Per Mob Config ===
 
@@ -47,5 +47,5 @@ Swordsman.moneyCost: 0.0
 
 Titan.enabled: true
 Titan.maxHp: 40
-Titan.powerCost: 1.0
+Titan.powerCost: 0.0
 Titan.moneyCost: 0.0

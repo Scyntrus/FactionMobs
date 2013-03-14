@@ -30,4 +30,10 @@ public interface FactionMob {
 	public double getMoneyCost();
 	public EntityLiving getGoalTarget();
 	public void setTarget(Entity entity);
+	public double getPoiX();
+	public double getPoiY();
+	public double getPoiZ();
+	public void setOrder(String order);
+	public String getOrder();
+	public void setPoi(double x, double y, double z);
 }

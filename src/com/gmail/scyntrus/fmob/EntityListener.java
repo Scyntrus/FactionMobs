@@ -1,14 +1,19 @@
 package com.gmail.scyntrus.fmob;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityWolf;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftMonster;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -16,9 +21,13 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.massivecraft.factions.FPlayers;
 
 public class EntityListener implements Listener {
 	
@@ -87,6 +96,24 @@ public class EntityListener implements Listener {
 			e.getPlayer().sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
 					fmob.getFaction().getTag(), ChatColor.GREEN, ChatColor.RED, fmob.getHealth()));
+			if (FPlayers.i.get(e.getPlayer()).getFaction().equals(fmob.getFaction())) {
+				if (!plugin.playerSelections.containsKey(e.getPlayer().getName())) {
+					plugin.playerSelections.put(e.getPlayer().getName(), new ArrayList<FactionMob>());
+				}
+				if (plugin.playerSelections.get(e.getPlayer().getName()).contains(fmob)) {
+					plugin.playerSelections.get(e.getPlayer().getName()).remove(fmob);
+					e.getPlayer().sendMessage(String.format("%sYou have deselected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
+					if (plugin.playerSelections.get(e.getPlayer().getName()).isEmpty()) {
+						plugin.playerSelections.remove(e.getPlayer().getName());
+						e.getPlayer().sendMessage(String.format("%sYou have no mobs selected", ChatColor.GREEN));
+					}
+				} else {
+					plugin.playerSelections.get(e.getPlayer().getName()).add(fmob);
+					e.getPlayer().sendMessage(String.format("%sYou have selected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
+					fmob.setPoi(fmob.getlocX(), fmob.getlocY(), fmob.getlocZ());
+					fmob.setOrder("poi");
+				}
+			}
 			fmob.updateMob();
 		}
 	}
@@ -100,25 +127,50 @@ public class EntityListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onEntityDamage(EntityDamageByEntityEvent e) {
-		if ((((CraftEntity) e.getDamager()).getHandle() instanceof FactionMob) 
-				&& (e.getEntity() instanceof Monster) 
-				&& !(((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob)) {
-			((CraftMonster) e.getEntity()).getHandle().setGoalTarget(((CraftLivingEntity) e.getDamager()).getHandle());
-			((CraftMonster) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) e.getDamager()).getHandle());
-			return;
-		}
-		if (e.getDamager() instanceof Arrow) {
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+		if (((CraftEntity) e.getDamager()).getHandle() instanceof FactionMob) {
+			FactionMob fmob = (FactionMob) ((CraftEntity) e.getDamager()).getHandle();
+			if (Utils.FactionCheck(((CraftEntity) e.getEntity()).getHandle(), fmob.getFaction()) < 1) {
+				((CraftLivingEntity) e.getEntity()).getHandle().setGoalTarget(((CraftLivingEntity) e.getDamager()).getHandle());
+				if (e.getEntity() instanceof CraftCreature) {
+					((CraftCreature) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) e.getDamager()).getHandle());
+				}
+				return;
+			} else if (plugin.noFriendlyFire) {
+				e.setCancelled(true);
+				return;
+			}
+		} else if (e.getDamager() instanceof Arrow) {
 			Arrow arrow = (Arrow) e.getDamager();
 			if (arrow.getShooter() == null) {
 				return;
 			}
-			if ((((CraftLivingEntity) arrow.getShooter()).getHandle() instanceof FactionMob) 
-					&& (e.getEntity() instanceof Monster) 
-					&& !(((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob)) {
-				((CraftMonster) e.getEntity()).getHandle().setGoalTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
-				((CraftMonster) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
-				return;
+			if (((CraftLivingEntity) arrow.getShooter()).getHandle() instanceof FactionMob) {
+				FactionMob fmob = (FactionMob) ((CraftLivingEntity) arrow.getShooter()).getHandle();
+				if (Utils.FactionCheck(((CraftEntity) e.getEntity()).getHandle(), fmob.getFaction()) < 1) {
+					((CraftLivingEntity) e.getEntity()).getHandle().setGoalTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
+					((CraftCreature) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
+					return;
+				} else if (plugin.noFriendlyFire) {
+					e.setCancelled(true);
+					return;
+				}
+			}
+		}
+		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
+			FactionMob fmob = (FactionMob) ((CraftEntity) e.getEntity()).getHandle();
+			if (e.getDamager() instanceof Player) {
+				Player player = (Player) e.getDamager();
+				if (Utils.FactionCheck((Entity) fmob, FPlayers.i.get(player).getFaction()) >= 1) {
+					if (fmob.getFaction().equals(FPlayers.i.get(player).getFaction())) {
+						player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+						return;
+					} else {
+						player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFaction(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+						e.setCancelled(true);
+						return;
+					}
+				}
 			}
 		}
 	}
@@ -139,6 +191,57 @@ public class EntityListener implements Listener {
 						e.setDeathMessage(e.getEntity().getDisplayName() + " was shot by " + ChatColor.RED + fmob.getFaction().getTag() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
 					}
 				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent e) {
+		Player player = e.getPlayer();
+		if (plugin.playerSelections.containsKey(player.getName())) {
+			plugin.playerSelections.get(player.getName()).clear();
+			plugin.playerSelections.remove(player.getName());
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerMove(PlayerMoveEvent e) {
+		if (plugin.mobLeader.containsKey(e.getPlayer().getName()) && plugin.playerSelections.containsKey(e.getPlayer().getName())) {
+			Player player = e.getPlayer();
+			Location loc = player.getLocation();
+			int cols = 4;
+			int count = 0;
+			for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+				if (fmob.getSpawn().getWorld().getName().equals(loc.getWorld().getName())) {
+					double tmpX = ((cols/2.)+.5-(count%cols))*1.5;
+					double tmpZ = (0 - Math.floor((count / cols)) - 1)*1.5;
+					double tmpH = Math.hypot(tmpX, tmpZ);
+					double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
+					fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
+					count += 1;
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPotionSplash(PotionSplashEvent e) { // NOT WORKING
+		if (((CraftEntity) e.getPotion().getShooter()).getHandle() instanceof FactionMob) {
+			FactionMob fmob = (FactionMob) ((CraftEntity) e.getPotion().getShooter()).getHandle();
+			List<LivingEntity> toRemove = new ArrayList<LivingEntity>();
+			for (LivingEntity entity : e.getAffectedEntities()) {
+				if (Utils.FactionCheck(((CraftEntity) entity).getHandle(), fmob.getFaction()) < 1) {
+					((CraftLivingEntity) entity).getHandle().setGoalTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
+					if (entity instanceof CraftCreature) {
+						((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
+					}
+				} else if (plugin.noFriendlyFire) {
+					toRemove.add(entity);
+					e.setCancelled(true);
+				}
+			}
+			for (LivingEntity entity : toRemove) {
+				e.getAffectedEntities().remove(entity);
 			}
 		}
 	}

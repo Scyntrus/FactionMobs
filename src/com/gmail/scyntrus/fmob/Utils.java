@@ -120,4 +120,8 @@ public class Utils {
         entity.setEquipment(4, itemStacks[3]);
         return;
 	}
+	
+	public FactionMob mobCreate() { // not implemented yet
+		return null;
+	}
 }

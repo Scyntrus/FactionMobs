@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_4_R1.Entity;
@@ -31,7 +32,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
-import com.gmail.scyntrus.fmob.mobs.Ranger;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.massivecraft.factions.Factions;
@@ -41,7 +41,11 @@ public class FactionMobs extends JavaPlugin {
 	
 	public PluginManager pm = null;
 	public List<FactionMob> mobList = new ArrayList<FactionMob>();
-	public static HashMap<String,Integer> factionColors = new HashMap<String,Integer>();
+	public static Map<String,Integer> factionColors = new HashMap<String,Integer>();
+	
+	public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
+	
+	public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
 	
 	public static String sndBreath = "";
 	public static String sndHurt = "";
@@ -50,7 +54,7 @@ public class FactionMobs extends JavaPlugin {
 	
 	public int spawnLimit = 50;
 	public static boolean attackMobs = true;
-	public static boolean noWander = false;
+	public boolean noFriendlyFire = false;
 	
 	private int saveInterval = 10;
 	
@@ -88,14 +92,12 @@ public class FactionMobs extends JavaPlugin {
 
 		this.spawnLimit = config.getInt("spawnLimit", this.spawnLimit);
 		FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
-		FactionMobs.noWander = config.getBoolean("noWander", FactionMobs.noWander);
+		this.noFriendlyFire = config.getBoolean("noFriendlyFire", this.noFriendlyFire);
 		
 		Archer.maxHp = config.getInt("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;
 		Mage.maxHp = config.getInt("Mage.hp", Mage.maxHp);
 		if (Mage.maxHp<1) Mage.maxHp = 1;
-		Ranger.maxHp = config.getInt("Ranger.maxHp", Ranger.maxHp);
-		if (Ranger.maxHp<1) Ranger.maxHp = 1;
 		Swordsman.maxHp = config.getInt("Swordsman.maxHp", Swordsman.maxHp);
 		if (Swordsman.maxHp<1) Swordsman.maxHp = 1;
 		Titan.maxHp = config.getInt("Titan.maxHp", Titan.maxHp);
@@ -103,7 +105,6 @@ public class FactionMobs extends JavaPlugin {
 		
 		Archer.enabled = config.getBoolean("Archer.enabled", Archer.enabled);
 		Mage.enabled = config.getBoolean("Mage.enabled", Mage.enabled);
-		Ranger.enabled = config.getBoolean("Ranger.enabled", Ranger.enabled);
 		Swordsman.enabled = config.getBoolean("Swordsman.enabled", Swordsman.enabled);
 		Titan.enabled = config.getBoolean("Titan.enabled", Titan.enabled);
 		
@@ -111,8 +112,6 @@ public class FactionMobs extends JavaPlugin {
 		Archer.moneyCost = config.getDouble("Archer.moneyCost", Archer.moneyCost);
 		Mage.powerCost = config.getDouble("Mage.powerCost", Mage.powerCost);
 		Mage.moneyCost = config.getDouble("Mage.moneyCost", Mage.moneyCost);
-		Ranger.powerCost = config.getDouble("Ranger.powerCost", Ranger.powerCost);
-		Ranger.moneyCost = config.getDouble("Ranger.moneyCost", Ranger.moneyCost);
 		Swordsman.powerCost = config.getDouble("Swordsman.powerCost", Swordsman.powerCost);
 		Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost", Swordsman.moneyCost);
 		Titan.powerCost = config.getDouble("Titan.powerCost", Titan.powerCost);
@@ -123,39 +122,27 @@ public class FactionMobs extends JavaPlugin {
 	    	Method method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Archer.class, Archer.typeName, modelNum);
-	    	
-	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
-	    	method.setAccessible(true);
-	    	method.invoke(EntityTypes.class, Ranger.class, Ranger.typeName, modelNum);
 
-	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Swordsman.class, Swordsman.typeName, modelNum);
 
-	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Mage.class, Mage.typeName, modelNum);
 
-	    	
-	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Titan.class, Titan.typeName, 99);
 	    	
 	    	//Make sure I don't override original classes
 	    	
-	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, EntitySkeleton.class, "Skeleton", 51);
 	    	
-	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, EntityZombie.class, "Zombie", 54);
 	    	
-	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, EntityPigZombie.class, "PigZombie", 57);
 	    	
-	    	method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, EntityIronGolem.class, "VillagerGolem", 99);
 	    	
@@ -216,6 +203,19 @@ public class FactionMobs extends JavaPlugin {
 			List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
 			for (List<String> mobData : save) {
 				FactionMob newMob = null;
+				if (mobData.size() < 10) {
+					System.out.println("Incomplete Faction Mob found and removed. Did you delete or rename a world?");
+					if (!backup) {
+						backup = true;
+						try {
+							conf.save(new File(getDataFolder(), "data_backup.dat"));
+							System.out.println("Backup file saved as data_backup.dat");
+						} catch (IOException e) {
+							System.out.println("Failed to save backup file");
+						}
+					}
+					continue;
+				}
 				if (this.getServer().getWorld(mobData.get(1)) == null) {
 					System.out.println("Worldless Faction Mob found and removed. Did you delete or rename a world?");
 					if (!backup) {
@@ -230,12 +230,10 @@ public class FactionMobs extends JavaPlugin {
 					continue;
 				}
 				World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
-				if (mobData.get(0).equalsIgnoreCase("Archer")) {
+				if (mobData.get(0).equalsIgnoreCase("Archer") || mobData.get(0).equalsIgnoreCase("Ranger")) {
 					newMob = new Archer(world);
 				} else if (mobData.get(0).equalsIgnoreCase("Mage")) {
 					newMob = new Mage(world);
-				} else if (mobData.get(0).equalsIgnoreCase("Ranger")) {
-					newMob = new Ranger(world);
 				} else if (mobData.get(0).equalsIgnoreCase("Swordsman")) {
 					newMob = new Swordsman(world);
 				} else if (mobData.get(0).equalsIgnoreCase("Titan")) {
@@ -266,6 +264,21 @@ public class FactionMobs extends JavaPlugin {
 						Double.parseDouble(mobData.get(8)));
 				newMob.setHealth(Integer.parseInt(mobData.get(9)));
 				Utils.giveColorArmor(newMob);
+				
+				if (mobData.size() > 10) {
+					newMob.setPoi(
+						Double.parseDouble(mobData.get(10)), 
+						Double.parseDouble(mobData.get(11)), 
+						Double.parseDouble(mobData.get(12)));
+					newMob.setOrder(mobData.get(13));
+				} else {
+					newMob.setPoi(
+							Double.parseDouble(mobData.get(6)), 
+							Double.parseDouble(mobData.get(7)), 
+							Double.parseDouble(mobData.get(8)));
+					newMob.setOrder("poi");
+				}
+				
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				this.mobList.add(newMob);
 			}
@@ -288,6 +301,10 @@ public class FactionMobs extends JavaPlugin {
 			mobData.add(""+fmob.getlocY());
 			mobData.add(""+fmob.getlocZ());
 			mobData.add(""+fmob.getHealth()); //9
+			mobData.add(""+fmob.getPoiX()); //10
+			mobData.add(""+fmob.getPoiY());
+			mobData.add(""+fmob.getPoiZ());
+			mobData.add(fmob.getOrder()); //13
 			save.add(mobData);
 			fmob.die();
 		}

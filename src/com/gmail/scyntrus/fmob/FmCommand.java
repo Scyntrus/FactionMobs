@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.minecraft.server.v1_4_R1.Entity;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,10 +14,8 @@ import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
-import org.bukkit.ChatColor;
 import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
-import com.gmail.scyntrus.fmob.mobs.Ranger;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.massivecraft.factions.Board;
@@ -41,17 +40,32 @@ public class FmCommand  implements CommandExecutor{
 				return false;
 			} else if (split[0].equalsIgnoreCase("help")) {
 				//Basic help info here.
-				if (!player.hasPermission("fmob.spawn")) {
-					player.sendMessage(ChatColor.RED + "You do not have permission");
+				player.sendMessage("/fm spawn [mob]");
+				player.sendMessage("Mobs: Archer, Swordsman, Titan, Mage");
+				player.sendMessage("/fm color [color]");
+				player.sendMessage("Color is in RRGGBB format");
+				player.sendMessage("/fm order [order]");
+				player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, tpHome, tpHere");
+				player.sendMessage("Before giving orders, you must select mobs by right-clicking them");
+			} else if (split[0].equalsIgnoreCase("deselect")) {
+				if (plugin.playerSelections.containsKey(player.getName())) {
+					plugin.playerSelections.get(player.getName()).clear();
+					plugin.playerSelections.remove(player.getName());
+					player.sendMessage("Selection cleared");
 					return true;
 				}
-				player.sendMessage("/fm spawn [mob]");
-				player.sendMessage("Mobs: Archer, Swordsman, Ranger, Titan, Mage");
-				player.sendMessage("/fm color [color]");
-				player.sendMessage("[color] is in RRGGBB format");
-				
-						
-			
+				player.sendMessage("You have not selected any mob");
+				return true;
+			} else if (split[0].equalsIgnoreCase("selection")) {
+				if (plugin.playerSelections.containsKey(player.getName())) {
+					player.sendMessage(ChatColor.GREEN + "== Selection: ==");
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						player.sendMessage(ChatColor.RED + fmob.getTypeName());
+					}
+					player.sendMessage(ChatColor.GREEN + "================");
+					return true;
+				}
+				return true;
 			} else if (split[0].equalsIgnoreCase("spawn")) {
 				if (!player.hasPermission("fmob.spawn")) {
 					player.sendMessage(ChatColor.RED + "You do not have permission");
@@ -78,12 +92,10 @@ public class FmCommand  implements CommandExecutor{
 				if (split.length == 1) {
 					player.sendMessage(ChatColor.RED + "You must specify a mob");
 					return true;
-				} else if (split[1].equalsIgnoreCase("Archer")) {
+				} else if (split[1].equalsIgnoreCase("Archer") || split[1].equalsIgnoreCase("Ranger")) {
 					newMob = new Archer(world);
 				} else if (split[1].equalsIgnoreCase("Swordsman")) {
 					newMob = new Swordsman(world);
-				} else if (split[1].equalsIgnoreCase("Ranger")) {
-					newMob = new Ranger(world);
 				} else if (split[1].equalsIgnoreCase("Titan")) {
 					newMob = new Titan(world);
 				} else if (split[1].equalsIgnoreCase("Mage")) {
@@ -146,15 +158,16 @@ public class FmCommand  implements CommandExecutor{
 						}
 					}
 				}
-				
 				newMob.setSpawn(player.getLocation());
 				newMob.setFaction(playerfaction);
 				Utils.giveColorArmor(newMob);
+				newMob.setPoi(player.getLocation().getX(),player.getLocation().getY(),player.getLocation().getZ());
+				newMob.setOrder("home");
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				plugin.mobList.add(newMob);
 				player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));
 			} else if (split[0].equalsIgnoreCase("color")) {
-				if (!player.hasPermission("fmob.spawn")) {
+				if (!player.hasPermission("fmob.color")) {
 					player.sendMessage(ChatColor.RED + "You do not have permission");
 					return true;
 				}
@@ -162,10 +175,6 @@ public class FmCommand  implements CommandExecutor{
 				Faction playerfaction = fplayer.getFaction();
 				if (playerfaction.isNone()) {
 					player.sendMessage(ChatColor.RED + "You must be in a faction");
-					return true;
-				}
-				if (!playerfaction.getFPlayerAdmin().equals(fplayer)) {
-					player.sendMessage(ChatColor.RED + "You must be the faction admin");
 					return true;
 				}
 				if (split.length == 1) {
@@ -192,6 +201,107 @@ public class FmCommand  implements CommandExecutor{
 					plugin.saveMobList();
 					player.sendMessage("Faction Mobs data saved");
 					System.out.println("Faction Mobs data saved via command");
+				}
+			} else if (split[0].equalsIgnoreCase("order")) {
+				if (!player.hasPermission("fmob.order")) {
+					player.sendMessage(ChatColor.RED + "You do not have permission");
+					return true;
+				}
+				if (split.length < 2) {
+					player.sendMessage(ChatColor.RED + "You must specify an order");
+					player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, tpHome, tpHere");
+					return true;
+				} else if (!plugin.playerSelections.containsKey(player.getName())) {
+					player.sendMessage(ChatColor.RED + "No mobs selected");
+					player.sendMessage("Before giving orders, you must select mobs by right-clicking them");
+					return true;
+				} else if (split[1].equalsIgnoreCase("gohome")) {
+					plugin.mobLeader.remove(player.getName());
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						fmob.setOrder("home");
+					}
+					player.sendMessage("You sent your mobs home");
+					return true;
+				} else if (split[1].equalsIgnoreCase("follow")) {
+					plugin.mobLeader.put(player.getName(), true);
+					Location loc = player.getLocation();
+					int cols = 4;
+					int count = 0;
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						if (fmob.getSpawn().getWorld().getName().equals(loc.getWorld().getName())) {
+							double tmpX = ((cols/2.)+.5-(count%cols))*1.5;
+							double tmpZ = (0 - Math.floor((count / cols)) - 1)*1.5;
+							double tmpH = Math.hypot(tmpX, tmpZ);
+							double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
+							fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
+							fmob.setOrder("poi");
+							count += 1;
+						}
+					}
+					player.sendMessage("Your mobs are now following you");
+					return true;
+				} else if (split[1].equalsIgnoreCase("stop")) {
+					plugin.mobLeader.remove(player.getName());
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						fmob.setOrder("poi");
+					}
+					player.sendMessage("You told your mobs to stop");
+					return true;
+				} else if (split[1].equalsIgnoreCase("patrolHere")) {
+					plugin.mobLeader.remove(player.getName());
+					Location loc = player.getLocation();
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						if (fmob.getSpawn().getWorld().getName().equals(loc.getWorld().getName())) {
+							fmob.setOrder("ppoi");
+							fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
+						} else {
+							player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
+						}
+					}
+					player.sendMessage("Your mobs will now patrol from their home to here");
+					return true;
+				} else if (split[1].equalsIgnoreCase("wander")) {
+					plugin.mobLeader.remove(player.getName());
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						fmob.setOrder("wander");
+					}
+					player.sendMessage("Your mobs will now wander around");
+					return true;
+				} else if (split[1].equalsIgnoreCase("tpHome")) {
+					plugin.mobLeader.remove(player.getName());
+					if (!player.hasPermission("fmob.order.tp")) {
+						player.sendMessage(ChatColor.RED + "You do not have permission");
+						return true;
+					}
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						fmob.setOrder("home");
+						Location loc = fmob.getSpawn();
+						fmob.setPosition(loc.getX(), loc.getY(), loc.getZ());
+					}
+					player.sendMessage("Your mobs are now back at their home");
+					return true;
+				} else if (split[1].equalsIgnoreCase("tpHere")) {
+					plugin.mobLeader.put(player.getName(), true);
+					if (!player.hasPermission("fmob.order.tp")) {
+						player.sendMessage(ChatColor.RED + "You do not have permission");
+						return true;
+					}
+					Location loc = player.getLocation();
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						if (fmob.getSpawn().getWorld().equals(loc.getWorld())) {
+							fmob.setOrder("poi");
+							fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
+							fmob.setPosition(loc.getX(), loc.getY(), loc.getZ());
+						} else {
+							player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
+						}
+					}
+					player.sendMessage("Your mobs are now with you");
+					return true;
+				} else {
+					player.sendMessage(ChatColor.RED + "Unrecognized order");
+					player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, tpHome, tpHere");
+					return true;
 				}
 			} else {
 				player.sendMessage(ChatColor.RED + "Unrecognized command");

@@ -17,7 +17,7 @@ import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.Utils;
 import com.massivecraft.factions.Faction;
 
-public class Mage extends EntityWitch implements FactionMob{
+public class Mage extends EntityWitch implements FactionMob {
 	
 	public Location spawnLoc = null;
 	public Faction faction = null;
@@ -29,10 +29,16 @@ public class Mage extends EntityWitch implements FactionMob{
 	public static double moneyCost = 0;
 	public static double range = 12;
 	
+	public double poiX, poiY, poiZ;
+	public String order = "";
+	
 	public Mage(World world) {
 		super(world);
 		setEquipment(0, new ItemStack(Item.POTION, 1, 8204));
 	    this.persistent = true;
+	    this.fireProof = false;
+	    this.canPickUpLoot = false;
+	    this.bH = .3F;
 	}
 
 	@Override
@@ -43,8 +49,29 @@ public class Mage extends EntityWitch implements FactionMob{
 		if (this.getGoalTarget() == null) {
 			this.findTarget();
 		}
-		if (FactionMobs.noWander && this.getGoalTarget() == null) {
-		      this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), 0.5F);
+		if (this.getGoalTarget() == null) {
+			if (this.order == null || this.order.equals("") || this.order.equals("home")) {
+				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), 0.3F);
+				this.order = "home";
+				return;
+			} else if (this.order.equals("poi")) {
+				this.getNavigation().a(poiX, poiY, poiZ, 0.3F);
+				return;
+			} else if (this.order.equals("wander")) {
+				return;
+			} else if (this.order.equals("phome")) {
+				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), 0.175F);
+				if (Math.sqrt(Math.pow(this.locX-this.spawnLoc.getX(),2) + Math.pow(this.locY-spawnLoc.getY(),2) + Math.pow(this.locZ-spawnLoc.getZ(),2)) < .25) {
+					this.order = "ppoi";
+				}
+				return;
+			} else if (this.order.equals("ppoi")) {
+				this.getNavigation().a(poiX, poiY, poiZ, 0.175F);
+				if (Math.sqrt(Math.pow(this.locX-this.poiX,2) + Math.pow(this.locY-this.poiY,2) + Math.pow(this.locZ-this.poiZ,2)) < .25) {
+					this.order = "phome";
+				}
+				return;
+			}
 		}
 		return;
 	}
@@ -74,13 +101,13 @@ public class Mage extends EntityWitch implements FactionMob{
 				break;
 			}
 		}
-		double dist = 1000;
+		double dist = range;
 		Location thisLoc;
 		double thisDist;
 		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(range, range, range)) {
 			if (!e.isDead() && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
 				thisLoc = e.getLocation();
-				thisDist = Math.hypot(Math.hypot(this.locX - thisLoc.getX(), this.locY - thisLoc.getY()), this.locZ - thisLoc.getZ());
+				thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
 				if (thisDist < dist) {
 					found = ((CraftEntity) e).getHandle();
 					dist = thisDist;
@@ -152,6 +179,9 @@ public class Mage extends EntityWitch implements FactionMob{
 		if (entity instanceof EntityLiving) {
 			this.setGoalTarget((EntityLiving) entity);
 		} else if (entity == null) {
+			this.setGoalTarget(null);
+		}
+		if (this.getGoalTarget() != null && !this.getGoalTarget().isAlive()) {
 			this.setGoalTarget(null);
 		}
 	}
@@ -237,5 +267,37 @@ public class Mage extends EntityWitch implements FactionMob{
 	@Override
 	public boolean isTypeNotPersistent() {
 		return false;
+	}
+	
+	@Override
+	public double getPoiX() {
+		return this.poiX;
+	}
+	
+	@Override
+	public double getPoiY() {
+		return this.poiY;
+	}
+	
+	@Override
+	public double getPoiZ() {
+		return this.poiZ;
+	}
+	
+	@Override
+	public void setOrder(String order) {
+		this.order = order;
+	}
+	
+	@Override
+	public void setPoi(double x, double y, double z) {
+		this.poiX = x;
+		this.poiY = y;
+		this.poiZ = z;
+	}
+	
+	@Override
+	public String getOrder() {
+		return this.order;
 	}
 }
