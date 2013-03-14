@@ -92,23 +92,24 @@ public class EntityListener implements Listener {
 	public void onPlayerInteract(PlayerInteractEntityEvent e) {
 		if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
-			e.getPlayer().sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
+			Player player = e.getPlayer();
+			player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
 					fmob.getFaction().getTag(), ChatColor.GREEN, ChatColor.RED, fmob.getHealth()));
-			if (FPlayers.i.get(e.getPlayer()).getFaction().equals(fmob.getFaction())) {
-				if (!plugin.playerSelections.containsKey(e.getPlayer().getName())) {
-					plugin.playerSelections.put(e.getPlayer().getName(), new ArrayList<FactionMob>());
+			if (player.hasPermission("fmob.order") && FPlayers.i.get(player).getFaction().equals(fmob.getFaction())) {
+				if (!plugin.playerSelections.containsKey(player.getName())) {
+					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
 				}
-				if (plugin.playerSelections.get(e.getPlayer().getName()).contains(fmob)) {
-					plugin.playerSelections.get(e.getPlayer().getName()).remove(fmob);
-					e.getPlayer().sendMessage(String.format("%sYou have deselected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
-					if (plugin.playerSelections.get(e.getPlayer().getName()).isEmpty()) {
-						plugin.playerSelections.remove(e.getPlayer().getName());
-						e.getPlayer().sendMessage(String.format("%sYou have no mobs selected", ChatColor.GREEN));
+				if (plugin.playerSelections.get(player.getName()).contains(fmob)) {
+					plugin.playerSelections.get(player.getName()).remove(fmob);
+					player.sendMessage(String.format("%sYou have deselected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
+					if (plugin.playerSelections.get(player.getName()).isEmpty()) {
+						plugin.playerSelections.remove(player.getName());
+						player.sendMessage(String.format("%sYou have no mobs selected", ChatColor.GREEN));
 					}
 				} else {
-					plugin.playerSelections.get(e.getPlayer().getName()).add(fmob);
-					e.getPlayer().sendMessage(String.format("%sYou have selected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
+					plugin.playerSelections.get(player.getName()).add(fmob);
+					player.sendMessage(String.format("%sYou have selected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
 					fmob.setPoi(fmob.getlocX(), fmob.getlocY(), fmob.getlocZ());
 					fmob.setOrder("poi");
 				}
@@ -206,6 +207,9 @@ public class EntityListener implements Listener {
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
 		if (plugin.mobLeader.containsKey(e.getPlayer().getName()) && plugin.playerSelections.containsKey(e.getPlayer().getName())) {
+			if (e.getFrom().distance(e.getTo()) < 0.00001) {
+				return;
+			}
 			Player player = e.getPlayer();
 			Location loc = player.getLocation();
 			int count = 0;
