@@ -62,7 +62,8 @@ public class FactionMobs extends JavaPlugin {
 	public Boolean vaultEnabled = false;
 	
 	public static float mobSpeed = .3F; // TODO: Needs to be adjusted
-	public static float mobNavRange = 40F;
+	public static float mobPatrolSpeed = .175F;
+	public static float mobNavRange = 64F;
 	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
@@ -96,8 +97,11 @@ public class FactionMobs extends JavaPlugin {
 		}
 
 		this.spawnLimit = config.getInt("spawnLimit", this.spawnLimit);
-		FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
 		this.noFriendlyFire = config.getBoolean("noFriendlyFire", this.noFriendlyFire);
+		FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
+		FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed", FactionMobs.mobSpeed);
+		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
+		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
 		
 		Archer.maxHp = config.getInt("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;

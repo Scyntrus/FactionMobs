@@ -71,13 +71,13 @@ public class Archer extends EntitySkeleton implements FactionMob {
 			} else if (this.order.equals("wander")) {
 				return;
 			} else if (this.order.equals("phome")) {
-				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), 0.175F);
+				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), FactionMobs.mobPatrolSpeed);
 				if (Math.sqrt(Math.pow(this.locX-this.spawnLoc.getX(),2) + Math.pow(this.locY-spawnLoc.getY(),2) + Math.pow(this.locZ-spawnLoc.getZ(),2)) < 1) {
 					this.order = "ppoi";
 				}
 				return;
 			} else if (this.order.equals("ppoi")) {
-				this.getNavigation().a(poiX, poiY, poiZ, 0.175F);
+				this.getNavigation().a(poiX, poiY, poiZ, FactionMobs.mobPatrolSpeed);
 				if (Math.sqrt(Math.pow(this.locX-this.poiX,2) + Math.pow(this.locY-this.poiY,2) + Math.pow(this.locZ-this.poiZ,2)) < 1) {
 					this.order = "phome";
 				}
