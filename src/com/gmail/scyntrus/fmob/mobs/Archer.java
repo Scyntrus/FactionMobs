@@ -1,5 +1,7 @@
 package com.gmail.scyntrus.fmob.mobs;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.server.v1_4_R1.DamageSource;
 import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityLiving;
@@ -7,6 +9,7 @@ import net.minecraft.server.v1_4_R1.EntityPlayer;
 import net.minecraft.server.v1_4_R1.EntitySkeleton;
 import net.minecraft.server.v1_4_R1.Item;
 import net.minecraft.server.v1_4_R1.ItemStack;
+import net.minecraft.server.v1_4_R1.Navigation;
 import net.minecraft.server.v1_4_R1.World;
 
 import org.bukkit.Location;
@@ -34,10 +37,19 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	
 	public Archer(World world) {
 		super(world);
-	    this.setEquipment(0, new ItemStack(Item.BOW));
 	    this.persistent = true;
+	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bH = FactionMobs.mobSpeed;
+	    this.getNavigation().b(false);
+	    this.getNavigation().e(true);
+	    try {
+			Field field = Navigation.class.getDeclaredField("e");
+			field.setAccessible(true);
+			field.setFloat(this.getNavigation(), FactionMobs.mobNavRange);
+		} catch (Exception e) {
+		}
+	    this.setEquipment(0, new ItemStack(Item.BOW));
 	}
 
 	@Override

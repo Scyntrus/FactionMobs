@@ -220,7 +220,7 @@ public class FmCommand  implements CommandExecutor{
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
 						fmob.setOrder("home");
 						Location loc = fmob.getSpawn();
-						fmob.setPosition(loc.getX(), loc.getY(), loc.getZ());
+						fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
 					}
 					player.sendMessage("You sent your mobs home");
 					return true;
@@ -278,6 +278,7 @@ public class FmCommand  implements CommandExecutor{
 						fmob.setOrder("home");
 						Location loc = fmob.getSpawn();
 						fmob.setPosition(loc.getX(), loc.getY(), loc.getZ());
+						fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
 					}
 					player.sendMessage("Your mobs are now back at their home");
 					return true;
