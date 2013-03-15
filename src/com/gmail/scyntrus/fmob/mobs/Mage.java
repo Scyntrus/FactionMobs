@@ -311,4 +311,9 @@ public class Mage extends EntityWitch implements FactionMob {
 	public String getOrder() {
 		return this.order;
 	}
+	
+	@Override
+	public EntityLiving getEntity() {
+		return this;
+	}
 }

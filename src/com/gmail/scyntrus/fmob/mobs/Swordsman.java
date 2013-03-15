@@ -316,4 +316,9 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	public String getOrder() {
 		return this.order;
 	}
+	
+	@Override
+	public EntityLiving getEntity() {
+		return this;
+	}
 }

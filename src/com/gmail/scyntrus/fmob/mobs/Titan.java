@@ -288,4 +288,9 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	public String getOrder() {
 		return this.order;
 	}
+	
+	@Override
+	public EntityLiving getEntity() {
+		return this;
+	}
 }

@@ -195,12 +195,16 @@ public class FactionMobs extends JavaPlugin {
         	System.out.println("Vault not detected.");
         }
         
-        this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MobLoader(this), 1L);
+        this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MobLoader(this), 5L);
 	}
 	
 	public void onDisable() {
-		this.updateList();
 		this.saveMobList();
+		for (FactionMob fmob : this.mobList) {
+			fmob.setHealth(0);
+			fmob.die();
+			fmob.getEntity().world.removeEntity(fmob.getEntity());
+		}
 	}
 	
 	public void loadMobList() {
@@ -238,18 +242,6 @@ public class FactionMobs extends JavaPlugin {
 					}
 					continue;
 				}
-				World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
-				if (mobData.get(0).equalsIgnoreCase("Archer") || mobData.get(0).equalsIgnoreCase("Ranger")) {
-					newMob = new Archer(world);
-				} else if (mobData.get(0).equalsIgnoreCase("Mage")) {
-					newMob = new Mage(world);
-				} else if (mobData.get(0).equalsIgnoreCase("Swordsman")) {
-					newMob = new Swordsman(world);
-				} else if (mobData.get(0).equalsIgnoreCase("Titan")) {
-					newMob = new Titan(world);
-				} else {
-					continue;
-				}
 				if (Factions.i.getByTag(mobData.get(2)) == null) {
 					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
 					if (!backup) {
@@ -261,6 +253,18 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Failed to save backup file");
 						}
 					}
+					continue;
+				}
+				World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
+				if (mobData.get(0).equalsIgnoreCase("Archer") || mobData.get(0).equalsIgnoreCase("Ranger")) {
+					newMob = new Archer(world);
+				} else if (mobData.get(0).equalsIgnoreCase("Mage")) {
+					newMob = new Mage(world);
+				} else if (mobData.get(0).equalsIgnoreCase("Swordsman")) {
+					newMob = new Swordsman(world);
+				} else if (mobData.get(0).equalsIgnoreCase("Titan")) {
+					newMob = new Titan(world);
+				} else {
 					continue;
 				}
 				newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
@@ -315,7 +319,6 @@ public class FactionMobs extends JavaPlugin {
 			mobData.add(""+fmob.getPoiZ());
 			mobData.add(fmob.getOrder()); //13
 			save.add(mobData);
-			fmob.die();
 		}
 		conf.set("data", save);
 		try {

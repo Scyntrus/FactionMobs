@@ -36,4 +36,5 @@ public interface FactionMob {
 	public void setOrder(String order);
 	public String getOrder();
 	public void setPoi(double x, double y, double z);
+	public EntityLiving getEntity();
 }

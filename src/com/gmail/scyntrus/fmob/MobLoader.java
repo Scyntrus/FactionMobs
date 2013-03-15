@@ -9,6 +9,10 @@ public class MobLoader implements Runnable {
 	}
 
 	public void run() {
+		if (this.plugin.getServer().getPluginManager().getPlugin("Factions") == null) {
+	        this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 5L);
+			return;
+		}
 		this.plugin.loadMobList();
     }
 }
