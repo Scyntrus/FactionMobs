@@ -85,7 +85,7 @@ public class FmCommand  implements CommandExecutor{
 					player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
 					return true;
 				}
-				if (plugin.mobList.size() >= plugin.spawnLimit) {
+				if (FactionMobs.mobList.size() >= plugin.spawnLimit) {
 					player.sendMessage(ChatColor.RED + "There are too many faction mobs");
 					return true;
 				}
@@ -166,7 +166,7 @@ public class FmCommand  implements CommandExecutor{
 				newMob.setPoi(player.getLocation().getX(),player.getLocation().getY(),player.getLocation().getZ());
 				newMob.setOrder("home");
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
-				plugin.mobList.add(newMob);
+				FactionMobs.mobList.add(newMob);
 				player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));
 			} else if (split[0].equalsIgnoreCase("color")) {
 				if (!player.hasPermission("fmob.color")) {

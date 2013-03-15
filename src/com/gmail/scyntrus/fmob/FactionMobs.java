@@ -40,7 +40,7 @@ import com.massivecraft.factions.Factions;
 public class FactionMobs extends JavaPlugin {
 	
 	public PluginManager pm = null;
-	public List<FactionMob> mobList = new ArrayList<FactionMob>();
+	public static List<FactionMob> mobList = new ArrayList<FactionMob>();
 	public static Map<String,Integer> factionColors = new HashMap<String,Integer>();
 	
 	public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
@@ -200,7 +200,7 @@ public class FactionMobs extends JavaPlugin {
 	
 	public void onDisable() {
 		this.saveMobList();
-		for (FactionMob fmob : this.mobList) {
+		for (FactionMob fmob : mobList) {
 			fmob.setHealth(0);
 			fmob.die();
 			fmob.getEntity().world.removeEntity(fmob.getEntity());
@@ -268,6 +268,19 @@ public class FactionMobs extends JavaPlugin {
 					continue;
 				}
 				newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
+				if (newMob.getFaction() == null) {
+					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
+					if (!backup) {
+						backup = true;
+						try {
+							conf.save(new File(getDataFolder(), "data_backup.dat"));
+							System.out.println("Backup file saved as data_backup.dat");
+						} catch (IOException e) {
+							System.out.println("Failed to save backup file");
+						}
+					}
+					continue;
+				}
 				newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
 						Double.parseDouble(mobData.get(3)), 
 						Double.parseDouble(mobData.get(4)), 
@@ -293,7 +306,7 @@ public class FactionMobs extends JavaPlugin {
 				}
 				
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
-				this.mobList.add(newMob);
+				mobList.add(newMob);
 			}
 	    }
 	}
@@ -301,7 +314,7 @@ public class FactionMobs extends JavaPlugin {
 	public void saveMobList() {
 		YamlConfiguration conf = new YamlConfiguration();
 		List<List<String>> save = new ArrayList<List<String>>();
-		for (FactionMob fmob : this.mobList) {
+		for (FactionMob fmob : mobList) {
 			List<String> mobData = new ArrayList<String>();
 			mobData.add(fmob.getTypeName()); //0
 			Location spawnLoc = fmob.getSpawn();
@@ -344,8 +357,9 @@ public class FactionMobs extends JavaPlugin {
 	
 	public void updateList() {
 		List<FactionMob> toDelete = new ArrayList<FactionMob>();
-		for (FactionMob fmob : this.mobList) {
+		for (FactionMob fmob : mobList) {
 			if ((!fmob.isAlive())
+					|| (fmob.getFaction() == null)
 					|| fmob.getFaction().isNone()
 					|| (Factions.i.getByTag(fmob.getFaction().getTag()) == null)) {
 				toDelete.add(fmob);
@@ -355,7 +369,7 @@ public class FactionMobs extends JavaPlugin {
 			}
 		}
 		for (FactionMob fmob : toDelete) {
-			this.mobList.remove(fmob);
+			mobList.remove(fmob);
 			fmob.die();
 		}
 	}

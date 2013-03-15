@@ -17,11 +17,13 @@ import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.Utils;
 import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.Factions;
 
 public class Titan extends EntityIronGolem implements FactionMob {
 	
 	public Location spawnLoc = null;
 	public Faction faction = null;
+	public String factionName = null;
 	public Entity attackedBy = null;
 	public static String typeName = "Titan";
 	public static int maxHp = 40;
@@ -172,12 +174,16 @@ public class Titan extends EntityIronGolem implements FactionMob {
 
 	@Override
 	public Faction getFaction() {
-		return faction;
+		if (this.faction == null) {
+			this.faction = Factions.i.getByTag(this.factionName);
+		}
+		return this.faction;
 	}
 
 	@Override
 	public void setFaction(Faction faction) {
 		this.faction = faction;
+		this.factionName = faction.getTag();
 		
 	}
 	
@@ -209,6 +215,14 @@ public class Titan extends EntityIronGolem implements FactionMob {
 			super.setGoalTarget((EntityLiving) this.target);
 		} else {
 			this.findTarget();
+		}
+		if (this.faction == null) {
+			this.faction = Factions.i.getByTag(this.factionName);
+		}
+		if (this.faction == null) {
+			this.health = 0;
+			this.die();
+			FactionMobs.mobList.remove(this);
 		}
 	}
 
