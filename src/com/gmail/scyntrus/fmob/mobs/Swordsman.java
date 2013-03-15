@@ -2,18 +2,18 @@ package com.gmail.scyntrus.fmob.mobs;
 
 import java.lang.reflect.Field;
 
-import net.minecraft.server.v1_4_R1.DamageSource;
-import net.minecraft.server.v1_4_R1.Entity;
-import net.minecraft.server.v1_4_R1.EntityLiving;
-import net.minecraft.server.v1_4_R1.EntityPigZombie;
-import net.minecraft.server.v1_4_R1.EntityPlayer;
-import net.minecraft.server.v1_4_R1.Item;
-import net.minecraft.server.v1_4_R1.ItemStack;
-import net.minecraft.server.v1_4_R1.Navigation;
-import net.minecraft.server.v1_4_R1.World;
+import net.minecraft.server.v1_5_R1.DamageSource;
+import net.minecraft.server.v1_5_R1.Entity;
+import net.minecraft.server.v1_5_R1.EntityLiving;
+import net.minecraft.server.v1_5_R1.EntityPigZombie;
+import net.minecraft.server.v1_5_R1.EntityPlayer;
+import net.minecraft.server.v1_5_R1.Item;
+import net.minecraft.server.v1_5_R1.ItemStack;
+import net.minecraft.server.v1_5_R1.Navigation;
+import net.minecraft.server.v1_5_R1.World;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftEntity;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
@@ -42,7 +42,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
-	    this.bH = FactionMobs.mobSpeed;
+	    this.bI = FactionMobs.mobSpeed;
 	    this.getNavigation().b(false);
 	    this.getNavigation().e(true);
 	    try {
@@ -55,7 +55,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	}
 	
 	@Override
-	public boolean be() {
+	public boolean bh() {
 		return (this.getGoalTarget() == null);
 	}
 
@@ -64,16 +64,16 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 		int tmpFire = this.fireTicks;
 		super.c();
 		this.fireTicks = tmpFire;
-		if (this.getGoalTarget() == null) {
+		if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
 			this.findTarget();
 		}
 		if (this.getGoalTarget() == null) {
 			if (this.order == null || this.order.equals("") || this.order.equals("home")) {
-				this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), this.bH);
+				this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), FactionMobs.mobSpeed);
 				this.order = "home";
 				return;
 			} else if (this.order.equals("poi")) {
-				this.getNavigation().a(this.poiX, this.poiY, this.poiZ, this.bH);
+				this.getNavigation().a(this.poiX, this.poiY, this.poiZ, FactionMobs.mobSpeed);
 				return;
 			} else if (this.order.equals("wander")) {
 				return;
@@ -183,7 +183,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	@Override
 	public Faction getFaction() {
 		if (this.faction == null) {
-			this.faction = Factions.i.getByTag(this.factionName);
+			this.faction = Factions.i.getByTag(this.getFactionName());
 		}
 		return this.faction;
 	}
@@ -260,17 +260,17 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	}
 
 	@Override
-	protected String aY() {
+	protected String bb() {
 	    return FactionMobs.sndBreath;
 	}
 
 	@Override
-	protected String aZ() {
+	protected String bc() {
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String ba() {
+	protected String bd() {
 	    return FactionMobs.sndDeath;
 	}
 
@@ -334,5 +334,26 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	@Override
 	public EntityLiving getEntity() {
 		return this;
+	}
+	
+	@Override
+	public String getFactionName() {
+		if (this.factionName == null) {
+			this.factionName = FactionMobs.mobFactionList.get(this.id);
+			System.out.println("[Warn] FactionName flag");
+		}
+		return this.factionName;
+	}
+	
+	@Override
+	public void setFactionName(String str) {
+		this.factionName = str;
+		FactionMobs.mobFactionList.put(this.id, str);
+	}
+	
+	@Override
+	public void die() {
+		FactionMobs.mobFactionList.remove(this.id);
+		super.die();
 	}
 }

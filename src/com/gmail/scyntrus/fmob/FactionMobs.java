@@ -13,18 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_4_R1.Entity;
-import net.minecraft.server.v1_4_R1.EntityIronGolem;
-import net.minecraft.server.v1_4_R1.EntityPigZombie;
-import net.minecraft.server.v1_4_R1.EntitySkeleton;
-import net.minecraft.server.v1_4_R1.EntityTypes;
-import net.minecraft.server.v1_4_R1.EntityZombie;
-import net.minecraft.server.v1_4_R1.World;
+import net.minecraft.server.v1_5_R1.Entity;
+import net.minecraft.server.v1_5_R1.EntityIronGolem;
+import net.minecraft.server.v1_5_R1.EntityPigZombie;
+import net.minecraft.server.v1_5_R1.EntitySkeleton;
+import net.minecraft.server.v1_5_R1.EntityTypes;
+import net.minecraft.server.v1_5_R1.EntityZombie;
+import net.minecraft.server.v1_5_R1.World;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_5_R1.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -46,6 +46,8 @@ public class FactionMobs extends JavaPlugin {
 	public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
 	
 	public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
+	
+	public static Map<Integer, String> mobFactionList = new HashMap<Integer,String>();
 	
 	public static String sndBreath = "";
 	public static String sndHurt = "";
@@ -268,7 +270,8 @@ public class FactionMobs extends JavaPlugin {
 					continue;
 				}
 				newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
-				if (newMob.getFaction() == null) {
+				newMob.setFactionName(mobData.get(2));
+				if (newMob.getFaction() == null || newMob.getFactionName() == null) {
 					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
 					if (!backup) {
 						backup = true;

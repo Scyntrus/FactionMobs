@@ -2,14 +2,14 @@ package com.gmail.scyntrus.fmob;
 
 import java.util.ArrayList;
 
-import net.minecraft.server.v1_4_R1.Entity;
-import net.minecraft.server.v1_4_R1.EntityWolf;
+import net.minecraft.server.v1_5_R1.Entity;
+import net.minecraft.server.v1_5_R1.EntityWolf;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -94,6 +94,7 @@ public class EntityListener implements Listener {
 			FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
 			Player player = e.getPlayer();
 			player.sendMessage(fmob.getTypeName());
+			player.sendMessage(fmob.getFactionName());
 			player.sendMessage(fmob.getFaction().getTag());
 			player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
@@ -125,6 +126,8 @@ public class EntityListener implements Listener {
 		plugin.updateList();
 		if (((CraftEntity)e.getEntity()).getHandle() instanceof FactionMob) {
 			e.getDrops().clear();
+			FactionMobs.mobList.remove(((CraftEntity)e.getEntity()).getHandle());
+			FactionMobs.mobFactionList.remove(((CraftEntity)e.getEntity()).getHandle().id);
 		}
 	}
 	
@@ -151,7 +154,9 @@ public class EntityListener implements Listener {
 				FactionMob fmob = (FactionMob) ((CraftLivingEntity) arrow.getShooter()).getHandle();
 				if (Utils.FactionCheck(((CraftEntity) e.getEntity()).getHandle(), fmob.getFaction()) < 1) {
 					((CraftLivingEntity) e.getEntity()).getHandle().setGoalTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
-					((CraftCreature) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
+					if (e.getEntity() instanceof CraftCreature) {
+						((CraftCreature) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
+					}
 					return;
 				} else if (plugin.noFriendlyFire) {
 					e.setCancelled(true);

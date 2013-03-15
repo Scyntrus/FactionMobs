@@ -1,8 +1,8 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_4_R1.Entity;
-import net.minecraft.server.v1_4_R1.EntityLiving;
-import net.minecraft.server.v1_4_R1.ItemStack;
+import net.minecraft.server.v1_5_R1.Entity;
+import net.minecraft.server.v1_5_R1.EntityLiving;
+import net.minecraft.server.v1_5_R1.ItemStack;
 
 import org.bukkit.Location;
 
@@ -37,4 +37,6 @@ public interface FactionMob {
 	public String getOrder();
 	public void setPoi(double x, double y, double z);
 	public EntityLiving getEntity();
+	public String getFactionName();
+	public void setFactionName(String str);
 }
