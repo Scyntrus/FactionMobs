@@ -61,7 +61,7 @@ public class FactionMobs extends JavaPlugin {
     public Economy econ = null;
 	public Boolean vaultEnabled = false;
 	
-	public static float mobSpeed = .3F; // TODO: Needs to be adjusted
+	public static float mobSpeed = .3F;
 	public static float mobPatrolSpeed = .175F;
 	public static float mobNavRange = 64F;
 	

@@ -30,8 +30,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	public static double moneyCost = 1;
 	public static double range = 12;
 	
-	public double poiX, poiY, poiZ;
-	public String order = "";
+	public double poiX=0, poiY=0, poiZ=0;
+	public String order = "poi";
 	
 	public Titan(World world) {
 		super(world);
@@ -63,7 +63,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 				this.order = "home";
 				return;
 			} else if (this.order.equals("poi")) {
-				this.getNavigation().a(poiX, poiY, poiZ, this.bH);
+				this.getNavigation().a(this.poiX, this.poiY, this.poiZ, this.bH);
 				return;
 			} else if (this.order.equals("wander")) {
 				return;

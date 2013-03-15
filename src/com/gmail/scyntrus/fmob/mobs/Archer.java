@@ -32,8 +32,8 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	public static double moneyCost = 0;
 	public static double range = 12;
 	
-	public double poiX, poiY, poiZ;
-	public String order = "";
+	public double poiX=0, poiY=0, poiZ=0;
+	public String order = "poi";
 	
 	public Archer(World world) {
 		super(world);
@@ -62,11 +62,11 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		}
 		if (this.getGoalTarget() == null) {
 			if (this.order == null || this.order.equals("") || this.order.equals("home")) {
-				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), this.bH);
+				this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), this.bH);
 				this.order = "home";
 				return;
 			} else if (this.order.equals("poi")) {
-				this.getNavigation().a(poiX, poiY, poiZ, this.bH);
+				this.getNavigation().a(this.poiX, this.poiY, this.poiZ, this.bH);
 				return;
 			} else if (this.order.equals("wander")) {
 				return;
