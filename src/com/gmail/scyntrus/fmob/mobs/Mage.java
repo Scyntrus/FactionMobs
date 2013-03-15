@@ -71,14 +71,14 @@ public class Mage extends EntityWitch implements FactionMob {
 			} else if (this.order.equals("wander")) {
 				return;
 			} else if (this.order.equals("phome")) {
-				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), FactionMobs.mobPatrolSpeed);
-				if (Math.sqrt(Math.pow(this.locX-this.spawnLoc.getX(),2) + Math.pow(this.locY-spawnLoc.getY(),2) + Math.pow(this.locZ-spawnLoc.getZ(),2)) < 1) {
+				this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), FactionMobs.mobPatrolSpeed);
+				if (Utils.dist3D(this.locX,this.spawnLoc.getX(),this.locY,this.spawnLoc.getY(),this.locZ,this.spawnLoc.getZ()) < 1) {
 					this.order = "ppoi";
 				}
 				return;
 			} else if (this.order.equals("ppoi")) {
 				this.getNavigation().a(poiX, poiY, poiZ, FactionMobs.mobPatrolSpeed);
-				if (Math.sqrt(Math.pow(this.locX-this.poiX,2) + Math.pow(this.locY-this.poiY,2) + Math.pow(this.locZ-this.poiZ,2)) < 1) {
+				if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
 					this.order = "phome";
 				}
 				return;

@@ -90,10 +90,10 @@ public class Utils {
 		}
 		
 		if (color == -1) {
-			entity.setEquipment(1, new ItemStack(Item.LEATHER_BOOTS, 1, (short) 80));
-			entity.setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS, 1, (short) 80));
+			entity.setEquipment(1, new ItemStack(Item.LEATHER_BOOTS, 1, (short) 65));
+			entity.setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS, 1, (short) 75));
 			entity.setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE, 1, (short) 80));
-			entity.setEquipment(4, new ItemStack(Item.LEATHER_HELMET, 1, (short) 80));
+			entity.setEquipment(4, new ItemStack(Item.LEATHER_HELMET, 1, (short) 55));
 			return;
 		}
 		
@@ -123,5 +123,9 @@ public class Utils {
 	
 	public FactionMob mobCreate() { // not implemented yet
 		return null;
+	}
+	
+	public static double dist3D(double x1, double x2, double y1, double y2, double z1, double z2) {
+		return Math.sqrt(Math.pow(x1-x2,2) + Math.pow(y1-y2,2) + Math.pow(z1-z2,2));
 	}
 }

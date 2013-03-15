@@ -1,6 +1,8 @@
 package com.gmail.scyntrus.fmob;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.minecraft.server.v1_4_R1.Entity;
@@ -215,7 +217,24 @@ public class FmCommand  implements CommandExecutor{
 					player.sendMessage(ChatColor.RED + "No mobs selected");
 					player.sendMessage("Before giving orders, you must select mobs by right-clicking them");
 					return true;
-				} else if (split[1].equalsIgnoreCase("gohome") || split[1].equalsIgnoreCase("home")) {
+				} else {
+					List<FactionMob> toDelete = new ArrayList<FactionMob>();
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						if (!fmob.isAlive()) {
+							toDelete.add(fmob);
+						}
+					}
+					for (FactionMob fmob : toDelete) {
+						plugin.playerSelections.get(player.getName()).remove(fmob);
+					}
+					if (plugin.playerSelections.get(player.getName()).isEmpty()) {
+						plugin.playerSelections.remove(player.getName());
+						player.sendMessage(ChatColor.RED + "No mobs selected");
+						return true;
+					}
+				}
+				
+				if (split[1].equalsIgnoreCase("gohome") || split[1].equalsIgnoreCase("home")) {
 					plugin.mobLeader.remove(player.getName());
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
 						fmob.setOrder("home");
@@ -267,6 +286,21 @@ public class FmCommand  implements CommandExecutor{
 						fmob.setOrder("wander");
 					}
 					player.sendMessage("Your mobs will now wander around");
+					return true;
+				} else if (split[1].equalsIgnoreCase("setHome")) {
+					plugin.mobLeader.put(player.getName(), true);
+					Location loc = player.getLocation();
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						if (fmob.getSpawn().getWorld().equals(loc.getWorld())) {
+							fmob.setOrder("home");
+							Location spawnLoc = fmob.getSpawn();
+							fmob.setSpawn(spawnLoc);
+							fmob.setPoi(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ());
+						} else {
+							player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
+						}
+					}
+					player.sendMessage("You set your position as your mob's new home");
 					return true;
 				} else if (split[1].equalsIgnoreCase("tpHome")) {
 					plugin.mobLeader.remove(player.getName());
