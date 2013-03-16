@@ -30,7 +30,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	public static Boolean enabled = true;
 	public static double powerCost = 0;
 	public static double moneyCost = 1;
-	public static double range = 12;
+	public static double range = 16;
 	
 	public double poiX=0, poiY=0, poiZ=0;
 	public String order = "poi";
@@ -58,6 +58,9 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		int tmpFire = this.fireTicks;
 		super.c();
 		this.fireTicks = tmpFire;
+		if (this.getEquipment(4) != null) {
+			this.getEquipment(4).setData(0);
+		}
 		if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
 			this.findTarget();
 		}

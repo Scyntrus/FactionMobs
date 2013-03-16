@@ -125,8 +125,13 @@ public class EntityListener implements Listener {
 	public void onEntityDeath(EntityDeathEvent e) {
 		plugin.updateList();
 		if (((CraftEntity)e.getEntity()).getHandle() instanceof FactionMob) {
+			FactionMob fmob = (FactionMob) ((CraftEntity) e.getEntity()).getHandle();
+			fmob.getEntity().setEquipment(1, null);
+			fmob.getEntity().setEquipment(2, null);
+			fmob.getEntity().setEquipment(3, null);
+			fmob.getEntity().setEquipment(4, null);
 			e.getDrops().clear();
-			FactionMobs.mobList.remove(((CraftEntity)e.getEntity()).getHandle());
+			FactionMobs.mobList.remove(fmob);
 		}
 	}
 	
@@ -255,13 +260,6 @@ public class EntityListener implements Listener {
 					e.setIntensity(entity, -1);
 				}
 			}
-		}
-	}
-
-	@EventHandler
-	public void onEntityDamage(EntityDamageEvent e) {
-		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
-			Utils.giveColorArmor((FactionMob) ((CraftEntity) e.getEntity()).getHandle());
 		}
 	}
 }

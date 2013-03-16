@@ -95,17 +95,17 @@ public class Utils {
 		}
 		
 		if (color == -1 || color == 10511680) {
-			entity.setEquipment(1, new ItemStack(Item.LEATHER_BOOTS, 1, (short) 65));
-			entity.setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS, 1, (short) 75));
-			entity.setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE, 1, (short) 80));
+			entity.setEquipment(1, new ItemStack(Item.LEATHER_BOOTS));
+			entity.setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS));
+			entity.setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE));
 			entity.setEquipment(4, new ItemStack(Item.LEATHER_HELMET));
 			return;
 		}
 		
 		ItemStack[] itemStacks = {
-				new ItemStack(Item.LEATHER_BOOTS, 1, (short) 65), 
-				new ItemStack(Item.LEATHER_LEGGINGS, 1, (short) 75), 
-				new ItemStack(Item.LEATHER_CHESTPLATE, 1, (short) 80),
+				new ItemStack(Item.LEATHER_BOOTS), 
+				new ItemStack(Item.LEATHER_LEGGINGS), 
+				new ItemStack(Item.LEATHER_CHESTPLATE),
 				new ItemStack(Item.LEATHER_HELMET)};
 
 	    for (ItemStack i : itemStacks) {

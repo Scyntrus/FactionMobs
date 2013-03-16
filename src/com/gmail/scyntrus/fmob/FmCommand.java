@@ -26,7 +26,7 @@ import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Faction;
 
-public class FmCommand  implements CommandExecutor{
+public class FmCommand implements CommandExecutor{
 
 	FactionMobs plugin;
 	
@@ -211,7 +211,7 @@ public class FmCommand  implements CommandExecutor{
 				}
 				if (split.length < 2) {
 					player.sendMessage(ChatColor.RED + "You must specify an order");
-					player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, tpHome, tpHere");
+					player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere");
 					return true;
 				} else if (!plugin.playerSelections.containsKey(player.getName())) {
 					player.sendMessage(ChatColor.RED + "No mobs selected");
@@ -345,7 +345,7 @@ public class FmCommand  implements CommandExecutor{
 					return true;
 				} else {
 					player.sendMessage(ChatColor.RED + "Unrecognized order");
-					player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, tpHome, tpHere");
+					player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere");
 					return true;
 				}
 			} else {
