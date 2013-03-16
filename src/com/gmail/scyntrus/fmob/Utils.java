@@ -37,6 +37,9 @@ public class Utils {
 			}
 		} else if (entity instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) entity;
+			if (fmob.getFaction() == null) {
+				return 0;
+			}
 			switch (fmob.getFaction().getRelationTo(faction)) {
 			case ENEMY:
 				return -1;
@@ -83,13 +86,15 @@ public class Utils {
 	
 	public static void giveColorArmor(FactionMob entity) {
 		int color = -1;
-		if (FactionMobs.factionColors.containsKey(entity.getFaction().getTag())) {
+		if (entity.getFaction() == null) {
+			return;
+		} else if (FactionMobs.factionColors.containsKey(entity.getFaction().getTag())) {
 			color = FactionMobs.factionColors.get(entity.getFaction().getTag());
 		} else {
 			FactionMobs.factionColors.put(entity.getFaction().getTag(), 10511680);
 		}
 		
-		if (color == -1) {
+		if (color == -1 || color == 10511680) {
 			entity.setEquipment(1, new ItemStack(Item.LEATHER_BOOTS, 1, (short) 65));
 			entity.setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS, 1, (short) 75));
 			entity.setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE, 1, (short) 80));
@@ -98,10 +103,10 @@ public class Utils {
 		}
 		
 		ItemStack[] itemStacks = {
-				new ItemStack(Item.LEATHER_BOOTS), 
-				new ItemStack(Item.LEATHER_LEGGINGS), 
-				new ItemStack(Item.LEATHER_CHESTPLATE),
-				new ItemStack(Item.LEATHER_HELMET)};
+				new ItemStack(Item.LEATHER_BOOTS, 1, (short) 65), 
+				new ItemStack(Item.LEATHER_LEGGINGS, 1, (short) 75), 
+				new ItemStack(Item.LEATHER_CHESTPLATE, 1, (short) 80),
+				new ItemStack(Item.LEATHER_HELMET, 1, (short) 55)};
 
 	    for (ItemStack i : itemStacks) {
 	    	NBTTagCompound n = i.getTag();

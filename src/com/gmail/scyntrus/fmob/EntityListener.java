@@ -92,6 +92,9 @@ public class EntityListener implements Listener {
 	public void onPlayerInteract(PlayerInteractEntityEvent e) {
 		if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
+			if (fmob.getFaction() == null) {
+				return;
+			}
 			Player player = e.getPlayer();
 			player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
@@ -162,6 +165,9 @@ public class EntityListener implements Listener {
 		}
 		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity) e.getEntity()).getHandle();
+			if (fmob.getFaction() == null) {
+				return;
+			}
 			if (e.getDamager() instanceof Player) {
 				Player player = (Player) e.getDamager();
 				if (Utils.FactionCheck((Entity) fmob, FPlayers.i.get(player).getFaction()) >= 1) {
@@ -169,7 +175,7 @@ public class EntityListener implements Listener {
 						player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 						return;
 					} else {
-						player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFaction(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+						player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFaction().getTag(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 						e.setCancelled(true);
 						return;
 					}
@@ -186,11 +192,17 @@ public class EntityListener implements Listener {
 			if (entity != null) {
 				if (((CraftEntity) entity).getHandle() instanceof FactionMob) {
 					FactionMob fmob = (FactionMob) ((CraftEntity) entity).getHandle();
+					if (fmob.getFaction() == null) {
+						return;
+					}
 					e.setDeathMessage(e.getEntity().getDisplayName() + " was killed by " + ChatColor.RED + fmob.getFaction().getTag() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
 				} else if (entity instanceof Arrow){
 					Arrow arrow = (Arrow) entity;
 					if (((CraftLivingEntity) arrow.getShooter()).getHandle() instanceof FactionMob) {
 						FactionMob fmob = (FactionMob) ((CraftLivingEntity) arrow.getShooter()).getHandle();
+						if (fmob.getFaction() == null) {
+							return;
+						}
 						e.setDeathMessage(e.getEntity().getDisplayName() + " was shot by " + ChatColor.RED + fmob.getFaction().getTag() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
 					}
 				}

@@ -334,6 +334,9 @@ public class FactionMobs extends JavaPlugin {
 		YamlConfiguration conf = new YamlConfiguration();
 		List<List<String>> save = new ArrayList<List<String>>();
 		for (FactionMob fmob : mobList) {
+			if (fmob.getFaction() == null) {
+				continue;
+			}
 			List<String> mobData = new ArrayList<String>();
 			mobData.add(fmob.getTypeName()); //0
 			Location spawnLoc = fmob.getSpawn();

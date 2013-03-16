@@ -182,6 +182,10 @@ public class Mage extends EntityWitch implements FactionMob {
 		if (this.faction == null) {
 			this.faction = Factions.i.getByTag(this.getFactionName());
 		}
+		if (this.faction == null) {
+			this.die();
+			System.out.println("[Error] Found and removed factionless faction mob");
+		}
 		return this.faction;
 	}
 
