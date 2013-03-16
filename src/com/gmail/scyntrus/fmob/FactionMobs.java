@@ -377,6 +377,7 @@ public class FactionMobs extends JavaPlugin {
 		}
 		try { // using mcstats.org metrics
 			MetricsLite metrics = new MetricsLite(this);
+			metrics.enable();
 		    metrics.start();
 		} catch (IOException e) {
 		    // Failed to submit the stats :-(

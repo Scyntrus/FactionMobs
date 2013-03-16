@@ -258,6 +258,7 @@ public class EntityListener implements Listener {
 		}
 	}
 
+	@EventHandler
 	public void onEntityDamage(EntityDamageEvent e) {
 		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
 			Utils.giveColorArmor((FactionMob) ((CraftEntity) e.getEntity()).getHandle());

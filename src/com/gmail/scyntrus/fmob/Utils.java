@@ -98,7 +98,7 @@ public class Utils {
 			entity.setEquipment(1, new ItemStack(Item.LEATHER_BOOTS, 1, (short) 65));
 			entity.setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS, 1, (short) 75));
 			entity.setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE, 1, (short) 80));
-			entity.setEquipment(4, new ItemStack(Item.LEATHER_HELMET, 1, (short) 55));
+			entity.setEquipment(4, new ItemStack(Item.LEATHER_HELMET));
 			return;
 		}
 		
@@ -106,7 +106,7 @@ public class Utils {
 				new ItemStack(Item.LEATHER_BOOTS, 1, (short) 65), 
 				new ItemStack(Item.LEATHER_LEGGINGS, 1, (short) 75), 
 				new ItemStack(Item.LEATHER_CHESTPLATE, 1, (short) 80),
-				new ItemStack(Item.LEATHER_HELMET, 1, (short) 55)};
+				new ItemStack(Item.LEATHER_HELMET)};
 
 	    for (ItemStack i : itemStacks) {
 	    	NBTTagCompound n = i.getTag();
