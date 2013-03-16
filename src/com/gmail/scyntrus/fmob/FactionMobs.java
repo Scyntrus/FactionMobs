@@ -33,6 +33,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.gmail.scyntrus.fmob.metrics.MetricsLite;
 import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
@@ -374,7 +375,12 @@ public class FactionMobs extends JavaPlugin {
 		} catch (Exception e) {
         	this.getLogger().severe("Error writing faction colors file, colors.dat");
 		}
-		
+		try { // using mcstats.org metrics
+			MetricsLite metrics = new MetricsLite(this);
+		    metrics.start();
+		} catch (IOException e) {
+		    // Failed to submit the stats :-(
+		}
 	}
 	
 	public void updateList() {
