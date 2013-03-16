@@ -14,6 +14,7 @@ import net.minecraft.server.v1_5_R1.World;
 
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_5_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftLivingEntity;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
@@ -123,15 +124,17 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		Location thisLoc;
 		double thisDist;
 		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(range, range, range)) {
-			if (!e.isDead() && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
+			if (!e.isDead() && e instanceof CraftLivingEntity && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
 				thisLoc = e.getLocation();
 				thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
 				if (thisDist < dist) {
-					found = ((CraftEntity) e).getHandle();
-					dist = thisDist;
-					if (dist < 1.5) {
-						this.setTarget(found);
-						return found;
+					if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
+						found = ((CraftEntity) e).getHandle();
+						dist = thisDist;
+						if (dist < 1.5) {
+							this.setTarget(found);
+							return found;
+						}
 					}
 				}
 			} else if (!e.isDead() && (Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == 0) && 
