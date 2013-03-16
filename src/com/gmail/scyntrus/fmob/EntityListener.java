@@ -93,9 +93,6 @@ public class EntityListener implements Listener {
 		if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
 			Player player = e.getPlayer();
-			player.sendMessage(fmob.getTypeName());
-			player.sendMessage(fmob.getFactionName());
-			player.sendMessage(fmob.getFaction().getTag());
 			player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
 					fmob.getFaction().getTag(), ChatColor.GREEN, ChatColor.RED, fmob.getHealth()));
@@ -127,7 +124,6 @@ public class EntityListener implements Listener {
 		if (((CraftEntity)e.getEntity()).getHandle() instanceof FactionMob) {
 			e.getDrops().clear();
 			FactionMobs.mobList.remove(((CraftEntity)e.getEntity()).getHandle());
-			FactionMobs.mobFactionList.remove(((CraftEntity)e.getEntity()).getHandle().id);
 		}
 	}
 	

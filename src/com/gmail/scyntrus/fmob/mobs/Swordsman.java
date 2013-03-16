@@ -44,6 +44,8 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
 	    this.getNavigation().b(false);
+	    this.getNavigation().c(true);
+	    this.getNavigation().d(false);
 	    this.getNavigation().e(true);
 	    try {
 			Field field = Navigation.class.getDeclaredField("e");
@@ -338,22 +340,16 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	
 	@Override
 	public String getFactionName() {
-		if (this.factionName == null) {
-			this.factionName = FactionMobs.mobFactionList.get(this.id);
-			System.out.println("[Warn] FactionName flag");
-		}
 		return this.factionName;
 	}
 	
 	@Override
 	public void setFactionName(String str) {
 		this.factionName = str;
-		FactionMobs.mobFactionList.put(this.id, str);
 	}
 	
 	@Override
 	public void die() {
-		FactionMobs.mobFactionList.remove(this.id);
 		super.die();
 	}
 }

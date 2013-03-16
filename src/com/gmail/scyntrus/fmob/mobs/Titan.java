@@ -42,6 +42,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
 	    this.getNavigation().b(false);
+	    this.getNavigation().c(true);
+	    this.getNavigation().d(false);
 	    this.getNavigation().e(true);
 	    try {
 			Field field = Navigation.class.getDeclaredField("e");
@@ -61,7 +63,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		}
 		if (this.getGoalTarget() == null) {
 			if (this.order == null || this.order.equals("") || this.order.equals("home")) {
-				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), FactionMobs.mobSpeed);
+				this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), FactionMobs.mobSpeed);
 				this.order = "home";
 				return;
 			} else if (this.order.equals("poi")) {
@@ -71,13 +73,13 @@ public class Titan extends EntityIronGolem implements FactionMob {
 				return;
 			} else if (this.order.equals("phome")) {
 				this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), FactionMobs.mobPatrolSpeed);
-				if (Utils.dist3D(this.locX,this.spawnLoc.getX(),this.locY,this.spawnLoc.getY(),this.locZ,this.spawnLoc.getZ()) < 1) {
+				if (Utils.dist3D(this.locX,this.spawnLoc.getX(),this.locY,this.spawnLoc.getY(),this.locZ,this.spawnLoc.getZ()) < 2) {
 					this.order = "ppoi";
 				}
 				return;
 			} else if (this.order.equals("ppoi")) {
 				this.getNavigation().a(poiX, poiY, poiZ, FactionMobs.mobPatrolSpeed);
-				if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
+				if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 2) {
 					this.order = "phome";
 				}
 				return;
@@ -310,22 +312,16 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	
 	@Override
 	public String getFactionName() {
-		if (this.factionName == null) {
-			this.factionName = FactionMobs.mobFactionList.get(this.id);
-			System.out.println("[Warn] FactionName flag");
-		}
 		return this.factionName;
 	}
 	
 	@Override
 	public void setFactionName(String str) {
 		this.factionName = str;
-		FactionMobs.mobFactionList.put(this.id, str);
 	}
 	
 	@Override
 	public void die() {
-		FactionMobs.mobFactionList.remove(this.id);
 		super.die();
 	}
 }

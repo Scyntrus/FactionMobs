@@ -43,8 +43,10 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
-	    this.getNavigation().b(false);
-	    this.getNavigation().e(true);
+	    this.getNavigation().b(false); // break door
+	    this.getNavigation().c(true); // enter open door
+	    this.getNavigation().d(false); // avoid sunlight
+	    this.getNavigation().e(true); // swim
 	    try {
 			Field field = Navigation.class.getDeclaredField("e");
 			field.setAccessible(true);
@@ -53,7 +55,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		}
 	    this.setEquipment(0, new ItemStack(Item.BOW));
 	}
-
+	
 	@Override
 	public void c() {
 		int tmpFire = this.fireTicks;
@@ -332,21 +334,16 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	
 	@Override
 	public String getFactionName() {
-		if (this.factionName == null) {
-			this.factionName = FactionMobs.mobFactionList.get(this.id);
-		}
 		return this.factionName;
 	}
 	
 	@Override
 	public void setFactionName(String str) {
 		this.factionName = str;
-		FactionMobs.mobFactionList.put(this.id, str);
 	}
 	
 	@Override
 	public void die() {
-		FactionMobs.mobFactionList.remove(this.id);
 		super.die();
 	}
 }

@@ -19,7 +19,10 @@ import net.minecraft.server.v1_5_R1.EntityPigZombie;
 import net.minecraft.server.v1_5_R1.EntitySkeleton;
 import net.minecraft.server.v1_5_R1.EntityTypes;
 import net.minecraft.server.v1_5_R1.EntityZombie;
+import net.minecraft.server.v1_5_R1.ExceptionWorldConflict;
+import net.minecraft.server.v1_5_R1.MinecraftServer;
 import net.minecraft.server.v1_5_R1.World;
+import net.minecraft.server.v1_5_R1.WorldServer;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -47,7 +50,7 @@ public class FactionMobs extends JavaPlugin {
 	
 	public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
 	
-	public static Map<Integer, String> mobFactionList = new HashMap<Integer,String>();
+	public static long mobCount = 0;
 	
 	public static String sndBreath = "";
 	public static String sndHurt = "";
@@ -206,6 +209,19 @@ public class FactionMobs extends JavaPlugin {
 			fmob.setHealth(0);
 			fmob.die();
 			fmob.getEntity().world.removeEntity(fmob.getEntity());
+		}
+		MinecraftServer localMinecraftServer = MinecraftServer.getServer();
+		try {
+			for (int i = 0; i < localMinecraftServer.worldServer.length; i++)
+				if (localMinecraftServer.worldServer[i] != null) {
+					WorldServer localWorldServer = localMinecraftServer.worldServer[i];
+					boolean bool = localWorldServer.savingDisabled;
+					localWorldServer.savingDisabled = false;
+					localWorldServer.save(true, null);
+					localWorldServer.savingDisabled = bool;
+				}
+			}
+		catch (ExceptionWorldConflict localExceptionWorldConflict) {
 		}
 	}
 	

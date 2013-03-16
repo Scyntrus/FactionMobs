@@ -294,7 +294,9 @@ public class FmCommand  implements CommandExecutor{
 						if (fmob.getSpawn().getWorld().equals(loc.getWorld())) {
 							fmob.setOrder("home");
 							Location spawnLoc = fmob.getSpawn();
-							fmob.setSpawn(spawnLoc);
+							spawnLoc.setX(loc.getX());
+							spawnLoc.setY(loc.getY());
+							spawnLoc.setZ(loc.getZ());
 							fmob.setPoi(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ());
 						} else {
 							player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
