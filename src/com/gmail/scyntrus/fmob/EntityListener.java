@@ -123,7 +123,6 @@ public class EntityListener implements Listener {
 	
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {
-		plugin.updateList();
 		if (((CraftEntity)e.getEntity()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity) e.getEntity()).getHandle();
 			fmob.getEntity().setEquipment(1, null);
@@ -133,6 +132,11 @@ public class EntityListener implements Listener {
 			e.getDrops().clear();
 			FactionMobs.mobList.remove(fmob);
 		}
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+        	public void run() {
+    			plugin.updateList();
+        	}
+        }, 1L);
 	}
 	
 	@EventHandler
