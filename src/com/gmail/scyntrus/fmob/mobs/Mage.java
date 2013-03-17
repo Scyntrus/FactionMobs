@@ -34,6 +34,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	public static double powerCost = 0;
 	public static double moneyCost = 0;
 	public static double range = 16;
+	private int retargetTime = 0;
 	
 	public double poiX=0, poiY=0, poiZ=0;
 	public String order = "poi";
@@ -59,44 +60,42 @@ public class Mage extends EntityWitch implements FactionMob {
 
 	@Override
 	public void c() {
-		int tmpFire = this.fireTicks;
 		super.c();
-		this.fireTicks = tmpFire;
-		if (this.getEquipment(4) != null) {
-			this.getEquipment(4).setData(0);
-		}
-		if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
-			this.findTarget();
-		} else {
-			double dist = Utils.dist3D(this.locX, this.getGoalTarget().locX, this.locY, this.getGoalTarget().locY, this.locZ, this.getGoalTarget().locZ);
-			if (dist > range) {
+		if (--retargetTime < 0) {
+			retargetTime = 8;
+			if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
 				this.findTarget();
-			} else if (dist > 1.5) {
-				this.findCloserTarget();
+			} else {
+				double dist = Utils.dist3D(this.locX, this.getGoalTarget().locX, this.locY, this.getGoalTarget().locY, this.locZ, this.getGoalTarget().locZ);
+				if (dist > range) {
+					this.findTarget();
+				} else if (dist > 1.5) {
+					this.findCloserTarget();
+				}
 			}
-		}
-		if (this.getGoalTarget() == null) {
-			if (this.order == null || this.order.equals("") || this.order.equals("home")) {
-				this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), FactionMobs.mobSpeed);
-				this.order = "home";
-				return;
-			} else if (this.order.equals("poi")) {
-				this.getNavigation().a(this.poiX, this.poiY, this.poiZ, FactionMobs.mobSpeed);
-				return;
-			} else if (this.order.equals("wander")) {
-				return;
-			} else if (this.order.equals("phome")) {
-				this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), FactionMobs.mobPatrolSpeed);
-				if (Utils.dist3D(this.locX,this.spawnLoc.getX(),this.locY,this.spawnLoc.getY(),this.locZ,this.spawnLoc.getZ()) < 1) {
-					this.order = "ppoi";
+			if (this.getGoalTarget() == null) {
+				if (this.order == null || this.order.equals("") || this.order.equals("home")) {
+					this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), FactionMobs.mobSpeed);
+					this.order = "home";
+					return;
+				} else if (this.order.equals("poi")) {
+					this.getNavigation().a(this.poiX, this.poiY, this.poiZ, FactionMobs.mobSpeed);
+					return;
+				} else if (this.order.equals("wander")) {
+					return;
+				} else if (this.order.equals("phome")) {
+					this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), FactionMobs.mobPatrolSpeed);
+					if (Utils.dist3D(this.locX,this.spawnLoc.getX(),this.locY,this.spawnLoc.getY(),this.locZ,this.spawnLoc.getZ()) < 1) {
+						this.order = "ppoi";
+					}
+					return;
+				} else if (this.order.equals("ppoi")) {
+					this.getNavigation().a(poiX, poiY, poiZ, FactionMobs.mobPatrolSpeed);
+					if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
+						this.order = "phome";
+					}
+					return;
 				}
-				return;
-			} else if (this.order.equals("ppoi")) {
-				this.getNavigation().a(poiX, poiY, poiZ, FactionMobs.mobPatrolSpeed);
-				if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
-					this.order = "phome";
-				}
-				return;
 			}
 		}
 		return;
