@@ -68,6 +68,13 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		}
 		if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
 			this.findTarget();
+		} else {
+			double dist = Utils.dist3D(this.locX, this.getGoalTarget().locX, this.locY, this.getGoalTarget().locY, this.locZ, this.getGoalTarget().locZ);
+			if (dist > range) {
+				this.findTarget();
+			} else if (dist > 1.5) {
+				this.findCloserTarget();
+			}
 		}
 		if (this.getGoalTarget() == null) {
 			if (this.order == null || this.order.equals("") || this.order.equals("home")) {
@@ -102,25 +109,33 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
 	}
 	
-	@Override
-	public Entity findTarget() {
-		Entity found = super.findTarget();
-		if (found != null) {
-			switch (Utils.FactionCheck(found, this.faction)) {
-			case -1:
-				this.setTarget(found);
-				return found;
-			case 0:
-				if (attackedBy != null && found.equals(attackedBy)) {
-					this.setTarget(found);
-					return found;
+	public boolean findCloserTarget() {
+		Location thisLoc;
+		double thisDist;
+		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(2, 2, 2)) {
+			if (!e.isDead() && e instanceof CraftLivingEntity && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
+				thisLoc = e.getLocation();
+				thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
+				if (thisDist < 1.5) {
+					if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
+						this.setTarget(((CraftEntity) e).getHandle());
+						return true;
+					}
 				}
-			case 1:
-				this.setTarget(null);
-				found = null;
-				break;
 			}
 		}
+		return false;
+	}
+	
+	@Override
+	public Entity findTarget() {
+		if (this.attackedBy != null
+				&& this.attackedBy.isAlive()
+				&& Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ) < 16) {
+			this.setTarget(this.attackedBy);
+			return this.attackedBy;
+		}
+		Entity found = null;
 		double dist = range;
 		Location thisLoc;
 		double thisDist;
@@ -138,11 +153,6 @@ public class Archer extends EntitySkeleton implements FactionMob {
 						}
 					}
 				}
-			} else if (!e.isDead() && (Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == 0) && 
-					((CraftEntity) e).getHandle().equals(attackedBy)) {
-				found = ((CraftEntity) e).getHandle();
-				this.setTarget(found);
-				return found;
 			}
 		}
 		this.setTarget(found);

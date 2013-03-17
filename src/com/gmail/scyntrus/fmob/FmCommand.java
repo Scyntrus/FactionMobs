@@ -337,6 +337,7 @@ public class FmCommand implements CommandExecutor{
 							fmob.setPoi(tmpX, loc.getY(), tmpZ);
 							fmob.setPosition(tmpX, loc.getY(), tmpZ);
 							fmob.setOrder("poi");
+							count++;
 						} else {
 							player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
 						}

@@ -10,9 +10,9 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_5_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_5_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_5_R1.entity.CraftLivingEntity;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -149,8 +149,8 @@ public class EntityListener implements Listener {
 				e.setCancelled(true);
 				return;
 			}
-		} else if (e.getDamager() instanceof Arrow) {
-			Arrow arrow = (Arrow) e.getDamager();
+		} else if (e.getDamager() instanceof Projectile) {
+			Projectile arrow = (Projectile) e.getDamager();
 			if (arrow.getShooter() == null) {
 				return;
 			}
@@ -201,8 +201,8 @@ public class EntityListener implements Listener {
 						return;
 					}
 					e.setDeathMessage(e.getEntity().getDisplayName() + " was killed by " + ChatColor.RED + fmob.getFaction().getTag() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
-				} else if (entity instanceof Arrow){
-					Arrow arrow = (Arrow) entity;
+				} else if (entity instanceof Projectile){
+					Projectile arrow = (Projectile) entity;
 					if (((CraftLivingEntity) arrow.getShooter()).getHandle() instanceof FactionMob) {
 						FactionMob fmob = (FactionMob) ((CraftLivingEntity) arrow.getShooter()).getHandle();
 						if (fmob.getFaction() == null) {
