@@ -60,7 +60,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	public void c() {
 		super.c();
 		if (--retargetTime < 0) {
-			retargetTime = 8;
+			retargetTime = 10;
 			if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
 				this.findTarget();
 			} else {

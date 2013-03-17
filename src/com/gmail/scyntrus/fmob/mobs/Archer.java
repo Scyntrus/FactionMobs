@@ -68,7 +68,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 			this.getEquipment(4).setData(0);
 		}
 		if (--retargetTime < 0) {
-			retargetTime = 8;
+			retargetTime = 10;
 			if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
 				this.findTarget();
 			} else {

@@ -17,7 +17,11 @@ public class CommandListener implements Listener {
 		if (e.getMessage().toLowerCase().contains("f leave")
 				|| e.getMessage().toLowerCase().contains("f kick")
 				|| e.getMessage().toLowerCase().contains("f disband")) {
-			plugin.updateList();
+	        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+	        	public void run() {
+	    			plugin.updateList();
+	        	}
+	        }, 0L);
 		}
 	}
 }
