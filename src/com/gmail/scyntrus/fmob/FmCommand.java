@@ -196,12 +196,12 @@ public class FmCommand implements CommandExecutor{
 			} else if (split[0].equalsIgnoreCase("u")) {
 				if (player.isOp()) {
 					plugin.updateList();
-					player.sendMessage("Faction Mobs refreshed");
+					player.sendMessage(ChatColor.Green + "Faction Mobs refreshed");
 				}
 			} else if (split[0].equalsIgnoreCase("s")) {
 				if (player.isOp()) {
 					plugin.saveMobList();
-					player.sendMessage("Faction Mobs data saved");
+					player.sendMessage(ChatColor.Green + "Faction Mobs data saved");
 					System.out.println("Faction Mobs data saved via command");
 				}
 			} else if (split[0].equalsIgnoreCase("order")) {
@@ -215,7 +215,7 @@ public class FmCommand implements CommandExecutor{
 					return true;
 				} else if (!plugin.playerSelections.containsKey(player.getName())) {
 					player.sendMessage(ChatColor.RED + "No mobs selected");
-					player.sendMessage("Before giving orders, you must select mobs by right-clicking them");
+					player.sendMessage(ChatColor.RED + "Before giving orders, you must select mobs by right-clicking them");
 					return true;
 				} else {
 					List<FactionMob> toDelete = new ArrayList<FactionMob>();
@@ -241,7 +241,7 @@ public class FmCommand implements CommandExecutor{
 						Location loc = fmob.getSpawn();
 						fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
 					}
-					player.sendMessage("You sent your mobs home");
+					player.sendMessage(ChatColor.GREEN + "You sent your mobs home");
 					return true;
 				} else if (split[1].equalsIgnoreCase("follow")) {
 					plugin.mobLeader.put(player.getName(), true);
@@ -258,14 +258,14 @@ public class FmCommand implements CommandExecutor{
 							count += 1;
 						}
 					}
-					player.sendMessage("Your mobs are now following you");
+					player.sendMessage(ChatColor.GREEN + "Your mobs are now following you");
 					return true;
 				} else if (split[1].equalsIgnoreCase("stop")) {
 					plugin.mobLeader.remove(player.getName());
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
 						fmob.setOrder("poi");
 					}
-					player.sendMessage("You told your mobs to stop");
+					player.sendMessage(ChatColor.GREEN + "You told your mobs to stop");
 					return true;
 				} else if (split[1].equalsIgnoreCase("patrolHere") || split[1].equalsIgnoreCase("patrol")) {
 					plugin.mobLeader.remove(player.getName());
@@ -278,14 +278,14 @@ public class FmCommand implements CommandExecutor{
 							player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
 						}
 					}
-					player.sendMessage("Your mobs will now patrol from their home to here");
+					player.sendMessage(ChatColor.GREEN + "Your mobs will now patrol from their home to here");
 					return true;
 				} else if (split[1].equalsIgnoreCase("wander")) {
 					plugin.mobLeader.remove(player.getName());
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
 						fmob.setOrder("wander");
 					}
-					player.sendMessage("Your mobs will now wander around");
+					player.sendMessage(ChatColor.GREEN + "Your mobs will now wander around");
 					return true;
 				} else if (split[1].equalsIgnoreCase("setHome")) {
 					plugin.mobLeader.put(player.getName(), true);
@@ -302,7 +302,7 @@ public class FmCommand implements CommandExecutor{
 							player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
 						}
 					}
-					player.sendMessage("You set your position as your mob's new home");
+					player.sendMessage(ChatColor.GREEN + "You set your position as your mob's new home");
 					return true;
 				} else if (split[1].equalsIgnoreCase("tpHome")) {
 					plugin.mobLeader.remove(player.getName());
@@ -316,7 +316,7 @@ public class FmCommand implements CommandExecutor{
 						fmob.setPosition(loc.getX(), loc.getY(), loc.getZ());
 						fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
 					}
-					player.sendMessage("Your mobs are now back at their home");
+					player.sendMessage(ChatColor.GREEN + "Your mobs are now back at their home");
 					return true;
 				} else if (split[1].equalsIgnoreCase("tpHere")) {
 					plugin.mobLeader.put(player.getName(), true);
