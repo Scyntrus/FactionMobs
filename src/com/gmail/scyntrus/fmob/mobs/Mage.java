@@ -108,6 +108,12 @@ public class Mage extends EntityWitch implements FactionMob {
 	}
 	
 	public Entity findCloserTarget() {
+		if (this.attackedBy != null
+				&& this.attackedBy.isAlive()
+				&& Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ) < 16) {
+			this.setTarget(this.attackedBy);
+			return this.attackedBy;
+		}
 		Location thisLoc;
 		double thisDist;
 		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(2, 2, 2)) {
@@ -127,12 +133,6 @@ public class Mage extends EntityWitch implements FactionMob {
 	
 	@Override
 	public Entity findTarget() {
-		if (this.attackedBy != null
-				&& this.attackedBy.isAlive()
-				&& Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ) < 16) {
-			this.setTarget(this.attackedBy);
-			return this.attackedBy;
-		}
 		Entity found = this.findCloserTarget();
 		if (found != null) {
 			return found;
