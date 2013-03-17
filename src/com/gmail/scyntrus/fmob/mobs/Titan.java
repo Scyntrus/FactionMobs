@@ -32,6 +32,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	public static double powerCost = 0;
 	public static double moneyCost = 1;
 	public static double range = 16;
+	public static int damage = 15;
 	
 	public double poiX=0, poiY=0, poiZ=0;
 	public String order = "poi";
@@ -333,5 +334,16 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	@Override
 	public void die() {
 		super.die();
+	}
+	
+	@Override
+	public boolean m(Entity entity) {
+		this.world.broadcastEntityEffect(this, (byte)4);
+		boolean flag = entity.damageEntity(DamageSource.mobAttack(this), damage);
+		if (flag) {
+			entity.motY += 0.4;
+		}
+		makeSound("mob.irongolem.throw", 1.0F, 1.0F);
+		return flag;
 	}
 }

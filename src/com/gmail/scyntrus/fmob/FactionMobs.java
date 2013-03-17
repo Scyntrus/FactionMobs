@@ -118,6 +118,13 @@ public class FactionMobs extends JavaPlugin {
 		Titan.maxHp = config.getInt("Titan.maxHp", Titan.maxHp);
 		if (Titan.maxHp<1) Titan.maxHp = 1;
 		
+		Archer.damage = config.getInt("Archer.damage", Archer.damage);
+		if (Archer.damage<1) Archer.damage = 1;
+		Swordsman.damage = config.getInt("Swordsman.damage", Swordsman.damage);
+		if (Swordsman.damage<1) Swordsman.damage = 1;
+		Titan.damage = config.getInt("Titan.damage", Titan.damage);
+		if (Titan.damage<1) Titan.damage = 1;
+		
 		Archer.enabled = config.getBoolean("Archer.enabled", Archer.enabled);
 		Mage.enabled = config.getBoolean("Mage.enabled", Mage.enabled);
 		Swordsman.enabled = config.getBoolean("Swordsman.enabled", Swordsman.enabled);
@@ -196,10 +203,18 @@ public class FactionMobs extends JavaPlugin {
             }
         }
         if (vaultEnabled) {
-        	System.out.println("Vault detected.");
+        	System.out.println("[FactionMobs] Vault detected.");
         } else {
-        	System.out.println("Vault not detected.");
+        	System.out.println("[FactionMobs] Vault not detected.");
         }
+        
+		try { // using mcstats.org metrics
+			MetricsLite metrics = new MetricsLite(this);
+			metrics.enable();
+		    metrics.start();
+		} catch (IOException e) {
+            System.out.println("[Metrics] " + e.getMessage());
+		}
         
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MobLoader(this), 5L);
 	}
@@ -374,13 +389,6 @@ public class FactionMobs extends JavaPlugin {
 			System.out.println("FactionMobs color data saved.");
 		} catch (Exception e) {
         	this.getLogger().severe("Error writing faction colors file, colors.dat");
-		}
-		try { // using mcstats.org metrics
-			MetricsLite metrics = new MetricsLite(this);
-			metrics.enable();
-		    metrics.start();
-		} catch (IOException e) {
-		    // Failed to submit the stats :-(
 		}
 	}
 	
