@@ -34,7 +34,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	public static double powerCost = 0;
 	public static double moneyCost = 0;
 	public static double range = 16;
-	public static int damage = 5;
+	public static int damage = 0;
 	
 	public double poiX=0, poiY=0, poiZ=0;
 	public String order = "poi";
@@ -366,6 +366,10 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	
 	@Override
 	public int c(Entity entity) {
-		return damage;
+		if (damage>0) {
+			return damage;
+		} else {
+			return super.c(entity);
+		}
 	}
 }

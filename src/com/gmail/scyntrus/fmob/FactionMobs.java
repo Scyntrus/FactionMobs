@@ -119,11 +119,11 @@ public class FactionMobs extends JavaPlugin {
 		if (Titan.maxHp<1) Titan.maxHp = 1;
 		
 		Archer.damage = config.getInt("Archer.damage", Archer.damage);
-		if (Archer.damage<1) Archer.damage = 1;
+		if (Archer.damage<0) Archer.damage = 0;
 		Swordsman.damage = config.getInt("Swordsman.damage", Swordsman.damage);
-		if (Swordsman.damage<1) Swordsman.damage = 1;
+		if (Swordsman.damage<0) Swordsman.damage = 0;
 		Titan.damage = config.getInt("Titan.damage", Titan.damage);
-		if (Titan.damage<1) Titan.damage = 1;
+		if (Titan.damage<0) Titan.damage = 0;
 		
 		Archer.enabled = config.getBoolean("Archer.enabled", Archer.enabled);
 		Mage.enabled = config.getBoolean("Mage.enabled", Mage.enabled);

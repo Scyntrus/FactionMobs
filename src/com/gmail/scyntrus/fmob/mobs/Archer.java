@@ -34,7 +34,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	public static double powerCost = 0;
 	public static double moneyCost = 0;
 	public static double range = 16;
-	public static int damage = 2;
+	public static int damage = 0;
 	
 	public double poiX=0, poiY=0, poiZ=0;
 	public String order = "poi";
@@ -360,6 +360,10 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	
 	@Override
 	public void a(EntityLiving entityliving, float f) {
-		super.a(entityliving, damage/2F);
+		if (damage>0) {
+			super.a(entityliving, damage/2F);
+		} else {
+			super.a(entityliving, f);
+		}
 	}
 }
