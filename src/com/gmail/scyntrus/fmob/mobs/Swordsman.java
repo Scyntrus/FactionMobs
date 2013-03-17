@@ -118,7 +118,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
 	}
 	
-	public boolean findCloserTarget() {
+	public Entity findCloserTarget() {
 		Location thisLoc;
 		double thisDist;
 		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(2, 2, 2)) {
@@ -128,12 +128,12 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 				if (thisDist < 1.5) {
 					if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
 						this.setTarget(((CraftEntity) e).getHandle());
-						return true;
+						return ((CraftEntity) e).getHandle();
 					}
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	@Override
@@ -144,7 +144,10 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 			this.setTarget(this.attackedBy);
 			return this.attackedBy;
 		}
-		Entity found = null;
+		Entity found = this.findCloserTarget();
+		if (found != null) {
+			return found;
+		}
 		double dist = range;
 		Location thisLoc;
 		double thisDist;
@@ -156,10 +159,6 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 					if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
 						found = ((CraftEntity) e).getHandle();
 						dist = thisDist;
-						if (dist < 1.5) {
-							this.setTarget(found);
-							return found;
-						}
 					}
 				}
 			}
