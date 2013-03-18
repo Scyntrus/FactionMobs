@@ -60,7 +60,11 @@ public class Mage extends EntityWitch implements FactionMob {
 
 	@Override
 	public void c() {
+		double tmpMotY = this.motY;
 		super.c();
+		if (this.motY>tmpMotY) {
+			this.motY += .01;
+		}
 		if (--retargetTime < 0) {
 			retargetTime = 20;
 			if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {

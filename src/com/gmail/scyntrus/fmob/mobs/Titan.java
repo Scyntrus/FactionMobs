@@ -58,7 +58,11 @@ public class Titan extends EntityIronGolem implements FactionMob {
 
 	@Override
 	public void c() {
+		double tmpMotY = this.motY;
 		super.c();
+		if (this.motY>tmpMotY) {
+			this.motY += .01;
+		}
 		if (--retargetTime < 0) {
 			retargetTime = 10;
 			if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
