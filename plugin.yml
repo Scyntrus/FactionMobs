@@ -7,7 +7,7 @@ softdepends: [Vault]
 commands:
     fm:
         description: spawn something
-        usage: "/fm [spawn|color] [parameters]"
+        usage: "/fm [spawn|order|color] [parameters]"
         aliases: fmob
 permissions:
     fmob.spawn:
@@ -20,6 +20,6 @@ permissions:
         description: Allows you to use /fm order
         default: op
     fmob.order.tp:
-        description: Allows you to use /fm order [tpSpawn,tpHere]
+        description: Allows you to use /fm order [tpSpawn|tpHere]
         default: op
     
