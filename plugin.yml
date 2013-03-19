@@ -1,7 +1,7 @@
 name: FactionMobs
 main: com.gmail.scyntrus.fmob.FactionMobs
 author: Scyntrus
-version: 1.5_1.5B2666
+version: 1.6_1.5B2666
 depends: [Factions]
 softdepends: [Vault]
 commands:
@@ -22,4 +22,7 @@ permissions:
     fmob.order.tp:
         description: Allows you to use /fm order [tpSpawn|tpHere]
         default: op
+    fmob.bypass:
+        description: Allows you to spawn mobs without restriction
+        default: false
     

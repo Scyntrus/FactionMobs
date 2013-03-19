@@ -28,28 +28,28 @@ Archer.maxHp: 20
 # Custom damage, set to 0 to use default damage (normal damage is about 2)
 Archer.damage: 0
 # Faction power spent upon spawning this mob
-Archer.powerCost: 0.0
+Archer.powerCost: 4.0
 # Money spent upon spawning this mob, requires Vault
 Archer.moneyCost: 0.0
 
 Mage.enabled: true
 Mage.maxHp: 20
 # Mage damage not modifiable
-Mage.powerCost: 0.0
+Mage.powerCost: 6.0
 Mage.moneyCost: 0.0
 
 Swordsman.enabled: true
 Swordsman.maxHp: 20
 # Normal damage is about 5
 Swordsman.damage: 0
-Swordsman.powerCost: 0.0
+Swordsman.powerCost: 5.0
 Swordsman.moneyCost: 0.0
 
 Titan.enabled: true
 Titan.maxHp: 40
 # Normal damage is about 15
 Titan.damage: 0
-Titan.powerCost: 0.0
+Titan.powerCost: 11.0
 Titan.moneyCost: 0.0
 
 # === Experimental Config Options - edit at your own risk ===

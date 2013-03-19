@@ -1,6 +1,5 @@
 package com.gmail.scyntrus.fmob;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,14 +79,16 @@ public class FmCommand implements CommandExecutor{
 					player.sendMessage(ChatColor.RED + "You must be in a faction");
 					return true;
 				}
-				Faction areafaction = Board.getFactionAt(new FLocation(loc));
-				if (!playerfaction.getTag().equals(areafaction.getTag())) {
-					player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
-					return true;
-				}
-				if (FactionMobs.mobList.size() >= plugin.spawnLimit) {
-					player.sendMessage(ChatColor.RED + "There are too many faction mobs");
-					return true;
+				if (!player.hasPermission("fmob.bypass")) {
+					Faction areafaction = Board.getFactionAt(new FLocation(loc));
+					if (!playerfaction.getTag().equals(areafaction.getTag())) {
+						player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
+						return true;
+					}
+					if (FactionMobs.mobList.size() >= plugin.spawnLimit) {
+						player.sendMessage(ChatColor.RED + "There are too many faction mobs");
+						return true;
+					}
 				}
 				net.minecraft.server.v1_5_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
 				FactionMob newMob = null;
@@ -111,39 +112,22 @@ public class FmCommand implements CommandExecutor{
 					newMob.die();
 					return true;
 				}
+
 				
-				if (newMob.getPowerCost() > 0) {
-					if (fplayer.getPower() > newMob.getPowerCost()) {
-						if (plugin.vaultEnabled) {
-							if (plugin.econ.has(player.getName(), newMob.getMoneyCost())) {
-					            EconomyResponse r = plugin.econ.withdrawPlayer(player.getName(), newMob.getMoneyCost());
-					            if(r.transactionSuccess()) {
-					            	player.sendMessage(String.format("You paid %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
-					            } else {
-					            	player.sendMessage(String.format("%sAn error occured: %s", ChatColor.RED, r.errorMessage));
-					            	plugin.getLogger().severe(String.format("Unable to deduct money from %s", player.getName()));
-					                return true;
-					            }
-							} else {
-				            	player.sendMessage(ChatColor.RED + "You don't have enough money");
-				                return true;
-							}
-						}
-						try { 
-					    	Method method = FPlayer.class.getDeclaredMethod("alterPower", new Class[] {double.class});
-					    	method.setAccessible(true);
-					    	method.invoke(fplayer, -newMob.getPowerCost());
-					    	player.sendMessage(String.format("You spent %s power and now have %s", newMob.getPowerCost(), fplayer.getPower()));
-						} catch (Exception e) {
-			            	player.sendMessage(ChatColor.RED + "Failed to deduct power");
-			            	plugin.getLogger().severe(String.format("Unable to deduct power from %s", player.getName()));
+				if (!player.hasPermission("fmob.bypass")) {
+					if (newMob.getPowerCost() > 0) {
+						double factionPowerUsage = Utils.countMobPowerInFaction(playerfaction);
+						if (playerfaction.getPower() > (factionPowerUsage + newMob.getPowerCost())) {
+			            	player.sendMessage(String.format("%sYour faction is now using %s/%s power for faction mobs.", 
+			            			ChatColor.GREEN, Math.round(factionPowerUsage + newMob.getPowerCost()), playerfaction.getPowerRounded()));
+						} else {
+			            	player.sendMessage(String.format("%sYour faction is using %s/%s power for faction mobs.", 
+			            			ChatColor.RED, Math.round(factionPowerUsage), playerfaction.getPowerRounded()));
+			            	player.sendMessage(String.format("%sYou need %s more power.", ChatColor.RED, Math.round(factionPowerUsage + newMob.getPowerCost() - playerfaction.getPower())));
 			                return true;
 						}
-					} else {
-		            	player.sendMessage(ChatColor.RED + "You don't have enough power");
-		                return true;
 					}
-				} else {
+					
 					if (plugin.vaultEnabled) {
 						if (plugin.econ.has(player.getName(), newMob.getMoneyCost())) {
 				            EconomyResponse r = plugin.econ.withdrawPlayer(player.getName(), newMob.getMoneyCost());
@@ -160,6 +144,8 @@ public class FmCommand implements CommandExecutor{
 						}
 					}
 				}
+				
+				
 				newMob.setSpawn(player.getLocation());
 				newMob.setFaction(playerfaction);
 				Utils.giveColorArmor(newMob);

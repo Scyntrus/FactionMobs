@@ -133,4 +133,14 @@ public class Utils {
 	public static double dist3D(double x1, double x2, double y1, double y2, double z1, double z2) {
 		return Math.sqrt(Math.pow(x1-x2,2) + Math.pow(y1-y2,2) + Math.pow(z1-z2,2));
 	}
+	
+	public static double countMobPowerInFaction(Faction faction) {
+		double power = 0;
+		for (FactionMob fmob : FactionMobs.mobList) {
+			if (fmob.getFactionName().equals(faction.getTag())) {
+				power += fmob.getPowerCost();
+			}
+		}
+		return power;
+	}
 }

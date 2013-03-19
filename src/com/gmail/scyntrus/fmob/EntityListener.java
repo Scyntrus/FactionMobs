@@ -98,7 +98,7 @@ public class EntityListener implements Listener {
 			Player player = e.getPlayer();
 			player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
-					fmob.getFaction().getTag(), ChatColor.GREEN, ChatColor.RED, fmob.getHealth()));
+					fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getHealth()));
 			if (player.hasPermission("fmob.order") && FPlayers.i.get(player).getFaction().equals(fmob.getFaction())) {
 				if (!plugin.playerSelections.containsKey(player.getName())) {
 					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
@@ -184,7 +184,7 @@ public class EntityListener implements Listener {
 						player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 						return;
 					} else {
-						player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFaction().getTag(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+						player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFactionName(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 						e.setCancelled(true);
 						return;
 					}
@@ -204,7 +204,7 @@ public class EntityListener implements Listener {
 					if (fmob.getFaction() == null) {
 						return;
 					}
-					e.setDeathMessage(e.getEntity().getDisplayName() + " was killed by " + ChatColor.RED + fmob.getFaction().getTag() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
+					e.setDeathMessage(e.getEntity().getDisplayName() + " was killed by " + ChatColor.RED + fmob.getFactionName() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
 				} else if (entity instanceof Projectile){
 					Projectile arrow = (Projectile) entity;
 					if (((CraftLivingEntity) arrow.getShooter()).getHandle() instanceof FactionMob) {
@@ -212,7 +212,7 @@ public class EntityListener implements Listener {
 						if (fmob.getFaction() == null) {
 							return;
 						}
-						e.setDeathMessage(e.getEntity().getDisplayName() + " was shot by " + ChatColor.RED + fmob.getFaction().getTag() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
+						e.setDeathMessage(e.getEntity().getDisplayName() + " was shot by " + ChatColor.RED + fmob.getFactionName() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
 					}
 				}
 			}

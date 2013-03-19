@@ -357,7 +357,7 @@ public class FactionMobs extends JavaPlugin {
 			mobData.add(fmob.getTypeName()); //0
 			Location spawnLoc = fmob.getSpawn();
 			mobData.add(spawnLoc.getWorld().getName()); //1
-			mobData.add(fmob.getFaction().getTag()); //2
+			mobData.add(fmob.getFactionName()); //2
 			mobData.add(""+spawnLoc.getX()); //3
 			mobData.add(""+spawnLoc.getY());
 			mobData.add(""+spawnLoc.getZ());
@@ -398,7 +398,7 @@ public class FactionMobs extends JavaPlugin {
 			if ((!fmob.isAlive())
 					|| (fmob.getFaction() == null)
 					|| fmob.getFaction().isNone()
-					|| (Factions.i.getByTag(fmob.getFaction().getTag()) == null)) {
+					|| (Factions.i.getByTag(fmob.getFactionName()) == null)) {
 				toDelete.add(fmob);
 			} else {
 				fmob.updateMob();
