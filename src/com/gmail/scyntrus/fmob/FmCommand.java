@@ -8,6 +8,7 @@ import net.minecraft.server.v1_5_R1.Entity;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -99,7 +100,7 @@ public class FmCommand implements CommandExecutor{
 					newMob = new Archer(world);
 				} else if (split[1].equalsIgnoreCase("Swordsman")) {
 					newMob = new Swordsman(world);
-				} else if (split[1].equalsIgnoreCase("Titan")) {
+				} else if (split[1].equalsIgnoreCase("Titan") || split[1].equalsIgnoreCase("Golem")) {
 					newMob = new Titan(world);
 				} else if (split[1].equalsIgnoreCase("Mage")) {
 					newMob = new Mage(world);
@@ -252,6 +253,29 @@ public class FmCommand implements CommandExecutor{
 						fmob.setOrder("poi");
 					}
 					player.sendMessage(ChatColor.GREEN + "You told your mobs to stop");
+					return true;
+				} else if (split[1].equalsIgnoreCase("moveToPoint") || split[1].equalsIgnoreCase("move") || split[1].equalsIgnoreCase("point")) {
+					plugin.mobLeader.remove(player.getName());
+					Block block = player.getTargetBlock(null, 64);
+					if (block == null) {
+						player.sendMessage(ChatColor.RED + "You must be pointing at a block");
+						return true;
+					}
+					Location loc = block.getLocation().add(0,1,0);
+					Location playerLoc = player.getLocation();
+					int count = 0;
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						if (fmob.getSpawn().getWorld().getName().equals(playerLoc.getWorld().getName())) {
+							double tmpX = (1.5-(count%4))*1.5;
+							double tmpZ = ((-1.) - Math.floor(count / 4.))*1.5;
+							double tmpH = Math.hypot(tmpX, tmpZ);
+							double angle = Math.atan2(tmpZ, tmpX) + (playerLoc.getYaw() * Math.PI / 180.);
+							fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
+							fmob.setOrder("poi");
+							count += 1;
+						}
+					}
+					player.sendMessage(ChatColor.GREEN + "You told your mobs to move where you're pointing");
 					return true;
 				} else if (split[1].equalsIgnoreCase("patrolHere") || split[1].equalsIgnoreCase("patrol")) {
 					plugin.mobLeader.remove(player.getName());

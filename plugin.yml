@@ -12,17 +12,17 @@ commands:
 permissions:
     fmob.spawn:
         description: Allows you to use /fm spawn
-        default: op
+        default: true
     fmob.color:
         description: Allows you to use /fm color
-        default: op
+        default: true
     fmob.order:
         description: Allows you to use /fm order
-        default: op
+        default: true
     fmob.order.tp:
         description: Allows you to use /fm order [tpSpawn|tpHere]
         default: op
     fmob.bypass:
         description: Allows you to spawn mobs without restriction
-        default: false
+        default: op
     
