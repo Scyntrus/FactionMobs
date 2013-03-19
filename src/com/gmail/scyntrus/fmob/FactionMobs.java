@@ -77,6 +77,14 @@ public class FactionMobs extends JavaPlugin {
 		FileConfiguration config = this.getConfig();
 		config.options().copyDefaults(true);
     	this.saveConfig();
+    	
+    	try {
+    	    Class.forName("org.bukkit.craftbukkit.v1_5_R1.entity.CraftEntity");
+    	} catch(Exception e) {
+    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit. FactionMobs will not be enabled.");
+    	    return;
+    	}
+    	
 		int modelNum = 51;
 		switch (config.getInt("model")) {
 		case 0: // skeleton

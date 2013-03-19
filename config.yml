@@ -60,5 +60,5 @@ mobSpeed: .3
 # Set the speed of the mobs when patroling (Recommend between .175 and .3, default .175)
 mobPatrolSpeed: .175
 
-# Set the distance the mobs will attempt to pathfind (Recommend between 16 and 128, default 64)
+# Set the distance the mobs will attempt to pathfind (Recommend between 16 and 64, default 64)
 mobNavRange: 64
