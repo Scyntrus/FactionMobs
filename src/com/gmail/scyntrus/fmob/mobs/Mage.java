@@ -65,6 +65,9 @@ public class Mage extends EntityWitch implements FactionMob {
 		super.c();
 		if (this.motY>tmpMotY) {
 			this.motY += .01;
+			if (this.ae) {
+				this.motY += .01;
+			}
 		}
 		if (--retargetTime < 0) {
 			retargetTime = 20;

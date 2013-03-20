@@ -72,6 +72,9 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 		super.c();
 		if (this.motY>tmpMotY) {
 			this.motY += .01;
+			if (this.ae) {
+				this.motY += .01;
+			}
 		}
 		this.fireTicks = tmpFire;
 		if (this.getEquipment(4) != null) {
