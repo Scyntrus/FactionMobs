@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.minecraft.server.v1_5_R1.Entity;
+import net.minecraft.server.v1_5_R2.Entity;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -12,7 +12,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_5_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_5_R2.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
@@ -91,7 +91,7 @@ public class FmCommand implements CommandExecutor{
 						return true;
 					}
 				}
-				net.minecraft.server.v1_5_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
+				net.minecraft.server.v1_5_R2.World world = ((CraftWorld)player.getWorld()).getHandle();
 				FactionMob newMob = null;
 				if (split.length == 1) {
 					player.sendMessage(ChatColor.RED + "You must specify a mob");

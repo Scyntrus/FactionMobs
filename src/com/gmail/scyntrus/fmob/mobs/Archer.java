@@ -2,19 +2,19 @@ package com.gmail.scyntrus.fmob.mobs;
 
 import java.lang.reflect.Field;
 
-import net.minecraft.server.v1_5_R1.DamageSource;
-import net.minecraft.server.v1_5_R1.Entity;
-import net.minecraft.server.v1_5_R1.EntityLiving;
-import net.minecraft.server.v1_5_R1.EntityPlayer;
-import net.minecraft.server.v1_5_R1.EntitySkeleton;
-import net.minecraft.server.v1_5_R1.Item;
-import net.minecraft.server.v1_5_R1.ItemStack;
-import net.minecraft.server.v1_5_R1.Navigation;
-import net.minecraft.server.v1_5_R1.World;
+import net.minecraft.server.v1_5_R2.DamageSource;
+import net.minecraft.server.v1_5_R2.Entity;
+import net.minecraft.server.v1_5_R2.EntityLiving;
+import net.minecraft.server.v1_5_R2.EntityPlayer;
+import net.minecraft.server.v1_5_R2.EntitySkeleton;
+import net.minecraft.server.v1_5_R2.Item;
+import net.minecraft.server.v1_5_R2.ItemStack;
+import net.minecraft.server.v1_5_R2.Navigation;
+import net.minecraft.server.v1_5_R2.World;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_5_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_5_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftLivingEntity;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
@@ -45,14 +45,14 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
-	    this.bI = FactionMobs.mobSpeed;
+	    this.bI = FactionMobs.mobSpeed; //TODO: Update name on version change
 	    this.getNavigation().a(false); // avoid water
 	    this.getNavigation().b(false); // break door
 	    this.getNavigation().c(true); // enter open door
 	    this.getNavigation().d(false); // avoid sunlight
 	    this.getNavigation().e(true); // swim
 	    try {
-			Field field = Navigation.class.getDeclaredField("e");
+			Field field = Navigation.class.getDeclaredField("e"); //TODO: Update name on version change
 			field.setAccessible(true);
 			field.setFloat(this.getNavigation(), FactionMobs.mobNavRange);
 		} catch (Exception e) {
@@ -61,13 +61,13 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}
 	
 	@Override
-	public void c() {
+	public void c() { //TODO: Update name on version change
 		int tmpFire = this.fireTicks;
 		double tmpMotY = this.motY;
 		super.c();
 		if (this.motY>tmpMotY) {
 			this.motY += .01;
-			if (this.ae) {
+			if (this.inWater) {
 				this.motY += .01;
 			}
 		}
@@ -288,22 +288,22 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}	
 
 	@Override
-	protected String bb() {
+	protected String bb() { //TODO: Update name on version change
 	    return FactionMobs.sndBreath;
 	}
 
 	@Override
-	protected String bc() {
+	protected String bc() { //TODO: Update name on version change
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String bd() {
+	protected String bd() { //TODO: Update name on version change
 	    return FactionMobs.sndDeath;
 	}
 
 	@Override
-	protected void a(int i, int j, int k, int l) {
+	protected void a(int i, int j, int k, int l) { //TODO: Update name on version change
 	    makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
 	}
 

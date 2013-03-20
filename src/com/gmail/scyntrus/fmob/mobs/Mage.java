@@ -2,19 +2,19 @@ package com.gmail.scyntrus.fmob.mobs;
 
 import java.lang.reflect.Field;
 
-import net.minecraft.server.v1_5_R1.DamageSource;
-import net.minecraft.server.v1_5_R1.Entity;
-import net.minecraft.server.v1_5_R1.EntityLiving;
-import net.minecraft.server.v1_5_R1.EntityPlayer;
-import net.minecraft.server.v1_5_R1.EntityWitch;
-import net.minecraft.server.v1_5_R1.Item;
-import net.minecraft.server.v1_5_R1.ItemStack;
-import net.minecraft.server.v1_5_R1.Navigation;
-import net.minecraft.server.v1_5_R1.World;
+import net.minecraft.server.v1_5_R2.DamageSource;
+import net.minecraft.server.v1_5_R2.Entity;
+import net.minecraft.server.v1_5_R2.EntityLiving;
+import net.minecraft.server.v1_5_R2.EntityPlayer;
+import net.minecraft.server.v1_5_R2.EntityWitch;
+import net.minecraft.server.v1_5_R2.Item;
+import net.minecraft.server.v1_5_R2.ItemStack;
+import net.minecraft.server.v1_5_R2.Navigation;
+import net.minecraft.server.v1_5_R2.World;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_5_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_5_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftLivingEntity;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
@@ -65,7 +65,7 @@ public class Mage extends EntityWitch implements FactionMob {
 		super.c();
 		if (this.motY>tmpMotY) {
 			this.motY += .01;
-			if (this.ae) {
+			if (this.inWater) {
 				this.motY += .01;
 			}
 		}
