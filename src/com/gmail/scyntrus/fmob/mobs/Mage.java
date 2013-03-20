@@ -45,6 +45,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
+	    this.getNavigation().a(false);
 	    this.getNavigation().b(false);
 	    this.getNavigation().c(true);
 	    this.getNavigation().d(false);

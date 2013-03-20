@@ -46,6 +46,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
+	    this.getNavigation().a(false); // avoid water
 	    this.getNavigation().b(false); // break door
 	    this.getNavigation().c(true); // enter open door
 	    this.getNavigation().d(false); // avoid sunlight
