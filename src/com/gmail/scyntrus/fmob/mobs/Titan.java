@@ -44,6 +44,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
+	    this.Y = 1.5F;
 	    this.getNavigation().a(false);
 	    this.getNavigation().b(false);
 	    this.getNavigation().c(true);
@@ -59,11 +60,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 
 	@Override
 	public void c() {
-		double tmpMotY = this.motY;
 		super.c();
-		if (this.motY>tmpMotY) {
-			this.motY += .01;
-		}
 		if (this.inWater) {
 			this.motY += .1;
 		}

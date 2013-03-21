@@ -46,6 +46,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
+	    this.Y = 1.5F;
 	    this.getNavigation().a(false);
 	    this.getNavigation().b(false);
 	    this.getNavigation().c(true);
@@ -68,14 +69,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	@Override
 	public void c() {
 		int tmpFire = this.fireTicks;
-		double tmpMotY = this.motY;
 		super.c();
-		if (this.motY>tmpMotY) {
-			this.motY += .01;
-			if (this.inWater) {
-				this.motY += .01;
-			}
-		}
 		this.fireTicks = tmpFire;
 		if (this.getEquipment(4) != null) {
 			this.getEquipment(4).setData(0);

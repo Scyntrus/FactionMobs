@@ -45,6 +45,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
+	    this.Y = 1.5F;
 	    this.getNavigation().a(false);
 	    this.getNavigation().b(false);
 	    this.getNavigation().c(true);
@@ -61,14 +62,7 @@ public class Mage extends EntityWitch implements FactionMob {
 
 	@Override
 	public void c() {
-		double tmpMotY = this.motY;
 		super.c();
-		if (this.motY>tmpMotY) {
-			this.motY += .01;
-			if (this.inWater) {
-				this.motY += .01;
-			}
-		}
 		if (--retargetTime < 0) {
 			retargetTime = 20;
 			if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
