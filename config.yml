@@ -33,6 +33,9 @@ mobPatrolSpeed: .175
 # Set the distance the mobs will attempt to pathfind (Recommend between 16 and 64, default 64)
 mobNavRange: 64
 
+# Since vanilla zombies don't attack back, this will prevent faction mobs from targetting zombies
+attackZombies: true
+
 # === Mob Specific Config ===
 
 # Allowed to spawn, disabling does not remove existing mobs

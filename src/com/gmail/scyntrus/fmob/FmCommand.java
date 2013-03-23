@@ -260,6 +260,10 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.GREEN + "You told your mobs to stop");
 					return true;
 				} else if (split[1].equalsIgnoreCase("moveToPoint") || split[1].equalsIgnoreCase("move") || split[1].equalsIgnoreCase("point")) {
+					if (!player.hasPermission("fmob.order.move")) {
+						player.sendMessage(ChatColor.RED + "You do not have permission");
+						return true;
+					}
 					plugin.mobLeader.remove(player.getName());
 					Block block = player.getTargetBlock(null, 64);
 					if (block == null) {

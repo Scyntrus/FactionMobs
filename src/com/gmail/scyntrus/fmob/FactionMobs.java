@@ -63,6 +63,7 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean attackMobs = true;
 	public static boolean noFriendlyFire = false;
 	public static boolean displayMobFaction = true;
+	public static boolean attackZombies = true;
 	
 	private int saveInterval = 10;
 	
@@ -116,6 +117,7 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.noFriendlyFire = config.getBoolean("noFriendlyFire", FactionMobs.noFriendlyFire);
 		FactionMobs.displayMobFaction = config.getBoolean("displayMobFaction", FactionMobs.displayMobFaction);
 		FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
+		FactionMobs.attackZombies = config.getBoolean("attackZombies", FactionMobs.attackZombies);
 		FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed", FactionMobs.mobSpeed);
 		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);

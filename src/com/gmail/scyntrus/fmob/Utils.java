@@ -10,6 +10,7 @@ import net.minecraft.server.v1_5_R2.EntityPlayer;
 import net.minecraft.server.v1_5_R2.EntitySlime;
 import net.minecraft.server.v1_5_R2.EntityWither;
 import net.minecraft.server.v1_5_R2.EntityWolf;
+import net.minecraft.server.v1_5_R2.EntityZombie;
 import net.minecraft.server.v1_5_R2.Item;
 import net.minecraft.server.v1_5_R2.ItemStack;
 import net.minecraft.server.v1_5_R2.NBTTagCompound;
@@ -67,6 +68,11 @@ public class Utils {
 		} else if (!FactionMobs.attackMobs) {
 			return 0;
 		} else if (entity instanceof EntityAnimal) {
+			return 0;
+		} else if (entity instanceof EntityZombie) {
+			if (FactionMobs.attackZombies) {
+				return -1;
+			}
 			return 0;
 		} else if (entity instanceof EntityMonster
 				|| entity instanceof EntityGhast

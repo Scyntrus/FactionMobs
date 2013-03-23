@@ -19,6 +19,9 @@ permissions:
     fmob.order:
         description: Allows you to use /fm order
         default: true
+    fmob.order.move:
+        description: Allows you to use /fm order moveToPoint
+        default: true
     fmob.order.tp:
         description: Allows you to use /fm order [tpSpawn|tpHere]
         default: op
