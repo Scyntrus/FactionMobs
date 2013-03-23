@@ -16,10 +16,24 @@ autoSave: false
 # Minutes between each save
 saveInterval: 10
 
+# === General Mob Config ===
+
 # Prevent mobs from damaging friendly players and mobs
 noFriendlyFire: true
 
-# === Per Mob Config ===
+# Display the mob's faction tag above the mob (in yellow)
+displayMobFaction: true
+
+# Set the normal movement speed of the mobs (Recommend between .3 and .5, default .3)
+mobSpeed: .3
+
+# Set the speed of the mobs when patroling (Recommend between .175 and .3, default .175)
+mobPatrolSpeed: .175
+
+# Set the distance the mobs will attempt to pathfind (Recommend between 16 and 64, default 64)
+mobNavRange: 64
+
+# === Mob Specific Config ===
 
 # Allowed to spawn, disabling does not remove existing mobs
 Archer.enabled: true
@@ -51,14 +65,3 @@ Titan.maxHp: 40
 Titan.damage: 0
 Titan.powerCost: 11.0
 Titan.moneyCost: 0.0
-
-# === Experimental Config Options - edit at your own risk ===
-
-# Set the normal movement speed of the mobs (Recommend between .3 and .5, default .3)
-mobSpeed: .3
-
-# Set the speed of the mobs when patroling (Recommend between .175 and .3, default .175)
-mobPatrolSpeed: .175
-
-# Set the distance the mobs will attempt to pathfind (Recommend between 16 and 64, default 64)
-mobNavRange: 64

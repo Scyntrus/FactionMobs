@@ -26,7 +26,7 @@ import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Faction;
 
-public class FmCommand implements CommandExecutor{
+public class FmCommand implements CommandExecutor {
 
 	FactionMobs plugin;
 	
@@ -146,12 +146,17 @@ public class FmCommand implements CommandExecutor{
 					}
 				}
 				
+				if (FactionMobs.displayMobFaction) {
+					newMob.getEntity().setCustomName(ChatColor.YELLOW + newMob.getFactionName());
+					newMob.getEntity().setCustomNameVisible(true);
+				}
 				
 				newMob.setSpawn(player.getLocation());
 				newMob.setFaction(playerfaction);
 				Utils.giveColorArmor(newMob);
 				newMob.setPoi(player.getLocation().getX(),player.getLocation().getY(),player.getLocation().getZ());
 				newMob.setOrder("home");
+				
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				FactionMobs.mobList.add(newMob);
 				player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));

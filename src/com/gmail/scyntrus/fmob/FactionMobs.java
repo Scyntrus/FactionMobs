@@ -24,6 +24,7 @@ import net.minecraft.server.v1_5_R2.MinecraftServer;
 import net.minecraft.server.v1_5_R2.World;
 import net.minecraft.server.v1_5_R2.WorldServer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -60,7 +61,8 @@ public class FactionMobs extends JavaPlugin {
 	
 	public int spawnLimit = 50;
 	public static boolean attackMobs = true;
-	public boolean noFriendlyFire = false;
+	public static boolean noFriendlyFire = false;
+	public static boolean displayMobFaction = true;
 	
 	private int saveInterval = 10;
 	
@@ -111,7 +113,8 @@ public class FactionMobs extends JavaPlugin {
 		}
 
 		this.spawnLimit = config.getInt("spawnLimit", this.spawnLimit);
-		this.noFriendlyFire = config.getBoolean("noFriendlyFire", this.noFriendlyFire);
+		FactionMobs.noFriendlyFire = config.getBoolean("noFriendlyFire", FactionMobs.noFriendlyFire);
+		FactionMobs.displayMobFaction = config.getBoolean("displayMobFaction", FactionMobs.displayMobFaction);
 		FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
 		FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed", FactionMobs.mobSpeed);
 		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
@@ -346,6 +349,11 @@ public class FactionMobs extends JavaPlugin {
 							Double.parseDouble(mobData.get(7)), 
 							Double.parseDouble(mobData.get(8)));
 					newMob.setOrder("poi");
+				}
+				
+				if (FactionMobs.displayMobFaction) {
+					newMob.getEntity().setCustomName(ChatColor.YELLOW + newMob.getFactionName());
+					newMob.getEntity().setCustomNameVisible(true);
 				}
 				
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);

@@ -149,7 +149,7 @@ public class EntityListener implements Listener {
 					((CraftCreature) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) e.getDamager()).getHandle());
 				}
 				return;
-			} else if (plugin.noFriendlyFire) {
+			} else if (FactionMobs.noFriendlyFire) {
 				e.setCancelled(true);
 				return;
 			}
@@ -166,7 +166,7 @@ public class EntityListener implements Listener {
 						((CraftCreature) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
 					}
 					return;
-				} else if (plugin.noFriendlyFire) {
+				} else if (FactionMobs.noFriendlyFire) {
 					e.setCancelled(true);
 					return;
 				}
@@ -260,7 +260,7 @@ public class EntityListener implements Listener {
 					if (entity instanceof CraftCreature) {
 						((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
 					}
-				} else if (plugin.noFriendlyFire) {
+				} else if (FactionMobs.noFriendlyFire) {
 					e.setIntensity(entity, -1);
 				}
 			}
