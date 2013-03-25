@@ -1,5 +1,5 @@
 
-# ===== FactionMobs Config =====
+# ===== FactionMobs v1.7 Config =====
 
 # Sets the model of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
 model: 2
@@ -11,14 +11,10 @@ spawnLimit: 60
 # Attack naturally spawning hostile mobs
 attackMobs: true
 
-# Enable periodic saving in case of server crash
-autoSave: false
-# Server ticks between each save. 
-#   This should be set the same as autosave in your bukkit.yml file
-#   or the same as any world auto-save plugin you are using.
-saveInterval: 6000
-
-# === General Mob Config ===
+# Since vanilla zombies don't attack back, this will decide
+# whether or not faction mobs will attack zombies.
+# Only works when attackMobs is enabled.
+attackZombies: true
 
 # Prevent mobs from damaging friendly players and mobs
 noFriendlyFire: true
@@ -35,8 +31,7 @@ mobPatrolSpeed: .175
 # Set the distance the mobs will attempt to pathfind (Recommend between 16 and 64, default 64)
 mobNavRange: 64
 
-# Since vanilla zombies don't attack back, this will prevent faction mobs from targetting zombies
-attackZombies: true
+
 
 # === Mob Specific Config ===
 
@@ -70,3 +65,13 @@ Titan.maxHp: 40
 Titan.damage: 0
 Titan.powerCost: 11.0
 Titan.moneyCost: 0.0
+
+# === Auto-Save Options ===
+
+# Enable periodic saving in case of server crash
+autoSave: false
+
+# Server ticks between each save (20 Ticks = 1 Second)
+# This should be set the same as autosave in your bukkit.yml file
+# or the same as any world auto-save plugin you are using.
+saveInterval: 6000
