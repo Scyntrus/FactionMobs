@@ -114,12 +114,16 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		if (this.attackedBy != null
 				&& this.attackedBy.isAlive()
 				&& Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ) < 16) {
-			this.setTarget(this.attackedBy);
-			return this.attackedBy;
+			if (Utils.FactionCheck(this.attackedBy, this.faction) == 1) {
+				this.attackedBy = null;
+			} else {
+				this.setTarget(this.attackedBy);
+				return this.attackedBy;
+			}
 		}
 		Location thisLoc;
 		double thisDist;
-		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(2, 2, 2)) {
+		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(1.5, 1.5, 1.5)) {
 			if (!e.isDead() && e instanceof CraftLivingEntity && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
 				thisLoc = e.getLocation();
 				thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
