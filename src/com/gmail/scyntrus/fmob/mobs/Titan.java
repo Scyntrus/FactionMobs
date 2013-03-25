@@ -7,6 +7,7 @@ import net.minecraft.server.v1_5_R2.Entity;
 import net.minecraft.server.v1_5_R2.EntityIronGolem;
 import net.minecraft.server.v1_5_R2.EntityLiving;
 import net.minecraft.server.v1_5_R2.EntityPlayer;
+import net.minecraft.server.v1_5_R2.NBTTagCompound;
 import net.minecraft.server.v1_5_R2.Navigation;
 import net.minecraft.server.v1_5_R2.World;
 
@@ -366,5 +367,22 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		} else {
 			return super.m(entity);
 		}
+	}
+
+	@Override
+	public boolean c(NBTTagCompound nbttagcompound) {
+		return false;
+	}
+
+	@Override
+	public boolean d(NBTTagCompound nbttagcompound) {
+		return false;
+	}
+	
+	@Override
+	public void f(NBTTagCompound nbttagcompound) {
+		this.health = 0;
+		this.dead = true;
+		this.die();
 	}
 }

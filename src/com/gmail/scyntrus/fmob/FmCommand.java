@@ -146,16 +146,16 @@ public class FmCommand implements CommandExecutor {
 					}
 				}
 				
-				if (FactionMobs.displayMobFaction) {
-					newMob.getEntity().setCustomName(ChatColor.YELLOW + newMob.getFactionName());
-					newMob.getEntity().setCustomNameVisible(true);
-				}
-				
 				newMob.setSpawn(player.getLocation());
 				newMob.setFaction(playerfaction);
 				Utils.giveColorArmor(newMob);
 				newMob.setPoi(player.getLocation().getX(),player.getLocation().getY(),player.getLocation().getZ());
 				newMob.setOrder("home");
+				
+				if (FactionMobs.displayMobFaction) {
+					newMob.getEntity().setCustomName(ChatColor.YELLOW + newMob.getFactionName());
+					newMob.getEntity().setCustomNameVisible(true);
+				}
 				
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				FactionMobs.mobList.add(newMob);

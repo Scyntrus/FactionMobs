@@ -13,8 +13,10 @@ attackMobs: true
 
 # Enable periodic saving in case of server crash
 autoSave: false
-# Minutes between each save
-saveInterval: 10
+# Server ticks between each save. 
+#   This should be set the same as autosave in your bukkit.yml file
+#   or the same as any world auto-save plugin you are using.
+saveInterval: 6000
 
 # === General Mob Config ===
 

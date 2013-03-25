@@ -9,6 +9,7 @@ import net.minecraft.server.v1_5_R2.EntityPlayer;
 import net.minecraft.server.v1_5_R2.EntitySkeleton;
 import net.minecraft.server.v1_5_R2.Item;
 import net.minecraft.server.v1_5_R2.ItemStack;
+import net.minecraft.server.v1_5_R2.NBTTagCompound;
 import net.minecraft.server.v1_5_R2.Navigation;
 import net.minecraft.server.v1_5_R2.World;
 
@@ -378,11 +379,28 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}
 	
 	@Override
-	public void a(EntityLiving entityliving, float f) {
+	public void a(EntityLiving entityliving, float f) { //TODO: Update name on version change
 		if (damage>0) {
 			super.a(entityliving, damage/2F);
 		} else {
 			super.a(entityliving, f);
 		}
+	}
+
+	@Override
+	public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change
+		return false;
+	}
+
+	@Override
+	public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change
+		return false;
+	}
+	
+	@Override
+	public void f(NBTTagCompound nbttagcompound) {
+		this.health = 0;
+		this.dead = true;
+		this.die();
 	}
 }

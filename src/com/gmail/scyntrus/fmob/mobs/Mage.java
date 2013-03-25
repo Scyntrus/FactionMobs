@@ -9,6 +9,7 @@ import net.minecraft.server.v1_5_R2.EntityPlayer;
 import net.minecraft.server.v1_5_R2.EntityWitch;
 import net.minecraft.server.v1_5_R2.Item;
 import net.minecraft.server.v1_5_R2.ItemStack;
+import net.minecraft.server.v1_5_R2.NBTTagCompound;
 import net.minecraft.server.v1_5_R2.Navigation;
 import net.minecraft.server.v1_5_R2.World;
 
@@ -370,5 +371,22 @@ public class Mage extends EntityWitch implements FactionMob {
 	@Override
 	public void die() {
 		super.die();
+	}
+
+	@Override
+	public boolean c(NBTTagCompound nbttagcompound) {
+		return false;
+	}
+
+	@Override
+	public boolean d(NBTTagCompound nbttagcompound) {
+		return false;
+	}
+	
+	@Override
+	public void f(NBTTagCompound nbttagcompound) {
+		this.health = 0;
+		this.dead = true;
+		this.die();
 	}
 }

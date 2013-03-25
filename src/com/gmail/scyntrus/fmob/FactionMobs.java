@@ -19,10 +19,7 @@ import net.minecraft.server.v1_5_R2.EntityPigZombie;
 import net.minecraft.server.v1_5_R2.EntitySkeleton;
 import net.minecraft.server.v1_5_R2.EntityTypes;
 import net.minecraft.server.v1_5_R2.EntityZombie;
-import net.minecraft.server.v1_5_R2.ExceptionWorldConflict;
-import net.minecraft.server.v1_5_R2.MinecraftServer;
 import net.minecraft.server.v1_5_R2.World;
-import net.minecraft.server.v1_5_R2.WorldServer;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -65,7 +62,7 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean displayMobFaction = true;
 	public static boolean attackZombies = true;
 	
-	private int saveInterval = 10;
+	private long saveInterval = 6000;
 	
     public Economy econ = null;
 	public Boolean vaultEnabled = false;
@@ -182,7 +179,7 @@ public class FactionMobs extends JavaPlugin {
 	    	method.invoke(EntityTypes.class, EntityIronGolem.class, "VillagerGolem", 99);
 	    	
 	    } catch (Exception e) {
-        	this.getLogger().severe("[Fatal Error] Unable to register mobs");
+        	this.getLogger().severe("[FactionMobs] [Fatal Error] Unable to register mobs");
 	    	pm.disablePlugin(this);
 	    	return;
 	    }
@@ -198,12 +195,16 @@ public class FactionMobs extends JavaPlugin {
 		    	oInputStream.close();
 		    	fileInputStream.close();
 			} catch (Exception e) {
-	        	this.getLogger().severe("Error reading faction colors file, colors.dat");
+	        	this.getLogger().severe("[FactionMobs] Error reading faction colors file, colors.dat");
 			}
 	    }
 	    
 	    if (config.getBoolean("autoSave", false)) {
-	    	this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoSaver(this), this.saveInterval * 1200L, this.saveInterval * 1200L);
+	    	this.saveInterval = config.getLong("saveInterval", this.saveInterval);
+	    	if (this.saveInterval > 0) {
+	    		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoSaver(this), this.saveInterval, this.saveInterval);
+	    		System.out.println("[FactionMobs] Auto-Save enabled.");
+	    	}
 	    }
 	    
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
@@ -234,24 +235,6 @@ public class FactionMobs extends JavaPlugin {
 	
 	public void onDisable() {
 		this.saveMobList();
-		for (FactionMob fmob : mobList) {
-			fmob.setHealth(0);
-			fmob.die();
-			fmob.getEntity().world.removeEntity(fmob.getEntity());
-		}
-		MinecraftServer localMinecraftServer = MinecraftServer.getServer();
-		try {
-			for (int i = 0; i < localMinecraftServer.worldServer.length; i++)
-				if (localMinecraftServer.worldServer[i] != null) {
-					WorldServer localWorldServer = localMinecraftServer.worldServer[i];
-					boolean bool = localWorldServer.savingDisabled;
-					localWorldServer.savingDisabled = false;
-					localWorldServer.save(true, null);
-					localWorldServer.savingDisabled = bool;
-				}
-			}
-		catch (ExceptionWorldConflict localExceptionWorldConflict) {
-		}
 	}
 	
 	public void loadMobList() {
