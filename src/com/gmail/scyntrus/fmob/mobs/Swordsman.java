@@ -122,14 +122,19 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	}
 	
 	public Entity findCloserTarget() {
-		if (this.attackedBy != null
-				&& this.attackedBy.isAlive()
-				&& Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ) < 16) {
-			if (Utils.FactionCheck(this.attackedBy, this.faction) == 1) {
-				this.attackedBy = null;
+		if (this.attackedBy != null) {
+			if (this.attackedBy.isAlive() 
+					&& this.attackedBy.world.getWorldData().getName().equals(this.world.getWorldData().getName())
+					&& Utils.FactionCheck(this.attackedBy, this.faction) < 1) {
+				double dist = Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ);
+				if (dist < 16) {
+					this.setTarget(this.attackedBy);
+					return this.attackedBy;
+				} else if (dist > 32) {
+					this.attackedBy = null;
+				}
 			} else {
-				this.setTarget(this.attackedBy);
-				return this.attackedBy;
+				this.attackedBy = null;
 			}
 		}
 		Location thisLoc;
