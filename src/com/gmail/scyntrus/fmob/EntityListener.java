@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
@@ -264,6 +265,13 @@ public class EntityListener implements Listener {
 					e.setIntensity(entity, -1);
 				}
 			}
+		}
+	}
+	
+	@EventHandler
+	public void onEntityPortal(EntityPortalEvent e) {
+		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
+			e.setCancelled(true);
 		}
 	}
 }

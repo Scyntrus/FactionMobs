@@ -39,4 +39,5 @@ public interface FactionMob {
 	public EntityLiving getEntity();
 	public String getFactionName();
 	public void setFactionName(String str);
+	public void clearAttackedBy();
 }

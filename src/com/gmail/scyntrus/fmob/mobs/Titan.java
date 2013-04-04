@@ -390,4 +390,12 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		this.dead = true;
 		this.die();
 	}
+
+	@Override
+	public void clearAttackedBy() {
+		if (this.target == this.attackedBy) {
+			this.setTarget(null);
+		}
+		this.attackedBy = null;
+	}
 }

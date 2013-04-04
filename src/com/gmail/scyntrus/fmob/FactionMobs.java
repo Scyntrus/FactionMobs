@@ -38,7 +38,6 @@ import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.massivecraft.factions.Factions;
 
-
 public class FactionMobs extends JavaPlugin {
 	
 	public PluginManager pm = null;
@@ -82,6 +81,13 @@ public class FactionMobs extends JavaPlugin {
     	    Class.forName("org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity");
     	} catch(Exception e) {
     	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit. FactionMobs will not be enabled.");
+    	    return;
+    	}
+    	
+    	try {
+    	    Class.forName("com.massivecraft.factions.struct.Relation");
+    	} catch(Exception e) {
+    	    System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 1.6.9.4). FactionMobs will not be enabled.");
     	    return;
     	}
     	
@@ -184,6 +190,9 @@ public class FactionMobs extends JavaPlugin {
 	    	return;
 	    }
 	    this.getCommand("fm").setExecutor(new FmCommand(this));
+	    if (config.getBoolean("fmcEnabled", false)) {
+		    this.getCommand("fmc").setExecutor(new FmcCommand(this));
+	    }
 	    this.pm.registerEvents(new EntityListener(this), this);
 	    this.pm.registerEvents(new CommandListener(this), this);
 	    File colorFile = new File(getDataFolder(), "colors.dat");

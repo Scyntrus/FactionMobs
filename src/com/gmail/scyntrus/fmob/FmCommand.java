@@ -363,6 +363,10 @@ public class FmCommand implements CommandExecutor {
 					}
 					player.sendMessage("Your mobs are now with you");
 					return true;
+				} else if (split[1].equalsIgnoreCase("forgive")) {
+					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+						fmob.clearAttackedBy();
+					}
 				} else {
 					player.sendMessage(ChatColor.RED + "Unrecognized order");
 					player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere");
