@@ -376,6 +376,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	
 	@Override
 	public String getFactionName() {
+		if (this.factionName == null) this.factionName = "";
 		return this.factionName;
 	}
 	

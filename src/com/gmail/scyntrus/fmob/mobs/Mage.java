@@ -370,6 +370,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	
 	@Override
 	public void setFactionName(String str) {
+		if (this.factionName == null) this.factionName = "";
 		this.factionName = str;
 	}
 	
