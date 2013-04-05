@@ -2,7 +2,6 @@ package com.gmail.scyntrus.fmob;
 
 import net.minecraft.server.v1_5_R2.Entity;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -60,15 +59,21 @@ public class FmcCommand implements CommandExecutor {
 			return false;
 		}
 		
+		Faction faction = Factions.i.getByTag(split[1]);
+		if (faction == null) {
+			sender.sendMessage("Faction not found");
+			return false;
+		}
+		
 		FactionMob newMob = null;
 		if (split[0].equalsIgnoreCase("Archer") || split[0].equalsIgnoreCase("Ranger")) {
-			newMob = new Archer(world);
+			newMob = new Archer(loc, faction);
 		} else if (split[0].equalsIgnoreCase("Swordsman")) {
-			newMob = new Swordsman(world);
+			newMob = new Swordsman(loc, faction);
 		} else if (split[0].equalsIgnoreCase("Titan") || split[0].equalsIgnoreCase("Golem")) {
-			newMob = new Titan(world);
+			newMob = new Titan(loc, faction);
 		} else if (split[0].equalsIgnoreCase("Mage")) {
-			newMob = new Mage(world);
+			newMob = new Mage(loc, faction);
 		} else {
 			sender.sendMessage("Unrecognized mob name");
 			return true;
@@ -78,23 +83,6 @@ public class FmcCommand implements CommandExecutor {
 			sender.sendMessage(String.format("Spawning %s has been disabled", newMob.getTypeName()));
 			newMob.die();
 			return true;
-		}
-			
-		Faction faction = Factions.i.getByTag(split[1]);
-		if (faction == null) {
-			sender.sendMessage("Faction not found");
-			return false;
-		}
-		
-		newMob.setSpawn(loc);
-		newMob.setFaction(faction);
-		Utils.giveColorArmor(newMob);
-		newMob.setPoi(loc.getX(),loc.getY(),loc.getZ());
-		newMob.setOrder("home");
-				
-		if (FactionMobs.displayMobFaction) {
-			newMob.getEntity().setCustomName(ChatColor.YELLOW + newMob.getFactionName());
-			newMob.getEntity().setCustomNameVisible(true);
 		}
 				
 		world.addEntity((Entity) newMob, SpawnReason.CUSTOM);

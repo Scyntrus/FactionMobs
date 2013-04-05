@@ -13,7 +13,9 @@ import net.minecraft.server.v1_5_R2.NBTTagCompound;
 import net.minecraft.server.v1_5_R2.Navigation;
 import net.minecraft.server.v1_5_R2.World;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_5_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftLivingEntity;
 
@@ -43,6 +45,18 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	
 	public Swordsman(World world) {
 		super(world);
+		this.die();
+	}
+	
+	public Swordsman(Location spawnLoc, Faction faction) {
+		super(((CraftWorld) spawnLoc.getWorld()).getHandle());
+		this.setSpawn(spawnLoc);
+		this.setFaction(faction);
+		Utils.giveColorArmor(this);
+		if (FactionMobs.displayMobFaction) {
+			this.setCustomName(ChatColor.YELLOW + this.factionName);
+			this.setCustomNameVisible(true);
+		}
 	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
@@ -115,10 +129,11 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 		return;
 	}
 	
-	@Override
-	public void setSpawn(Location loc) {
+	private void setSpawn(Location loc) {
 		spawnLoc = new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
 		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.setPoi(loc.getX(),loc.getY(),loc.getZ());
+		this.order = "home";
 	}
 	
 	public Entity findCloserTarget() {
@@ -226,11 +241,10 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 		return this.faction;
 	}
 
-	@Override
-	public void setFaction(Faction faction) {
+	private void setFaction(Faction faction) {
 		this.faction = faction;
 		this.factionName = faction.getTag();
-		
+		if (faction.isNone()) die();
 	}
 	
 	@Override
@@ -381,13 +395,11 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	}
 	
 	@Override
-	public void setFactionName(String str) {
-		this.factionName = str;
-	}
-	
-	@Override
 	public void die() {
 		super.die();
+		if (FactionMobs.mobList.contains(this)) {
+			FactionMobs.mobList.remove(this);
+		}
 	}
 	
 	@Override

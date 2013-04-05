@@ -10,8 +10,6 @@ import com.massivecraft.factions.Faction;
 
 public interface FactionMob {
 	public Faction getFaction();
-	public void setFaction(Faction faction);
-	public void setSpawn(Location loc);
 	public Location getSpawn();
 	public void setPosition(double x, double y, double z);
 	public double getlocX();
@@ -38,6 +36,5 @@ public interface FactionMob {
 	public void setPoi(double x, double y, double z);
 	public EntityLiving getEntity();
 	public String getFactionName();
-	public void setFactionName(String str);
 	public void clearAttackedBy();
 }

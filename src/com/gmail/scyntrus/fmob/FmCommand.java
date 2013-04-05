@@ -97,13 +97,13 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You must specify a mob");
 					return true;
 				} else if (split[1].equalsIgnoreCase("Archer") || split[1].equalsIgnoreCase("Ranger")) {
-					newMob = new Archer(world);
+					newMob = new Archer(player.getLocation(), playerfaction);
 				} else if (split[1].equalsIgnoreCase("Swordsman")) {
-					newMob = new Swordsman(world);
+					newMob = new Swordsman(player.getLocation(), playerfaction);
 				} else if (split[1].equalsIgnoreCase("Titan") || split[1].equalsIgnoreCase("Golem")) {
-					newMob = new Titan(world);
+					newMob = new Titan(player.getLocation(), playerfaction);
 				} else if (split[1].equalsIgnoreCase("Mage")) {
-					newMob = new Mage(world);
+					newMob = new Mage(player.getLocation(), playerfaction);
 				} else {
 					player.sendMessage(ChatColor.RED + "Unrecognized mob name");
 					return true;
@@ -113,7 +113,6 @@ public class FmCommand implements CommandExecutor {
 					newMob.die();
 					return true;
 				}
-
 				
 				if (!player.hasPermission("fmob.bypass")) {
 					if (newMob.getPowerCost() > 0) {
@@ -144,17 +143,6 @@ public class FmCommand implements CommandExecutor {
 			                return true;
 						}
 					}
-				}
-				
-				newMob.setSpawn(player.getLocation());
-				newMob.setFaction(playerfaction);
-				Utils.giveColorArmor(newMob);
-				newMob.setPoi(player.getLocation().getX(),player.getLocation().getY(),player.getLocation().getZ());
-				newMob.setOrder("home");
-				
-				if (FactionMobs.displayMobFaction) {
-					newMob.getEntity().setCustomName(ChatColor.YELLOW + newMob.getFactionName());
-					newMob.getEntity().setCustomNameVisible(true);
 				}
 				
 				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);

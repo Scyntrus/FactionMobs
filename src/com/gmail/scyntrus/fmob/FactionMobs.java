@@ -19,9 +19,7 @@ import net.minecraft.server.v1_5_R2.EntityPigZombie;
 import net.minecraft.server.v1_5_R2.EntitySkeleton;
 import net.minecraft.server.v1_5_R2.EntityTypes;
 import net.minecraft.server.v1_5_R2.EntityZombie;
-import net.minecraft.server.v1_5_R2.World;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -36,6 +34,7 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
 
 public class FactionMobs extends JavaPlugin {
@@ -268,7 +267,8 @@ public class FactionMobs extends JavaPlugin {
 					}
 					continue;
 				}
-				if (this.getServer().getWorld(mobData.get(1)) == null) {
+				org.bukkit.World world = this.getServer().getWorld(mobData.get(1));
+				if (world == null) {
 					System.out.println("Worldless Faction Mob found and removed. Did you delete or rename a world?");
 					if (!backup) {
 						backup = true;
@@ -281,7 +281,8 @@ public class FactionMobs extends JavaPlugin {
 					}
 					continue;
 				}
-				if (Factions.i.getByTag(mobData.get(2)) == null) {
+				Faction faction = Factions.i.getByTag(mobData.get(2));
+				if (faction == null) {
 					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
 					if (!backup) {
 						backup = true;
@@ -294,20 +295,22 @@ public class FactionMobs extends JavaPlugin {
 					}
 					continue;
 				}
-				World world = ((CraftWorld) this.getServer().getWorld(mobData.get(1))).getHandle();
+				Location spawnLoc = new Location(
+						world, 
+						Double.parseDouble(mobData.get(3)), 
+						Double.parseDouble(mobData.get(4)), 
+						Double.parseDouble(mobData.get(5)));
 				if (mobData.get(0).equalsIgnoreCase("Archer") || mobData.get(0).equalsIgnoreCase("Ranger")) {
-					newMob = new Archer(world);
+					newMob = new Archer(spawnLoc, faction);
 				} else if (mobData.get(0).equalsIgnoreCase("Mage")) {
-					newMob = new Mage(world);
+					newMob = new Mage(spawnLoc, faction);
 				} else if (mobData.get(0).equalsIgnoreCase("Swordsman")) {
-					newMob = new Swordsman(world);
+					newMob = new Swordsman(spawnLoc, faction);
 				} else if (mobData.get(0).equalsIgnoreCase("Titan")) {
-					newMob = new Titan(world);
+					newMob = new Titan(spawnLoc, faction);
 				} else {
 					continue;
 				}
-				newMob.setFaction(Factions.i.getByTag(mobData.get(2)));
-				newMob.setFactionName(mobData.get(2));
 				if (newMob.getFaction() == null || newMob.getFactionName() == null) {
 					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
 					if (!backup) {
@@ -321,15 +324,10 @@ public class FactionMobs extends JavaPlugin {
 					}
 					continue;
 				}
-				newMob.setSpawn(new Location(this.getServer().getWorld(mobData.get(1)), 
-						Double.parseDouble(mobData.get(3)), 
-						Double.parseDouble(mobData.get(4)), 
-						Double.parseDouble(mobData.get(5))));
 				newMob.setPosition(Double.parseDouble(mobData.get(6)),
 						Double.parseDouble(mobData.get(7)),
 						Double.parseDouble(mobData.get(8)));
 				newMob.setHealth(Integer.parseInt(mobData.get(9)));
-				Utils.giveColorArmor(newMob);
 				
 				if (mobData.size() > 10) {
 					newMob.setPoi(
@@ -345,12 +343,7 @@ public class FactionMobs extends JavaPlugin {
 					newMob.setOrder("poi");
 				}
 				
-				if (FactionMobs.displayMobFaction) {
-					newMob.getEntity().setCustomName(ChatColor.YELLOW + newMob.getFactionName());
-					newMob.getEntity().setCustomNameVisible(true);
-				}
-				
-				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
+				((CraftWorld) world).getHandle().addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				mobList.add(newMob);
 			}
 	    }
@@ -404,7 +397,8 @@ public class FactionMobs extends JavaPlugin {
 	
 	public void updateList() {
 		List<FactionMob> toDelete = new ArrayList<FactionMob>();
-		for (FactionMob fmob : mobList) {
+		for (int i = mobList.size()-1; i >= 0; i--) {
+			FactionMob fmob = mobList.get(i);
 			if ((!fmob.isAlive())
 					|| (fmob.getFaction() == null)
 					|| fmob.getFaction().isNone()

@@ -11,7 +11,9 @@ import net.minecraft.server.v1_5_R2.NBTTagCompound;
 import net.minecraft.server.v1_5_R2.Navigation;
 import net.minecraft.server.v1_5_R2.World;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_5_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftLivingEntity;
 
@@ -41,6 +43,18 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	
 	public Titan(World world) {
 		super(world);
+		this.die();
+	}
+	
+	public Titan(Location spawnLoc, Faction faction) {
+		super(((CraftWorld) spawnLoc.getWorld()).getHandle());
+		this.setSpawn(spawnLoc);
+		this.setFaction(faction);
+		Utils.giveColorArmor(this);
+		if (FactionMobs.displayMobFaction) {
+			this.setCustomName(ChatColor.YELLOW + this.factionName);
+			this.setCustomNameVisible(true);
+		}
 	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
@@ -105,10 +119,11 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		return;
 	}
 	
-	@Override
-	public void setSpawn(Location loc) {
+	private void setSpawn(Location loc) {
 		spawnLoc = new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
 		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.setPoi(loc.getX(),loc.getY(),loc.getZ());
+		this.order = "home";
 	}
 	
 	public Entity findCloserTarget() {
@@ -216,11 +231,10 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		return this.faction;
 	}
 
-	@Override
-	public void setFaction(Faction faction) {
+	private void setFaction(Faction faction) {
 		this.faction = faction;
 		this.factionName = faction.getTag();
-		
+		if (faction.isNone()) die();
 	}
 	
 	@Override
@@ -346,17 +360,15 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	
 	@Override
 	public String getFactionName() {
+		if (this.factionName == null) this.factionName = "";
 		return this.factionName;
 	}
 	
 	@Override
-	public void setFactionName(String str) {
-		if (this.factionName == null) this.factionName = "";
-		this.factionName = str;
-	}
-	
-	@Override
 	public void die() {
+		if (FactionMobs.mobList.contains(this)) {
+			FactionMobs.mobList.remove(this);
+		}
 		super.die();
 	}
 	

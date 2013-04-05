@@ -13,7 +13,9 @@ import net.minecraft.server.v1_5_R2.NBTTagCompound;
 import net.minecraft.server.v1_5_R2.Navigation;
 import net.minecraft.server.v1_5_R2.World;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_5_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftLivingEntity;
 
@@ -43,16 +45,28 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	
 	public Archer(World world) {
 		super(world);
+		this.die();
+	}
+	
+	public Archer(Location spawnLoc, Faction faction) {
+		super(((CraftWorld) spawnLoc.getWorld()).getHandle());
+		this.setSpawn(spawnLoc);
+		this.setFaction(faction);
+		Utils.giveColorArmor(this);
+		if (FactionMobs.displayMobFaction) {
+			this.setCustomName(ChatColor.YELLOW + this.factionName);
+			this.setCustomNameVisible(true);
+		}
 	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed; //TODO: Update name on version change
-	    this.Y = 1.5F; // jump height
-	    this.getNavigation().a(false); // avoid water
-	    this.getNavigation().b(false); // break door
-	    this.getNavigation().c(true); // enter open door
-	    this.getNavigation().d(false); // avoid sunlight
-	    this.getNavigation().e(true); // swim
+	    this.Y = 1.5F;                  // jump height
+	    this.getNavigation().a(false);  // avoid water
+	    this.getNavigation().b(false);  // break door
+	    this.getNavigation().c(true);   // enter open door
+	    this.getNavigation().d(false);  // avoid sunlight
+	    this.getNavigation().e(true);   // swim
 	    try {
 			Field field = Navigation.class.getDeclaredField("e"); //TODO: Update name on version change
 			field.setAccessible(true);
@@ -109,11 +123,12 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		}
 		return;
 	}
-	
-	@Override
-	public void setSpawn(Location loc) {
+
+	private void setSpawn(Location loc) {
 		spawnLoc = new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
 		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.setPoi(loc.getX(),loc.getY(),loc.getZ());
+		this.order = "home";
 	}
 	
 	public Entity findCloserTarget() {
@@ -221,10 +236,10 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		return this.faction;
 	}
 
-	@Override
-	public void setFaction(Faction faction) {
+	private void setFaction(Faction faction) {
 		this.faction = faction;
 		this.factionName = new String(faction.getTag());
+		if (faction.isNone()) die();
 	}
 	
 	@Override
@@ -370,18 +385,16 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	
 	@Override
 	public String getFactionName() {
-		return this.factionName;
-	}
-	
-	@Override
-	public void setFactionName(String str) {
 		if (this.factionName == null) this.factionName = "";
-		this.factionName = str;
+		return this.factionName;
 	}
 	
 	@Override
 	public void die() {
 		super.die();
+		if (FactionMobs.mobList.contains(this)) {
+			FactionMobs.mobList.remove(this);
+		}
 	}
 	
 	@Override
