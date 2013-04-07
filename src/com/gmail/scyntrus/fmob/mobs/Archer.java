@@ -29,7 +29,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	
 	public Location spawnLoc = null;
 	public Faction faction = null;
-	public String factionName = null;
+	public String factionName = "";
 	public Entity attackedBy = null;
 	public static String typeName = "Archer";
 	public static int maxHp = 20;
@@ -429,5 +429,10 @@ public class Archer extends EntitySkeleton implements FactionMob {
 			this.setTarget(null);
 		}
 		this.attackedBy = null;
+	}
+	
+	@Override
+	protected void bn() {
+		this.bC = 0;
 	}
 }

@@ -29,7 +29,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	
 	public Location spawnLoc = null;
 	public Faction faction = null;
-	public String factionName = null;
+	public String factionName = "";
 	public Entity attackedBy = null;
 	public static String typeName = "Swordsman";
 	public static int maxHp = 20;
@@ -243,7 +243,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 
 	private void setFaction(Faction faction) {
 		this.faction = faction;
-		this.factionName = faction.getTag();
+		this.factionName = new String(faction.getTag());
 		if (faction.isNone()) die();
 	}
 	
@@ -434,5 +434,10 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 			this.setTarget(null);
 		}
 		this.attackedBy = null;
+	}
+	
+	@Override
+	protected void bn() {
+		this.bC = 0;
 	}
 }
