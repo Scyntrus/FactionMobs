@@ -6,6 +6,7 @@ import net.minecraft.server.v1_5_R2.Entity;
 import net.minecraft.server.v1_5_R2.EntityWolf;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
@@ -24,7 +25,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.massivecraft.factions.FPlayers;
@@ -219,15 +220,15 @@ public class EntityListener implements Listener {
 			}
 		}
 	}
-	
-	@EventHandler
-	public void onPlayerQuit(PlayerQuitEvent e) {
-		Player player = e.getPlayer();
-		if (plugin.playerSelections.containsKey(player.getName())) {
-			plugin.playerSelections.get(player.getName()).clear();
-			plugin.playerSelections.remove(player.getName());
-		}
-	}
+//	
+//	@EventHandler
+//	public void onPlayerQuit(PlayerQuitEvent e) {
+//		Player player = e.getPlayer();
+//		if (plugin.playerSelections.containsKey(player.getName())) {
+//			plugin.playerSelections.get(player.getName()).clear();
+//			plugin.playerSelections.remove(player.getName());
+//		}
+//	}
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
@@ -272,6 +273,26 @@ public class EntityListener implements Listener {
 	public void onEntityPortal(EntityPortalEvent e) {
 		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
 			e.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void onChunkLoad(ChunkLoadEvent e) {
+		if (!e.isNewChunk()) {
+			Chunk chunk = e.getChunk();
+			double minX = chunk.getX() * 16 - 16;
+			double maxX = chunk.getX() * 16;
+			double minZ = chunk.getZ() * 16 - 16;
+			double maxZ = chunk.getZ() * 16;
+			for (FactionMob fmob : FactionMobs.mobList) {
+				if (fmob.getEntity().world.worldData.getName().equals(chunk.getWorld().getName()) 
+						&& minX <= fmob.getlocX() && fmob.getlocX() <= maxX
+						&& minZ <= fmob.getlocZ() && fmob.getlocZ() <= maxZ) {
+					if (!fmob.getEntity().world.entityList.contains(fmob.getEntity())) {
+						fmob.getEntity().world.addEntity(fmob.getEntity());
+					}
+				}
+			}
 		}
 	}
 }

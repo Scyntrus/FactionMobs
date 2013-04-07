@@ -277,8 +277,9 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		if (this.faction == null) {
 			this.health = 0;
 			this.die();
-			FactionMobs.mobList.remove(this);
+			return;
 		}
+		Utils.giveColorArmor(this);
 	}
 
 	@Override
@@ -392,6 +393,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	@Override
 	public void die() {
 		super.die();
+		this.health = 0;
 		if (FactionMobs.mobList.contains(this)) {
 			FactionMobs.mobList.remove(this);
 		}
@@ -418,8 +420,6 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	
 	@Override
 	public void f(NBTTagCompound nbttagcompound) {
-		this.health = 0;
-		this.dead = true;
 		this.die();
 	}
 
@@ -432,7 +432,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}
 	
 	@Override
-	protected void bn() {
+	protected void bn() { //TODO: Update name on version change
 		this.bC = 0;
 	}
 }

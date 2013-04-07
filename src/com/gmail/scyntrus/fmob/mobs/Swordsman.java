@@ -282,8 +282,9 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 		if (this.faction == null) {
 			this.health = 0;
 			this.die();
-			FactionMobs.mobList.remove(this);
+			return;
 		}
+		Utils.giveColorArmor(this);
 	}
 
 	@Override
@@ -397,6 +398,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	@Override
 	public void die() {
 		super.die();
+		this.health = 0;
 		if (FactionMobs.mobList.contains(this)) {
 			FactionMobs.mobList.remove(this);
 		}
@@ -423,8 +425,6 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	
 	@Override
 	public void f(NBTTagCompound nbttagcompound) {
-		this.health = 0;
-		this.dead = true;
 		this.die();
 	}
 

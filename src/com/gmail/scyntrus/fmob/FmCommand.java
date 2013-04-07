@@ -62,11 +62,12 @@ public class FmCommand implements CommandExecutor {
 				if (plugin.playerSelections.containsKey(player.getName())) {
 					player.sendMessage(ChatColor.GREEN + "== Selection: ==");
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-						player.sendMessage(ChatColor.RED + fmob.getTypeName());
+						if (fmob.isAlive()) player.sendMessage(ChatColor.RED + fmob.getTypeName());
 					}
 					player.sendMessage(ChatColor.GREEN + "================");
 					return true;
 				}
+				player.sendMessage("You have not selected any mob");
 				return true;
 			} else if (split[0].equalsIgnoreCase("spawn")) {
 				if (!player.hasPermission("fmob.spawn")) {

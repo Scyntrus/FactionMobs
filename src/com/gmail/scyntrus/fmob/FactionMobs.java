@@ -345,6 +345,7 @@ public class FactionMobs extends JavaPlugin {
 				
 				((CraftWorld) world).getHandle().addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				mobList.add(newMob);
+				newMob.getEntity().dead = false;
 			}
 	    }
 	}
@@ -396,22 +397,9 @@ public class FactionMobs extends JavaPlugin {
 	}
 	
 	public void updateList() {
-		List<FactionMob> toDelete = new ArrayList<FactionMob>();
 		for (int i = mobList.size()-1; i >= 0; i--) {
 			FactionMob fmob = mobList.get(i);
-			if ((!fmob.isAlive())
-					|| (fmob.getFaction() == null)
-					|| fmob.getFaction().isNone()
-					|| (Factions.i.getByTag(fmob.getFactionName()) == null)) {
-				toDelete.add(fmob);
-			} else {
 				fmob.updateMob();
-				Utils.giveColorArmor(fmob);
-			}
-		}
-		for (FactionMob fmob : toDelete) {
-			mobList.remove(fmob);
-			fmob.die();
 		}
 	}
 }
