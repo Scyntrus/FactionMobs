@@ -15,6 +15,7 @@ import net.minecraft.server.v1_5_R2.Item;
 import net.minecraft.server.v1_5_R2.ItemStack;
 import net.minecraft.server.v1_5_R2.NBTTagCompound;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import com.massivecraft.factions.FPlayers;
@@ -27,6 +28,7 @@ public class Utils {
 		}
 		if (entity instanceof EntityPlayer) {
 			Player player = ((EntityPlayer)entity).getBukkitEntity();
+			if (player.getGameMode() == GameMode.CREATIVE) return 1;
 			switch (FPlayers.i.get(player).getFaction().getRelationTo(faction)) {
 			case ENEMY:
 				return -1;
