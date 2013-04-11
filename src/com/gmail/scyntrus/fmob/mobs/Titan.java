@@ -52,7 +52,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		this.setFaction(faction);
 		Utils.giveColorArmor(this);
 		if (FactionMobs.displayMobFaction) {
-			this.setCustomName(ChatColor.YELLOW + this.factionName);
+			this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
 			this.setCustomNameVisible(true);
 		}
 	    this.persistent = true;
