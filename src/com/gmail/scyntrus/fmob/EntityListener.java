@@ -14,6 +14,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -26,6 +27,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.massivecraft.factions.FPlayers;
@@ -143,57 +145,50 @@ public class EntityListener implements Listener {
 	
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-		if (((CraftEntity) e.getDamager()).getHandle() instanceof FactionMob) {
-			FactionMob fmob = (FactionMob) ((CraftEntity) e.getDamager()).getHandle();
-			if (Utils.FactionCheck(((CraftEntity) e.getEntity()).getHandle(), fmob.getFaction()) < 1) {
-				((CraftLivingEntity) e.getEntity()).getHandle().setGoalTarget(((CraftLivingEntity) e.getDamager()).getHandle());
-				if (e.getEntity() instanceof CraftCreature) {
-					((CraftCreature) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) e.getDamager()).getHandle());
+		if (!(e.getEntity() instanceof CraftLivingEntity)) return;
+		CraftLivingEntity entity = (CraftLivingEntity) e.getEntity();
+		CraftEntity damager = (CraftEntity) e.getDamager();
+		if (damager instanceof Projectile) damager = (CraftEntity) ((Projectile) damager).getShooter();
+		if (damager == null) return;
+		
+		if (damager.getHandle() instanceof FactionMob) {
+			FactionMob fmob = (FactionMob) damager.getHandle();
+			if (Utils.FactionCheck(entity.getHandle(), fmob.getFaction()) < 1) {
+				entity.getHandle().setGoalTarget(((CraftLivingEntity) damager).getHandle());
+				if (fmob.isAlive()) {
+					if (entity instanceof CraftCreature) {
+						((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) damager).getHandle());
+					}
+					return;
 				}
-				return;
 			} else if (FactionMobs.noFriendlyFire) {
 				e.setCancelled(true);
 				return;
 			}
-		} else if (e.getDamager() instanceof Projectile) {
-			Projectile arrow = (Projectile) e.getDamager();
-			if (arrow.getShooter() == null) {
-				return;
-			}
-			if (((CraftLivingEntity) arrow.getShooter()).getHandle() instanceof FactionMob) {
-				FactionMob fmob = (FactionMob) ((CraftLivingEntity) arrow.getShooter()).getHandle();
-				if (Utils.FactionCheck(((CraftEntity) e.getEntity()).getHandle(), fmob.getFaction()) < 1) {
-					if (fmob.isAlive()) {
-						((CraftLivingEntity) e.getEntity()).getHandle().setGoalTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
-						if (e.getEntity() instanceof CraftCreature) {
-							((CraftCreature) e.getEntity()).getHandle().setTarget(((CraftLivingEntity) arrow.getShooter()).getHandle());
-						}
-					}
+		} else if ((damager instanceof Player)
+				&& (entity.getHandle() instanceof FactionMob)) {
+			FactionMob fmob = (FactionMob) entity.getHandle();
+			Player player = (Player) damager;
+			if (Utils.FactionCheck((Entity) fmob, FPlayers.i.get(player).getFaction()) >= 1) {
+				if (fmob.getFaction().equals(FPlayers.i.get(player).getFaction())) {
+					player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+					entity.setMetadata("NPC", new FixedMetadataValue(plugin, true));
 					return;
-				} else if (FactionMobs.noFriendlyFire) {
+				} else {
+					player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFactionName(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 					e.setCancelled(true);
 					return;
 				}
 			}
 		}
-		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
-			FactionMob fmob = (FactionMob) ((CraftEntity) e.getEntity()).getHandle();
-			if (fmob.getFaction() == null) {
-				return;
-			}
-			if (e.getDamager() instanceof Player) {
-				Player player = (Player) e.getDamager();
-				if (Utils.FactionCheck((Entity) fmob, FPlayers.i.get(player).getFaction()) >= 1) {
-					if (fmob.getFaction().equals(FPlayers.i.get(player).getFaction())) {
-						player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
-						return;
-					} else {
-						player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFactionName(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
-						e.setCancelled(true);
-						return;
-					}
-				}
-			}
+	}
+	
+
+	@EventHandler(priority=EventPriority.MONITOR)
+	public void onEntityDamageByEntity2(EntityDamageByEntityEvent e) {
+		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob
+				&& e.getEntity().hasMetadata("NPC")) {
+			e.getEntity().removeMetadata("NPC", plugin);
 		}
 	}
 	
