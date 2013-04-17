@@ -19,6 +19,10 @@ attackZombies: true
 # Prevent mobs from damaging friendly players and mobs
 noFriendlyFire: true
 
+# Set the maximum number of mobs a faction can spawn, regardless of power
+# (0 = no limit)
+mobsPerFaction: 0
+
 # Display the mob's faction tag above the mob (in yellow)
 displayMobFaction: true
 

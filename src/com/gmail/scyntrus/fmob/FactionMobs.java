@@ -54,7 +54,8 @@ public class FactionMobs extends JavaPlugin {
 	public static String sndDeath = "";
 	public static String sndStep = "";
 	
-	public int spawnLimit = 50;
+	public static int spawnLimit = 50;
+	public static int mobsPerFaction = 0;
 	public static boolean attackMobs = true;
 	public static boolean noFriendlyFire = false;
 	public static boolean displayMobFaction = true;
@@ -69,8 +70,11 @@ public class FactionMobs extends JavaPlugin {
 	public static float mobPatrolSpeed = .175F;
 	public static float mobNavRange = 64F;
 	
+	public static FactionMobs instance;
+	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
+		FactionMobs.instance = this;
 		this.saveDefaultConfig();
 		FileConfiguration config = this.getConfig();
 		config.options().copyDefaults(true);
@@ -115,7 +119,8 @@ public class FactionMobs extends JavaPlugin {
 			break;
 		}
 
-		this.spawnLimit = config.getInt("spawnLimit", this.spawnLimit);
+		FactionMobs.spawnLimit = config.getInt("spawnLimit", FactionMobs.spawnLimit);
+		FactionMobs.mobsPerFaction = config.getInt("mobsPerFaction", FactionMobs.mobsPerFaction);
 		FactionMobs.noFriendlyFire = config.getBoolean("noFriendlyFire", FactionMobs.noFriendlyFire);
 		FactionMobs.displayMobFaction = config.getBoolean("displayMobFaction", FactionMobs.displayMobFaction);
 		FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
@@ -232,7 +237,6 @@ public class FactionMobs extends JavaPlugin {
         
 		try { // using mcstats.org metrics
 			MetricsLite metrics = new MetricsLite(this);
-			metrics.enable();
 		    metrics.start();
 		} catch (IOException e) {
             System.out.println("[Metrics] " + e.getMessage());

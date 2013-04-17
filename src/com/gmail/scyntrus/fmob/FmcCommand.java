@@ -34,7 +34,7 @@ public class FmcCommand implements CommandExecutor {
 			}
 		}
 		
-		if (FactionMobs.mobList.size() >= plugin.spawnLimit) {
+		if (FactionMobs.mobList.size() >= FactionMobs.spawnLimit) {
 			sender.sendMessage("There are too many faction mobs");
 			return true;
 		}
@@ -63,6 +63,13 @@ public class FmcCommand implements CommandExecutor {
 		if (faction == null) {
 			sender.sendMessage("Faction not found");
 			return false;
+		}
+		
+		if (FactionMobs.mobsPerFaction > 0) {
+			if (Utils.countMobsInFaction(faction) > FactionMobs.mobsPerFaction) {
+				sender.sendMessage("That faction owns too many mobs.");
+				return true;
+			}
 		}
 		
 		FactionMob newMob = null;

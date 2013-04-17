@@ -18,6 +18,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_5_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftLivingEntity;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
@@ -73,6 +74,10 @@ public class Mage extends EntityWitch implements FactionMob {
 		} catch (Exception e) {
 		}
 		this.setEquipment(0, new ItemStack(Item.POTION, 1, 8204));
+		try {
+			this.getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
+		} catch (Exception e) {
+		}
 	}
 
 	@Override

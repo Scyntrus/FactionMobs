@@ -17,7 +17,9 @@ public class CommandListener implements Listener {
 	public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
 		if (e.getMessage().toLowerCase().contains("f leave")
 				|| e.getMessage().toLowerCase().contains("f kick")
-				|| e.getMessage().toLowerCase().contains("f disband")) {
+				|| e.getMessage().toLowerCase().contains("f disband")
+				|| e.getMessage().toLowerCase().contains("butcher")
+				) {
 	        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 	        	public void run() {
 	    			plugin.updateList();

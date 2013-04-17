@@ -1,12 +1,12 @@
 name: FactionMobs
 main: com.gmail.scyntrus.fmob.FactionMobs
 author: Scyntrus
-version: 1.81_1.5.1R0.1
+version: 1.9_1.5.1R0.1
 depends: [Factions]
 softdepends: [Vault]
 commands:
     fm:
-        description: Spawn something
+        description: Faction mobs control
         usage: "/fm [spawn|order|color] [parameters]"
         aliases: fmob
     fmc:

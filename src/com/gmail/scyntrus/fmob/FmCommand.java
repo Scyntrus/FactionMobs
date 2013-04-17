@@ -49,6 +49,45 @@ public class FmCommand implements CommandExecutor {
 				player.sendMessage("/fm order [order]");
 				player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, tpHome, tpHere");
 				player.sendMessage("Before giving orders, you must select mobs by right-clicking them");
+			} else if (split[0].equalsIgnoreCase("info")) {
+				if (!player.hasPermission("fmob.spawn")) {
+					player.sendMessage(ChatColor.RED + "You do not have permission to spawn faction mobs.");
+				} else {
+					player.sendMessage(ChatColor.GREEN + "You have permission to spawn faction mobs");
+				}
+				if (!player.hasPermission("fmob.order")) {
+					player.sendMessage(ChatColor.RED + "You do not have permission to order faction mobs.");
+				} else {
+					player.sendMessage(ChatColor.GREEN + "You have permission to order faction mobs");
+				}
+				player.sendMessage(ChatColor.BLUE + "Archer:");
+				if (!Archer.enabled) {
+					player.sendMessage(ChatColor.RED + "disabled");
+				} else {
+					if (plugin.vaultEnabled) player.sendMessage("cost: " + Archer.moneyCost);
+					player.sendMessage("power: " + Archer.powerCost);
+				}
+				player.sendMessage(ChatColor.BLUE + "Swordsman:");
+				if (!Swordsman.enabled) {
+					player.sendMessage(ChatColor.RED + "disabled");
+				} else {
+					if (plugin.vaultEnabled) player.sendMessage("cost: " + Swordsman.moneyCost);
+					player.sendMessage("power: " + Swordsman.powerCost);
+				}
+				player.sendMessage(ChatColor.BLUE + "Mage:");
+				if (!Mage.enabled) {
+					player.sendMessage(ChatColor.RED + "disabled");
+				} else {
+					if (plugin.vaultEnabled) player.sendMessage("cost: " + Mage.moneyCost);
+					player.sendMessage("power: " + Mage.powerCost);
+				}
+				player.sendMessage(ChatColor.BLUE + "Titan:");
+				if (!Titan.enabled) {
+					player.sendMessage(ChatColor.RED + "disabled");
+				} else {
+					if (plugin.vaultEnabled) player.sendMessage("cost: " + Titan.moneyCost);
+					player.sendMessage("power: " + Titan.powerCost);
+				}
 			} else if (split[0].equalsIgnoreCase("deselect")) {
 				if (plugin.playerSelections.containsKey(player.getName())) {
 					plugin.playerSelections.get(player.getName()).clear();
@@ -87,9 +126,15 @@ public class FmCommand implements CommandExecutor {
 						player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
 						return true;
 					}
-					if (FactionMobs.mobList.size() >= plugin.spawnLimit) {
+					if (FactionMobs.mobList.size() >= FactionMobs.spawnLimit) {
 						player.sendMessage(ChatColor.RED + "There are too many faction mobs");
 						return true;
+					}
+					if (FactionMobs.mobsPerFaction > 0) {
+						if (Utils.countMobsInFaction(playerfaction) > FactionMobs.mobsPerFaction) {
+							player.sendMessage(ChatColor.RED + "Your faction has too many faction mobs.");
+							return true;
+						}
 					}
 				}
 				net.minecraft.server.v1_5_R2.World world = ((CraftWorld)player.getWorld()).getHandle();

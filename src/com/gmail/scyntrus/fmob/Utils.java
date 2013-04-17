@@ -151,4 +151,14 @@ public class Utils {
 		}
 		return power;
 	}
+	
+	public static int countMobsInFaction(Faction faction) {
+		int count = 0;
+		for (FactionMob fmob : FactionMobs.mobList) {
+			if (fmob.getFactionName().equals(faction.getTag())) {
+				count++;
+			}
+		}
+		return count;
+	}
 }
