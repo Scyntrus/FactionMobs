@@ -7,6 +7,7 @@ import net.minecraft.server.v1_5_R2.Entity;
 import net.minecraft.server.v1_5_R2.EntityLiving;
 import net.minecraft.server.v1_5_R2.EntityPigZombie;
 import net.minecraft.server.v1_5_R2.EntityPlayer;
+import net.minecraft.server.v1_5_R2.EnumMonsterType;
 import net.minecraft.server.v1_5_R2.Item;
 import net.minecraft.server.v1_5_R2.ItemStack;
 import net.minecraft.server.v1_5_R2.NBTTagCompound;
@@ -439,5 +440,15 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	@Override
 	protected void bn() {
 		this.bC = 0;
+	}
+	
+	@Override
+	public boolean bD() {
+		return false;
+	}
+	
+	@Override
+	public EnumMonsterType getMonsterType() {
+		return EnumMonsterType.UNDEFINED;
 	}
 }

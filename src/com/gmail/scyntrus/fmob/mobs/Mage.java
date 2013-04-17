@@ -7,6 +7,7 @@ import net.minecraft.server.v1_5_R2.Entity;
 import net.minecraft.server.v1_5_R2.EntityLiving;
 import net.minecraft.server.v1_5_R2.EntityPlayer;
 import net.minecraft.server.v1_5_R2.EntityWitch;
+import net.minecraft.server.v1_5_R2.EnumMonsterType;
 import net.minecraft.server.v1_5_R2.Item;
 import net.minecraft.server.v1_5_R2.ItemStack;
 import net.minecraft.server.v1_5_R2.NBTTagCompound;
@@ -424,5 +425,10 @@ public class Mage extends EntityWitch implements FactionMob {
 	@Override
 	protected void bn() {
 		this.bC = 0;
+	}
+	
+	@Override
+	public EnumMonsterType getMonsterType() {
+		return EnumMonsterType.UNDEFINED;
 	}
 }

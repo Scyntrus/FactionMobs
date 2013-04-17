@@ -7,6 +7,7 @@ import net.minecraft.server.v1_5_R2.Entity;
 import net.minecraft.server.v1_5_R2.EntityIronGolem;
 import net.minecraft.server.v1_5_R2.EntityLiving;
 import net.minecraft.server.v1_5_R2.EntityPlayer;
+import net.minecraft.server.v1_5_R2.EnumMonsterType;
 import net.minecraft.server.v1_5_R2.NBTTagCompound;
 import net.minecraft.server.v1_5_R2.Navigation;
 import net.minecraft.server.v1_5_R2.World;
@@ -415,5 +416,10 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	@Override
 	protected void bn() {
 		this.bC = 0;
+	}
+	
+	@Override
+	public EnumMonsterType getMonsterType() {
+		return EnumMonsterType.UNDEFINED;
 	}
 }

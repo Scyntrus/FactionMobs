@@ -7,6 +7,7 @@ import net.minecraft.server.v1_5_R2.Entity;
 import net.minecraft.server.v1_5_R2.EntityLiving;
 import net.minecraft.server.v1_5_R2.EntityPlayer;
 import net.minecraft.server.v1_5_R2.EntitySkeleton;
+import net.minecraft.server.v1_5_R2.EnumMonsterType;
 import net.minecraft.server.v1_5_R2.Item;
 import net.minecraft.server.v1_5_R2.ItemStack;
 import net.minecraft.server.v1_5_R2.NBTTagCompound;
@@ -434,5 +435,10 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	@Override
 	protected void bn() { //TODO: Update name on version change
 		this.bC = 0;
+	}
+	
+	@Override
+	public EnumMonsterType getMonsterType() { // Not undead
+		return EnumMonsterType.UNDEFINED;
 	}
 }
