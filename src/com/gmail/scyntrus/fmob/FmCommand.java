@@ -130,8 +130,8 @@ public class FmCommand implements CommandExecutor {
 						player.sendMessage(ChatColor.RED + "There are too many faction mobs");
 						return true;
 					}
-					if (FactionMobs.mobsPerFaction > 0) {
-						if (Utils.countMobsInFaction(playerfaction) > FactionMobs.mobsPerFaction) {
+					if (FactionMobs.mobsPerFaction >= 0) {
+						if (Utils.countMobsInFaction(playerfaction) >= FactionMobs.mobsPerFaction) {
 							player.sendMessage(ChatColor.RED + "Your faction has too many faction mobs.");
 							return true;
 						}
@@ -163,7 +163,7 @@ public class FmCommand implements CommandExecutor {
 				if (!player.hasPermission("fmob.bypass")) {
 					if (newMob.getPowerCost() > 0) {
 						double factionPowerUsage = Utils.countMobPowerInFaction(playerfaction);
-						if (playerfaction.getPower() > (factionPowerUsage + newMob.getPowerCost())) {
+						if (playerfaction.getPower() >= (factionPowerUsage + newMob.getPowerCost())) {
 			            	player.sendMessage(String.format("%sYour faction is now using %s/%s power for faction mobs.", 
 			            			ChatColor.GREEN, Math.round(factionPowerUsage + newMob.getPowerCost()), playerfaction.getPowerRounded()));
 						} else {

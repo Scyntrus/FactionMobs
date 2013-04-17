@@ -65,13 +65,6 @@ public class FmcCommand implements CommandExecutor {
 			return false;
 		}
 		
-		if (FactionMobs.mobsPerFaction > 0) {
-			if (Utils.countMobsInFaction(faction) > FactionMobs.mobsPerFaction) {
-				sender.sendMessage("That faction owns too many mobs.");
-				return true;
-			}
-		}
-		
 		FactionMob newMob = null;
 		if (split[0].equalsIgnoreCase("Archer") || split[0].equalsIgnoreCase("Ranger")) {
 			newMob = new Archer(loc, faction);
