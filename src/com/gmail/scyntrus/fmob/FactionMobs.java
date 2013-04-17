@@ -402,8 +402,7 @@ public class FactionMobs extends JavaPlugin {
 	
 	public void updateList() {
 		for (int i = mobList.size()-1; i >= 0; i--) {
-			FactionMob fmob = mobList.get(i);
-				fmob.updateMob();
+			mobList.get(i).updateMob();
 		}
 	}
 }

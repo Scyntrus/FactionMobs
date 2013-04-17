@@ -389,6 +389,11 @@ public class Mage extends EntityWitch implements FactionMob {
 	public void die() {
 		super.die();
 		this.health = 0;
+		this.setEquipment(0, null);
+		this.setEquipment(1, null);
+		this.setEquipment(2, null);
+		this.setEquipment(3, null);
+		this.setEquipment(4, null);
 		if (FactionMobs.mobList.contains(this)) {
 			FactionMobs.mobList.remove(this);
 		}

@@ -51,7 +51,6 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		super(((CraftWorld) spawnLoc.getWorld()).getHandle());
 		this.setSpawn(spawnLoc);
 		this.setFaction(faction);
-		Utils.giveColorArmor(this);
 		if (FactionMobs.displayMobFaction) {
 			this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
 			this.setCustomNameVisible(true);
@@ -275,7 +274,6 @@ public class Titan extends EntityIronGolem implements FactionMob {
 			this.die();
 			return;
 		}
-		Utils.giveColorArmor(this);
 	}
 
 	@Override
@@ -370,6 +368,11 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	public void die() {
 		super.die();
 		this.health = 0;
+		this.setEquipment(0, null);
+		this.setEquipment(1, null);
+		this.setEquipment(2, null);
+		this.setEquipment(3, null);
+		this.setEquipment(4, null);
 		if (FactionMobs.mobList.contains(this)) {
 			FactionMobs.mobList.remove(this);
 		}
