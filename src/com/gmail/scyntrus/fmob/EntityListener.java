@@ -246,6 +246,7 @@ public class EntityListener implements Listener {
 	
 	@EventHandler
 	public void onPotionSplash(PotionSplashEvent e) {
+		if (e.getPotion().getShooter() == null) return;
 		if (((CraftEntity) e.getPotion().getShooter()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity) e.getPotion().getShooter()).getHandle();
 			for (LivingEntity entity : e.getAffectedEntities()) {
