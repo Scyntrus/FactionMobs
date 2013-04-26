@@ -88,9 +88,9 @@ public class FactionMobs extends JavaPlugin {
     	}
     	
     	try {
-    	    Class.forName("com.massivecraft.factions.struct.Relation");
+    	    Class.forName("com.massivecraft.factions.struct.Rel");
     	} catch(Exception e) {
-    	    System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 1.6.9.4). FactionMobs will not be enabled.");
+    	    System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 1.8.2). FactionMobs will not be enabled.");
     	    return;
     	}
     	

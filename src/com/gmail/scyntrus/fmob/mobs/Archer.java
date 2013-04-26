@@ -272,9 +272,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		} else {
 			this.findTarget();
 		}
-		if (this.faction == null) {
-			this.faction = Factions.i.getByTag(this.factionName);
-		}
+		this.faction = Factions.i.getByTag(getFactionName());
 		if (this.faction == null) {
 			this.health = 0;
 			this.die();
