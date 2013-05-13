@@ -98,7 +98,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 				}
 			}
 			if (this.getGoalTarget() == null) {
-				if (this.order == null || this.order.equals("") || this.order.equals("home")) {
+				if (this.order.equals("home") || this.order == null || this.order.equals("")) {
 					this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), FactionMobs.mobSpeed);
 					this.order = "home";
 					return;
@@ -117,6 +117,12 @@ public class Archer extends EntitySkeleton implements FactionMob {
 					this.getNavigation().a(poiX, poiY, poiZ, FactionMobs.mobPatrolSpeed);
 					if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
 						this.order = "phome";
+					}
+					return;
+				} else if (this.order.equals("path")) {
+					this.getNavigation().a(poiX, poiY, poiZ, FactionMobs.mobPatrolSpeed);
+					if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
+						this.order = "home";
 					}
 					return;
 				}

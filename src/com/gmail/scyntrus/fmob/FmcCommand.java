@@ -104,7 +104,7 @@ public class FmcCommand implements CommandExecutor {
 				return true;
 			} else if (split[6].equalsIgnoreCase("patrolHere") || split[6].equalsIgnoreCase("patrol")) {
 				if (split.length < 10) {
-					sender.sendMessage("Not enough arguments for move order");
+					sender.sendMessage("Not enough arguments for patrol order");
 					return false;
 				}
 				try {
@@ -112,6 +112,23 @@ public class FmcCommand implements CommandExecutor {
 					newMob.setOrder("ppoi");
 				} catch (Exception ex) {
 					sender.sendMessage("Invalid patrol coordinates");
+					return false;
+				}
+				return true;
+			} else if (split[6].equalsIgnoreCase("path")) {
+				if (split.length < 13) {
+					sender.sendMessage("Not enough arguments for path order");
+					return false;
+				}
+				try {
+					newMob.setOrder("path");
+					newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double.parseDouble(split[9]));
+					Location spawnLoc = newMob.getSpawn();
+					spawnLoc.setX(Double.parseDouble(split[10]));
+					spawnLoc.setY(Double.parseDouble(split[11]));
+					spawnLoc.setZ(Double.parseDouble(split[12]));
+				} catch (Exception ex) {
+					sender.sendMessage("Invalid path coordinates");
 					return false;
 				}
 				return true;

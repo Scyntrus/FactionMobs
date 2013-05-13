@@ -1,11 +1,11 @@
 package com.gmail.scyntrus.fmob;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.minecraft.server.v1_5_R3.Entity;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -212,7 +212,7 @@ public class FmCommand implements CommandExecutor {
 					try {
 						int myColor = Integer.parseInt(split[1], 16);
 						FactionMobs.factionColors.put(fplayer.getFaction().getTag(), myColor);
-						player.sendMessage(String.format("Set your faction color to %s", Integer.toHexString(myColor)));
+						player.sendMessage(String.format("Set your faction color to %s", StringUtils.leftPad(Integer.toHexString(myColor), 6, "0")));
 						plugin.updateList();
 					} catch (NumberFormatException e) {
 						player.sendMessage(ChatColor.RED + "Invalid number");
@@ -244,16 +244,15 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "Before giving orders, you must select mobs by right-clicking them");
 					return true;
 				} else {
-					List<FactionMob> toDelete = new ArrayList<FactionMob>();
-					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-						if (!fmob.isAlive()) {
-							toDelete.add(fmob);
+					FPlayer fplayer = FPlayers.i.get(player);
+					List<FactionMob> selection = plugin.playerSelections.get(player.getName());
+					for (int i = selection.size()-1; i >= 0; i--) {
+						if (!selection.get(i).isAlive()
+								|| !selection.get(1).getFactionName().equals(fplayer.getTag())) {
+							selection.remove(i);
 						}
 					}
-					for (FactionMob fmob : toDelete) {
-						plugin.playerSelections.get(player.getName()).remove(fmob);
-					}
-					if (plugin.playerSelections.get(player.getName()).isEmpty()) {
+					if (selection.isEmpty()) {
 						plugin.playerSelections.remove(player.getName());
 						player.sendMessage(ChatColor.RED + "No mobs selected");
 						return true;
