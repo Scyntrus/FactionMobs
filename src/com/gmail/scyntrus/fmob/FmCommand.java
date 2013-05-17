@@ -174,7 +174,7 @@ public class FmCommand implements CommandExecutor {
 						}
 					}
 					
-					if (plugin.vaultEnabled) {
+					if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
 						if (plugin.econ.has(player.getName(), newMob.getMoneyCost())) {
 				            EconomyResponse r = plugin.econ.withdrawPlayer(player.getName(), newMob.getMoneyCost());
 				            if(r.transactionSuccess()) {
@@ -248,7 +248,7 @@ public class FmCommand implements CommandExecutor {
 					List<FactionMob> selection = plugin.playerSelections.get(player.getName());
 					for (int i = selection.size()-1; i >= 0; i--) {
 						if (!selection.get(i).isAlive()
-								|| !selection.get(1).getFactionName().equals(fplayer.getTag())) {
+								|| !selection.get(i).getFactionName().equals(fplayer.getTag())) {
 							selection.remove(i);
 						}
 					}

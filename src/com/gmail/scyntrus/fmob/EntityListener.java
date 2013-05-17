@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import net.minecraft.server.v1_5_R3.Entity;
 import net.minecraft.server.v1_5_R3.EntityWolf;
-import net.minecraft.server.v1_5_R3.WorldServer;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -17,7 +16,6 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -273,14 +271,11 @@ public class EntityListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.MONITOR)
 	public void onChunkLoad(ChunkLoadEvent e) {
 		for (FactionMob fmob : FactionMobs.mobList) {
-			if (fmob.getEntity().world.worldData.getName().equals(e.getChunk().getWorld().getName()) 
-					&& !((WorldServer) fmob.getEntity().world).getTracker().trackedEntities.b(fmob.getEntity().id)) {
-				try	{
-					fmob.getEntity().world.addEntity(fmob.getEntity(), SpawnReason.CUSTOM);
-				} catch (Exception ex) {}
+			if (fmob.getEntity().world.worldData.getName().equals(e.getChunk().getWorld().getName())) {
+				Utils.addEntity(fmob.getEntity().world, fmob.getEntity()); //TODO: Fix problem
 				fmob.getEntity().dead = false;
 			}
 		}
