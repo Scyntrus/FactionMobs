@@ -26,7 +26,6 @@ import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
@@ -268,16 +267,6 @@ public class EntityListener implements Listener {
 	public void onEntityPortal(EntityPortalEvent e) {
 		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
 			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority=EventPriority.MONITOR)
-	public void onChunkLoad(ChunkLoadEvent e) {
-		for (FactionMob fmob : FactionMobs.mobList) {
-			if (fmob.getEntity().world.worldData.getName().equals(e.getChunk().getWorld().getName())) {
-				Utils.addEntity(fmob.getEntity().world, fmob.getEntity()); //TODO: Fix problem
-				fmob.getEntity().dead = false;
-			}
 		}
 	}
 }

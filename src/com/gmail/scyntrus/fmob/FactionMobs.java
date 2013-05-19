@@ -199,6 +199,7 @@ public class FactionMobs extends JavaPlugin {
 	    }
 	    this.pm.registerEvents(new EntityListener(this), this);
 	    this.pm.registerEvents(new CommandListener(this), this);
+	    this.pm.registerEvents(new ChunkListener(this), this);
 	    File colorFile = new File(getDataFolder(), "colors.dat");
 	    if (colorFile.exists()){
 			try {

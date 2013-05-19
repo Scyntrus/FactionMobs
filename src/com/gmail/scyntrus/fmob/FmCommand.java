@@ -109,15 +109,19 @@ public class FmCommand implements CommandExecutor {
 				player.sendMessage("You have not selected any mob");
 				return true;
 			} else if (split[0].equalsIgnoreCase("spawn")) {
-				if (!player.hasPermission("fmob.spawn")) {
-					player.sendMessage(ChatColor.RED + "You do not have permission");
+				if (!player.hasPermission("fmob.spawn") &&
+						!player.hasPermission("fmob.spawn.archer") &&
+						!player.hasPermission("fmob.spawn.mage") &&
+						!player.hasPermission("fmob.spawn.swordsman") &&
+						!player.hasPermission("fmob.spawn.titan")) {
+					player.sendMessage(ChatColor.RED + "You do not have permission.");
 					return true;
 				}
 				Location loc = player.getLocation();
 				FPlayer fplayer = FPlayers.i.get(player);
 				Faction playerfaction = fplayer.getFaction();
 				if (playerfaction == null || playerfaction.isNone()) {
-					player.sendMessage(ChatColor.RED + "You must be in a faction");
+					player.sendMessage(ChatColor.RED + "You must be in a faction.");
 					return true;
 				}
 				if (!player.hasPermission("fmob.bypass")) {
@@ -143,12 +147,28 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You must specify a mob");
 					return true;
 				} else if (split[1].equalsIgnoreCase("Archer") || split[1].equalsIgnoreCase("Ranger")) {
+					if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.archer")) {
+						player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+						return false;
+					}
 					newMob = new Archer(player.getLocation(), playerfaction);
 				} else if (split[1].equalsIgnoreCase("Swordsman")) {
+					if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.swordsman")) {
+						player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+						return false;
+					}
 					newMob = new Swordsman(player.getLocation(), playerfaction);
 				} else if (split[1].equalsIgnoreCase("Titan") || split[1].equalsIgnoreCase("Golem")) {
+					if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.titan")) {
+						player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+						return false;
+					}
 					newMob = new Titan(player.getLocation(), playerfaction);
 				} else if (split[1].equalsIgnoreCase("Mage")) {
+					if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.mage")) {
+						player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+						return false;
+					}
 					newMob = new Mage(player.getLocation(), playerfaction);
 				} else {
 					player.sendMessage(ChatColor.RED + "Unrecognized mob name");

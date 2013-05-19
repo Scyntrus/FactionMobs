@@ -16,6 +16,18 @@ permissions:
     fmob.spawn:
         description: Allows you to use /fm spawn
         default: true
+    fmob.spawn.archer:
+        description: Allows you to use /fm spawn archer with all mobs
+        default: false
+    fmob.spawn.mage:
+        description: Allows you to use /fm spawn mage
+        default: false
+    fmob.spawn.swordsman:
+        description: Allows you to use /fm spawn swordsman
+        default: false
+    fmob.spawn.titan:
+        description: Allows you to use /fm spawn titan
+        default: false
     fmob.color:
         description: Allows you to use /fm color
         default: true
