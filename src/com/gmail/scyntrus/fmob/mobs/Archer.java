@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import net.minecraft.server.v1_5_R3.DamageSource;
 import net.minecraft.server.v1_5_R3.Entity;
+import net.minecraft.server.v1_5_R3.EntityHuman;
 import net.minecraft.server.v1_5_R3.EntityLiving;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
 import net.minecraft.server.v1_5_R3.EntitySkeleton;
@@ -12,6 +13,14 @@ import net.minecraft.server.v1_5_R3.Item;
 import net.minecraft.server.v1_5_R3.ItemStack;
 import net.minecraft.server.v1_5_R3.NBTTagCompound;
 import net.minecraft.server.v1_5_R3.Navigation;
+import net.minecraft.server.v1_5_R3.PathfinderGoal;
+import net.minecraft.server.v1_5_R3.PathfinderGoalArrowAttack;
+import net.minecraft.server.v1_5_R3.PathfinderGoalFloat;
+import net.minecraft.server.v1_5_R3.PathfinderGoalHurtByTarget;
+import net.minecraft.server.v1_5_R3.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_5_R3.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_5_R3.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_5_R3.PathfinderGoalSelector;
 import net.minecraft.server.v1_5_R3.World;
 
 import org.bukkit.ChatColor;
@@ -19,6 +28,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_5_R3.util.UnsafeList;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
@@ -58,7 +68,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 			this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
 			this.setCustomNameVisible(true);
 		}
-	    this.persistent = true;
+	    this.persistent = false;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed; //TODO: Update name on version change
@@ -75,6 +85,20 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		} catch (Exception e) {
 		}
 	    this.setEquipment(0, new ItemStack(Item.BOW));
+	    try {
+	    	 
+	    	Field gsa = PathfinderGoalSelector.class.getDeclaredField("a");
+	    	gsa.setAccessible(true);
+	    	gsa.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
+	    	gsa.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
+	    } catch (Exception e) {
+	    }
+	    this.goalSelector.a(1, new PathfinderGoalFloat(this));
+	    this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, this.bI, 60, 10.0F));
+	    this.goalSelector.a(2, new PathfinderGoalRandomStroll(this, this.bI));
+	    this.goalSelector.a(3, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
+	    this.goalSelector.a(3, new PathfinderGoalRandomLookaround(this));
+	    this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false));
 	}
 	
 	@Override
@@ -349,7 +373,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	
 	@Override
 	public boolean isTypeNotPersistent() {
-		return false;
+		return true;
 	}
 	
 	@Override
