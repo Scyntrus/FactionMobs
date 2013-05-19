@@ -72,6 +72,9 @@ public class FactionMobs extends JavaPlugin {
 	
 	public static FactionMobs instance;
 	
+	public static boolean scheduleChunkMobLoad = false;
+	public static int chunkMobLoadTask = -1;
+	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		FactionMobs.instance = this;
@@ -199,7 +202,6 @@ public class FactionMobs extends JavaPlugin {
 	    }
 	    this.pm.registerEvents(new EntityListener(this), this);
 	    this.pm.registerEvents(new CommandListener(this), this);
-	    this.pm.registerEvents(new ChunkListener(this), this);
 	    File colorFile = new File(getDataFolder(), "colors.dat");
 	    if (colorFile.exists()){
 			try {
@@ -244,6 +246,7 @@ public class FactionMobs extends JavaPlugin {
 		}
         
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MobLoader(this), 5L);
+        chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 1, 1);
 	}
 	
 	public void onDisable() {

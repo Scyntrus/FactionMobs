@@ -26,6 +26,7 @@ import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
@@ -267,6 +268,15 @@ public class EntityListener implements Listener {
 	public void onEntityPortal(EntityPortalEvent e) {
 		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
 			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler(priority=EventPriority.MONITOR)
+	public void onChunkLoad(ChunkLoadEvent e) {
+		FactionMobs.scheduleChunkMobLoad = true;
+		if (!plugin.getServer().getScheduler().isCurrentlyRunning(FactionMobs.chunkMobLoadTask) && 
+				!plugin.getServer().getScheduler().isQueued(FactionMobs.chunkMobLoadTask)) {
+			FactionMobs.chunkMobLoadTask = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new ChunkMobLoader(plugin), 1, 1);
 		}
 	}
 }
