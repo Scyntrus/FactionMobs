@@ -166,33 +166,21 @@ public class FactionMobs extends JavaPlugin {
 	    try {
 	    	Method method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
 	    	method.setAccessible(true);
+	    	
 	    	method.invoke(EntityTypes.class, Archer.class, Archer.typeName, modelNum);
-
-	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Swordsman.class, Swordsman.typeName, modelNum);
-
-	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Mage.class, Mage.typeName, modelNum);
-
-	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, Titan.class, Titan.typeName, 99);
 	    	
 	    	//Make sure I don't override original classes
 	    	
-	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, EntitySkeleton.class, "Skeleton", 51);
-	    	
-	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, EntityZombie.class, "Zombie", 54);
-	    	
-	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, EntityPigZombie.class, "PigZombie", 57);
-	    	
-	    	method.setAccessible(true);
 	    	method.invoke(EntityTypes.class, EntityIronGolem.class, "VillagerGolem", 99);
 	    	
 	    } catch (Exception e) {
-        	this.getLogger().severe("[FactionMobs] [Fatal Error] Unable to register mobs");
+        	this.getLogger().severe("[Fatal Error] Unable to register mobs");
 	    	pm.disablePlugin(this);
 	    	return;
 	    }
