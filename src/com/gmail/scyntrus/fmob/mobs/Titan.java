@@ -66,7 +66,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 			this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
 			this.setCustomNameVisible(true);
 		}
-	    this.persistent = false;
+	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
@@ -348,7 +348,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	
 	@Override
 	public boolean isTypeNotPersistent() {
-		return true;
+		return false;
 	}
 	
 	@Override

@@ -67,7 +67,7 @@ public class Mage extends EntityWitch implements FactionMob {
 			this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
 			this.setCustomNameVisible(true);
 		}
-	    this.persistent = false;
+	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed;
@@ -367,7 +367,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	
 	@Override
 	public boolean isTypeNotPersistent() {
-		return true;
+		return false;
 	}
 	
 	@Override

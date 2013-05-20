@@ -68,7 +68,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 			this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
 			this.setCustomNameVisible(true);
 		}
-	    this.persistent = false;
+	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.bI = FactionMobs.mobSpeed; //TODO: Update name on version change
@@ -373,7 +373,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	
 	@Override
 	public boolean isTypeNotPersistent() {
-		return true;
+		return false;
 	}
 	
 	@Override
