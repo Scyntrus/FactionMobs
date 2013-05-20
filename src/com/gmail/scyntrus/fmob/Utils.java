@@ -1,8 +1,5 @@
 package com.gmail.scyntrus.fmob;
 
-import java.lang.reflect.Field;
-import java.util.Set;
-
 import net.minecraft.server.v1_5_R3.Entity;
 import net.minecraft.server.v1_5_R3.EntityAnimal;
 import net.minecraft.server.v1_5_R3.EntityCreeper;
@@ -11,16 +8,12 @@ import net.minecraft.server.v1_5_R3.EntityGhast;
 import net.minecraft.server.v1_5_R3.EntityMonster;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
 import net.minecraft.server.v1_5_R3.EntitySlime;
-import net.minecraft.server.v1_5_R3.EntityTracker;
-import net.minecraft.server.v1_5_R3.EntityTrackerEntry;
 import net.minecraft.server.v1_5_R3.EntityWither;
 import net.minecraft.server.v1_5_R3.EntityWolf;
 import net.minecraft.server.v1_5_R3.EntityZombie;
 import net.minecraft.server.v1_5_R3.Item;
 import net.minecraft.server.v1_5_R3.ItemStack;
 import net.minecraft.server.v1_5_R3.NBTTagCompound;
-import net.minecraft.server.v1_5_R3.World;
-import net.minecraft.server.v1_5_R3.WorldServer;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -167,49 +160,5 @@ public class Utils {
 			}
 		}
 		return count;
-	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static boolean addEntity(World world, Entity entity) {
-	    if (entity == null) return false;
-
-	    int i = (int) Math.floor(entity.locX / 16.0D);
-	    int j = (int) Math.floor(entity.locZ / 16.0D);
-	    
-	    if (!world.chunkProvider.isChunkLoaded(i, j) || entity.dead) return false;
-	    
-	    world.getChunkAt(i, j).a(entity);
-	    if (!world.entityList.contains(entity)) world.entityList.add(entity);
-	    
-	    EntityTracker tracker = ((WorldServer) world).tracker;
-	      
-	    i = 80;
-	    
-	    int d = 0;
-	    
-	    try {
-			Field field = EntityTracker.class.getDeclaredField("d"); //TODO: Update name on version change
-			field.setAccessible(true);
-			d = field.getInt(tracker);
-		} catch (Exception e) {
-		}
-	    
-	    if (i > d) i = d;
-	    
-	    if (tracker.trackedEntities.b(entity.id)) return false;
-
-	    EntityTrackerEntry entitytrackerentry = new EntityTrackerEntry(entity, i, 3, true);
-
-	    try {
-			Field field = EntityTracker.class.getDeclaredField("b"); //TODO: Update name on version change
-			field.setAccessible(true);
-			((Set) field.get(tracker)).add(entitytrackerentry);
-		} catch (Exception e) {
-		}
-	    
-	    tracker.trackedEntities.a(entity.id, entitytrackerentry);
-	    entitytrackerentry.scanPlayers(world.players);
-	    
-	    return true;
 	}
 }

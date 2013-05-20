@@ -23,7 +23,6 @@ import net.minecraft.server.v1_5_R3.EntityZombie;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -339,7 +338,7 @@ public class FactionMobs extends JavaPlugin {
 					newMob.setOrder("poi");
 				}
 				
-				((CraftWorld) world).getHandle().addEntity((Entity) newMob, SpawnReason.CUSTOM);
+				newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				mobList.add(newMob);
 				newMob.getEntity().dead = false;
 			}
