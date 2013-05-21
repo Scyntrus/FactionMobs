@@ -46,4 +46,7 @@ permissions:
     fmob.fmc:
         description: Allows you to use /fmc, a command designed for command blocks
         default: false
+    fmob.selectall:
+        description: Allows you to use /fm selectall
+        default: op
     

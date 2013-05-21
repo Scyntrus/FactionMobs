@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -96,6 +97,22 @@ public class FmCommand implements CommandExecutor {
 					return true;
 				}
 				player.sendMessage("You have not selected any mob");
+				return true;
+			} else if (split[0].equalsIgnoreCase("selectall")) {
+				if (!player.hasPermission("fmob.selectall")) {
+					player.sendMessage(ChatColor.RED + "You do not have permission.");
+				}
+				if (plugin.playerSelections.containsKey(player.getName())) {
+					plugin.playerSelections.get(player.getName()).clear();
+				} else {
+					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
+				}
+				FPlayer fplayer = FPlayers.i.get(player);
+				for (FactionMob fmob : FactionMobs.mobList) {
+					if (fmob.getFaction().getTag().equals(fplayer.getFaction().getTag())) {
+						plugin.playerSelections.get(player.getName()).add(fmob);
+					}
+				}
 				return true;
 			} else if (split[0].equalsIgnoreCase("selection")) {
 				if (plugin.playerSelections.containsKey(player.getName())) {
@@ -211,9 +228,25 @@ public class FmCommand implements CommandExecutor {
 					}
 				}
 				
-				world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
-				FactionMobs.mobList.add(newMob);
-				player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));
+				if (world.addEntity((Entity) newMob, SpawnReason.CUSTOM)) {
+					FactionMobs.mobList.add(newMob);
+					player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));
+				} else {
+					newMob.die();
+					player.sendMessage(String.format("%sYou have failed to spawn a %s", ChatColor.RED, newMob.getTypeName()));
+					if (!player.hasPermission("fmob.bypass")) {
+						if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
+				            EconomyResponse r = plugin.econ.depositPlayer(player.getName(), newMob.getMoneyCost());
+				            if(r.transactionSuccess()) {
+				            	player.sendMessage(String.format("You have been refunded %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
+				            } else {
+				            	player.sendMessage(String.format("An error occured: %s", r.errorMessage));
+				            	plugin.getLogger().severe(String.format("Unable to refund money to %s", player.getName()));
+				                return true;
+				            }
+						}
+					}
+				}
 			} else if (split[0].equalsIgnoreCase("color")) {
 				if (!player.hasPermission("fmob.color")) {
 					player.sendMessage(ChatColor.RED + "You do not have permission");
