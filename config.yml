@@ -50,12 +50,15 @@ Archer.damage: 0
 Archer.powerCost: 4.0
 # Money spent upon spawning this mob, requires Vault
 Archer.moneyCost: 0.0
+# Experimental, you can specify 1 item for this mob to drop. (Item ID)
+Archer.drops: 0
 
 Mage.enabled: true
 Mage.maxHp: 20
 # Mage damage not modifiable
 Mage.powerCost: 6.0
 Mage.moneyCost: 0.0
+Mage.drops: 0
 
 Swordsman.enabled: true
 Swordsman.maxHp: 20
@@ -63,6 +66,7 @@ Swordsman.maxHp: 20
 Swordsman.damage: 0
 Swordsman.powerCost: 5.0
 Swordsman.moneyCost: 0.0
+Swordsman.drops: 0
 
 Titan.enabled: true
 Titan.maxHp: 40
@@ -70,6 +74,7 @@ Titan.maxHp: 40
 Titan.damage: 0
 Titan.powerCost: 11.0
 Titan.moneyCost: 0.0
+Titan.drops: 0
 
 # === Auto-Save Options ===
 

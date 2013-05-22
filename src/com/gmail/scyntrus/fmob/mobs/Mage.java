@@ -48,6 +48,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	public static double powerCost = 0;
 	public static double moneyCost = 0;
 	public static double range = 16;
+	public static int drops = 0;
 	private int retargetTime = 0;
 	
 	public double poiX=0, poiY=0, poiZ=0;
@@ -458,5 +459,10 @@ public class Mage extends EntityWitch implements FactionMob {
 	@Override
 	public EnumMonsterType getMonsterType() {
 		return EnumMonsterType.UNDEFINED;
+	}
+
+	@Override
+	public int getDrops() {
+		return drops;
 	}
 }

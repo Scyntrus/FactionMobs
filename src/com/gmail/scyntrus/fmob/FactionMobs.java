@@ -160,6 +160,11 @@ public class FactionMobs extends JavaPlugin {
 		Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost", Swordsman.moneyCost);
 		Titan.powerCost = config.getDouble("Titan.powerCost", Titan.powerCost);
 		Titan.moneyCost = config.getDouble("Titan.moneyCost", Titan.moneyCost);
+
+		Archer.drops = config.getInt("Archer.drops", 0);
+		Mage.drops = config.getInt("Mage.drops", 0);
+		Swordsman.drops = config.getInt("Swordsman.drops", 0);
+		Titan.drops = config.getInt("Titan.drops", 0);
 		
 		this.pm = this.getServer().getPluginManager();
 	    try {
@@ -233,7 +238,7 @@ public class FactionMobs extends JavaPlugin {
 		}
         
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MobLoader(this), 5L);
-        chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 1, 1);
+        chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
 	}
 	
 	public void onDisable() {

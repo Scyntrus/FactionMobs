@@ -37,4 +37,5 @@ public interface FactionMob {
 	public EntityLiving getEntity();
 	public String getFactionName();
 	public void clearAttackedBy();
+	public int getDrops();
 }

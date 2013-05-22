@@ -113,6 +113,7 @@ public class FmCommand implements CommandExecutor {
 						plugin.playerSelections.get(player.getName()).add(fmob);
 					}
 				}
+				player.sendMessage(String.format("%sYou have selected %s mobs", ChatColor.GREEN, plugin.playerSelections.get(player.getName()).size()));
 				return true;
 			} else if (split[0].equalsIgnoreCase("selection")) {
 				if (plugin.playerSelections.containsKey(player.getName())) {

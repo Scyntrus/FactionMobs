@@ -27,6 +27,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
@@ -130,6 +131,7 @@ public class EntityListener implements Listener {
 		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
 			((CraftEntity) e.getEntity()).getHandle().die();
 			e.getDrops().clear();
+			e.getDrops().add(new ItemStack(((FactionMob) ((CraftEntity) e.getEntity()).getHandle()).getDrops()));
 		}
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
         	public void run() {
