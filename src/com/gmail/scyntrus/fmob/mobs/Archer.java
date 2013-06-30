@@ -33,8 +33,8 @@ import org.bukkit.craftbukkit.v1_5_R3.util.UnsafeList;
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.Utils;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColls;
 
 public class Archer extends EntitySkeleton implements FactionMob {
 	
@@ -111,7 +111,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 			this.getEquipment(4).setData(0);
 		}
 		if (--retargetTime < 0) {
-			retargetTime = 10;
+			retargetTime = 20;
 			if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
 				this.findTarget();
 			} else {
@@ -259,7 +259,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	@Override
 	public Faction getFaction() {
 		if (this.faction == null) {
-			this.faction = Factions.i.getByTag(this.getFactionName());
+			this.faction = FactionColls.get().getForWorld(this.world.getWorldData().getName()).getByName(factionName);
 		}
 		if (this.faction == null) {
 			this.die();
@@ -270,7 +270,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 
 	private void setFaction(Faction faction) {
 		this.faction = faction;
-		this.factionName = new String(faction.getTag());
+		this.factionName = new String(faction.getName());
 		if (faction.isNone()) die();
 	}
 	
@@ -303,7 +303,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		} else {
 			this.findTarget();
 		}
-		this.faction = Factions.i.getByTag(getFactionName());
+		this.faction = FactionColls.get().getForWorld(this.world.getWorldData().getName()).getByName(factionName);
 		if (this.faction == null) {
 			this.health = 0;
 			this.die();

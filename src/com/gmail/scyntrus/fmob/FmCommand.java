@@ -21,11 +21,10 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.massivecraft.factions.Board;
-import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.entity.BoardColls;
+import com.massivecraft.factions.entity.UPlayer;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.mcore.ps.PS;
 
 public class FmCommand implements CommandExecutor {
 
@@ -107,9 +106,9 @@ public class FmCommand implements CommandExecutor {
 				} else {
 					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
 				}
-				FPlayer fplayer = FPlayers.i.get(player);
+				UPlayer fplayer = UPlayer.get(player);
 				for (FactionMob fmob : FactionMobs.mobList) {
-					if (fmob.getFaction().getTag().equals(fplayer.getFaction().getTag())) {
+					if (fmob.getFaction().getName().equals(fplayer.getFaction().getName())) {
 						plugin.playerSelections.get(player.getName()).add(fmob);
 					}
 				}
@@ -136,15 +135,15 @@ public class FmCommand implements CommandExecutor {
 					return true;
 				}
 				Location loc = player.getLocation();
-				FPlayer fplayer = FPlayers.i.get(player);
+				UPlayer fplayer = UPlayer.get(player);
 				Faction playerfaction = fplayer.getFaction();
 				if (playerfaction == null || playerfaction.isNone()) {
 					player.sendMessage(ChatColor.RED + "You must be in a faction.");
 					return true;
 				}
 				if (!player.hasPermission("fmob.bypass")) {
-					Faction areafaction = Board.getFactionAt(new FLocation(loc));
-					if (!playerfaction.getTag().equals(areafaction.getTag())) {
+					Faction areafaction = BoardColls.get().getFactionAt(PS.valueOf(loc));
+					if (!playerfaction.getName().equals(areafaction.getName())) {
 						player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
 						return true;
 					}
@@ -253,7 +252,7 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You do not have permission");
 					return true;
 				}
-				FPlayer fplayer = FPlayers.i.get(player);
+				UPlayer fplayer = UPlayer.get(player);
 				Faction playerfaction = fplayer.getFaction();
 				if (playerfaction.isNone()) {
 					player.sendMessage(ChatColor.RED + "You must be in a faction");
@@ -265,7 +264,7 @@ public class FmCommand implements CommandExecutor {
 				} else {
 					try {
 						int myColor = Integer.parseInt(split[1], 16);
-						FactionMobs.factionColors.put(fplayer.getFaction().getTag(), myColor);
+						FactionMobs.factionColors.put(fplayer.getFaction().getName(), myColor);
 						player.sendMessage(String.format("Set your faction color to %s", StringUtils.leftPad(Integer.toHexString(myColor), 6, "0")));
 						plugin.updateList();
 					} catch (NumberFormatException e) {
@@ -298,11 +297,11 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "Before giving orders, you must select mobs by right-clicking them");
 					return true;
 				} else {
-					FPlayer fplayer = FPlayers.i.get(player);
+					UPlayer fplayer = UPlayer.get(player);
 					List<FactionMob> selection = plugin.playerSelections.get(player.getName());
 					for (int i = selection.size()-1; i >= 0; i--) {
 						if (!selection.get(i).isAlive()
-								|| !selection.get(i).getFactionName().equals(fplayer.getTag())) {
+								|| !selection.get(i).getFactionName().equals(fplayer.getName())) {
 							selection.remove(i);
 						}
 					}

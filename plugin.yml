@@ -1,7 +1,7 @@
 name: FactionMobs
 main: com.gmail.scyntrus.fmob.FactionMobs
 author: Scyntrus
-version: 2.1_1.5.2R0.1
+version: 2.2_1.5.2-R1.0
 depends: [Factions]
 softdepends: [Vault]
 commands:
@@ -11,7 +11,7 @@ commands:
         aliases: fmob
     fmc:
         description: Spawn a mob on a specific faction. Designed to be used by command blocks
-        usage: "/fmc MOBTYPE FACTIONTAG WORLDNAME X Y Z [[wander|patrol|move] X Y Z]"
+        usage: "/fmc MOBTYPE FACTIONTAG WORLDNAME X Y Z [EXTRAINFO]"
 permissions:
     fmob.spawn:
         description: Allows you to use /fm spawn

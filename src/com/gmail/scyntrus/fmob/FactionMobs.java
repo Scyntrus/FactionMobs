@@ -33,8 +33,8 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColls;
 
 public class FactionMobs extends JavaPlugin {
 	
@@ -85,14 +85,14 @@ public class FactionMobs extends JavaPlugin {
     	try {
     	    Class.forName("org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity");
     	} catch(Exception e) {
-    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires 1.5.2). FactionMobs will not be enabled.");
+    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires 1.5.2-R1.0). FactionMobs will not be enabled.");
     	    return;
     	}
     	
     	try {
-    	    Class.forName("com.massivecraft.factions.struct.Relation");
+    	    Class.forName("com.massivecraft.factions.entity.Faction");
     	} catch (Exception e) {
-			System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 1.6.9.5). FactionMobs will not be enabled.");
+			System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 2.0.1). FactionMobs will not be enabled.");
 			return;
     	}
     	
@@ -281,7 +281,7 @@ public class FactionMobs extends JavaPlugin {
 					}
 					continue;
 				}
-				Faction faction = Factions.i.getByTag(mobData.get(2));
+				Faction faction = FactionColls.get().getForWorld(mobData.get(1)).getByName(mobData.get(2));
 				if (faction == null) {
 					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
 					if (!backup) {

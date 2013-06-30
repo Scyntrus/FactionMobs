@@ -14,8 +14,8 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColls;
 
 public class FmcCommand implements CommandExecutor {
 
@@ -59,7 +59,8 @@ public class FmcCommand implements CommandExecutor {
 			return false;
 		}
 		
-		Faction faction = Factions.i.getByTag(split[1]);
+		Faction faction = FactionColls.get().getForWorld(split[2]).getByName(split[1]);
+
 		if (faction == null) {
 			sender.sendMessage("Faction not found");
 			return false;

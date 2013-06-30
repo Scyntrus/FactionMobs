@@ -18,8 +18,8 @@ import net.minecraft.server.v1_5_R3.NBTTagCompound;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.UPlayer;
 
 public class Utils {
 	public static int FactionCheck(Entity entity, Faction faction) {
@@ -29,7 +29,7 @@ public class Utils {
 		if (entity instanceof EntityPlayer) {
 			Player player = ((EntityPlayer)entity).getBukkitEntity();
 			if (player.getGameMode() == GameMode.CREATIVE) return 1;
-			switch (FPlayers.i.get(player).getFaction().getRelationTo(faction)) {
+			switch (UPlayer.get(player).getFaction().getRelationTo(faction)) {
 			case ENEMY:
 				return -1;
 			case NEUTRAL:
@@ -96,10 +96,10 @@ public class Utils {
 		int color = -1;
 		if (entity.getFaction() == null) {
 			return;
-		} else if (FactionMobs.factionColors.containsKey(entity.getFaction().getTag())) {
-			color = FactionMobs.factionColors.get(entity.getFaction().getTag());
+		} else if (FactionMobs.factionColors.containsKey(entity.getFaction().getName())) {
+			color = FactionMobs.factionColors.get(entity.getFaction().getName());
 		} else {
-			FactionMobs.factionColors.put(entity.getFaction().getTag(), 10511680);
+			FactionMobs.factionColors.put(entity.getFaction().getName(), 10511680);
 		}
 		
 		if (color == -1 || color == 10511680) {
@@ -145,7 +145,7 @@ public class Utils {
 	public static double countMobPowerInFaction(Faction faction) {
 		double power = 0;
 		for (FactionMob fmob : FactionMobs.mobList) {
-			if (fmob.getFactionName().equals(faction.getTag())) {
+			if (fmob.getFactionName().equals(faction.getName())) {
 				power += fmob.getPowerCost();
 			}
 		}
@@ -155,7 +155,7 @@ public class Utils {
 	public static int countMobsInFaction(Faction faction) {
 		int count = 0;
 		for (FactionMob fmob : FactionMobs.mobList) {
-			if (fmob.getFactionName().equals(faction.getTag())) {
+			if (fmob.getFactionName().equals(faction.getName())) {
 				count++;
 			}
 		}

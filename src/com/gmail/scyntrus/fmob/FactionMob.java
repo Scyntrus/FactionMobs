@@ -6,7 +6,7 @@ import net.minecraft.server.v1_5_R3.ItemStack;
 
 import org.bukkit.Location;
 
-import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.entity.Faction;
 
 public interface FactionMob {
 	public Faction getFaction();

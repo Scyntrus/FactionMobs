@@ -31,7 +31,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.entity.UPlayer;
 
 public class EntityListener implements Listener {
 	
@@ -104,7 +104,7 @@ public class EntityListener implements Listener {
 			player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
 					fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getHealth()));
-			if (player.hasPermission("fmob.order") && FPlayers.i.get(player).getFaction().equals(fmob.getFaction())) {
+			if (player.hasPermission("fmob.order") && UPlayer.get(player).getFaction().equals(fmob.getFaction())) {
 				if (!plugin.playerSelections.containsKey(player.getName())) {
 					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
 				}
@@ -166,8 +166,8 @@ public class EntityListener implements Listener {
 				&& (entity.getHandle() instanceof FactionMob)) {
 			FactionMob fmob = (FactionMob) entity.getHandle();
 			Player player = (Player) damager;
-			if (Utils.FactionCheck((Entity) fmob, FPlayers.i.get(player).getFaction()) >= 1) {
-				if (fmob.getFaction().equals(FPlayers.i.get(player).getFaction())) {
+			if (Utils.FactionCheck((Entity) fmob, UPlayer.get(player).getFaction()) >= 1) {
+				if (fmob.getFaction().equals(UPlayer.get(player).getFaction())) {
 					player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 					entity.setMetadata("NPC", new FixedMetadataValue(plugin, true));
 					return;

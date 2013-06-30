@@ -1,5 +1,5 @@
 
-# ===== FactionMobs v1.7 Config =====
+# ===== FactionMobs Config =====
 
 # Sets the model of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
 model: 2
