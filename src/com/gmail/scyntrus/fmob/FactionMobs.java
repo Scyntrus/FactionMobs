@@ -59,6 +59,7 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean noFriendlyFire = false;
 	public static boolean displayMobFaction = true;
 	public static boolean attackZombies = true;
+	public static boolean alertAllies = true;
 	
 	private long saveInterval = 6000;
 	
@@ -124,6 +125,7 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.spawnLimit = config.getInt("spawnLimit", FactionMobs.spawnLimit);
 		FactionMobs.mobsPerFaction = config.getInt("mobsPerFaction", FactionMobs.mobsPerFaction);
 		FactionMobs.noFriendlyFire = config.getBoolean("noFriendlyFire", FactionMobs.noFriendlyFire);
+		FactionMobs.alertAllies = config.getBoolean("alertAllies", FactionMobs.alertAllies);
 		FactionMobs.displayMobFaction = config.getBoolean("displayMobFaction", FactionMobs.displayMobFaction);
 		FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
 		FactionMobs.attackZombies = config.getBoolean("attackZombies", FactionMobs.attackZombies);

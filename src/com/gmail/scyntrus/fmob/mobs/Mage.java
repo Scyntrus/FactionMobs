@@ -7,6 +7,7 @@ import net.minecraft.server.v1_5_R3.Entity;
 import net.minecraft.server.v1_5_R3.EntityHuman;
 import net.minecraft.server.v1_5_R3.EntityLiving;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
+import net.minecraft.server.v1_5_R3.EntityProjectile;
 import net.minecraft.server.v1_5_R3.EntityWitch;
 import net.minecraft.server.v1_5_R3.EnumMonsterType;
 import net.minecraft.server.v1_5_R3.Item;
@@ -16,7 +17,6 @@ import net.minecraft.server.v1_5_R3.Navigation;
 import net.minecraft.server.v1_5_R3.PathfinderGoal;
 import net.minecraft.server.v1_5_R3.PathfinderGoalArrowAttack;
 import net.minecraft.server.v1_5_R3.PathfinderGoalFloat;
-import net.minecraft.server.v1_5_R3.PathfinderGoalHurtByTarget;
 import net.minecraft.server.v1_5_R3.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_5_R3.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_5_R3.PathfinderGoalRandomStroll;
@@ -98,7 +98,6 @@ public class Mage extends EntityWitch implements FactionMob {
 	    this.goalSelector.a(2, new PathfinderGoalRandomStroll(this, this.bI));
 	    this.goalSelector.a(3, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
 	    this.goalSelector.a(3, new PathfinderGoalRandomLookaround(this));
-	    this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false));
 	}
 
 	@Override
@@ -228,9 +227,13 @@ public class Mage extends EntityWitch implements FactionMob {
 				break;
 			case 0:
 			case -1:
-				this.attackedBy = damagesource.getEntity();
 				if (damagesource.getEntity() instanceof EntityLiving) {
+					this.attackedBy = damagesource.getEntity();
 					this.setTarget(damagesource.getEntity());
+				} else if (damagesource.getEntity() instanceof EntityProjectile) {
+					EntityProjectile p = (EntityProjectile) damagesource.getEntity();
+					this.attackedBy = p.getShooter();
+					this.setTarget(p.getShooter());
 				} else {
 					this.findTarget();
 				}
@@ -464,5 +467,17 @@ public class Mage extends EntityWitch implements FactionMob {
 	@Override
 	public int getDrops() {
 		return drops;
+	}
+	
+	@Override
+	public boolean softAgro(Entity entity) {
+		if (this.attackedBy == null 
+				&& entity instanceof EntityLiving
+				&& entity.isAlive()) {
+			this.attackedBy = entity;
+			this.setTarget(entity);
+			return true;
+		}
+		return false;
 	}
 }

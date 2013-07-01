@@ -1,6 +1,7 @@
 package com.gmail.scyntrus.fmob;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.server.v1_5_R3.Entity;
 import net.minecraft.server.v1_5_R3.EntityWolf;
@@ -31,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.UPlayer;
 
 public class EntityListener implements Listener {
@@ -175,6 +177,36 @@ public class EntityListener implements Listener {
 					player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFactionName(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 					e.setCancelled(true);
 					return;
+				}
+			}
+		}
+		
+		if (!FactionMobs.alertAllies) {
+			return;
+		}
+		if (entity.getHandle() instanceof FactionMob) {
+			Faction faction = ((FactionMob) entity.getHandle()).getFaction();
+			List<org.bukkit.entity.Entity> aoeList = entity.getNearbyEntities(8, 8, 8);
+			for (org.bukkit.entity.Entity nearEntity : aoeList) {
+				if (((CraftEntity) nearEntity).getHandle() instanceof FactionMob) {
+					FactionMob fmob2 = (FactionMob) ((CraftEntity) nearEntity).getHandle();
+					if (Utils.FactionCheck(fmob2.getEntity(), faction) == 1 && 
+							Utils.FactionCheck(damager.getHandle(), faction) < 1) {
+						fmob2.softAgro(damager.getHandle());
+					}
+				}
+			}
+		} else if (entity instanceof Player) {
+			Faction faction = UPlayer.get((Player) entity).getFaction();
+			if (faction.isNone()) return;
+			List<org.bukkit.entity.Entity> aoeList = entity.getNearbyEntities(8, 8, 8);
+			for (org.bukkit.entity.Entity nearEntity : aoeList) {
+				if (((CraftEntity) nearEntity).getHandle() instanceof FactionMob) {
+					FactionMob fmob2 = (FactionMob) ((CraftEntity) nearEntity).getHandle();
+					if (Utils.FactionCheck(fmob2.getEntity(), faction) == 1 && 
+							Utils.FactionCheck(damager.getHandle(), faction) < 1) {
+						fmob2.softAgro(damager.getHandle());
+					}
 				}
 			}
 		}

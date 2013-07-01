@@ -19,6 +19,9 @@ attackZombies: true
 # Prevent mobs from damaging friendly players and mobs
 noFriendlyFire: true
 
+# Attacking a player or faction mob causes their allies to attack you
+alertAllies: true
+
 # Set the maximum number of mobs a faction can spawn, regardless of power
 # (0 = no limit)
 mobsPerFaction: 0

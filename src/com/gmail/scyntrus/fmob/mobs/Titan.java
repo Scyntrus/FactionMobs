@@ -8,12 +8,12 @@ import net.minecraft.server.v1_5_R3.EntityHuman;
 import net.minecraft.server.v1_5_R3.EntityIronGolem;
 import net.minecraft.server.v1_5_R3.EntityLiving;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
+import net.minecraft.server.v1_5_R3.EntityProjectile;
 import net.minecraft.server.v1_5_R3.EnumMonsterType;
 import net.minecraft.server.v1_5_R3.NBTTagCompound;
 import net.minecraft.server.v1_5_R3.Navigation;
 import net.minecraft.server.v1_5_R3.PathfinderGoal;
 import net.minecraft.server.v1_5_R3.PathfinderGoalFloat;
-import net.minecraft.server.v1_5_R3.PathfinderGoalHurtByTarget;
 import net.minecraft.server.v1_5_R3.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_5_R3.PathfinderGoalMeleeAttack;
 import net.minecraft.server.v1_5_R3.PathfinderGoalMoveTowardsTarget;
@@ -97,7 +97,6 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	    this.goalSelector.a(4, new PathfinderGoalRandomStroll(this, this.bI));
 	    this.goalSelector.a(5, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
 	    this.goalSelector.a(5, new PathfinderGoalRandomLookaround(this));
-	    this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false));
 	}
 
 	@Override
@@ -230,9 +229,13 @@ public class Titan extends EntityIronGolem implements FactionMob {
 				break;
 			case 0:
 			case -1:
-				this.attackedBy = damagesource.getEntity();
 				if (damagesource.getEntity() instanceof EntityLiving) {
+					this.attackedBy = damagesource.getEntity();
 					this.setTarget(damagesource.getEntity());
+				} else if (damagesource.getEntity() instanceof EntityProjectile) {
+					EntityProjectile p = (EntityProjectile) damagesource.getEntity();
+					this.attackedBy = p.getShooter();
+					this.setTarget(p.getShooter());
 				} else {
 					this.findTarget();
 				}
@@ -460,5 +463,17 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	@Override
 	public int getDrops() {
 		return drops;
+	}
+	
+	@Override
+	public boolean softAgro(Entity entity) {
+		if (this.attackedBy == null 
+				&& entity instanceof EntityLiving
+				&& entity.isAlive()) {
+			this.attackedBy = entity;
+			this.setTarget(entity);
+			return true;
+		}
+		return false;
 	}
 }

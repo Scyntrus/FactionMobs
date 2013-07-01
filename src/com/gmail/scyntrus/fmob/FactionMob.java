@@ -38,4 +38,5 @@ public interface FactionMob {
 	public String getFactionName();
 	public void clearAttackedBy();
 	public int getDrops();
+	public boolean softAgro(Entity entity);
 }
