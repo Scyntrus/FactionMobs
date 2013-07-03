@@ -301,7 +301,7 @@ public class FmCommand implements CommandExecutor {
 					List<FactionMob> selection = plugin.playerSelections.get(player.getName());
 					for (int i = selection.size()-1; i >= 0; i--) {
 						if (!selection.get(i).isAlive()
-								|| !selection.get(i).getFactionName().equals(fplayer.getName())) {
+								|| !selection.get(i).getFactionName().equals(fplayer.getFaction().getName())) {
 							selection.remove(i);
 						}
 					}

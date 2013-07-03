@@ -75,7 +75,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.moveSpeed = FactionMobs.mobSpeed;
-	    a(GenericAttributes.d).a(this.moveSpeed);
+	    a(GenericAttributes.d).a(1.0);
 	    a(GenericAttributes.a).a(maxHp);
 	    this.setHealth(maxHp);
 	    this.Y = 1.5F;
