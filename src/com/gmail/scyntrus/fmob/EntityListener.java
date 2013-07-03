@@ -3,14 +3,15 @@ package com.gmail.scyntrus.fmob;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_5_R3.Entity;
-import net.minecraft.server.v1_5_R3.EntityWolf;
+import net.minecraft.server.v1_6_R1.Entity;
+import net.minecraft.server.v1_6_R1.EntityInsentient;
+import net.minecraft.server.v1_6_R1.EntityWolf;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -153,10 +154,12 @@ public class EntityListener implements Listener {
 		if (damager.getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) damager.getHandle();
 			if (Utils.FactionCheck(entity.getHandle(), fmob.getFaction()) < 1) {
-				entity.getHandle().setGoalTarget(((CraftLivingEntity) damager).getHandle());
 				if (fmob.isAlive()) {
 					if (entity instanceof CraftCreature) {
 						((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) damager).getHandle());
+					}
+					if (entity.getHandle() instanceof EntityInsentient) {
+						((EntityInsentient) entity.getHandle()).setGoalTarget(((CraftLivingEntity) damager).getHandle());
 					}
 					return;
 				}
@@ -286,9 +289,11 @@ public class EntityListener implements Listener {
 			for (LivingEntity entity : e.getAffectedEntities()) {
 				if (Utils.FactionCheck(((CraftEntity) entity).getHandle(), fmob.getFaction()) < 1) {
 					if (fmob.isAlive()) {
-						((CraftLivingEntity) entity).getHandle().setGoalTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
 						if (entity instanceof CraftCreature) {
 							((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
+						}
+						if (((CraftLivingEntity) entity).getHandle() instanceof EntityInsentient) {
+							((EntityInsentient) ((CraftLivingEntity) entity).getHandle()).setGoalTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
 						}
 					}
 				} else if (FactionMobs.noFriendlyFire) {

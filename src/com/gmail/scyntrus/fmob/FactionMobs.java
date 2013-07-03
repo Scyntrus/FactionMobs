@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_5_R3.Entity;
-import net.minecraft.server.v1_5_R3.EntityIronGolem;
-import net.minecraft.server.v1_5_R3.EntityPigZombie;
-import net.minecraft.server.v1_5_R3.EntitySkeleton;
-import net.minecraft.server.v1_5_R3.EntityTypes;
-import net.minecraft.server.v1_5_R3.EntityZombie;
+import net.minecraft.server.v1_6_R1.Entity;
+import net.minecraft.server.v1_6_R1.EntityIronGolem;
+import net.minecraft.server.v1_6_R1.EntityPigZombie;
+import net.minecraft.server.v1_6_R1.EntitySkeleton;
+import net.minecraft.server.v1_6_R1.EntityTypes;
+import net.minecraft.server.v1_6_R1.EntityZombie;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -66,9 +66,9 @@ public class FactionMobs extends JavaPlugin {
     public Economy econ = null;
 	public Boolean vaultEnabled = false;
 	
-	public static float mobSpeed = .3F;
-	public static float mobPatrolSpeed = .175F;
-	public static float mobNavRange = 64F;
+	public static double mobSpeed = .3;
+	public static double mobPatrolSpeed = .175;
+	public static double mobNavRange = 64;
 	
 	public static FactionMobs instance;
 	
@@ -84,9 +84,9 @@ public class FactionMobs extends JavaPlugin {
     	this.saveConfig();
     	
     	try {
-    	    Class.forName("org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity");
+    	    Class.forName("org.bukkit.craftbukkit.v1_6_R1.entity.CraftEntity");
     	} catch(Exception e) {
-    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires 1.5.2-R1.0). FactionMobs will not be enabled.");
+    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires 1.6.1-R0.1). FactionMobs will not be enabled.");
     	    return;
     	}
     	
@@ -133,13 +133,13 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
 		
-		Archer.maxHp = config.getInt("Archer.maxHp", Archer.maxHp);
+		Archer.maxHp = (float) config.getDouble("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;
-		Mage.maxHp = config.getInt("Mage.hp", Mage.maxHp);
+		Mage.maxHp = (float) config.getDouble("Mage.hp", Mage.maxHp);
 		if (Mage.maxHp<1) Mage.maxHp = 1;
-		Swordsman.maxHp = config.getInt("Swordsman.maxHp", Swordsman.maxHp);
+		Swordsman.maxHp = (float) config.getDouble("Swordsman.maxHp", Swordsman.maxHp);
 		if (Swordsman.maxHp<1) Swordsman.maxHp = 1;
-		Titan.maxHp = config.getInt("Titan.maxHp", Titan.maxHp);
+		Titan.maxHp = (float) config.getDouble("Titan.maxHp", Titan.maxHp);
 		if (Titan.maxHp<1) Titan.maxHp = 1;
 		
 		Archer.damage = config.getInt("Archer.damage", Archer.damage);

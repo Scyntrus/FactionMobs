@@ -1,6 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_5_R3.WorldServer;
+import net.minecraft.server.v1_6_R1.WorldServer;
 
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
