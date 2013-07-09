@@ -2,8 +2,8 @@ name: FactionMobs
 main: com.gmail.scyntrus.fmob.FactionMobs
 author: Scyntrus
 version: 2.4_2.0_1.6.2-R0.1
-depends: [Factions]
-softdepends: [Vault]
+depend: [Factions]
+softdepend: [Vault]
 commands:
     fm:
         description: Faction mobs control
