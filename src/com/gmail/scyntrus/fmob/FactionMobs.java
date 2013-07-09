@@ -75,6 +75,9 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean scheduleChunkMobLoad = false;
 	public static int chunkMobLoadTask = -1;
 	
+	public static boolean feedEnabled = true;
+	public static float feedAmount = 5;
+	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		FactionMobs.instance = this;
@@ -132,6 +135,9 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed", FactionMobs.mobSpeed);
 		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
+
+		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
+		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
 		
 		Archer.maxHp = (float) config.getDouble("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;

@@ -22,6 +22,11 @@ noFriendlyFire: true
 # Attacking a faction member or faction mob will agro their nearby faction mobs
 alertAllies: true
 
+# Enabling this option will allow players to heal their mobs for a set amount of health
+# by right clicking them with an apple
+feedEnabled: true
+feedAmount: 5
+
 # Set the maximum number of mobs a faction can spawn, regardless of power
 # (0 = no limit)
 mobsPerFaction: 0

@@ -9,6 +9,7 @@ import net.minecraft.server.v1_6_R1.EntityWolf;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_6_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_6_R1.entity.CraftLivingEntity;
@@ -33,6 +34,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.UPlayer;
 
@@ -126,6 +128,14 @@ public class EntityListener implements Listener {
 				}
 			}
 			fmob.updateMob();
+			if (FactionMobs.feedEnabled) {
+				if (player.getItemInHand().getType() == Material.APPLE) {
+					player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
+					float iHp = fmob.getHealth();
+					fmob.setHealth(fmob.getHealth() + FactionMobs.feedAmount);
+					player.sendMessage(String.format("%sThis mob has been healed by %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getHealth() - iHp));
+				}
+			}
 		}
 	}
 	
@@ -184,7 +194,7 @@ public class EntityListener implements Listener {
 			}
 		}
 		
-		if (!FactionMobs.alertAllies) {
+		if (!FactionMobs.alertAllies || damager.isDead()) {
 			return;
 		}
 		if (entity.getHandle() instanceof FactionMob) {
@@ -193,7 +203,8 @@ public class EntityListener implements Listener {
 			for (org.bukkit.entity.Entity nearEntity : aoeList) {
 				if (((CraftEntity) nearEntity).getHandle() instanceof FactionMob) {
 					FactionMob fmob2 = (FactionMob) ((CraftEntity) nearEntity).getHandle();
-					if (Utils.FactionCheck(fmob2.getEntity(), faction) == 1 && 
+					Rel rel = faction.getRelationTo(fmob2.getFaction());
+					if ((rel == Rel.ALLY || rel == Rel.MEMBER) && 
 							Utils.FactionCheck(damager.getHandle(), faction) < 1) {
 						fmob2.softAgro(damager.getHandle());
 					}
@@ -206,7 +217,8 @@ public class EntityListener implements Listener {
 			for (org.bukkit.entity.Entity nearEntity : aoeList) {
 				if (((CraftEntity) nearEntity).getHandle() instanceof FactionMob) {
 					FactionMob fmob2 = (FactionMob) ((CraftEntity) nearEntity).getHandle();
-					if (Utils.FactionCheck(fmob2.getEntity(), faction) == 1 && 
+					Rel rel = faction.getRelationTo(fmob2.getFaction());
+					if ((rel == Rel.ALLY || rel == Rel.MEMBER) && 
 							Utils.FactionCheck(damager.getHandle(), faction) < 1) {
 						fmob2.softAgro(damager.getHandle());
 					}
