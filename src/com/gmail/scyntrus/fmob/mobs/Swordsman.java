@@ -2,37 +2,37 @@ package com.gmail.scyntrus.fmob.mobs;
 
 import java.lang.reflect.Field;
 
-import net.minecraft.server.v1_6_R1.AttributeInstance;
-import net.minecraft.server.v1_6_R1.DamageSource;
-import net.minecraft.server.v1_6_R1.Entity;
-import net.minecraft.server.v1_6_R1.EntityHuman;
-import net.minecraft.server.v1_6_R1.EntityLiving;
-import net.minecraft.server.v1_6_R1.EntityPigZombie;
-import net.minecraft.server.v1_6_R1.EntityPlayer;
-import net.minecraft.server.v1_6_R1.EntityProjectile;
-import net.minecraft.server.v1_6_R1.EnumMonsterType;
-import net.minecraft.server.v1_6_R1.GenericAttributes;
-import net.minecraft.server.v1_6_R1.Item;
-import net.minecraft.server.v1_6_R1.ItemStack;
-import net.minecraft.server.v1_6_R1.MathHelper;
-import net.minecraft.server.v1_6_R1.NBTTagCompound;
-import net.minecraft.server.v1_6_R1.Navigation;
-import net.minecraft.server.v1_6_R1.PathfinderGoal;
-import net.minecraft.server.v1_6_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_6_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_6_R1.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_6_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_6_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_6_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_6_R1.PathfinderGoalSelector;
-import net.minecraft.server.v1_6_R1.World;
+import net.minecraft.server.v1_6_R2.AttributeInstance;
+import net.minecraft.server.v1_6_R2.DamageSource;
+import net.minecraft.server.v1_6_R2.Entity;
+import net.minecraft.server.v1_6_R2.EntityHuman;
+import net.minecraft.server.v1_6_R2.EntityLiving;
+import net.minecraft.server.v1_6_R2.EntityPigZombie;
+import net.minecraft.server.v1_6_R2.EntityPlayer;
+import net.minecraft.server.v1_6_R2.EntityProjectile;
+import net.minecraft.server.v1_6_R2.EnumMonsterType;
+import net.minecraft.server.v1_6_R2.GenericAttributes;
+import net.minecraft.server.v1_6_R2.Item;
+import net.minecraft.server.v1_6_R2.ItemStack;
+import net.minecraft.server.v1_6_R2.MathHelper;
+import net.minecraft.server.v1_6_R2.NBTTagCompound;
+import net.minecraft.server.v1_6_R2.Navigation;
+import net.minecraft.server.v1_6_R2.PathfinderGoal;
+import net.minecraft.server.v1_6_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_6_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_6_R2.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_6_R2.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_6_R2.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_6_R2.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_6_R2.PathfinderGoalSelector;
+import net.minecraft.server.v1_6_R2.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_6_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_6_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_6_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_6_R1.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R2.util.UnsafeList;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
@@ -78,9 +78,9 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.moveSpeed = FactionMobs.mobSpeed;
-	    a(GenericAttributes.d).a(1.0);
-	    a(GenericAttributes.a).a(maxHp);
-	    a(GenericAttributes.e).a(damage);
+	    getAttributeInstance(GenericAttributes.d).setValue(1.0);
+	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
+	    getAttributeInstance(GenericAttributes.e).setValue(damage);
 	    this.setHealth(maxHp);
 	    this.Y = 1.5F;
 	    this.getNavigation().a(false);
@@ -93,7 +93,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 			Field field = Navigation.class.getDeclaredField("e"); //TODO: Update name on version change
 			field.setAccessible(true);
 			AttributeInstance e = (AttributeInstance) field.get(this.getNavigation());
-			e.a(FactionMobs.mobNavRange);
+			e.setValue(FactionMobs.mobNavRange);
 		} catch (Exception e) {
 		}
 	    this.setEquipment(0, new ItemStack(Item.IRON_SWORD));
@@ -111,7 +111,7 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	    this.goalSelector.a(4, new PathfinderGoalRandomStroll(this, this.moveSpeed));
 	    this.goalSelector.a(5, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
 	    this.goalSelector.a(5, new PathfinderGoalRandomLookaround(this));
-	    a(bp).a(0);
+	    getAttributeInstance(bp).setValue(0);
 	}
 	
 	@Override
@@ -358,12 +358,12 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	}
 
 	@Override
-	protected String aK() {
+	protected String aN() {
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String aL() {
+	protected String aO() {
 	    return FactionMobs.sndDeath;
 	}
 

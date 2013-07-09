@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_6_R1.Entity;
-import net.minecraft.server.v1_6_R1.EntityIronGolem;
-import net.minecraft.server.v1_6_R1.EntityPigZombie;
-import net.minecraft.server.v1_6_R1.EntitySkeleton;
-import net.minecraft.server.v1_6_R1.EntityTypes;
-import net.minecraft.server.v1_6_R1.EntityZombie;
+import net.minecraft.server.v1_6_R2.Entity;
+import net.minecraft.server.v1_6_R2.EntityIronGolem;
+import net.minecraft.server.v1_6_R2.EntityPigZombie;
+import net.minecraft.server.v1_6_R2.EntitySkeleton;
+import net.minecraft.server.v1_6_R2.EntityTypes;
+import net.minecraft.server.v1_6_R2.EntityZombie;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -87,7 +87,7 @@ public class FactionMobs extends JavaPlugin {
     	this.saveConfig();
     	
     	try {
-    	    Class.forName("org.bukkit.craftbukkit.v1_6_R1.entity.CraftEntity");
+    	    Class.forName("org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity");
     	} catch(Exception e) {
     	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires 1.6.1-R0.1). FactionMobs will not be enabled.");
     	    return;

@@ -1,8 +1,8 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_6_R1.Entity;
-import net.minecraft.server.v1_6_R1.EntityLiving;
-import net.minecraft.server.v1_6_R1.ItemStack;
+import net.minecraft.server.v1_6_R2.Entity;
+import net.minecraft.server.v1_6_R2.EntityLiving;
+import net.minecraft.server.v1_6_R2.ItemStack;
 
 import org.bukkit.Location;
 
