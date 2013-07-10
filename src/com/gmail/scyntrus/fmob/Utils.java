@@ -23,7 +23,7 @@ import com.massivecraft.factions.entity.UPlayer;
 
 public class Utils {
 	public static int FactionCheck(Entity entity, Faction faction) {
-		if (faction == null) {
+		if (entity == null || faction == null) {
 			return 0;
 		}
 		if (entity instanceof EntityPlayer) {

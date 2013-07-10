@@ -14,10 +14,10 @@ commands:
         usage: "/fmc MOBTYPE FACTIONTAG WORLDNAME X Y Z [EXTRAINFO]"
 permissions:
     fmob.spawn:
-        description: Allows you to use /fm spawn
+        description: Allows you to use /fm spawn with all mobs
         default: true
     fmob.spawn.archer:
-        description: Allows you to use /fm spawn archer with all mobs
+        description: Allows you to use /fm spawn archer
         default: false
     fmob.spawn.mage:
         description: Allows you to use /fm spawn mage
