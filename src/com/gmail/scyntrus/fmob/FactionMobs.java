@@ -90,13 +90,17 @@ public class FactionMobs extends JavaPlugin {
     	    Class.forName("org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity");
     	} catch(Exception e) {
     	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires 1.6.2-R0.1). FactionMobs will not be enabled.");
+    	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
+    	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
     	    return;
     	}
     	
     	try {
     	    Class.forName("com.massivecraft.factions.entity.Faction");
     	} catch (Exception e) {
-			System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 2.0.1). FactionMobs will not be enabled.");
+			System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 2.0.3). FactionMobs will not be enabled.");
+			this.getCommand("fm").setExecutor(new ErrorCommand(this));
+			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
 			return;
     	}
     	
