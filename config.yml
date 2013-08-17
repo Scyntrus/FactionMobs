@@ -47,7 +47,11 @@ mobNavRange: 64
 fmcEnabled: true
 
 # Excludes faction mobs from kill commands such as /killall (experimental)
-excludeFromKillCommands: true
+# Set this to false if runKeepAliveTask is enabled
+excludeFromKillCommands: false
+
+# Prevents faction mobs from being killed by other plugins (Warning: Experimental, may cause lag)
+runKeepAliveTask: false
 
 # === Mob Specific Config ===
 

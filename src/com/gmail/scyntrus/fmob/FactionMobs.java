@@ -79,6 +79,7 @@ public class FactionMobs extends JavaPlugin {
 	public static float feedAmount = 5;
 	
 	public static boolean excludeFromKillCommands = true;
+	public static boolean runKeepAliveTask = true;
 	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
@@ -142,6 +143,8 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
 		FactionMobs.excludeFromKillCommands = config.getBoolean("excludeFromKillCommands", FactionMobs.excludeFromKillCommands);
+		FactionMobs.runKeepAliveTask = config.getBoolean("runKeepAliveTask", FactionMobs.runKeepAliveTask);
+		if (runKeepAliveTask) excludeFromKillCommands = false;
 
 		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
 		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
@@ -253,7 +256,8 @@ public class FactionMobs extends JavaPlugin {
             System.out.println("[Metrics] " + e.getMessage());
 		}
         
-        this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MobLoader(this), 5L);
+		this.loadMobList();
+		if (runKeepAliveTask) this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new DeadChecker(this), 1, 1);
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
 	}
 	
