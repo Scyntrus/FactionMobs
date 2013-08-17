@@ -26,15 +26,25 @@ public class CommandListener implements Listener {
 	        	}
 	        }, 0L);
 		}
-		if (e.getPlayer().isOp() && e.getMessage().toLowerCase().contains("save-all")) {
+		if (e.getPlayer().isOp() && e.getMessage().toLowerCase().startsWith("save-all")) {
 			plugin.saveMobList();
+		}
+		if (FactionMobs.excludeFromKillCommands && e.getMessage().toLowerCase().contains("kill")) {
+			checkDeath();
 		}
 	}
 	
 	@EventHandler
 	public void onServerCommand(ServerCommandEvent e) {
-		if (e.getCommand().toLowerCase().contains("save-all")) {
+		if (e.getCommand().toLowerCase().startsWith("save-all")) {
 			plugin.saveMobList();
 		}
+		if (FactionMobs.excludeFromKillCommands && e.getCommand().toLowerCase().contains("kill")) {
+			checkDeath();
+		}
+	}
+	
+	public void checkDeath() {
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DeadChecker(plugin), 1);
 	}
 }

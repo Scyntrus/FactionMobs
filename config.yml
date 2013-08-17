@@ -46,6 +46,9 @@ mobNavRange: 64
 # Enables the use of /fmc, a command designed to be used by command blocks
 fmcEnabled: true
 
+# Excludes faction mobs from kill commands such as /killall (experimental)
+excludeFromKillCommands: true
+
 # === Mob Specific Config ===
 
 # Allowed to spawn, disabling does not remove existing mobs

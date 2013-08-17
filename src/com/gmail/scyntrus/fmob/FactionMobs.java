@@ -78,6 +78,8 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean feedEnabled = true;
 	public static float feedAmount = 5;
 	
+	public static boolean excludeFromKillCommands = true;
+	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		FactionMobs.instance = this;
@@ -139,6 +141,7 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed", FactionMobs.mobSpeed);
 		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
+		FactionMobs.excludeFromKillCommands = config.getBoolean("excludeFromKillCommands", FactionMobs.excludeFromKillCommands);
 
 		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
 		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
@@ -197,6 +200,7 @@ public class FactionMobs extends JavaPlugin {
 	    	
 	    } catch (Exception e) {
         	this.getLogger().severe("[Fatal Error] Unable to register mobs");
+        	e.printStackTrace();
 	    	pm.disablePlugin(this);
 	    	return;
 	    }
