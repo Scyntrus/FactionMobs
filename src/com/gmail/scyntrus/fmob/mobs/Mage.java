@@ -32,6 +32,7 @@ import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_6_R2.util.UnsafeList;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
@@ -107,6 +108,8 @@ public class Mage extends EntityWitch implements FactionMob {
 	    this.goalSelector.a(2, new PathfinderGoalRandomStroll(this, this.moveSpeed));
 	    this.goalSelector.a(3, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
 	    this.goalSelector.a(3, new PathfinderGoalRandomLookaround(this));
+	    this.getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
+	    this.getBukkitEntity().setMetadata("CustomEntity", new FixedMetadataValue(FactionMobs.instance, true));
 	}
 
 	@Override
