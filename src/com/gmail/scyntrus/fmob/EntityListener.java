@@ -19,6 +19,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -317,6 +318,13 @@ public class EntityListener implements Listener {
 		if (!plugin.getServer().getScheduler().isCurrentlyRunning(FactionMobs.chunkMobLoadTask) && 
 				!plugin.getServer().getScheduler().isQueued(FactionMobs.chunkMobLoadTask)) {
 			FactionMobs.chunkMobLoadTask = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new ChunkMobLoader(plugin), 1, 1);
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void onCreatureSpawn(CreatureSpawnEvent e) {
+		if (FactionMobs.runKeepAliveTask && e.isCancelled() && ((CraftCreature) e.getEntity()).getHandle() instanceof FactionMob) {
+			e.setCancelled(false);
 		}
 	}
 }
