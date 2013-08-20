@@ -2,7 +2,6 @@ package com.gmail.scyntrus.fmob;
 
 import net.minecraft.server.v1_6_R2.Entity;
 import net.minecraft.server.v1_6_R2.EntityLiving;
-import net.minecraft.server.v1_6_R2.ItemStack;
 
 import org.bukkit.Location;
 
@@ -11,7 +10,6 @@ import com.massivecraft.factions.entity.Faction;
 public interface FactionMob {
 	public Faction getFaction();
 	public Location getSpawn();
-	public void setPosition(double x, double y, double z);
 	public double getlocX();
 	public double getlocY();
 	public double getlocZ();
@@ -20,9 +18,7 @@ public interface FactionMob {
 	public String getTypeName();
 	public boolean isAlive();
 	public float getHealth();
-	public void setHealth(float hp);
 	public void die();
-	public void setEquipment(int slot, ItemStack item);
 	public Boolean getEnabled();
 	public double getPowerCost();
 	public double getMoneyCost();

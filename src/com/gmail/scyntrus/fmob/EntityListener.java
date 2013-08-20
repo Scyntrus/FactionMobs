@@ -132,7 +132,7 @@ public class EntityListener implements Listener {
 				if (player.getItemInHand().getType() == Material.APPLE) {
 					player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
 					float iHp = fmob.getHealth();
-					fmob.setHealth(fmob.getHealth() + FactionMobs.feedAmount);
+					fmob.getEntity().setHealth(fmob.getHealth() + FactionMobs.feedAmount);
 					player.sendMessage(String.format("%sThis mob has been healed by %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getHealth() - iHp));
 				}
 			}

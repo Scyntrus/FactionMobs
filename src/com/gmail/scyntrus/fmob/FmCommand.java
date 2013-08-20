@@ -418,7 +418,7 @@ public class FmCommand implements CommandExecutor {
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
 						fmob.setOrder("home");
 						Location loc = fmob.getSpawn();
-						fmob.setPosition(loc.getX(), loc.getY(), loc.getZ());
+						fmob.getEntity().setPosition(loc.getX(), loc.getY(), loc.getZ());
 						fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
 					}
 					player.sendMessage(ChatColor.GREEN + "Your mobs are now back at their home");
@@ -440,7 +440,7 @@ public class FmCommand implements CommandExecutor {
 							tmpX = loc.getX() + tmpH*Math.cos(angle);
 							tmpZ = loc.getZ() + tmpH*Math.sin(angle);
 							fmob.setPoi(tmpX, loc.getY(), tmpZ);
-							fmob.setPosition(tmpX, loc.getY(), tmpZ);
+							fmob.getEntity().setPosition(tmpX, loc.getY(), tmpZ);
 							fmob.setOrder("poi");
 							count++;
 						} else {

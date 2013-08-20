@@ -347,10 +347,10 @@ public class FactionMobs extends JavaPlugin {
 					}
 					continue;
 				}
-				newMob.setPosition(Double.parseDouble(mobData.get(6)),
+				newMob.getEntity().setPosition(Double.parseDouble(mobData.get(6)),
 						Double.parseDouble(mobData.get(7)),
 						Double.parseDouble(mobData.get(8)));
-				newMob.setHealth(Float.parseFloat(mobData.get(9)));
+				newMob.getEntity().setHealth(Float.parseFloat(mobData.get(9)));
 				
 				if (mobData.size() > 10) {
 					newMob.setPoi(

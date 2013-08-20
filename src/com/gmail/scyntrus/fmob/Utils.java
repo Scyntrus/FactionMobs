@@ -103,10 +103,10 @@ public class Utils {
 		}
 		
 		if (color == -1 || color == 10511680) {
-			entity.setEquipment(1, new ItemStack(Item.LEATHER_BOOTS));
-			entity.setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS));
-			entity.setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE));
-			entity.setEquipment(4, new ItemStack(Item.LEATHER_HELMET));
+			entity.getEntity().setEquipment(1, new ItemStack(Item.LEATHER_BOOTS));
+			entity.getEntity().setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS));
+			entity.getEntity().setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE));
+			entity.getEntity().setEquipment(4, new ItemStack(Item.LEATHER_HELMET));
 			return;
 		}
 		
@@ -127,10 +127,10 @@ public class Utils {
 		    n2.setInt("color", color);
 	    }
 	    
-        entity.setEquipment(1, itemStacks[0]);
-        entity.setEquipment(2, itemStacks[1]);
-        entity.setEquipment(3, itemStacks[2]);
-        entity.setEquipment(4, itemStacks[3]);
+	    entity.getEntity().setEquipment(1, itemStacks[0]);
+	    entity.getEntity().setEquipment(2, itemStacks[1]);
+	    entity.getEntity().setEquipment(3, itemStacks[2]);
+	    entity.getEntity().setEquipment(4, itemStacks[3]);
         return;
 	}
 	
