@@ -323,7 +323,7 @@ public class EntityListener implements Listener {
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onCreatureSpawn(CreatureSpawnEvent e) {
-		if (FactionMobs.runKeepAliveTask && e.isCancelled() && ((CraftCreature) e.getEntity()).getHandle() instanceof FactionMob) {
+		if (FactionMobs.runKeepAliveTask && e.isCancelled() && ((CraftLivingEntity) e.getEntity()).getHandle() instanceof FactionMob) {
 			e.setCancelled(false);
 		}
 	}
