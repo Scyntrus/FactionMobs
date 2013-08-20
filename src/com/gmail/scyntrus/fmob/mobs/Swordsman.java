@@ -1,7 +1,5 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.server.v1_6_R2.AttributeInstance;
 import net.minecraft.server.v1_6_R2.DamageSource;
 import net.minecraft.server.v1_6_R2.Entity;
@@ -16,7 +14,6 @@ import net.minecraft.server.v1_6_R2.Item;
 import net.minecraft.server.v1_6_R2.ItemStack;
 import net.minecraft.server.v1_6_R2.MathHelper;
 import net.minecraft.server.v1_6_R2.NBTTagCompound;
-import net.minecraft.server.v1_6_R2.Navigation;
 import net.minecraft.server.v1_6_R2.PathfinderGoal;
 import net.minecraft.server.v1_6_R2.PathfinderGoalFloat;
 import net.minecraft.server.v1_6_R2.PathfinderGoalLookAtPlayer;
@@ -24,7 +21,6 @@ import net.minecraft.server.v1_6_R2.PathfinderGoalMeleeAttack;
 import net.minecraft.server.v1_6_R2.PathfinderGoalMoveTowardsTarget;
 import net.minecraft.server.v1_6_R2.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_6_R2.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_6_R2.PathfinderGoalSelector;
 import net.minecraft.server.v1_6_R2.World;
 
 import org.bukkit.ChatColor;
@@ -37,6 +33,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
+import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColls;
@@ -89,22 +86,21 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	    this.getNavigation().c(true);
 	    this.getNavigation().d(false);
 	    this.getNavigation().e(true);
-	    try {
-			Field field = Navigation.class.getDeclaredField("e"); //TODO: Update name on version change
-			field.setAccessible(true);
-			AttributeInstance e = (AttributeInstance) field.get(this.getNavigation());
-			e.setValue(FactionMobs.mobNavRange);
-		} catch (Exception e) {
-		}
 	    this.setEquipment(0, new ItemStack(Item.IRON_SWORD));
-	    try {
-	    	 
-	    	Field gsa = PathfinderGoalSelector.class.getDeclaredField("a");
-	    	gsa.setAccessible(true);
-	    	gsa.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
-	    	gsa.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
-	    } catch (Exception e) {
+	    
+	    if (ReflectionManager.goodNavigationE) {
+		    try {
+				AttributeInstance e = (AttributeInstance) ReflectionManager.navigationE.get(this.getNavigation());
+				e.setValue(FactionMobs.mobNavRange);
+			} catch (Exception e) {}
 	    }
+	    if (ReflectionManager.goodPathfinderGoalSelectorA) {
+		    try {
+		    	ReflectionManager.pathfinderGoalSelectorA.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
+		    	ReflectionManager.pathfinderGoalSelectorA.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
+		    } catch (Exception e) {}
+	    }
+	    
 	    this.goalSelector.a(1, new PathfinderGoalFloat(this));
 	    this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, this.moveSpeed, true));
 	    this.goalSelector.a(3, new PathfinderGoalMoveTowardsTarget(this, this.moveSpeed, (float) range));

@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -185,28 +184,32 @@ public class FactionMobs extends JavaPlugin {
 		Titan.drops = config.getInt("Titan.drops", 0);
 		
 		this.pm = this.getServer().getPluginManager();
+		
+		if (!ReflectionManager.init()) {
+        	this.getLogger().severe("[Fatal Error] Unable to register mobs");
+	    	pm.disablePlugin(this);
+			return;
+		}
+		
 	    try {
-	    	Method method = EntityTypes.class.getDeclaredMethod("a", new Class[] {Class.class, String.class, int.class});
-	    	method.setAccessible(true);
-	    	
-	    	method.invoke(EntityTypes.class, Archer.class, Archer.typeName, modelNum);
-	    	method.invoke(EntityTypes.class, Swordsman.class, Swordsman.typeName, modelNum);
-	    	method.invoke(EntityTypes.class, Mage.class, Mage.typeName, modelNum);
-	    	method.invoke(EntityTypes.class, Titan.class, Titan.typeName, 99);
+	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, Archer.class, Archer.typeName, modelNum);
+	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, Swordsman.class, Swordsman.typeName, modelNum);
+	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, Mage.class, Mage.typeName, modelNum);
+	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, Titan.class, Titan.typeName, 99);
 	    	
 	    	//Make sure I don't override original classes
 	    	
-	    	method.invoke(EntityTypes.class, EntitySkeleton.class, "Skeleton", 51);
-	    	method.invoke(EntityTypes.class, EntityZombie.class, "Zombie", 54);
-	    	method.invoke(EntityTypes.class, EntityPigZombie.class, "PigZombie", 57);
-	    	method.invoke(EntityTypes.class, EntityIronGolem.class, "VillagerGolem", 99);
-	    	
+	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, EntitySkeleton.class, "Skeleton", 51);
+	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, EntityZombie.class, "Zombie", 54);
+	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, EntityPigZombie.class, "PigZombie", 57);
+	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, EntityIronGolem.class, "VillagerGolem", 99);
 	    } catch (Exception e) {
         	this.getLogger().severe("[Fatal Error] Unable to register mobs");
         	e.printStackTrace();
 	    	pm.disablePlugin(this);
 	    	return;
 	    }
+	    
 	    this.getCommand("fm").setExecutor(new FmCommand(this));
 	    if (config.getBoolean("fmcEnabled", false)) {
 		    this.getCommand("fmc").setExecutor(new FmcCommand(this));
