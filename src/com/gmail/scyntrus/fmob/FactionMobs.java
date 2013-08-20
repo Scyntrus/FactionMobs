@@ -101,7 +101,7 @@ public class FactionMobs extends JavaPlugin {
     	try {
     	    Class.forName("com.massivecraft.factions.entity.Faction");
     	} catch (Exception e) {
-			System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 2.0.3). FactionMobs will not be enabled.");
+			System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 2.0.5). FactionMobs will not be enabled.");
 			this.getCommand("fm").setExecutor(new ErrorCommand(this));
 			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
 			return;
