@@ -80,7 +80,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	    this.moveSpeed = FactionMobs.mobSpeed;
 	    getAttributeInstance(GenericAttributes.d).setValue(1.0);
 	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
-	    getAttributeInstance(GenericAttributes.e).setValue(damage);
+	    if (damage > 0) getAttributeInstance(GenericAttributes.e).setValue(damage);
 	    this.setHealth(maxHp);
 	    this.Y = 1.5F;                  // jump height
 	    this.getNavigation().a(false);  // avoid water
