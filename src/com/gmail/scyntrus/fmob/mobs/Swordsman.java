@@ -7,9 +7,9 @@ import net.minecraft.server.v1_6_R2.DamageSource;
 import net.minecraft.server.v1_6_R2.Entity;
 import net.minecraft.server.v1_6_R2.EntityHuman;
 import net.minecraft.server.v1_6_R2.EntityLiving;
-import net.minecraft.server.v1_6_R2.EntityPigZombie;
 import net.minecraft.server.v1_6_R2.EntityPlayer;
 import net.minecraft.server.v1_6_R2.EntityProjectile;
+import net.minecraft.server.v1_6_R2.EntitySkeleton;
 import net.minecraft.server.v1_6_R2.EnumMonsterType;
 import net.minecraft.server.v1_6_R2.GenericAttributes;
 import net.minecraft.server.v1_6_R2.Item;
@@ -41,7 +41,7 @@ import com.gmail.scyntrus.fmob.Utils;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColls;
 
-public class Swordsman extends EntityPigZombie implements FactionMob {
+public class Swordsman extends EntitySkeleton implements FactionMob {
 	
 	public Location spawnLoc = null;
 	public Faction faction = null;
@@ -89,7 +89,6 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	    this.getNavigation().c(true);
 	    this.getNavigation().d(false);
 	    this.getNavigation().e(true);
-	    this.setHealth(maxHp);
 	    try {
 			Field field = Navigation.class.getDeclaredField("e"); //TODO: Update name on version change
 			field.setAccessible(true);
@@ -114,12 +113,6 @@ public class Swordsman extends EntityPigZombie implements FactionMob {
 	    this.goalSelector.a(5, new PathfinderGoalRandomLookaround(this));
 	    this.getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
 	    this.getBukkitEntity().setMetadata("CustomEntity", new FixedMetadataValue(FactionMobs.instance, true));
-	    getAttributeInstance(bp).setValue(0);
-	}
-	
-	@Override
-	public boolean bb() {
-		return (this.getGoalTarget() == null);
 	}
 
 	@Override
