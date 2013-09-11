@@ -391,7 +391,7 @@ public class FactionMobs extends JavaPlugin {
 			mobData.add(""+fmob.getlocX()); //6
 			mobData.add(""+fmob.getlocY());
 			mobData.add(""+fmob.getlocZ());
-			mobData.add(""+fmob.getHealth()); //9
+			mobData.add(""+fmob.getEntity().getHealth()); //9
 			mobData.add(""+fmob.getPoiX()); //10
 			mobData.add(""+fmob.getPoiY());
 			mobData.add(""+fmob.getPoiZ());

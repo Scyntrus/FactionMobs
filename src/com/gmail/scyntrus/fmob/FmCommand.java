@@ -118,7 +118,7 @@ public class FmCommand implements CommandExecutor {
 				if (plugin.playerSelections.containsKey(player.getName())) {
 					player.sendMessage(ChatColor.GREEN + "== Selection: ==");
 					for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-						if (fmob.isAlive()) player.sendMessage(ChatColor.RED + fmob.getTypeName());
+						if (fmob.getEntity().isAlive()) player.sendMessage(ChatColor.RED + fmob.getTypeName());
 					}
 					player.sendMessage(ChatColor.GREEN + "================");
 					return true;
@@ -193,7 +193,7 @@ public class FmCommand implements CommandExecutor {
 				}
 				if (!newMob.getEnabled()) {
 					player.sendMessage(String.format("%sSpawning %s has been disabled", ChatColor.RED, newMob.getTypeName()));
-					newMob.die();
+					newMob.getEntity().die();
 					return true;
 				}
 				
@@ -232,7 +232,7 @@ public class FmCommand implements CommandExecutor {
 					FactionMobs.mobList.add(newMob);
 					player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));
 				} else {
-					newMob.die();
+					newMob.getEntity().die();
 					player.sendMessage(String.format("%sYou have failed to spawn a %s", ChatColor.RED, newMob.getTypeName()));
 					if (!player.hasPermission("fmob.bypass")) {
 						if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
@@ -300,7 +300,7 @@ public class FmCommand implements CommandExecutor {
 					UPlayer fplayer = UPlayer.get(player);
 					List<FactionMob> selection = plugin.playerSelections.get(player.getName());
 					for (int i = selection.size()-1; i >= 0; i--) {
-						if (!selection.get(i).isAlive()
+						if (!selection.get(i).getEntity().isAlive()
 								|| !selection.get(i).getFactionName().equals(fplayer.getFaction().getName())) {
 							selection.remove(i);
 						}

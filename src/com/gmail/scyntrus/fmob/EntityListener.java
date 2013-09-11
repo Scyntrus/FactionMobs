@@ -54,17 +54,17 @@ public class EntityListener implements Listener {
 			e.setCancelled(true);
 			FactionMob fmob = (FactionMob) entity;
 			if (fmob instanceof Titan) {
-				fmob.findTarget();
+				fmob.fT();
 				return;
 			}
 			if (e.getTarget() != null) {
 				Entity target = ((CraftEntity) e.getTarget()).getHandle();
 				if (Utils.FactionCheck(target, fmob.getFaction()) == -1) {
-					fmob.setTarget(target);
+					fmob.getEntity().setTarget(target);
 					return;
 				}
 			}
-			fmob.findTarget();
+			fmob.fT();
 			return;
 		} else if (entity != null && entity instanceof EntityWolf) {
 			if (e.getTarget() != null) {
@@ -76,7 +76,7 @@ public class EntityListener implements Listener {
 						return;
 					} else if (wolf.isTamed()) {
 						if (wolf.getOwner() != null) {
-							if (fmob.getGoalTarget().equals(wolf.getOwner())) {
+							if (fmob.getEntity().getGoalTarget().equals(wolf.getOwner())) {
 								return;
 							}
 							switch (Utils.FactionCheck(wolf.getOwner(), fmob.getFaction())) {
@@ -109,7 +109,7 @@ public class EntityListener implements Listener {
 			Player player = e.getPlayer();
 			player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
-					fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getHealth()));
+					fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth()));
 			if (player.hasPermission("fmob.order") && UPlayer.get(player).getFaction().equals(fmob.getFaction())) {
 				if (!plugin.playerSelections.containsKey(player.getName())) {
 					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
@@ -132,9 +132,9 @@ public class EntityListener implements Listener {
 			if (FactionMobs.feedEnabled) {
 				if (player.getItemInHand().getType() == Material.APPLE) {
 					player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
-					float iHp = fmob.getHealth();
-					fmob.getEntity().setHealth(fmob.getHealth() + FactionMobs.feedAmount);
-					player.sendMessage(String.format("%sThis mob has been healed by %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getHealth() - iHp));
+					float iHp = fmob.getEntity().getHealth();
+					fmob.getEntity().setHealth(fmob.getEntity().getHealth() + FactionMobs.feedAmount);
+					player.sendMessage(String.format("%sThis mob has been healed by %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth() - iHp));
 				}
 			}
 		}
@@ -165,7 +165,7 @@ public class EntityListener implements Listener {
 		if (damager.getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) damager.getHandle();
 			if (Utils.FactionCheck(entity.getHandle(), fmob.getFaction()) < 1) {
-				if (fmob.isAlive()) {
+				if (fmob.getEntity().isAlive()) {
 					if (entity instanceof CraftCreature) {
 						((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) damager).getHandle());
 					}
@@ -301,7 +301,7 @@ public class EntityListener implements Listener {
 			FactionMob fmob = (FactionMob) ((CraftEntity) e.getPotion().getShooter()).getHandle();
 			for (LivingEntity entity : e.getAffectedEntities()) {
 				if (Utils.FactionCheck(((CraftEntity) entity).getHandle(), fmob.getFaction()) < 1) {
-					if (fmob.isAlive()) {
+					if (fmob.getEntity().isAlive()) {
 						if (entity instanceof CraftCreature) {
 							((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
 						}

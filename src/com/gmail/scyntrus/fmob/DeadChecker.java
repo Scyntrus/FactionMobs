@@ -10,7 +10,7 @@ public class DeadChecker implements Runnable {
 
 	public void run() {
 		for (FactionMob fmob : FactionMobs.mobList) {
- 			if (fmob.getEntity().dead && fmob.getHealth() > 0) {
+ 			if (fmob.getEntity().dead && fmob.getEntity().getHealth() > 0) {
  				fmob.getEntity().dead = false;
  				//fmob.getEntity().world.addEntity(fmob.getEntity(), SpawnReason.CUSTOM);
  			}

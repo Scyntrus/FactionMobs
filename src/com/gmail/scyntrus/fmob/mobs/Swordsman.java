@@ -3,6 +3,7 @@ package com.gmail.scyntrus.fmob.mobs;
 import net.minecraft.server.v1_6_R2.AttributeInstance;
 import net.minecraft.server.v1_6_R2.DamageSource;
 import net.minecraft.server.v1_6_R2.Entity;
+import net.minecraft.server.v1_6_R2.EntityCreature;
 import net.minecraft.server.v1_6_R2.EntityHuman;
 import net.minecraft.server.v1_6_R2.EntityLiving;
 import net.minecraft.server.v1_6_R2.EntityPlayer;
@@ -202,6 +203,11 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public Entity fT() {
+		return findTarget();
 	}
 	
 	@Override
@@ -416,7 +422,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	}
 	
 	@Override
-	public EntityLiving getEntity() {
+	public EntityCreature getEntity() {
 		return this;
 	}
 	
