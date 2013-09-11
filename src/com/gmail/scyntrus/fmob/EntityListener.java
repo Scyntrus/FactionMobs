@@ -32,6 +32,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.massivecraft.factions.Rel;
@@ -184,6 +185,7 @@ public class EntityListener implements Listener {
 			if (Utils.FactionCheck((Entity) fmob, UPlayer.get(player).getFaction()) >= 1) {
 				if (fmob.getFaction().equals(UPlayer.get(player).getFaction())) {
 					player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+					fmob.getEntity().getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
 					return;
 				} else {
 					player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFactionName(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
@@ -225,6 +227,15 @@ public class EntityListener implements Listener {
 			}
 		}
 	}
+
+	@EventHandler(priority=EventPriority.MONITOR)
+	public void onEntityDamageByEntity2(EntityDamageByEntityEvent e) {
+		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob
+				&& e.getEntity().hasMetadata("NPC")) {
+			e.getEntity().removeMetadata("NPC", plugin);
+		}
+	}
+
 	
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e) {

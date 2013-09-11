@@ -107,7 +107,6 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	    this.goalSelector.a(4, new PathfinderGoalRandomStroll(this, this.moveSpeed));
 	    this.goalSelector.a(5, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
 	    this.goalSelector.a(5, new PathfinderGoalRandomLookaround(this));
-	    this.getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
 	    this.getBukkitEntity().setMetadata("CustomEntity", new FixedMetadataValue(FactionMobs.instance, true));
 	}
 
