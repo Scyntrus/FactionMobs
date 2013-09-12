@@ -1,5 +1,7 @@
-
 # ===== FactionMobs Config =====
+
+# View the default config.yml (with full comments and explainations) at
+# https://github.com/Scyntrus/FactionMobs/blob/master/config.yml
 
 # Sets the model of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
 model: 2
