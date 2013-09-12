@@ -97,7 +97,7 @@ public class Utils {
 				return 0;
 			}
 		}
-		return 0;
+		return 1;
 	}
 	
 	public static void giveColorArmor(FactionMob entity) {
