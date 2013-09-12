@@ -36,6 +36,10 @@ public class Utils {
 				return 0;
 			case ALLY:
 			case MEMBER:
+			case LEADER:
+			case OFFICER:
+			case RECRUIT:
+			case TRUCE:
 				return 1;
 			}
 		} else if (entity instanceof FactionMob) {
@@ -50,6 +54,10 @@ public class Utils {
 				return 0;
 			case ALLY:
 			case MEMBER:
+			case LEADER:
+			case OFFICER:
+			case RECRUIT:
+			case TRUCE:
 				return 1;
 			}
 		} else if (entity instanceof EntityWolf) {
