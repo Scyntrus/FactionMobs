@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_6_R2.Entity;
-import net.minecraft.server.v1_6_R2.EntityIronGolem;
-import net.minecraft.server.v1_6_R2.EntityPigZombie;
-import net.minecraft.server.v1_6_R2.EntitySkeleton;
-import net.minecraft.server.v1_6_R2.EntityTypes;
-import net.minecraft.server.v1_6_R2.EntityZombie;
+import net.minecraft.server.v1_6_R3.Entity;
+import net.minecraft.server.v1_6_R3.EntityIronGolem;
+import net.minecraft.server.v1_6_R3.EntityPigZombie;
+import net.minecraft.server.v1_6_R3.EntitySkeleton;
+import net.minecraft.server.v1_6_R3.EntityTypes;
+import net.minecraft.server.v1_6_R3.EntityZombie;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -89,9 +89,9 @@ public class FactionMobs extends JavaPlugin {
     	this.saveConfig();
     	
     	try {
-    	    Class.forName("org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity");
+    	    Class.forName("org.bukkit.craftbukkit.v1_6_R3.entity.CraftEntity");
     	} catch(Exception e) {
-    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires 1.6.2-R0.1). FactionMobs will not be enabled.");
+    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires 1.6.4). FactionMobs will not be enabled.");
     	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
     	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
     	    return;
@@ -100,7 +100,7 @@ public class FactionMobs extends JavaPlugin {
     	try {
     	    Class.forName("com.massivecraft.factions.entity.Faction");
     	} catch (Exception e) {
-			System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 2.0.5). FactionMobs will not be enabled.");
+			System.out.println("[FactionMobs] You are running an unsupported version of Factions (requires 2.2.1). FactionMobs will not be enabled.");
 			this.getCommand("fm").setExecutor(new ErrorCommand(this));
 			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
 			return;

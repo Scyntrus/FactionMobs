@@ -1,34 +1,34 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import net.minecraft.server.v1_6_R2.AttributeInstance;
-import net.minecraft.server.v1_6_R2.DamageSource;
-import net.minecraft.server.v1_6_R2.Entity;
-import net.minecraft.server.v1_6_R2.EntityCreature;
-import net.minecraft.server.v1_6_R2.EntityHuman;
-import net.minecraft.server.v1_6_R2.EntityLiving;
-import net.minecraft.server.v1_6_R2.EntityPlayer;
-import net.minecraft.server.v1_6_R2.EntityProjectile;
-import net.minecraft.server.v1_6_R2.EntityWitch;
-import net.minecraft.server.v1_6_R2.EnumMonsterType;
-import net.minecraft.server.v1_6_R2.GenericAttributes;
-import net.minecraft.server.v1_6_R2.Item;
-import net.minecraft.server.v1_6_R2.ItemStack;
-import net.minecraft.server.v1_6_R2.MathHelper;
-import net.minecraft.server.v1_6_R2.NBTTagCompound;
-import net.minecraft.server.v1_6_R2.PathfinderGoal;
-import net.minecraft.server.v1_6_R2.PathfinderGoalArrowAttack;
-import net.minecraft.server.v1_6_R2.PathfinderGoalFloat;
-import net.minecraft.server.v1_6_R2.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_6_R2.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_6_R2.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_6_R2.World;
+import net.minecraft.server.v1_6_R3.AttributeInstance;
+import net.minecraft.server.v1_6_R3.DamageSource;
+import net.minecraft.server.v1_6_R3.Entity;
+import net.minecraft.server.v1_6_R3.EntityCreature;
+import net.minecraft.server.v1_6_R3.EntityHuman;
+import net.minecraft.server.v1_6_R3.EntityLiving;
+import net.minecraft.server.v1_6_R3.EntityPlayer;
+import net.minecraft.server.v1_6_R3.EntityProjectile;
+import net.minecraft.server.v1_6_R3.EntityWitch;
+import net.minecraft.server.v1_6_R3.EnumMonsterType;
+import net.minecraft.server.v1_6_R3.GenericAttributes;
+import net.minecraft.server.v1_6_R3.Item;
+import net.minecraft.server.v1_6_R3.ItemStack;
+import net.minecraft.server.v1_6_R3.MathHelper;
+import net.minecraft.server.v1_6_R3.NBTTagCompound;
+import net.minecraft.server.v1_6_R3.PathfinderGoal;
+import net.minecraft.server.v1_6_R3.PathfinderGoalArrowAttack;
+import net.minecraft.server.v1_6_R3.PathfinderGoalFloat;
+import net.minecraft.server.v1_6_R3.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_6_R3.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_6_R3.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_6_R3.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_6_R2.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_6_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_6_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R3.util.UnsafeList;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
@@ -347,12 +347,12 @@ public class Mage extends EntityWitch implements FactionMob {
 	}
 
 	@Override
-	protected String aN() {
+	protected String aO() {
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String aO() {
+	protected String aP() {
 	    return FactionMobs.sndDeath;
 	}
 

@@ -1,12 +1,13 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_6_R2.Entity;
+import net.minecraft.server.v1_6_R3.Entity;
 
 import org.bukkit.Location;
+import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_6_R3.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
@@ -14,8 +15,11 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.massivecraft.factions.entity.BoardColls;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColls;
+import com.massivecraft.factions.entity.UPlayer;
+import com.massivecraft.mcore.ps.PS;
 
 public class FmcCommand implements CommandExecutor {
 
@@ -49,7 +53,7 @@ public class FmcCommand implements CommandExecutor {
 			sender.sendMessage("World not found");
 			return false;
 		}
-		net.minecraft.server.v1_6_R2.World world = ((CraftWorld)craftWorld).getHandle();
+		net.minecraft.server.v1_6_R3.World world = ((CraftWorld)craftWorld).getHandle();
 		
 		Location loc = null;
 		try {
@@ -59,9 +63,30 @@ public class FmcCommand implements CommandExecutor {
 			return false;
 		}
 		
-		Faction faction = FactionColls.get().getForWorld(split[2]).getByName(split[1]);
-
-		if (faction == null) {
+		String factionName = split[1];
+		Faction faction = null;
+		if (sender instanceof BlockCommandSender) {
+			Location blockLoc = ((BlockCommandSender) sender).getBlock().getLocation();
+			if (factionName.equalsIgnoreCase("%land%")) {
+				faction = BoardColls.get().getFactionAt(PS.valueOf(blockLoc));
+			} else if (factionName.equalsIgnoreCase("%near%")) {
+				double minDist = 16;
+				Player pNear = null;
+				for (Player p : blockLoc.getWorld().getPlayers()) {
+					if (p.getLocation().distanceSquared(blockLoc) < minDist) {
+						pNear = p;
+						minDist = p.getLocation().distanceSquared(blockLoc);
+					}
+				}
+				if (pNear == null) return true;
+				faction = UPlayer.get(pNear).getFaction();
+			} else {
+				faction = FactionColls.get().getForWorld(split[2]).getByName(factionName);
+			}
+		} else {
+			faction = FactionColls.get().getForWorld(split[2]).getByName(factionName);
+		}
+		if (faction == null || faction.isNone()) {
 			sender.sendMessage("Faction not found");
 			return false;
 		}

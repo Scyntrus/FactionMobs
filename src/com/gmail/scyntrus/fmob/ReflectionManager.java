@@ -3,9 +3,9 @@ package com.gmail.scyntrus.fmob;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import net.minecraft.server.v1_6_R2.EntityTypes;
-import net.minecraft.server.v1_6_R2.Navigation;
-import net.minecraft.server.v1_6_R2.PathfinderGoalSelector;
+import net.minecraft.server.v1_6_R3.EntityTypes;
+import net.minecraft.server.v1_6_R3.Navigation;
+import net.minecraft.server.v1_6_R3.PathfinderGoalSelector;
 
 public class ReflectionManager {
 	
