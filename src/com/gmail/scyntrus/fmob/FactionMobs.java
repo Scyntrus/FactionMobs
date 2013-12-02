@@ -13,11 +13,6 @@ import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_7_R1.Entity;
-import net.minecraft.server.v1_7_R1.EntityIronGolem;
-import net.minecraft.server.v1_7_R1.EntityPigZombie;
-import net.minecraft.server.v1_7_R1.EntitySkeleton;
-import net.minecraft.server.v1_7_R1.EntityTypes;
-import net.minecraft.server.v1_7_R1.EntityZombie;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -192,17 +187,10 @@ public class FactionMobs extends JavaPlugin {
 		}
 		
 	    try {
-	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, Archer.class, Archer.typeName, modelNum);
-	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, Swordsman.class, Swordsman.typeName, modelNum);
-	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, Mage.class, Mage.typeName, modelNum);
-	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, Titan.class, Titan.typeName, 99);
-	    	
-	    	//Make sure I don't override original classes
-	    	
-	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, EntitySkeleton.class, "Skeleton", 51);
-	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, EntityZombie.class, "Zombie", 54);
-	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, EntityPigZombie.class, "PigZombie", 57);
-	    	ReflectionManager.entityTypesA.invoke(EntityTypes.class, EntityIronGolem.class, "VillagerGolem", 99);
+	    	addEntityType(Archer.class, Archer.typeName, modelNum);
+	    	addEntityType(Swordsman.class, Swordsman.typeName, modelNum);
+	    	addEntityType(Mage.class, Mage.typeName, modelNum);
+	    	addEntityType(Titan.class, Titan.typeName, 99);
 	    } catch (Exception e) {
         	this.getLogger().severe("[Fatal Error] Unable to register mobs");
         	e.printStackTrace();
@@ -262,6 +250,14 @@ public class FactionMobs extends JavaPlugin {
 		this.loadMobList();
 		if (runKeepAliveTask) this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new DeadChecker(this), 1, 1);
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void addEntityType(Class paramClass, String paramString, int paramInt) {
+	    ReflectionManager.mapC.put(paramString, paramClass);
+	    ReflectionManager.mapD.put(paramClass, paramString);
+	    ReflectionManager.mapF.put(paramClass, Integer.valueOf(paramInt));
+	    ReflectionManager.mapG.put(paramString, Integer.valueOf(paramInt));
 	}
 	
 	public void onDisable() {
