@@ -126,7 +126,7 @@ public class Mage extends EntityWitch implements FactionMob {
 			}
 			if (this.getGoalTarget() == null) {
 				if (this.order.equals("home") || this.order == null || this.order.equals("")) {
-					this.getNavigation().a(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), 1.0);
+					this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), 1.0);
 					this.order = "home";
 					return;
 				} else if (this.order.equals("poi")) {
