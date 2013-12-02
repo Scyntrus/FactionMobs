@@ -35,9 +35,9 @@ public class ReflectionManager {
 	    	Field fieldG = EntityTypes.class.getDeclaredField("g");
 	        fieldG.setAccessible(true);
 	        mapC = (Map) fieldC.get(null);
-	        mapD = (Map) fieldC.get(null);
-	        mapF = (Map) fieldC.get(null);
-	        mapG = (Map) fieldC.get(null);
+	        mapD = (Map) fieldD.get(null);
+	        mapF = (Map) fieldF.get(null);
+	        mapG = (Map) fieldG.get(null);
 		} catch (Exception e1) {
 			try {
 		    	Field fieldC = EntityTypes.class.getDeclaredField("field_75625_b");
@@ -49,9 +49,9 @@ public class ReflectionManager {
 		    	Field fieldG = EntityTypes.class.getDeclaredField("field_75622_f");
 		        fieldG.setAccessible(true);
 		        mapC = (Map) fieldC.get(null);
-		        mapD = (Map) fieldC.get(null);
-		        mapF = (Map) fieldC.get(null);
-		        mapG = (Map) fieldC.get(null);
+		        mapD = (Map) fieldD.get(null);
+		        mapF = (Map) fieldF.get(null);
+		        mapG = (Map) fieldG.get(null);
 			} catch (Exception e2) {
 	        	e1.printStackTrace();
 	        	e2.printStackTrace();

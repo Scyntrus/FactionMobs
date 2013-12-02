@@ -108,8 +108,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	}
 
 	@Override
-	public void c() {
-		super.c();
+	public void e() {
+		super.e();
 		if (this.inWater) {
 			this.motY += .1;
 		}

@@ -111,9 +111,9 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}
 	
 	@Override
-	public void c() { //TODO: Update name on version change
+	public void e() { //TODO: Update name on version change
 		int tmpFire = this.fireTicks;
-		super.c();
+		super.e();
 		this.fireTicks = tmpFire;
 		if (this.getEquipment(4) != null) {
 			this.getEquipment(4).setData(0);

@@ -113,9 +113,9 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	}
 
 	@Override
-	public void c() {
+	public void e() {
 		int tmpFire = this.fireTicks;
-		super.c();
+		super.e();
 		this.fireTicks = tmpFire;
 		if (this.getEquipment(4) != null) {
 			this.getEquipment(4).setData(0);
