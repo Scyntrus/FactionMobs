@@ -74,7 +74,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
 	    this.moveSpeed = FactionMobs.mobSpeed;
-	    getAttributeInstance(GenericAttributes.d).setValue(1.0);
+	    getAttributeInstance(GenericAttributes.d).setValue(this.moveSpeed);
 	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
 	    this.setHealth(maxHp);
 	    this.X = 1.5F;
@@ -99,9 +99,9 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	    }
 	    
 	    this.goalSelector.a(1, new PathfinderGoalFloat(this));
-	    this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, this.moveSpeed, true));
-	    this.goalSelector.a(3, new PathfinderGoalMoveTowardsTarget(this, this.moveSpeed, (float) range));
-	    this.goalSelector.a(4, new PathfinderGoalRandomStroll(this, this.moveSpeed));
+	    this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, 1.0, true));
+	    this.goalSelector.a(3, new PathfinderGoalMoveTowardsTarget(this, 1.0, (float) range));
+	    this.goalSelector.a(4, new PathfinderGoalRandomStroll(this, 1.0));
 	    this.goalSelector.a(5, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
 	    this.goalSelector.a(5, new PathfinderGoalRandomLookaround(this));
 	    this.getBukkitEntity().setMetadata("CustomEntity", new FixedMetadataValue(FactionMobs.instance, true));
@@ -127,11 +127,11 @@ public class Titan extends EntityIronGolem implements FactionMob {
 			}
 			if (this.getGoalTarget() == null) {
 				if (this.order.equals("home") || this.order == null || this.order.equals("")) {
-					this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), FactionMobs.mobSpeed);
+					this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), 1.0);
 					this.order = "home";
 					return;
 				} else if (this.order.equals("poi")) {
-					this.getNavigation().a(this.poiX, this.poiY, this.poiZ, FactionMobs.mobSpeed);
+					this.getNavigation().a(this.poiX, this.poiY, this.poiZ, 1.0);
 					return;
 				} else if (this.order.equals("wander")) {
 					return;
@@ -148,7 +148,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 					}
 					return;
 				} else if (this.order.equals("path")) {
-					this.getNavigation().a(poiX, poiY, poiZ, FactionMobs.mobPatrolSpeed);
+					this.getNavigation().a(poiX, poiY, poiZ, 1.0);
 					if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 2.5) {
 						this.order = "home";
 					}

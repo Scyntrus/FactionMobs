@@ -13,7 +13,7 @@ public class FactionColls {
 			return new Faction(com.massivecraft.factions.entity.FactionColls.get().getForWorld(worldName).getByName(factionName));
 		} else if (FactionMobs.factionsVersion == 6) {
 			try {
-				Field i = com.massivecraft.factions.Factions.class.getField("i");
+				Field i = com.massivecraft.factions.Factions.class.getDeclaredField("i");
 				i.setAccessible(true);
 				com.massivecraft.factions.Factions f = (com.massivecraft.factions.Factions) i.get(null);
 				Method gBT = com.massivecraft.factions.Factions.class.getDeclaredMethod("getByTag", new Class<?>[]{String.class});
@@ -23,7 +23,7 @@ public class FactionColls {
 			}
 		} else if (FactionMobs.factionsVersion == 8) {
 			try {
-				Field i = com.massivecraft.factions.Factions.class.getField("i");
+				Field i = com.massivecraft.factions.Factions.class.getDeclaredField("i");
 				i.setAccessible(true);
 				com.massivecraft.factions.Factions f = (com.massivecraft.factions.Factions) i.get(null);
 				Method gBT = com.massivecraft.factions.Factions.class.getDeclaredMethod("getByTag", new Class<?>[]{String.class});

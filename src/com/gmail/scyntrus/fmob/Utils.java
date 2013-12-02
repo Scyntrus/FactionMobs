@@ -102,6 +102,10 @@ public class Utils {
 
 	    for (ItemStack i : itemStacks) {
 	    	NBTTagCompound n = i.getTag();
+	    	if (n == null) {
+	    		i.setTag(new NBTTagCompound());
+	    		n = i.getTag();
+	    	}
 	    	n.setInt("color", color);
 	    }
 	    

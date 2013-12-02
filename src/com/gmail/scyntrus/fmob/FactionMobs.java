@@ -151,6 +151,7 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.attackZombies = config.getBoolean("attackZombies", FactionMobs.attackZombies);
 		FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed", FactionMobs.mobSpeed);
 		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
+		FactionMobs.mobPatrolSpeed = FactionMobs.mobPatrolSpeed / FactionMobs.mobSpeed;
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
 		FactionMobs.excludeFromKillCommands = config.getBoolean("excludeFromKillCommands", FactionMobs.excludeFromKillCommands);
 		FactionMobs.runKeepAliveTask = config.getBoolean("runKeepAliveTask", FactionMobs.runKeepAliveTask);
