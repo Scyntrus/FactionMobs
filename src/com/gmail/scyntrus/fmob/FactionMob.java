@@ -5,7 +5,7 @@ import net.minecraft.server.v1_7_R1.EntityCreature;
 
 import org.bukkit.Location;
 
-import com.massivecraft.factions.entity.Faction;
+import com.gmail.scyntrus.ifactions.Faction;
 
 public interface FactionMob {
 	public Faction getFaction();

@@ -18,8 +18,8 @@ import net.minecraft.server.v1_7_R1.NBTTagCompound;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.UPlayer;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.UPlayer;
 
 public class Utils {
 	public static int FactionCheck(Entity entity, Faction faction) {
@@ -29,37 +29,13 @@ public class Utils {
 		if (entity instanceof EntityPlayer) {
 			Player player = ((EntityPlayer)entity).getBukkitEntity();
 			if (player.getGameMode() == GameMode.CREATIVE) return 1;
-			switch (UPlayer.get(player).getFaction().getRelationTo(faction)) {
-			case ENEMY:
-				return -1;
-			case NEUTRAL:
-				return 0;
-			case ALLY:
-			case MEMBER:
-			case LEADER:
-			case OFFICER:
-			case RECRUIT:
-			case TRUCE:
-				return 1;
-			}
+			return UPlayer.getPlayerFaction(player).getRelationTo(faction);
 		} else if (entity instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) entity;
 			if (fmob.getFaction() == null) {
 				return 0;
 			}
-			switch (fmob.getFaction().getRelationTo(faction)) {
-			case ENEMY:
-				return -1;
-			case NEUTRAL:
-				return 0;
-			case ALLY:
-			case MEMBER:
-			case LEADER:
-			case OFFICER:
-			case RECRUIT:
-			case TRUCE:
-				return 1;
-			}
+			return fmob.getFaction().getRelationTo(faction);
 		} else if (entity instanceof EntityWolf) {
 			EntityWolf wolf = (EntityWolf) entity;
 			if (wolf.isTamed()) {

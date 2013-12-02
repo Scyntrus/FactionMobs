@@ -36,8 +36,8 @@ import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.FactionColls;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.FactionColls;
 
 public class Mage extends EntityWitch implements FactionMob {
 	
@@ -265,7 +265,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	@Override
 	public Faction getFaction() {
 		if (this.faction == null) {
-			this.faction = FactionColls.get().getForWorld(this.world.getWorldData().getName()).getByName(factionName);
+			this.faction = FactionColls.getFactionByName(this.world.getWorldData().getName(),factionName);
 		}
 		if (this.faction == null) {
 			this.die();
@@ -309,7 +309,7 @@ public class Mage extends EntityWitch implements FactionMob {
 		} else {
 			this.findTarget();
 		}
-		this.faction = FactionColls.get().getForWorld(this.world.getWorldData().getName()).getByName(factionName);
+		this.faction = FactionColls.getFactionByName(this.world.getWorldData().getName(),factionName);
 		if (this.faction == null) {
 			this.die();
 			return;

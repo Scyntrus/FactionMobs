@@ -15,11 +15,9 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.massivecraft.factions.entity.BoardColls;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.FactionColls;
-import com.massivecraft.factions.entity.UPlayer;
-import com.massivecraft.mcore.ps.PS;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.FactionColls;
+import com.gmail.scyntrus.ifactions.UPlayer;
 
 public class FmcCommand implements CommandExecutor {
 
@@ -68,7 +66,7 @@ public class FmcCommand implements CommandExecutor {
 		if (sender instanceof BlockCommandSender) {
 			Location blockLoc = ((BlockCommandSender) sender).getBlock().getLocation();
 			if (factionName.equalsIgnoreCase("%land%")) {
-				faction = BoardColls.get().getFactionAt(PS.valueOf(blockLoc));
+				faction = FactionColls.getFactionAt(blockLoc);
 			} else if (factionName.equalsIgnoreCase("%near%")) {
 				double minDist = 16;
 				Player pNear = null;
@@ -79,12 +77,12 @@ public class FmcCommand implements CommandExecutor {
 					}
 				}
 				if (pNear == null) return true;
-				faction = UPlayer.get(pNear).getFaction();
+				faction = UPlayer.getPlayerFaction(pNear);
 			} else {
-				faction = FactionColls.get().getForWorld(split[2]).getByName(factionName);
+				faction = FactionColls.getFactionByName(split[2],factionName);
 			}
 		} else {
-			faction = FactionColls.get().getForWorld(split[2]).getByName(factionName);
+			faction = FactionColls.getFactionByName(split[2],factionName);
 		}
 		if (faction == null || faction.isNone()) {
 			sender.sendMessage("Faction not found");

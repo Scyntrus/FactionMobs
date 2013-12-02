@@ -35,9 +35,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.massivecraft.factions.Rel;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.UPlayer;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.UPlayer;
 
 public class EntityListener implements Listener {
 	
@@ -110,7 +109,7 @@ public class EntityListener implements Listener {
 			player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
 					fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth()));
-			if (player.hasPermission("fmob.order") && UPlayer.get(player).getFaction().equals(fmob.getFaction())) {
+			if (player.hasPermission("fmob.order") && UPlayer.getPlayerFaction(player).equals(fmob.getFaction())) {
 				if (!plugin.playerSelections.containsKey(player.getName())) {
 					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
 				}
@@ -183,8 +182,8 @@ public class EntityListener implements Listener {
 				&& (entity.getHandle() instanceof FactionMob)) {
 			FactionMob fmob = (FactionMob) entity.getHandle();
 			Player player = (Player) damager;
-			if (Utils.FactionCheck((Entity) fmob, UPlayer.get(player).getFaction()) >= 1) {
-				if (fmob.getFaction().equals(UPlayer.get(player).getFaction())) {
+			if (Utils.FactionCheck((Entity) fmob, UPlayer.getPlayerFaction(player)) >= 1) {
+				if (fmob.getFaction().equals(UPlayer.getPlayerFaction(player))) {
 					player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 					fmob.getEntity().getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
 					return;
@@ -205,23 +204,21 @@ public class EntityListener implements Listener {
 			for (org.bukkit.entity.Entity nearEntity : aoeList) {
 				if (((CraftEntity) nearEntity).getHandle() instanceof FactionMob) {
 					FactionMob fmob2 = (FactionMob) ((CraftEntity) nearEntity).getHandle();
-					Rel rel = faction.getRelationTo(fmob2.getFaction());
-					if ((rel == Rel.ALLY || rel == Rel.MEMBER) && 
-							Utils.FactionCheck(damager.getHandle(), faction) < 1) {
+					int rel = faction.getRelationTo(fmob2.getFaction());
+					if ((rel == 1) && Utils.FactionCheck(damager.getHandle(), faction) < 1) {
 						fmob2.softAgro(damager.getHandle());
 					}
 				}
 			}
 		} else if (entity instanceof Player) {
-			Faction faction = UPlayer.get((Player) entity).getFaction();
+			Faction faction = UPlayer.getPlayerFaction((Player) entity);
 			if (faction.isNone()) return;
 			List<org.bukkit.entity.Entity> aoeList = entity.getNearbyEntities(8, 8, 8);
 			for (org.bukkit.entity.Entity nearEntity : aoeList) {
 				if (((CraftEntity) nearEntity).getHandle() instanceof FactionMob) {
 					FactionMob fmob2 = (FactionMob) ((CraftEntity) nearEntity).getHandle();
-					Rel rel = faction.getRelationTo(fmob2.getFaction());
-					if ((rel == Rel.ALLY || rel == Rel.MEMBER) && 
-							Utils.FactionCheck(damager.getHandle(), faction) < 1) {
+					int rel = faction.getRelationTo(fmob2.getFaction());
+					if ((rel == 1) && Utils.FactionCheck(damager.getHandle(), faction) < 1) {
 						fmob2.softAgro(damager.getHandle());
 					}
 				}
