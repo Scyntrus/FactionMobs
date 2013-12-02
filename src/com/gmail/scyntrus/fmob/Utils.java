@@ -1,19 +1,19 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_6_R3.Entity;
-import net.minecraft.server.v1_6_R3.EntityAnimal;
-import net.minecraft.server.v1_6_R3.EntityCreeper;
-import net.minecraft.server.v1_6_R3.EntityEnderDragon;
-import net.minecraft.server.v1_6_R3.EntityGhast;
-import net.minecraft.server.v1_6_R3.EntityMonster;
-import net.minecraft.server.v1_6_R3.EntityPlayer;
-import net.minecraft.server.v1_6_R3.EntitySlime;
-import net.minecraft.server.v1_6_R3.EntityWither;
-import net.minecraft.server.v1_6_R3.EntityWolf;
-import net.minecraft.server.v1_6_R3.EntityZombie;
-import net.minecraft.server.v1_6_R3.Item;
-import net.minecraft.server.v1_6_R3.ItemStack;
-import net.minecraft.server.v1_6_R3.NBTTagCompound;
+import net.minecraft.server.v1_7_R1.Entity;
+import net.minecraft.server.v1_7_R1.EntityAnimal;
+import net.minecraft.server.v1_7_R1.EntityCreeper;
+import net.minecraft.server.v1_7_R1.EntityEnderDragon;
+import net.minecraft.server.v1_7_R1.EntityGhast;
+import net.minecraft.server.v1_7_R1.EntityMonster;
+import net.minecraft.server.v1_7_R1.EntityPlayer;
+import net.minecraft.server.v1_7_R1.EntitySlime;
+import net.minecraft.server.v1_7_R1.EntityWither;
+import net.minecraft.server.v1_7_R1.EntityWolf;
+import net.minecraft.server.v1_7_R1.EntityZombie;
+import net.minecraft.server.v1_7_R1.Item;
+import net.minecraft.server.v1_7_R1.ItemStack;
+import net.minecraft.server.v1_7_R1.NBTTagCompound;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
