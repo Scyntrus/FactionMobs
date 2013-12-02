@@ -1,6 +1,7 @@
 package com.gmail.scyntrus.fmob.mobs;
 
 import net.minecraft.server.v1_7_R1.AttributeInstance;
+import net.minecraft.server.v1_7_R1.Block;
 import net.minecraft.server.v1_7_R1.DamageSource;
 import net.minecraft.server.v1_7_R1.Entity;
 import net.minecraft.server.v1_7_R1.EntityCreature;
@@ -78,14 +79,14 @@ public class Mage extends EntityWitch implements FactionMob {
 	    getAttributeInstance(GenericAttributes.d).setValue(1.0);
 	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
 	    this.setHealth(maxHp);
-	    this.Y = 1.5F;
+	    this.X = 1.5F;
 	    this.getNavigation().a(false);
 	    this.getNavigation().b(false);
 	    this.getNavigation().c(true);
 	    this.getNavigation().d(false);
 	    this.getNavigation().e(true);
 	    this.setHealth(maxHp);
-		this.setEquipment(0, new ItemStack(Item.POTION, 1, 8204));
+		this.setEquipment(0, new ItemStack((Item)Item.REGISTRY.a("potion"), 1, 8204));
 	    
 	    if (ReflectionManager.goodNavigationE) {
 		    try {
@@ -342,22 +343,22 @@ public class Mage extends EntityWitch implements FactionMob {
 	}
 
 	@Override
-	protected String r() {
+	protected String t() {
 	    return FactionMobs.sndBreath;
 	}
 
 	@Override
-	protected String aO() {
+	protected String aT() {
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String aP() {
+	protected String aU() {
 	    return FactionMobs.sndDeath;
 	}
 
 	@Override
-	protected void a(int i, int j, int k, int l) {
+	protected void a(int i, int j, int k, Block block) {
 	    makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
 	}
 

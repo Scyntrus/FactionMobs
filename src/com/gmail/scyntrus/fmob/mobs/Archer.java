@@ -1,6 +1,7 @@
 package com.gmail.scyntrus.fmob.mobs;
 
 import net.minecraft.server.v1_7_R1.AttributeInstance;
+import net.minecraft.server.v1_7_R1.Block;
 import net.minecraft.server.v1_7_R1.DamageSource;
 import net.minecraft.server.v1_7_R1.Entity;
 import net.minecraft.server.v1_7_R1.EntityCreature;
@@ -80,13 +81,13 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
 	    if (damage > 0) getAttributeInstance(GenericAttributes.e).setValue(damage);
 	    this.setHealth(maxHp);
-	    this.Y = 1.5F;                  // jump height
+	    this.X = 1.5F;                  // jump height TODO: Update name on version change
 	    this.getNavigation().a(false);  // avoid water
 	    this.getNavigation().b(false);  // break door
 	    this.getNavigation().c(true);   // enter open door
 	    this.getNavigation().d(false);  // avoid sunlight
 	    this.getNavigation().e(true);   // swim
-	    this.setEquipment(0, new ItemStack(Item.BOW));
+	    this.setEquipment(0, new ItemStack((Item)Item.REGISTRY.a("bow")));
 	    
 	    if (ReflectionManager.goodNavigationE) {
 		    try {
@@ -348,22 +349,22 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}	
 
 	@Override
-	protected String r() { //TODO: Update name on version change
+	protected String t() { //TODO: Update name on version change
 	    return FactionMobs.sndBreath;
 	}
 
 	@Override
-	protected String aO() { //TODO: Update name on version change
+	protected String aT() { //TODO: Update name on version change
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String aP() { //TODO: Update name on version change
+	protected String aU() { //TODO: Update name on version change
 	    return FactionMobs.sndDeath;
 	}
 
 	@Override
-	protected void a(int i, int j, int k, int l) { //TODO: Update name on version change
+	protected void a(int i, int j, int k, Block block) { //TODO: Update name on version change
 	    makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
 	}
 

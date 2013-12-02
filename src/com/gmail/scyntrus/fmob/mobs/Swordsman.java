@@ -1,6 +1,7 @@
 package com.gmail.scyntrus.fmob.mobs;
 
 import net.minecraft.server.v1_7_R1.AttributeInstance;
+import net.minecraft.server.v1_7_R1.Block;
 import net.minecraft.server.v1_7_R1.DamageSource;
 import net.minecraft.server.v1_7_R1.Entity;
 import net.minecraft.server.v1_7_R1.EntityCreature;
@@ -81,13 +82,13 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
 	    if (damage > 0) getAttributeInstance(GenericAttributes.e).setValue(damage);
 	    this.setHealth(maxHp);
-	    this.Y = 1.5F;
+	    this.X = 1.5F;
 	    this.getNavigation().a(false);
 	    this.getNavigation().b(false);
 	    this.getNavigation().c(true);
 	    this.getNavigation().d(false);
 	    this.getNavigation().e(true);
-	    this.setEquipment(0, new ItemStack(Item.IRON_SWORD));
+	    this.setEquipment(0, new ItemStack((Item)Item.REGISTRY.a("iron_sword")));
 	    
 	    if (ReflectionManager.goodNavigationE) {
 		    try {
@@ -350,22 +351,22 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	}
 
 	@Override
-	protected String r() {
+	protected String t() {
 	    return FactionMobs.sndBreath;
 	}
 
 	@Override
-	protected String aO() {
+	protected String aT() {
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String aP() {
+	protected String aU() {
 	    return FactionMobs.sndDeath;
 	}
 
 	@Override
-	protected void a(int i, int j, int k, int l) {
+	protected void a(int i, int j, int k, Block block) {
 	    makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
 	}
 
@@ -467,11 +468,6 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 			this.setTarget(null);
 		}
 		this.attackedBy = null;
-	}
-	
-	@Override
-	public boolean bD() {
-		return false;
 	}
 	
 	@Override

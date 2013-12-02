@@ -77,7 +77,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	    getAttributeInstance(GenericAttributes.d).setValue(1.0);
 	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
 	    this.setHealth(maxHp);
-	    this.Y = 1.5F;
+	    this.X = 1.5F;
 	    this.getNavigation().a(false);
 	    this.getNavigation().b(false);
 	    this.getNavigation().c(true);

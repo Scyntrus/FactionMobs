@@ -111,28 +111,22 @@ public class Utils {
 		}
 		
 		if (color == -1 || color == 10511680) {
-			entity.getEntity().setEquipment(1, new ItemStack(Item.LEATHER_BOOTS));
-			entity.getEntity().setEquipment(2, new ItemStack(Item.LEATHER_LEGGINGS));
-			entity.getEntity().setEquipment(3, new ItemStack(Item.LEATHER_CHESTPLATE));
-			entity.getEntity().setEquipment(4, new ItemStack(Item.LEATHER_HELMET));
+			entity.getEntity().setEquipment(1, new ItemStack((Item)Item.REGISTRY.a("leather_boots")));
+			entity.getEntity().setEquipment(2, new ItemStack((Item)Item.REGISTRY.a("leather_leggings")));
+			entity.getEntity().setEquipment(3, new ItemStack((Item)Item.REGISTRY.a("leather_chestplate")));
+			entity.getEntity().setEquipment(4, new ItemStack((Item)Item.REGISTRY.a("leather_helmet")));
 			return;
 		}
 		
 		ItemStack[] itemStacks = {
-				new ItemStack(Item.LEATHER_BOOTS), 
-				new ItemStack(Item.LEATHER_LEGGINGS), 
-				new ItemStack(Item.LEATHER_CHESTPLATE),
-				new ItemStack(Item.LEATHER_HELMET)};
+				new ItemStack((Item)Item.REGISTRY.a("leather_boots")), 
+				new ItemStack((Item)Item.REGISTRY.a("leather_leggings")), 
+				new ItemStack((Item)Item.REGISTRY.a("leather_chestplate")),
+				new ItemStack((Item)Item.REGISTRY.a("leather_helmet"))};
 
 	    for (ItemStack i : itemStacks) {
 	    	NBTTagCompound n = i.getTag();
-		    if (n == null) {
-		      n = new NBTTagCompound();
-		      i.setTag(n);
-		    }
-		    NBTTagCompound n2 = n.getCompound("display");
-		    if (!n.hasKey("display")) n.setCompound("display", n2);
-		    n2.setInt("color", color);
+	    	n.setInt("color", color);
 	    }
 	    
 	    entity.getEntity().setEquipment(1, itemStacks[0]);
