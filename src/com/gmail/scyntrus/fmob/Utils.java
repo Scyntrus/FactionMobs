@@ -102,11 +102,14 @@ public class Utils {
 
 	    for (ItemStack i : itemStacks) {
 	    	NBTTagCompound n = i.getTag();
-	    	if (n == null) {
-	    		i.setTag(new NBTTagCompound());
-	    		n = i.getTag();
-	    	}
-	    	n.setInt("color", color);
+			if (n == null) {
+				n = new NBTTagCompound();
+				i.setTag(n);
+			}
+			NBTTagCompound n2 = n.getCompound("display");
+			if (!n.hasKey("display"))
+				n.set("display", n2);
+			n2.setInt("color", color);
 	    }
 	    
 	    entity.getEntity().setEquipment(1, itemStacks[0]);
