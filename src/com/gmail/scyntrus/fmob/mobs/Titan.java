@@ -35,7 +35,7 @@ import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.FactionColls;
+import com.gmail.scyntrus.ifactions.Factions;
 
 public class Titan extends EntityIronGolem implements FactionMob {
 	
@@ -266,7 +266,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	@Override
 	public Faction getFaction() {
 		if (this.faction == null) {
-			this.faction = FactionColls.getFactionByName(this.world.getWorldData().getName(),factionName);
+			this.faction = Factions.getFactionByName(this.world.getWorldData().getName(),factionName);
 		}
 		if (this.faction == null) {
 			this.die();
@@ -310,7 +310,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		} else {
 			this.findTarget();
 		}
-		this.faction = FactionColls.getFactionByName(this.world.getWorldData().getName(),factionName);
+		this.faction = Factions.getFactionByName(this.world.getWorldData().getName(),factionName);
 		if (this.faction == null) {
 			this.die();
 			return;
