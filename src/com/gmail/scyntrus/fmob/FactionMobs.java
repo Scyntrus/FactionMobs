@@ -21,7 +21,8 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.MetricsLite;
+import org.mcstats.Metrics;
+import org.mcstats.Metrics.Graph;
 
 import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
@@ -258,14 +259,9 @@ public class FactionMobs extends JavaPlugin {
         } else {
         	System.out.println("[FactionMobs] Vault not detected.");
         }
-        
-		try { // using mcstats.org metrics
-			MetricsLite metrics = new MetricsLite(this);
-		    metrics.start();
-		} catch (IOException e) {
-            System.out.println("[Metrics] " + e.getMessage());
-		}
-        
+		
+		runMetrics(); // using mcstats.org metrics
+		
 		this.loadMobList();
 		if (runKeepAliveTask) this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new DeadChecker(this), 1, 1);
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
@@ -277,6 +273,26 @@ public class FactionMobs extends JavaPlugin {
 	    ReflectionManager.mapD.put(paramClass, paramString);
 	    ReflectionManager.mapF.put(paramClass, Integer.valueOf(paramInt));
 	    ReflectionManager.mapG.put(paramString, Integer.valueOf(paramInt));
+	}
+	
+	private void runMetrics() {
+		try {
+		    Metrics metrics = new Metrics(this);
+
+		    Graph versionGraph = metrics.createGraph("Factions Version");
+
+		    versionGraph.addPlotter(new Metrics.Plotter(this.getServer().getPluginManager().getPlugin("Factions").getDescription().getVersion()) {
+
+		            @Override
+		            public int getValue() {
+		                    return 1;
+		            }
+
+		    });
+
+		    metrics.start();
+		} catch (IOException e) {
+		}
 	}
 	
 	public void onDisable() {
