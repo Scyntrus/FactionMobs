@@ -16,7 +16,7 @@ import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.FactionColls;
+import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.UPlayer;
 
 public class FmcCommand implements CommandExecutor {
@@ -66,7 +66,7 @@ public class FmcCommand implements CommandExecutor {
 		if (sender instanceof BlockCommandSender) {
 			Location blockLoc = ((BlockCommandSender) sender).getBlock().getLocation();
 			if (factionName.equalsIgnoreCase("%land%")) {
-				faction = FactionColls.getFactionAt(blockLoc);
+				faction = Factions.getFactionAt(blockLoc);
 			} else if (factionName.equalsIgnoreCase("%near%")) {
 				double minDist = 16;
 				Player pNear = null;
@@ -79,10 +79,10 @@ public class FmcCommand implements CommandExecutor {
 				if (pNear == null) return true;
 				faction = UPlayer.getPlayerFaction(pNear);
 			} else {
-				faction = FactionColls.getFactionByName(split[2],factionName);
+				faction = Factions.getFactionByName(split[2],factionName);
 			}
 		} else {
-			faction = FactionColls.getFactionByName(split[2],factionName);
+			faction = Factions.getFactionByName(split[2],factionName);
 		}
 		if (faction == null || faction.isNone()) {
 			sender.sendMessage("Faction not found");

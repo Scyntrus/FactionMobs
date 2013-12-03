@@ -29,7 +29,7 @@ import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.FactionColls;
+import com.gmail.scyntrus.ifactions.Factions;
 
 public class FactionMobs extends JavaPlugin {
 	
@@ -76,8 +76,6 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean excludeFromKillCommands = true;
 	public static boolean runKeepAliveTask = true;
 	
-	public static int factionsVersion = 0;
-	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		FactionMobs.instance = this;
@@ -89,36 +87,17 @@ public class FactionMobs extends JavaPlugin {
     	try {
     	    Class.forName("org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity");
     	} catch(Exception e) {
-    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires 1.6.4). FactionMobs will not be enabled.");
+    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires v1_7_R1). FactionMobs will not be enabled.");
     	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
     	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
     	    return;
     	}
     	
-    	try {
-    	    Class.forName("com.massivecraft.factions.Rel");
-    	    factionsVersion = 2; //Factions 2.0
-    	    System.out.println("[FactionMobs] Factions 2.x detected");
-    	} catch (Exception e1) {
-        	try {
-        	    Class.forName("com.massivecraft.factions.struct.Relation");
-        	    factionsVersion = 6; //Factions 1.6
-        	    System.out.println("[FactionMobs] Factions 1.6.x detected");
-        	} catch (Exception e2) {
-            	try {
-            	    Class.forName("com.massivecraft.factions.struct.Rel");
-            	    factionsVersion = 8; //Factions 1.8
-            	    System.out.println("[FactionMobs] Factions 1.8.x detected");
-            	} catch (Exception e3) {
-					System.out.println("[FactionMobs] You are running an unsupported version of Factions. FactionMobs will not be enabled.");
-					this.getCommand("fm").setExecutor(new ErrorCommand(this));
-					this.getCommand("fmc").setExecutor(new ErrorCommand(this));
-					return;
-            	}
-        	}
+    	if (!Factions.init(this.getName())) {
+			this.getCommand("fm").setExecutor(new ErrorCommand(this));
+			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
+			return;
     	}
-    	
-    	FactionColls.init();
     	
 		int modelNum = 51;
 		switch (config.getInt("model")) {
@@ -335,7 +314,7 @@ public class FactionMobs extends JavaPlugin {
 					}
 					continue;
 				}
-				Faction faction = FactionColls.getFactionByName(mobData.get(1),mobData.get(2));
+				Faction faction = Factions.getFactionByName(mobData.get(1),mobData.get(2));
 				if (faction == null) {
 					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
 					if (!backup) {

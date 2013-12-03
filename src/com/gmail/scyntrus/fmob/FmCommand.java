@@ -21,7 +21,7 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.gmail.scyntrus.ifactions.FactionColls;
+import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.UPlayer;
 import com.gmail.scyntrus.ifactions.Faction;
 
@@ -139,7 +139,7 @@ public class FmCommand implements CommandExecutor {
 					return true;
 				}
 				if (!player.hasPermission("fmob.bypass")) {
-					Faction areafaction = FactionColls.getFactionAt(loc);
+					Faction areafaction = Factions.getFactionAt(loc);
 					if (!playerfaction.getName().equals(areafaction.getName())) {
 						player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
 						return true;
