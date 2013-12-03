@@ -117,6 +117,8 @@ public class FactionMobs extends JavaPlugin {
         	}
     	}
     	
+    	FactionColls.init();
+    	
 		int modelNum = 51;
 		switch (config.getInt("model")) {
 		case 0: // skeleton
