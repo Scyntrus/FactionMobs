@@ -10,11 +10,11 @@ public class Faction {
 	
 	public int getRelationTo(Faction other) {
 		if (Factions.factionsVersion == 2) {
-			Rel2.getRelation(this.faction, other.faction);
+			return Rel2.getRelation(this.faction, other.faction);
 		} else if (Factions.factionsVersion == 6) {
-			Rel6.getRelation(this.faction, other.faction);
+			return Rel6.getRelation(this.faction, other.faction);
 		} else if (Factions.factionsVersion == 8) {
-			Rel8.getRelation(this.faction, other.faction);
+			return Rel8.getRelation(this.faction, other.faction);
 		}
 		return 0;
 	}
