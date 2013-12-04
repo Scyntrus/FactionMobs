@@ -6,9 +6,9 @@ public class Rel8 {
 	
 	public static Method grt;
 	
-	public static int getRelation(Object f1, Object f2) {
+	public static int getRelation(com.massivecraft.factions.Faction f1, com.massivecraft.factions.Faction f2) {
 		try {
-			Object rel = grt.invoke((com.massivecraft.factions.Faction)f1, (com.massivecraft.factions.Faction)f2);
+			Object rel = grt.invoke(f1, f2);
 			if (rel.equals(com.massivecraft.factions.struct.Rel.ENEMY)) {
 				return -1;
 			} else if (rel.equals(com.massivecraft.factions.struct.Rel.NEUTRAL)) {
