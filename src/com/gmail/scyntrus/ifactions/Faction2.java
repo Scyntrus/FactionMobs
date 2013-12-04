@@ -27,16 +27,16 @@ public class Faction2 extends Faction {
 
 	@Override
 	public boolean isNone() {
-		return ((com.massivecraft.factions.entity.Faction)faction).isNone();
+		return faction.isNone();
 	}
 
 	@Override
 	public String getName() {
-		return ((com.massivecraft.factions.entity.Faction)faction).getName();
+		return faction.getName();
 	}
 
 	@Override
 	public double getPower() {
-		return ((com.massivecraft.factions.entity.Faction)faction).getPower();
+		return faction.getPower();
 	}
 }
