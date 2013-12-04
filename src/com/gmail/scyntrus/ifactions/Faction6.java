@@ -14,7 +14,15 @@ public class Faction6 extends Faction {
 	
 	@Override
 	public int getRelationTo(Faction other) {
-		return Rel6.getRelation(this.faction, ((Faction6)other).faction);
+		Object rel = faction.getRelationTo(((Faction6)other).faction);
+		if (rel.equals(com.massivecraft.factions.struct.Relation.ENEMY)) {
+			return -1;
+		} else if (rel.equals(com.massivecraft.factions.struct.Relation.NEUTRAL)) {
+			return 0;
+		} else if (rel.equals(com.massivecraft.factions.struct.Relation.ALLY) || rel.equals(com.massivecraft.factions.struct.Relation.MEMBER)) {
+			return 1;
+		}
+		return 0;
 	}
 
 	@Override
