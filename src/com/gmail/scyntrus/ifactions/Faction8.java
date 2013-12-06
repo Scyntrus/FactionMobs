@@ -18,6 +18,7 @@ public class Faction8 extends Faction {
 
 	@Override
 	public int getRelationTo(Faction other) {
+		if (faction == null) return 0;
 		try {
 			Object rel = grt.invoke(faction, ((Faction8)other).faction);
 			if (rel.equals(com.massivecraft.factions.struct.Rel.ENEMY)) {
@@ -35,16 +36,19 @@ public class Faction8 extends Faction {
 
 	@Override
 	public boolean isNone() {
+		if (faction == null) return true;
 		return faction.isNone();
 	}
 
 	@Override
 	public String getName() {
+		if (faction == null) return "";
 		return faction.getTag();
 	}
 
 	@Override
 	public double getPower() {
+		if (faction == null) return 0;
 		return faction.getPower();
 	}
 }

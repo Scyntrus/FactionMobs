@@ -33,6 +33,6 @@ public class RenameListener68 implements Listener {
 					}
 				}
 			}
-		}.init(oldName,  newName), 0);
+		}.init(oldName,  newName), 1);
 	}
 }

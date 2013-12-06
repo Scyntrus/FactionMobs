@@ -322,7 +322,7 @@ public class FactionMobs extends JavaPlugin {
 					continue;
 				}
 				Faction faction = Factions.getFactionByName(mobData.get(1),mobData.get(2));
-				if (faction == null) {
+				if (faction == null || faction.isNone()) {
 					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
 					if (!backup) {
 						backup = true;
@@ -351,7 +351,7 @@ public class FactionMobs extends JavaPlugin {
 				} else {
 					continue;
 				}
-				if (newMob.getFaction() == null || newMob.getFactionName() == null) {
+				if (newMob.getFaction() == null || newMob.getFactionName() == null || newMob.getFaction().isNone()) {
 					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
 					if (!backup) {
 						backup = true;
@@ -394,7 +394,7 @@ public class FactionMobs extends JavaPlugin {
 		YamlConfiguration conf = new YamlConfiguration();
 		List<List<String>> save = new ArrayList<List<String>>();
 		for (FactionMob fmob : mobList) {
-			if (fmob.getFaction() == null) {
+			if (fmob.getFaction() == null || fmob.getFaction().isNone()) {
 				continue;
 			}
 			List<String> mobData = new ArrayList<String>();

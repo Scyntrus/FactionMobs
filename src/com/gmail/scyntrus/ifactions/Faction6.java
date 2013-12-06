@@ -14,6 +14,7 @@ public class Faction6 extends Faction {
 	
 	@Override
 	public int getRelationTo(Faction other) {
+		if (faction == null) return 0;
 		Object rel = faction.getRelationTo(((Faction6)other).faction);
 		if (rel.equals(com.massivecraft.factions.struct.Relation.ENEMY)) {
 			return -1;
@@ -27,16 +28,19 @@ public class Faction6 extends Faction {
 
 	@Override
 	public boolean isNone() {
+		if (faction == null) return true;
 		return faction.isNone();
 	}
 
 	@Override
 	public String getName() {
+		if (faction == null) return "";
 		return faction.getTag();
 	}
 
 	@Override
 	public double getPower() {
+		if (faction == null) return 0;
 		return faction.getPower();
 	}
 }

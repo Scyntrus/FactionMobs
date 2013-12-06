@@ -12,7 +12,7 @@ public class RenameListener2 implements Listener {
 		this.plugin = plugin;
 	}
 
-	public void onTownRenameEvent(com.massivecraft.factions.event.FactionsEventNameChange e) {
+	public void onFactionRename(com.massivecraft.factions.event.FactionsEventNameChange e) {
 		String oldName = e.getFaction().getName();
 		String newName = e.getNewName();
 		plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
