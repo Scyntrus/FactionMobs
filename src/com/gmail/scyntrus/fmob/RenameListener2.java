@@ -1,6 +1,7 @@
 package com.gmail.scyntrus.fmob;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import com.gmail.scyntrus.ifactions.Factions;
@@ -13,10 +14,14 @@ public class RenameListener2 implements Listener {
 		this.plugin = plugin;
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onFactionRename(com.massivecraft.factions.event.FactionsEventNameChange e) {
 		String oldName = e.getFaction().getName();
 		String newName = e.getNewName();
+		FactionMobs.factionColors.put(newName, 
+				FactionMobs.factionColors.containsKey(oldName) ? 
+						FactionMobs.factionColors.remove(oldName) : 
+							10511680);
 		plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
 			
 			String oldName;
