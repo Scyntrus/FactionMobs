@@ -195,7 +195,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	}
 	
 	@Override
-	public Entity fT() {
+	public Entity findTargetAlias() {
 		return findTarget();
 	}
 	

@@ -203,7 +203,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	}
 	
 	@Override
-	public Entity fT() {
+	public Entity findTargetAlias() {
 		return findTarget();
 	}
 	

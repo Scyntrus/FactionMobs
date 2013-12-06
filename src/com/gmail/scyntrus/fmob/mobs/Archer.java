@@ -201,7 +201,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}
 	
 	@Override
-	public Entity fT() {
+	public Entity findTargetAlias() {
 		return findTarget();
 	}
 	

@@ -29,6 +29,6 @@ public interface FactionMob {
 	public void clearAttackedBy();
 	public int getDrops();
 	public boolean softAgro(Entity entity);
-	public Entity fT();
+	public Entity findTargetAlias();
 	public void setFaction(Faction faction);
 }

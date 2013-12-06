@@ -53,7 +53,7 @@ public class EntityListener implements Listener {
 			e.setCancelled(true);
 			FactionMob fmob = (FactionMob) entity;
 			if (fmob instanceof Titan) {
-				fmob.fT();
+				fmob.findTargetAlias();
 				return;
 			}
 			if (e.getTarget() != null) {
@@ -63,7 +63,7 @@ public class EntityListener implements Listener {
 					return;
 				}
 			}
-			fmob.fT();
+			fmob.findTargetAlias();
 			return;
 		} else if (entity != null && entity instanceof EntityWolf) {
 			if (e.getTarget() != null) {
