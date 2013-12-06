@@ -70,10 +70,6 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 		this.setSpawn(spawnLoc);
 		this.setFaction(faction);
 		Utils.giveColorArmor(this);
-		if (FactionMobs.displayMobFaction) {
-			this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
-			this.setCustomNameVisible(true);
-		}
 	    this.persistent = true;
 	    this.fireProof = false;
 	    this.canPickUpLoot = false;
@@ -273,7 +269,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	@Override
 	public Faction getFaction() {
 		if (this.faction == null) {
-			this.faction = Factions.getFactionByName(this.world.getWorldData().getName(),factionName);
+			this.setFaction(Factions.getFactionByName(this.world.getWorldData().getName(),factionName));
 		}
 		if (this.faction == null) {
 			this.die();
@@ -282,10 +278,15 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 		return this.faction;
 	}
 
-	private void setFaction(Faction faction) {
+	public void setFaction(Faction faction) {
+		if (faction == null) return;
 		this.faction = faction;
 		this.factionName = new String(faction.getName());
 		if (faction.isNone()) die();
+		if (FactionMobs.displayMobFaction) {
+			this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
+			this.setCustomNameVisible(true);
+		}
 	}
 	
 	@Override
@@ -317,7 +318,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 		} else {
 			this.findTarget();
 		}
-		this.faction = Factions.getFactionByName(this.world.getWorldData().getName(),factionName);
+		this.setFaction(Factions.getFactionByName(this.world.getWorldData().getName(),factionName));
 		if (this.faction == null) {
 			this.die();
 			return;

@@ -30,4 +30,5 @@ public interface FactionMob {
 	public int getDrops();
 	public boolean softAgro(Entity entity);
 	public Entity fT();
+	public void setFaction(Faction faction);
 }
