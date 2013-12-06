@@ -13,18 +13,26 @@ public class RenameListener2 implements Listener {
 	}
 
 	public void onTownRenameEvent(com.massivecraft.factions.event.FactionsEventNameChange e) {
-		final String oldName = e.getFaction().getName();
-		final String newName = e.getNewName();
+		String oldName = e.getFaction().getName();
+		String newName = e.getNewName();
 		plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
-			String oldname = oldName;
-			String newname = newName;
+			
+			String oldName;
+			String newName;
+			
+			public Runnable init(String oldName, String newName) {
+				this.oldName = oldName;
+				this.newName = newName;
+				return this;
+			}
+			
 			public void run() {
 				for (FactionMob fmob : FactionMobs.mobList) {
-					if (fmob.getFactionName().equals(oldname)) {
-						fmob.setFaction(Factions.getFactionByName(fmob.getSpawn().getWorld().getName(), newname));
+					if (fmob.getFactionName().equals(oldName)) {
+						fmob.setFaction(Factions.getFactionByName(fmob.getSpawn().getWorld().getName(), newName));
 					}
 				}
 			}
-		}, 0);
+		}.init(oldName,  newName), 0);
 	}
 }
