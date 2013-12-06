@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import com.gmail.scyntrus.ifactions.Factions;
@@ -11,7 +12,8 @@ public class RenameListener68 implements Listener {
 	public RenameListener68(FactionMobs plugin) {
 		this.plugin = plugin;
 	}
-
+	
+	@EventHandler
 	public void onFactionRename(com.massivecraft.factions.event.FactionRenameEvent e) {
 		String oldName = e.getOldFactionTag();
 		String newName = e.getFactionTag();
@@ -33,6 +35,6 @@ public class RenameListener68 implements Listener {
 					}
 				}
 			}
-		}.init(oldName,  newName), 1);
+		}.init(oldName,  newName), 0);
 	}
 }
