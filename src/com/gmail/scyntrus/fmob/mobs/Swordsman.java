@@ -92,7 +92,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 				e.setValue(FactionMobs.mobNavRange);
 			} catch (Exception e) {}
 	    }
-	    if (ReflectionManager.goodPathfinderGoalSelectorA) {
+	    if (ReflectionManager.goodPathfinderGoalSelectorB) {
 		    try {
 		    	ReflectionManager.pathfinderGoalSelectorB.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
 		    	ReflectionManager.pathfinderGoalSelectorB.set(this.targetSelector, new UnsafeList<PathfinderGoal>());

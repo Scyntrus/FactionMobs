@@ -12,7 +12,7 @@ public class ReflectionManager {
 	public static Field pathfinderGoalSelectorB = null;
 	
 	public static boolean goodNavigationE = false;
-	public static boolean goodPathfinderGoalSelectorA = false;
+	public static boolean goodPathfinderGoalSelectorB = false;
 
 	@SuppressWarnings("rawtypes")
 	public static Map mapC;
@@ -74,12 +74,12 @@ public class ReflectionManager {
 		try {
 			pathfinderGoalSelectorB = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change
 			pathfinderGoalSelectorB.setAccessible(true);
-			goodPathfinderGoalSelectorA = true;
+			goodPathfinderGoalSelectorB = true;
 		} catch (Exception e1) {
 			try {
 				pathfinderGoalSelectorB = PathfinderGoalSelector.class.getDeclaredField("field_75782_a");
 				pathfinderGoalSelectorB.setAccessible(true);
-				goodPathfinderGoalSelectorA = true;
+				goodPathfinderGoalSelectorB = true;
 			} catch (Exception e2) {
 				System.out.println("[Faction Mobs] [Minor Error] Field not found: PathfinderGoalSelector.a; Unable to override mob goals");
 			}
