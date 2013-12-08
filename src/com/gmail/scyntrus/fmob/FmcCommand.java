@@ -105,7 +105,7 @@ public class FmcCommand implements CommandExecutor {
 		
 		if (!newMob.getEnabled()) {
 			sender.sendMessage(String.format("Spawning %s has been disabled", newMob.getTypeName()));
-			newMob.getEntity().die();
+			newMob.forceDie();
 			return true;
 		}
 				

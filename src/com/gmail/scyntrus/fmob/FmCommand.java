@@ -190,7 +190,7 @@ public class FmCommand implements CommandExecutor {
 				}
 				if (!newMob.getEnabled()) {
 					player.sendMessage(String.format("%sSpawning %s has been disabled", ChatColor.RED, newMob.getTypeName()));
-					newMob.getEntity().die();
+					newMob.forceDie();
 					return true;
 				}
 				

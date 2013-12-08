@@ -60,7 +60,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	
 	public Mage(World world) {
 		super(world);
-		this.die();
+		this.forceDie();
 	}
 	
 	public Mage(Location spawnLoc, Faction faction) {
@@ -92,8 +92,8 @@ public class Mage extends EntityWitch implements FactionMob {
 	    }
 	    if (ReflectionManager.goodPathfinderGoalSelectorA) {
 		    try {
-		    	ReflectionManager.pathfinderGoalSelectorA.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
-		    	ReflectionManager.pathfinderGoalSelectorA.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
+		    	ReflectionManager.pathfinderGoalSelectorB.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
+		    	ReflectionManager.pathfinderGoalSelectorB.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
 		    } catch (Exception e) {}
 	    }
 	    
@@ -264,7 +264,7 @@ public class Mage extends EntityWitch implements FactionMob {
 			this.setFaction(Factions.getFactionByName(this.world.getWorldData().getName(),factionName));
 		}
 		if (this.faction == null) {
-			this.die();
+			this.forceDie();
 			System.out.println("[Error] Found and removed factionless faction mob");
 		}
 		return this.faction;
@@ -273,8 +273,8 @@ public class Mage extends EntityWitch implements FactionMob {
 	public void setFaction(Faction faction) {
 		if (faction == null) return;
 		this.faction = faction;
-		this.factionName = new String(faction.getName());
-		if (faction.isNone()) die();
+		if (faction.isNone()) this.forceDie();
+		this.factionName = faction.getName();
 		if (FactionMobs.displayMobFaction) {
 			this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
 			this.setCustomNameVisible(true);
@@ -312,7 +312,7 @@ public class Mage extends EntityWitch implements FactionMob {
 		}
 		this.setFaction(Factions.getFactionByName(this.world.getWorldData().getName(),factionName));
 		if (this.faction == null) {
-			this.die();
+			this.forceDie();
 			return;
 		}
 		Utils.giveColorArmor(this);
@@ -428,16 +428,24 @@ public class Mage extends EntityWitch implements FactionMob {
 	
 	@Override
 	public void die() {
-		super.die();
-		this.setHealth(0);
-		this.setEquipment(0, null);
-		this.setEquipment(1, null);
-		this.setEquipment(2, null);
-		this.setEquipment(3, null);
-		this.setEquipment(4, null);
-		if (FactionMobs.mobList.contains(this)) {
-			FactionMobs.mobList.remove(this);
+		if (this.getHealth() <= 0) {
+			super.die();
+			this.setHealth(0);
+			this.setEquipment(0, null);
+			this.setEquipment(1, null);
+			this.setEquipment(2, null);
+			this.setEquipment(3, null);
+			this.setEquipment(4, null);
+			if (FactionMobs.mobList.contains(this)) {
+				FactionMobs.mobList.remove(this);
+			}
 		}
+	}
+
+	@Override
+	public void forceDie() {
+		this.setHealth(0);
+		this.die();
 	}
 
 	@Override

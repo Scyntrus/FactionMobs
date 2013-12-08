@@ -31,4 +31,5 @@ public interface FactionMob {
 	public boolean softAgro(Entity entity);
 	public Entity findTargetAlias();
 	public void setFaction(Faction faction);
+	public void forceDie();
 }

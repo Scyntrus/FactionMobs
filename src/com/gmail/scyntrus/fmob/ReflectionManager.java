@@ -9,7 +9,7 @@ import net.minecraft.server.v1_7_R1.PathfinderGoalSelector;
 
 public class ReflectionManager {
 	public static Field navigationE = null;
-	public static Field pathfinderGoalSelectorA = null;
+	public static Field pathfinderGoalSelectorB = null;
 	
 	public static boolean goodNavigationE = false;
 	public static boolean goodPathfinderGoalSelectorA = false;
@@ -59,7 +59,7 @@ public class ReflectionManager {
 			}
 		}
 		try {
-			navigationE = Navigation.class.getDeclaredField("e");
+			navigationE = Navigation.class.getDeclaredField("e"); //TODO: Update name on version change
 			navigationE.setAccessible(true);
 			goodNavigationE = true;
 		} catch (Exception e1) {
@@ -72,13 +72,13 @@ public class ReflectionManager {
 			}
 		}
 		try {
-			pathfinderGoalSelectorA = PathfinderGoalSelector.class.getDeclaredField("a");
-			pathfinderGoalSelectorA.setAccessible(true);
+			pathfinderGoalSelectorB = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change
+			pathfinderGoalSelectorB.setAccessible(true);
 			goodPathfinderGoalSelectorA = true;
 		} catch (Exception e1) {
 			try {
-				pathfinderGoalSelectorA = PathfinderGoalSelector.class.getDeclaredField("field_75782_a");
-				pathfinderGoalSelectorA.setAccessible(true);
+				pathfinderGoalSelectorB = PathfinderGoalSelector.class.getDeclaredField("field_75782_a");
+				pathfinderGoalSelectorB.setAccessible(true);
 				goodPathfinderGoalSelectorA = true;
 			} catch (Exception e2) {
 				System.out.println("[Faction Mobs] [Minor Error] Field not found: PathfinderGoalSelector.a; Unable to override mob goals");
