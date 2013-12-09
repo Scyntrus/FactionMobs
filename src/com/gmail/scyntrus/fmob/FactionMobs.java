@@ -88,6 +88,7 @@ public class FactionMobs extends JavaPlugin {
     	    Class.forName("org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity");
     	} catch(Exception e) {
     	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires v1_7_R1). FactionMobs will not be enabled.");
+            getServer().getConsoleSender().sendMessage("§cFactionMobs is incompatible with this version of CraftBukkit, please download a newer version.");
     	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
     	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
     	    return;
