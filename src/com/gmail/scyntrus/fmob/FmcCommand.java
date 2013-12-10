@@ -110,6 +110,7 @@ public class FmcCommand implements CommandExecutor {
 		}
 				
 		world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
+		newMob.getEntity().dead = false;
 		FactionMobs.mobList.add(newMob);
 		
 		if (split.length > 6) {
