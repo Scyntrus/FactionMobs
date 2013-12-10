@@ -15,7 +15,7 @@ public class ErrorCommand implements CommandExecutor {
 	
 	@Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
-		sender.sendMessage(ChatColor.RED + "Faction Mobs is not compatible with this version of Factions or CraftBukkit. Please inform your server admin.");
+		sender.sendMessage(ChatColor.RED + "Faction Mobs was unable to load. Please inform your server admin.");
 		return true;
 	}
 }

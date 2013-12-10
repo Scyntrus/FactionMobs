@@ -268,6 +268,7 @@ public class FmCommand implements CommandExecutor {
 						plugin.updateList();
 					} catch (NumberFormatException e) {
 						player.sendMessage(ChatColor.RED + "Invalid number");
+			    	    //if (!FactionMobs.silentErrors) e.printStackTrace();
 						return true;
 					}
 				}

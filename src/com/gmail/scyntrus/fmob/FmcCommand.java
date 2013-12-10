@@ -56,8 +56,9 @@ public class FmcCommand implements CommandExecutor {
 		Location loc = null;
 		try {
 			loc = new Location(craftWorld, Double.parseDouble(split[3]), Double.parseDouble(split[4]), Double.parseDouble(split[5]));
-		} catch (Exception ex) {
+		} catch (Exception e) {
 			sender.sendMessage("Invalid coordinates");
+    	    //if (!FactionMobs.silentErrors) e.printStackTrace();
 			return false;
 		}
 		
@@ -122,8 +123,9 @@ public class FmcCommand implements CommandExecutor {
 				try {
 					newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double.parseDouble(split[9]));
 					newMob.setOrder("poi");
-				} catch (Exception ex) {
+				} catch (Exception e) {
 					sender.sendMessage("Invalid move coordinates");
+		    	    //if (!FactionMobs.silentErrors) e.printStackTrace();
 					return false;
 				}
 				return true;
@@ -135,8 +137,9 @@ public class FmcCommand implements CommandExecutor {
 				try {
 					newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double.parseDouble(split[9]));
 					newMob.setOrder("ppoi");
-				} catch (Exception ex) {
+				} catch (Exception e) {
 					sender.sendMessage("Invalid patrol coordinates");
+		    	    //if (!FactionMobs.silentErrors) e.printStackTrace();
 					return false;
 				}
 				return true;
@@ -152,8 +155,9 @@ public class FmcCommand implements CommandExecutor {
 					spawnLoc.setX(Double.parseDouble(split[10]));
 					spawnLoc.setY(Double.parseDouble(split[11]));
 					spawnLoc.setZ(Double.parseDouble(split[12]));
-				} catch (Exception ex) {
+				} catch (Exception e) {
 					sender.sendMessage("Invalid path coordinates");
+		    	    //if (!FactionMobs.silentErrors) e.printStackTrace();
 					return false;
 				}
 				return true;

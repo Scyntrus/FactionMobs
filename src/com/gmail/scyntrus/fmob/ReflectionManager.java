@@ -26,7 +26,7 @@ public class ReflectionManager {
 	@SuppressWarnings("rawtypes")
 	public static boolean init() {
 		try {
-	    	Field fieldC = EntityTypes.class.getDeclaredField("c");
+	    	Field fieldC = EntityTypes.class.getDeclaredField("c"); //TODO: Update name on version change
 	        fieldC.setAccessible(true);
 	    	Field fieldD = EntityTypes.class.getDeclaredField("d");
 	        fieldD.setAccessible(true);
@@ -53,8 +53,10 @@ public class ReflectionManager {
 		        mapF = (Map) fieldF.get(null);
 		        mapG = (Map) fieldG.get(null);
 			} catch (Exception e2) {
-	        	e1.printStackTrace();
-	        	e2.printStackTrace();
+	    	    if (!FactionMobs.silentErrors) {
+	    	    	e1.printStackTrace();
+	    	    	e2.printStackTrace();
+	    	    }
 				return false;
 			}
 		}
@@ -69,6 +71,10 @@ public class ReflectionManager {
 				goodNavigationE = true;
 			} catch (Exception e2) {
 				System.out.println("[Faction Mobs] [Minor Error] Field not found: Navigation.e; Custom pathfinding distances cannot be set");
+	    	    if (!FactionMobs.silentErrors) {
+	    	    	e1.printStackTrace();
+	    	    	e2.printStackTrace();
+	    	    }
 			}
 		}
 		try {
@@ -82,6 +88,10 @@ public class ReflectionManager {
 				goodPathfinderGoalSelectorB = true;
 			} catch (Exception e2) {
 				System.out.println("[Faction Mobs] [Minor Error] Field not found: PathfinderGoalSelector.a; Unable to override mob goals");
+	    	    if (!FactionMobs.silentErrors) {
+	    	    	e1.printStackTrace();
+	    	    	e2.printStackTrace();
+	    	    }
 			}
 		}
 		return true;

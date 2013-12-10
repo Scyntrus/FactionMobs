@@ -85,13 +85,17 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		    try {
 				AttributeInstance e = (AttributeInstance) ReflectionManager.navigationE.get(this.getNavigation());
 				e.setValue(FactionMobs.mobNavRange);
-			} catch (Exception e) {}
+			} catch (Exception e) {
+	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+			}
 	    }
 	    if (ReflectionManager.goodPathfinderGoalSelectorB) {
 		    try {
 		    	ReflectionManager.pathfinderGoalSelectorB.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
 		    	ReflectionManager.pathfinderGoalSelectorB.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
-		    } catch (Exception e) {}
+			} catch (Exception e) {
+	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+			}
 	    }
 	    
 	    this.goalSelector.a(1, new PathfinderGoalFloat(this));

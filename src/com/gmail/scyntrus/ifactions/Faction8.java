@@ -2,6 +2,8 @@ package com.gmail.scyntrus.ifactions;
 
 import java.lang.reflect.Method;
 
+import com.gmail.scyntrus.fmob.FactionMobs;
+
 public class Faction8 extends Faction {
 
 	public static Method getRelationTo;
@@ -30,6 +32,7 @@ public class Faction8 extends Faction {
 				return 1;
 			}
 		} catch (Exception e) {
+    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 		}
 		return 0;
 	}
@@ -58,6 +61,7 @@ public class Faction8 extends Faction {
 		try {
 			return !((Boolean) getFlag.invoke(faction, com.massivecraft.factions.struct.FFlag.MONSTERS));
 		} catch (Exception e) {
+    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 		}
 		return false;
 	}

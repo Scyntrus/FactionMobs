@@ -75,6 +75,7 @@ public class FactionMobs extends JavaPlugin {
 	
 	public static boolean excludeFromKillCommands = true;
 	public static boolean runKeepAliveTask = true;
+	public static boolean silentErrors = true;
 	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
@@ -83,14 +84,17 @@ public class FactionMobs extends JavaPlugin {
 		FileConfiguration config = this.getConfig();
 		config.options().copyDefaults(true);
     	this.saveConfig();
-    	
+
+		FactionMobs.silentErrors = config.getBoolean("silentErrors", FactionMobs.silentErrors);
+		
     	try {
     	    Class.forName("org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity");
-    	} catch(Exception e) {
+    	} catch (Exception e) {
     	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires v1_7_R1). FactionMobs will not be enabled.");
             getServer().getConsoleSender().sendMessage("§cFactionMobs is incompatible with this version of CraftBukkit, please download a newer version.");
     	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
     	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
+    	    if (!FactionMobs.silentErrors) e.printStackTrace();
     	    return;
     	}
     	
@@ -193,8 +197,9 @@ public class FactionMobs extends JavaPlugin {
 	    	addEntityType(Titan.class, Titan.typeName, 99);
 	    } catch (Exception e) {
         	this.getLogger().severe("[Fatal Error] Unable to register mobs");
-        	e.printStackTrace();
-	    	pm.disablePlugin(this);
+    	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
+    	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
+    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 	    	return;
 	    }
 	    
@@ -221,6 +226,7 @@ public class FactionMobs extends JavaPlugin {
 		    	fileInputStream.close();
 			} catch (Exception e) {
 	        	this.getLogger().severe("[FactionMobs] Error reading faction colors file, colors.dat");
+	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 			}
 	    }
 	    
@@ -282,6 +288,7 @@ public class FactionMobs extends JavaPlugin {
 
 		    metrics.start();
 		} catch (IOException e) {
+    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 		}
 	}
 	
@@ -307,6 +314,7 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
+				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 					continue;
@@ -321,6 +329,7 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
+				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 					continue;
@@ -335,6 +344,7 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
+				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 					continue;
@@ -364,6 +374,7 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
+				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 					continue;
@@ -396,6 +407,7 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
+				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 				}
@@ -436,6 +448,7 @@ public class FactionMobs extends JavaPlugin {
 			System.out.println("FactionMobs data saved.");
 		} catch (IOException e) {
         	this.getLogger().severe("Failed to save faction mob data, data.dat");
+    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 		}
 		try {
 		    File colorFile = new File(getDataFolder(), "colors.dat");
@@ -448,6 +461,7 @@ public class FactionMobs extends JavaPlugin {
 			System.out.println("FactionMobs color data saved.");
 		} catch (Exception e) {
         	this.getLogger().severe("Error writing faction colors file, colors.dat");
+    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 		}
 	}
 	

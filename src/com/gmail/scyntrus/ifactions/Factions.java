@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 
 import org.bukkit.Location;
 
+import com.gmail.scyntrus.fmob.FactionMobs;
+
 public class Factions {
 	
 	private static Field i;
@@ -31,6 +33,11 @@ public class Factions {
             	    System.out.println("["+pluginName+"] Factions 1.8.x detected");
             	} catch (Exception e3) {
 					System.out.println("["+pluginName+"] No compatible version of Factions detected. "+pluginName+" will not be enabled.");
+					if (!FactionMobs.silentErrors) {
+						e1.printStackTrace();
+						e2.printStackTrace();
+						e3.printStackTrace();
+					}
 					return false;
             	}
         	}
@@ -59,7 +66,7 @@ public class Factions {
 			f = (com.massivecraft.factions.Factions) i.get(null);
 			gBT = com.massivecraft.factions.Factions.class.getDeclaredMethod("getByTag", new Class<?>[]{String.class});
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (!FactionMobs.silentErrors) e.printStackTrace();
 			return false;
 		}
 		initialized = true;
@@ -77,7 +84,7 @@ public class Factions {
 			Faction8.getFlag = com.massivecraft.factions.Faction.class.getDeclaredMethod("getFlag", new Class<?>[]{com.massivecraft.factions.struct.FFlag.class});
 			Faction8.getFlag.setAccessible(true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (!FactionMobs.silentErrors) e.printStackTrace();
 			return false;
 		}
 		initialized = true;
@@ -91,13 +98,13 @@ public class Factions {
 			try {
 				return new Faction6(gBT.invoke(f, factionName));
 			} catch (Exception e) {
-				e.printStackTrace();
+				if (!FactionMobs.silentErrors) e.printStackTrace();
 			}
 		} else if (factionsVersion == 8) {
 			try {
 				return new Faction8(gBT.invoke(f, factionName));
 			} catch (Exception e) {
-				e.printStackTrace();
+				if (!FactionMobs.silentErrors) e.printStackTrace();
 			}
 		}
 		return null;

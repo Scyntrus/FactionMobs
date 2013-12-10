@@ -55,6 +55,9 @@ excludeFromKillCommands: false
 # Prevents faction mobs from being killed by other plugins (Warning: Experimental, may cause lag)
 runKeepAliveTask: false
 
+# Do not output long error messages to console. Disable for debugging.
+silentErrors: true
+
 # === Mob Specific Config ===
 
 # Allowed to spawn, disabling does not remove existing mobs
