@@ -95,6 +95,7 @@ public class FactionMobs extends JavaPlugin {
     	}
     	
     	if (!Factions.init(this.getName())) {
+    		System.out.println("[FactionMobs] You are running an unsupported version of Factions. Please contact the plugin author for more info.");
 			this.getCommand("fm").setExecutor(new ErrorCommand(this));
 			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
 			return;
