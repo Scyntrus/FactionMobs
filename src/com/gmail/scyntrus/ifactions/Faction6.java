@@ -43,4 +43,10 @@ public class Faction6 extends Faction {
 		if (faction == null) return 0;
 		return faction.getPower();
 	}
+
+	@Override
+	public boolean monstersNotAllowed() {
+		if (faction == null) return false;
+		return faction.noMonstersInTerritory();
+	}
 }

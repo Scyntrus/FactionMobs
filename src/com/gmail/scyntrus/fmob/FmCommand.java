@@ -231,6 +231,9 @@ public class FmCommand implements CommandExecutor {
 				} else {
 					newMob.forceDie();
 					player.sendMessage(String.format("%sYou have failed to spawn a %s", ChatColor.RED, newMob.getTypeName()));
+					if (playerfaction.monstersNotAllowed()) {
+						player.sendMessage(String.format("%sYour faction has disabled monster spawning, set your faction's \"monsters\" flag to true.", ChatColor.RED));
+					}
 					if (!player.hasPermission("fmob.bypass")) {
 						if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
 				            EconomyResponse r = plugin.econ.depositPlayer(player.getName(), newMob.getMoneyCost());

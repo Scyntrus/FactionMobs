@@ -6,6 +6,7 @@ public abstract class Faction {
 	public abstract boolean isNone();
 	public abstract String getName();
 	public abstract double getPower();
+	public abstract boolean monstersNotAllowed();
 	
 	public int getPowerRounded() {
 		return (int)Math.round(getPower());

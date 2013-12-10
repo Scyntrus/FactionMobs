@@ -4,7 +4,8 @@ import java.lang.reflect.Method;
 
 public class Faction8 extends Faction {
 
-	public static Method grt;
+	public static Method getRelationTo;
+	public static Method getFlag;
 	
 	public com.massivecraft.factions.Faction faction;
 
@@ -20,7 +21,7 @@ public class Faction8 extends Faction {
 	public int getRelationTo(Faction other) {
 		if (faction == null) return 0;
 		try {
-			Object rel = grt.invoke(faction, ((Faction8)other).faction);
+			Object rel = getRelationTo.invoke(faction, ((Faction8)other).faction);
 			if (rel.equals(com.massivecraft.factions.struct.Rel.ENEMY)) {
 				return -1;
 			} else if (rel.equals(com.massivecraft.factions.struct.Rel.NEUTRAL)) {
@@ -29,7 +30,6 @@ public class Faction8 extends Faction {
 				return 1;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return 0;
 	}
@@ -50,5 +50,15 @@ public class Faction8 extends Faction {
 	public double getPower() {
 		if (faction == null) return 0;
 		return faction.getPower();
+	}
+
+	@Override
+	public boolean monstersNotAllowed() {
+		if (faction == null) return false;
+		try {
+			return !((Boolean) getFlag.invoke(faction, com.massivecraft.factions.struct.FFlag.MONSTERS));
+		} catch (Exception e) {
+		}
+		return false;
 	}
 }

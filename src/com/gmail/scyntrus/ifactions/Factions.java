@@ -72,8 +72,10 @@ public class Factions {
 			i.setAccessible(true);
 			f = (com.massivecraft.factions.Factions) i.get(null);
 			gBT = com.massivecraft.factions.Factions.class.getDeclaredMethod("getByTag", new Class<?>[]{String.class});
-			Faction8.grt = com.massivecraft.factions.Faction.class.getDeclaredMethod("getRelationTo", new Class<?>[]{com.massivecraft.factions.iface.RelationParticipator.class});
-			Faction8.grt.setAccessible(true);
+			Faction8.getRelationTo = com.massivecraft.factions.Faction.class.getDeclaredMethod("getRelationTo", new Class<?>[]{com.massivecraft.factions.iface.RelationParticipator.class});
+			Faction8.getRelationTo.setAccessible(true);
+			Faction8.getFlag = com.massivecraft.factions.Faction.class.getDeclaredMethod("getFlag", new Class<?>[]{com.massivecraft.factions.struct.FFlag.class});
+			Faction8.getFlag.setAccessible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
