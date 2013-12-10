@@ -326,7 +326,7 @@ public class EntityListener implements Listener {
 		FactionMobs.scheduleChunkMobLoad = true;
 		if (!plugin.getServer().getScheduler().isCurrentlyRunning(FactionMobs.chunkMobLoadTask) && 
 				!plugin.getServer().getScheduler().isQueued(FactionMobs.chunkMobLoadTask)) {
-			FactionMobs.chunkMobLoadTask = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new ChunkMobLoader(plugin), 1, 1);
+			FactionMobs.chunkMobLoadTask = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new ChunkMobLoader(plugin), 4, 4);
 		}
 	}
 	

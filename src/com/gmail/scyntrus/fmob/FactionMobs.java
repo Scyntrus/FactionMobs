@@ -137,7 +137,6 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobPatrolSpeed = FactionMobs.mobPatrolSpeed / FactionMobs.mobSpeed;
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
 		FactionMobs.excludeFromKillCommands = config.getBoolean("excludeFromKillCommands", FactionMobs.excludeFromKillCommands);
-		FactionMobs.runKeepAliveTask = config.getBoolean("runKeepAliveTask", FactionMobs.runKeepAliveTask);
 		if (runKeepAliveTask) excludeFromKillCommands = false;
 
 		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
@@ -250,6 +249,9 @@ public class FactionMobs extends JavaPlugin {
 		runMetrics(); // using mcstats.org metrics
 		
 		this.loadMobList();
+		
+		FactionMobs.runKeepAliveTask = config.getBoolean("runKeepAliveTask", FactionMobs.runKeepAliveTask);
+		
 		if (runKeepAliveTask) this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new DeadChecker(this), 1, 1);
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
 	}
@@ -296,7 +298,7 @@ public class FactionMobs extends JavaPlugin {
 			for (List<String> mobData : save) {
 				FactionMob newMob = null;
 				if (mobData.size() < 10) {
-					System.out.println("Incomplete Faction Mob found and removed. Did you delete or rename a world?");
+					System.out.println("Incomplete Faction Mob found and removed. Did you edit the data.dat file?");
 					if (!backup) {
 						backup = true;
 						try {
@@ -324,7 +326,7 @@ public class FactionMobs extends JavaPlugin {
 				}
 				Faction faction = Factions.getFactionByName(mobData.get(1),mobData.get(2));
 				if (faction == null || faction.isNone()) {
-					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
+					System.out.println("Factionless Faction Mob found and removed. Did you delete a Faction?");
 					if (!backup) {
 						backup = true;
 						try {
@@ -384,7 +386,18 @@ public class FactionMobs extends JavaPlugin {
 					newMob.setOrder("poi");
 				}
 				
-				newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
+				if (!newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM)) {
+					System.out.println("Unable to respawn a Faction Mob.");
+					if (!backup) {
+						backup = true;
+						try {
+							conf.save(new File(getDataFolder(), "data_backup.dat"));
+							System.out.println("Backup file saved as data_backup.dat");
+						} catch (IOException e) {
+							System.out.println("Failed to save backup file");
+						}
+					}
+				}
 				mobList.add(newMob);
 				newMob.getEntity().dead = false;
 			}

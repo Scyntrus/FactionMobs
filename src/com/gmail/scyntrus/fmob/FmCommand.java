@@ -229,7 +229,7 @@ public class FmCommand implements CommandExecutor {
 					FactionMobs.mobList.add(newMob);
 					player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));
 				} else {
-					newMob.getEntity().die();
+					newMob.forceDie();
 					player.sendMessage(String.format("%sYou have failed to spawn a %s", ChatColor.RED, newMob.getTypeName()));
 					if (!player.hasPermission("fmob.bypass")) {
 						if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
