@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_7_R1.Entity;
+import net.minecraft.util.org.apache.commons.io.IOUtils;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -86,6 +88,18 @@ public class FactionMobs extends JavaPlugin {
     	this.saveConfig();
 
 		FactionMobs.silentErrors = config.getBoolean("silentErrors", FactionMobs.silentErrors);
+		
+		try {
+			File defaultConfig = new File(this.getDataFolder(), "configDefaults.yml");
+			defaultConfig.createNewFile();
+			InputStream is = getClass().getResourceAsStream("/config.yml");
+			FileOutputStream os = new FileOutputStream(defaultConfig);
+			IOUtils.copy(is, os);
+			is.close();
+			os.close();
+		} catch (Exception e) {
+			if (!FactionMobs.silentErrors) e.printStackTrace();
+		}
 		
     	try {
     	    Class.forName("org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity");
