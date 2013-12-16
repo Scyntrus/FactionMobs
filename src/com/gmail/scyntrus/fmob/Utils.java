@@ -3,14 +3,11 @@ package com.gmail.scyntrus.fmob;
 import net.minecraft.server.v1_7_R1.Entity;
 import net.minecraft.server.v1_7_R1.EntityAnimal;
 import net.minecraft.server.v1_7_R1.EntityCreeper;
-import net.minecraft.server.v1_7_R1.EntityEnderDragon;
-import net.minecraft.server.v1_7_R1.EntityGhast;
-import net.minecraft.server.v1_7_R1.EntityMonster;
 import net.minecraft.server.v1_7_R1.EntityPlayer;
 import net.minecraft.server.v1_7_R1.EntitySlime;
-import net.minecraft.server.v1_7_R1.EntityWither;
 import net.minecraft.server.v1_7_R1.EntityWolf;
 import net.minecraft.server.v1_7_R1.EntityZombie;
+import net.minecraft.server.v1_7_R1.IMonster;
 import net.minecraft.server.v1_7_R1.Item;
 import net.minecraft.server.v1_7_R1.ItemStack;
 import net.minecraft.server.v1_7_R1.NBTTagCompound;
@@ -60,11 +57,6 @@ public class Utils {
 				return -1;
 			}
 			return 0;
-		} else if (entity instanceof EntityMonster
-				|| entity instanceof EntityGhast
-				|| entity instanceof EntityEnderDragon
-				|| entity instanceof EntityWither) {
-			return -1;
 		} else if (entity instanceof EntitySlime) {
 			EntitySlime slime = (EntitySlime) entity;
 			if (slime.getSize() > 1) {
@@ -72,6 +64,8 @@ public class Utils {
 			} else {
 				return 0;
 			}
+		} else if (entity instanceof IMonster) {
+			return -1;
 		}
 		return 1;
 	}
