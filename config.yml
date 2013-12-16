@@ -48,13 +48,6 @@ mobNavRange: 64
 # Enables the use of /fmc, a command designed to be used by command blocks
 fmcEnabled: true
 
-# Excludes faction mobs from kill commands such as /killall (experimental)
-# Set this to false if runKeepAliveTask is enabled
-excludeFromKillCommands: false
-
-# Prevents faction mobs from being killed by other plugins (Warning: Experimental, may cause lag)
-runKeepAliveTask: false
-
 # Do not output long error messages to console. Disable for debugging.
 silentErrors: true
 

@@ -75,8 +75,6 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean feedEnabled = true;
 	public static float feedAmount = 5;
 	
-	public static boolean excludeFromKillCommands = true;
-	public static boolean runKeepAliveTask = true;
 	public static boolean silentErrors = true;
 	
 	@SuppressWarnings("unchecked")
@@ -155,8 +153,6 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
 		FactionMobs.mobPatrolSpeed = FactionMobs.mobPatrolSpeed / FactionMobs.mobSpeed;
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
-		FactionMobs.excludeFromKillCommands = config.getBoolean("excludeFromKillCommands", FactionMobs.excludeFromKillCommands);
-		if (runKeepAliveTask) excludeFromKillCommands = false;
 
 		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
 		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
@@ -271,9 +267,6 @@ public class FactionMobs extends JavaPlugin {
 		
 		this.loadMobList();
 		
-		FactionMobs.runKeepAliveTask = config.getBoolean("runKeepAliveTask", FactionMobs.runKeepAliveTask);
-		
-		if (runKeepAliveTask) this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new DeadChecker(this), 1, 1);
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
 	}
 	

@@ -29,7 +29,7 @@ public class CommandListener implements Listener {
 		if (e.getPlayer().isOp() && e.getMessage().toLowerCase().startsWith("save-all")) {
 			plugin.saveMobList();
 		}
-		if (FactionMobs.excludeFromKillCommands && e.getMessage().toLowerCase().contains("kill")) {
+		if (e.getMessage().toLowerCase().contains("kill") || e.getMessage().toLowerCase().contains("butcher")) {
 			checkDeath();
 		}
 	}
@@ -39,7 +39,7 @@ public class CommandListener implements Listener {
 		if (e.getCommand().toLowerCase().startsWith("save-all")) {
 			plugin.saveMobList();
 		}
-		if (FactionMobs.excludeFromKillCommands && e.getCommand().toLowerCase().contains("kill")) {
+		if (e.getCommand().toLowerCase().contains("kill") || e.getCommand().toLowerCase().contains("butcher")) {
 			checkDeath();
 		}
 	}

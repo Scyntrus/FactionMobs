@@ -509,4 +509,13 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	public void setHealth(float f) {
 		this.datawatcher.watch(6, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
 	}
+	
+	@Override
+	public void h() {
+		if (this.getHealth() > 0) {
+			this.dead = false;
+		}
+		this.ao = false;
+		super.h();
+	}
 }
