@@ -97,7 +97,7 @@ public class FmcCommand implements CommandExecutor {
 			newMob = new Swordsman(loc, faction);
 		} else if (split[0].equalsIgnoreCase("Titan") || split[0].equalsIgnoreCase("Golem")) {
 			newMob = new Titan(loc, faction);
-		} else if (split[0].equalsIgnoreCase("Mage")) {
+		} else if (split[0].equalsIgnoreCase("Mage") || split[0].equalsIgnoreCase("Witch")) {
 			newMob = new Mage(loc, faction);
 		} else {
 			sender.sendMessage("Unrecognized mob name");
