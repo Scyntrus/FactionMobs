@@ -178,7 +178,7 @@ public class FmCommand implements CommandExecutor {
 						return false;
 					}
 					newMob = new Titan(player.getLocation(), playerfaction);
-				} else if (split[1].equalsIgnoreCase("Mage")) {
+				} else if (split[1].equalsIgnoreCase("Mage") || split[1].equalsIgnoreCase("Witch")) {
 					if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.mage")) {
 						player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
 						return false;

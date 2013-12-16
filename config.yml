@@ -57,8 +57,8 @@ silentErrors: true
 Archer.enabled: true
 # Health
 Archer.maxHp: 20
-# Custom damage, set to 0 to use default damage (normal damage is 2)
-Archer.damage: 0
+# Custom damage, set to 0.0 to use default damage (normal damage is 2.0)
+Archer.damage: 0.0
 # Faction power spent upon spawning this mob
 Archer.powerCost: 4.0
 # Money spent upon spawning this mob, requires Vault
@@ -75,16 +75,16 @@ Mage.drops: 0
 
 Swordsman.enabled: true
 Swordsman.maxHp: 20
-# Normal damage is 2
-Swordsman.damage: 0
+# Normal damage is 2.0
+Swordsman.damage: 0.0
 Swordsman.powerCost: 5.0
 Swordsman.moneyCost: 0.0
 Swordsman.drops: 0
 
 Titan.enabled: true
 Titan.maxHp: 40
-# Normal damage is 15
-Titan.damage: 0
+# Normal damage is 15.0
+Titan.damage: 0.0
 Titan.powerCost: 11.0
 Titan.moneyCost: 0.0
 Titan.drops: 0

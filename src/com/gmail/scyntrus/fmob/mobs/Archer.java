@@ -51,7 +51,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	public static double powerCost = 0;
 	public static double moneyCost = 0;
 	public static double range = 16;
-	public static int damage = 0;
+	public static double damage = 0;
 	public static int drops = 0;
 	private int retargetTime = 0;
 	private double moveSpeed;
@@ -461,7 +461,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	@Override
 	public void a(EntityLiving entityliving, float f) { //TODO: Update name on version change
 		if (damage>0) {
-			super.a(entityliving, damage/2F);
+			super.a(entityliving, (float) damage/2F);
 		} else {
 			super.a(entityliving, f);
 		}

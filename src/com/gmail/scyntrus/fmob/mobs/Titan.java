@@ -49,7 +49,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	public static double powerCost = 0;
 	public static double moneyCost = 1;
 	public static double range = 16;
-	public static int damage = 0;
+	public static double damage = 0;
 	public static int drops = 0;
 	private int retargetTime = 0;
 	private double moveSpeed;
@@ -436,7 +436,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	public boolean m(Entity entity) {
 		if (damage>0) {
 			this.world.broadcastEntityEffect(this, (byte)4);
-			boolean flag = entity.damageEntity(DamageSource.mobAttack(this), damage);
+			boolean flag = entity.damageEntity(DamageSource.mobAttack(this), (float) damage);
 			if (flag) {
 				entity.motY += 0.4;
 			}
