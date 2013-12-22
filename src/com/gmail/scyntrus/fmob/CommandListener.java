@@ -13,7 +13,7 @@ public class CommandListener implements Listener {
 		this.plugin = plugin;
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
 		if (e.getMessage().toLowerCase().contains("f leave")
 				|| e.getMessage().toLowerCase().contains("f kick")
@@ -34,7 +34,7 @@ public class CommandListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onServerCommand(ServerCommandEvent e) {
 		if (e.getCommand().toLowerCase().startsWith("save-all")) {
 			plugin.saveMobList();

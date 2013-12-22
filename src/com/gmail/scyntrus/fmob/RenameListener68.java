@@ -14,7 +14,7 @@ public class RenameListener68 implements Listener {
 		this.plugin = plugin;
 	}
 
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onFactionRename(com.massivecraft.factions.event.FactionRenameEvent e) {
 		String oldName = e.getOldFactionTag();
 		String newName = e.getFactionTag();

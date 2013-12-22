@@ -154,10 +154,11 @@ public class EntityListener implements Listener {
         }, 1L);
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof CraftLivingEntity)) return;
 		CraftLivingEntity entity = (CraftLivingEntity) e.getEntity();
+		if (entity.getNoDamageTicks() > 0) return;
 		CraftEntity damager = (CraftEntity) e.getDamager();
 		if (damager instanceof Projectile) damager = (CraftEntity) ((Projectile) damager).getShooter();
 		if (damager == null) return;
@@ -185,6 +186,7 @@ public class EntityListener implements Listener {
 			if (Utils.FactionCheck((Entity) fmob, UPlayer.getPlayerFaction(player)) >= 1) {
 				if (fmob.getFaction().equals(UPlayer.getPlayerFaction(player))) {
 					player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+					// disable gaining mcMMO exp when hitting friendly mobs
 					fmob.getEntity().getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
 					return;
 				} else {
@@ -270,7 +272,7 @@ public class EntityListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerMove(PlayerMoveEvent e) {
 		if (plugin.mobLeader.containsKey(e.getPlayer().getName()) && plugin.playerSelections.containsKey(e.getPlayer().getName())) {
 			if (e.getFrom().distance(e.getTo()) < 0.00001) {
@@ -292,7 +294,7 @@ public class EntityListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPotionSplash(PotionSplashEvent e) {
 		if (e.getPotion().getShooter() == null) return;
 		if (((CraftEntity) e.getPotion().getShooter()).getHandle() instanceof FactionMob) {
@@ -314,7 +316,7 @@ public class EntityListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onEntityPortal(EntityPortalEvent e) {
 		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
 			e.setCancelled(true);
