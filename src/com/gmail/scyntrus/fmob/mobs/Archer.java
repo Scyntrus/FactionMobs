@@ -50,7 +50,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	public static Boolean enabled = true;
 	public static double powerCost = 0;
 	public static double moneyCost = 0;
-	public static double range = 16;
+	public static double range = 40;
 	public static double damage = 0;
 	public static int drops = 0;
 	private int retargetTime = 0;
