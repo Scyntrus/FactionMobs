@@ -185,8 +185,7 @@ public class EntityListener implements Listener {
 			Player player = (Player) damager;
 			if (Utils.FactionCheck((Entity) fmob, UPlayer.getPlayerFaction(player)) >= 1) {
 				if (fmob.getFaction().equals(UPlayer.getPlayerFaction(player))) {
-					if (FactionMobs.noPlayerFriendlyFire)
-					{
+					if (FactionMobs.noPlayerFriendlyFire) {
 						player.sendMessage(String.format("%sYou cannot hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 						e.setCancelled(true);
 						return;
