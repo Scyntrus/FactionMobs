@@ -23,6 +23,8 @@ public class Utils {
 		if (entity == null || faction == null) {
 			return 0;
 		}
+		if (entity.getBukkitEntity().hasMetadata("MyPet"))
+			return 0;
 		if (entity instanceof EntityPlayer) {
 			Player player = ((EntityPlayer)entity).getBukkitEntity();
 			if (player.getGameMode() == GameMode.CREATIVE) return 1;
