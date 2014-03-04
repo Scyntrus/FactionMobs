@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_7_R1.Entity;
-import net.minecraft.util.org.apache.commons.io.IOUtils;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -88,26 +86,25 @@ public class FactionMobs extends JavaPlugin {
 
 		FactionMobs.silentErrors = config.getBoolean("silentErrors", FactionMobs.silentErrors);
 		
-		try {
-			File defaultConfig = new File(this.getDataFolder(), "configDefaults.yml");
-			defaultConfig.createNewFile();
-			InputStream is = getClass().getResourceAsStream("/config.yml");
-			FileOutputStream os = new FileOutputStream(defaultConfig);
-			IOUtils.copy(is, os);
-			is.close();
-			os.close();
-		} catch (Exception e) {
-			if (!FactionMobs.silentErrors) e.printStackTrace();
-		}
+		Utils.copyDefaultConfig();
 		
     	try {
     	    Class.forName("org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity");
     	} catch (Exception e) {
-    	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires v1_7_R1). FactionMobs will not be enabled.");
-            getServer().getConsoleSender().sendMessage("§cFactionMobs is incompatible with this version of CraftBukkit, please download a newer version.");
-    	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
-    	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
-    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+        	try {
+        		if (Class.forName("za.co.mcportcentral.entity.CraftCustomEntity")
+        				.getResourceAsStream("/mappings/v1_7_R1/cb2numpkg.srg") != null) {
+        			System.out.println("[FactionMobs] MCPC detected. MCPC compatibility is experimental.");
+        		} else {
+        			throw e;
+        		}
+    		} catch (Exception e1) {
+        	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires v1_7_R1). FactionMobs will not be enabled.");
+                getServer().getConsoleSender().sendMessage("§cFactionMobs is incompatible with this version of CraftBukkit, please download a newer version.");
+        	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
+        	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
+        	    if (!FactionMobs.silentErrors) e.printStackTrace();
+    		}
     	    return;
     	}
     	

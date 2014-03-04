@@ -1,5 +1,10 @@
 package com.gmail.scyntrus.fmob;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import net.minecraft.server.v1_7_R1.Entity;
 import net.minecraft.server.v1_7_R1.EntityAnimal;
 import net.minecraft.server.v1_7_R1.EntityCreeper;
@@ -141,5 +146,39 @@ public class Utils {
 			}
 		}
 		return count;
+	}
+	
+	public static void copyDefaultConfig() {
+		InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("/config.yml");
+		if (stream == null) {
+			if (!FactionMobs.silentErrors)
+				System.out.println("Unable to find default config.yml");
+			return;
+		}
+		OutputStream resStreamOut = null;
+		int readBytes;
+		byte[] buffer = new byte[4096];
+		try {
+			resStreamOut = new FileOutputStream(new File(FactionMobs.instance.getDataFolder(), "configDefaults.yml"));
+			while ((readBytes = stream.read(buffer)) > 0) {
+				resStreamOut.write(buffer, 0, readBytes);
+			}
+		} catch (Exception e) {
+			if (!FactionMobs.silentErrors)
+				e.printStackTrace();
+		} finally {
+			try {
+				stream.close();
+			} catch (Exception e) {
+				if (!FactionMobs.silentErrors)
+					e.printStackTrace();
+			}
+			try {
+				resStreamOut.close();
+			} catch (Exception e) {
+				if (!FactionMobs.silentErrors)
+					e.printStackTrace();
+			}
+		}
 	}
 }
