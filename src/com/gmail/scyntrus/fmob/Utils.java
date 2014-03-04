@@ -20,7 +20,7 @@ import com.gmail.scyntrus.ifactions.UPlayer;
 
 public class Utils {
 	public static int FactionCheck(Entity entity, Faction faction) {
-		if (entity == null || faction == null) {
+		if (entity == null || faction == null || faction.isNone()) {
 			return 0;
 		}
 		if (entity.getBukkitEntity().hasMetadata("MyPet"))

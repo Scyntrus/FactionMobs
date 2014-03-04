@@ -16,8 +16,7 @@ public class Faction2 extends Faction {
 	
 	@Override
 	public int getRelationTo(Faction other) {
-		if (faction == null) return 0;
-		if (faction.detached()) return 0;
+		if (faction == null || isNone()) return 0;
 		try {
     		com.massivecraft.factions.Rel rel = faction.getRelationTo(((Faction2)other).faction);
     		if (rel.equals(com.massivecraft.factions.Rel.ENEMY)) {
@@ -35,7 +34,7 @@ public class Faction2 extends Faction {
 
 	@Override
 	public boolean isNone() {
-		if (faction == null) return true;
+		if (faction == null || faction.detached()) return true;
 		return faction.isNone();
 	}
 

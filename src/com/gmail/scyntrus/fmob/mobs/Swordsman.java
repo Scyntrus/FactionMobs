@@ -318,12 +318,12 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	
 	@Override
 	public void updateMob() {
+		this.setFaction(Factions.getFactionByName(this.world.getWorldData().getName(),factionName));
 		if (this.target instanceof EntityLiving && this.target.isAlive()) {
 			super.setGoalTarget((EntityLiving) this.target);
 		} else {
 			this.findTarget();
 		}
-		this.setFaction(Factions.getFactionByName(this.world.getWorldData().getName(),factionName));
 		if (this.faction == null) {
 			this.forceDie();
 			return;
