@@ -1,5 +1,7 @@
 package com.gmail.scyntrus.ifactions;
 
+import com.gmail.scyntrus.fmob.FactionMobs;
+
 public class Faction6 extends Faction {
 	
 	public com.massivecraft.factions.Faction faction;
@@ -15,14 +17,19 @@ public class Faction6 extends Faction {
 	@Override
 	public int getRelationTo(Faction other) {
 		if (faction == null) return 0;
-		Object rel = faction.getRelationTo(((Faction6)other).faction);
-		if (rel.equals(com.massivecraft.factions.struct.Relation.ENEMY)) {
-			return -1;
-		} else if (rel.equals(com.massivecraft.factions.struct.Relation.NEUTRAL)) {
-			return 0;
-		} else if (rel.equals(com.massivecraft.factions.struct.Relation.ALLY) || rel.equals(com.massivecraft.factions.struct.Relation.MEMBER)) {
-			return 1;
-		}
+		if (faction.detached()) return 0;
+		try {
+    		Object rel = faction.getRelationTo(((Faction6)other).faction);
+    		if (rel.equals(com.massivecraft.factions.struct.Relation.ENEMY)) {
+    			return -1;
+    		} else if (rel.equals(com.massivecraft.factions.struct.Relation.NEUTRAL)) {
+    			return 0;
+    		} else if (rel.equals(com.massivecraft.factions.struct.Relation.ALLY) || rel.equals(com.massivecraft.factions.struct.Relation.MEMBER)) {
+    			return 1;
+    		}
+		} catch (Exception e) {
+    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+    	}
 		return 0;
 	}
 

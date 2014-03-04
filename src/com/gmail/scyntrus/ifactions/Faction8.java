@@ -22,6 +22,7 @@ public class Faction8 extends Faction {
 	@Override
 	public int getRelationTo(Faction other) {
 		if (faction == null) return 0;
+		if (faction.detached()) return 0;
 		try {
 			Object rel = getRelationTo.invoke(faction, ((Faction8)other).faction);
 			if (rel.equals(com.massivecraft.factions.struct.Rel.ENEMY)) {

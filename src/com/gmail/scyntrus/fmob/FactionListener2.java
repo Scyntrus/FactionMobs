@@ -6,11 +6,11 @@ import org.bukkit.event.Listener;
 
 import com.gmail.scyntrus.ifactions.Factions;
 
-public class RenameListener2 implements Listener {
+public class FactionListener2 implements Listener {
 	
 	FactionMobs plugin;
 	
-	public RenameListener2(FactionMobs plugin) {
+	public FactionListener2(FactionMobs plugin) {
 		this.plugin = plugin;
 	}
 
@@ -41,5 +41,15 @@ public class RenameListener2 implements Listener {
 				}
 			}
 		}.init(oldName,  newName), 0);
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onFactionDisband(com.massivecraft.factions.event.FactionsEventDisband e) {
+		String factionName = e.getFaction().getName();
+		for (int i = FactionMobs.mobList.size()-1; i >= 0; i--) {
+			if (FactionMobs.mobList.get(i).getFactionName().equals(factionName)) {
+				FactionMobs.mobList.get(i).forceDie();
+			}
+		}
 	}
 }

@@ -223,9 +223,9 @@ public class FactionMobs extends JavaPlugin {
 	    this.pm.registerEvents(new EntityListener(this), this);
 	    this.pm.registerEvents(new CommandListener(this), this);
     	if (Factions.factionsVersion == 2) {
-    	    this.pm.registerEvents(new RenameListener2(this), this);
+    	    this.pm.registerEvents(new FactionListener2(this), this);
     	} else if (Factions.factionsVersion == 6 || Factions.factionsVersion == 8) {
-    	    this.pm.registerEvents(new RenameListener68(this), this);
+    	    this.pm.registerEvents(new FactionListener68(this), this);
     	}
     	
 	    File colorFile = new File(getDataFolder(), "colors.dat");
