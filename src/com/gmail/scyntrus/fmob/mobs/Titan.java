@@ -312,14 +312,14 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	@Override
 	public void updateMob() {
 		this.setFaction(Factions.getFactionByName(this.world.getWorldData().getName(),factionName));
+		if (this.faction == null || this.faction.isNone()) {
+			this.forceDie();
+			return;
+		}
 		if (this.target instanceof EntityLiving && this.target.isAlive()) {
 			super.setGoalTarget((EntityLiving) this.target);
 		} else {
 			this.findTarget();
-		}
-		if (this.faction == null) {
-			this.forceDie();
-			return;
 		}
 	}
 
