@@ -1,35 +1,35 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import net.minecraft.server.v1_7_R1.AttributeInstance;
-import net.minecraft.server.v1_7_R1.Block;
-import net.minecraft.server.v1_7_R1.DamageSource;
-import net.minecraft.server.v1_7_R1.Entity;
-import net.minecraft.server.v1_7_R1.EntityCreature;
-import net.minecraft.server.v1_7_R1.EntityHuman;
-import net.minecraft.server.v1_7_R1.EntityLiving;
-import net.minecraft.server.v1_7_R1.EntityPlayer;
-import net.minecraft.server.v1_7_R1.EntityProjectile;
-import net.minecraft.server.v1_7_R1.EntitySkeleton;
-import net.minecraft.server.v1_7_R1.EnumMonsterType;
-import net.minecraft.server.v1_7_R1.GenericAttributes;
-import net.minecraft.server.v1_7_R1.Item;
-import net.minecraft.server.v1_7_R1.ItemStack;
-import net.minecraft.server.v1_7_R1.MathHelper;
-import net.minecraft.server.v1_7_R1.NBTTagCompound;
-import net.minecraft.server.v1_7_R1.PathfinderGoal;
-import net.minecraft.server.v1_7_R1.PathfinderGoalArrowAttack;
-import net.minecraft.server.v1_7_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_7_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_7_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_7_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_7_R1.World;
+import net.minecraft.server.v1_7_R2.AttributeInstance;
+import net.minecraft.server.v1_7_R2.Block;
+import net.minecraft.server.v1_7_R2.DamageSource;
+import net.minecraft.server.v1_7_R2.Entity;
+import net.minecraft.server.v1_7_R2.EntityCreature;
+import net.minecraft.server.v1_7_R2.EntityHuman;
+import net.minecraft.server.v1_7_R2.EntityLiving;
+import net.minecraft.server.v1_7_R2.EntityPlayer;
+import net.minecraft.server.v1_7_R2.EntityProjectile;
+import net.minecraft.server.v1_7_R2.EntitySkeleton;
+import net.minecraft.server.v1_7_R2.EnumMonsterType;
+import net.minecraft.server.v1_7_R2.GenericAttributes;
+import net.minecraft.server.v1_7_R2.Item;
+import net.minecraft.server.v1_7_R2.ItemStack;
+import net.minecraft.server.v1_7_R2.MathHelper;
+import net.minecraft.server.v1_7_R2.NBTTagCompound;
+import net.minecraft.server.v1_7_R2.PathfinderGoal;
+import net.minecraft.server.v1_7_R2.PathfinderGoalArrowAttack;
+import net.minecraft.server.v1_7_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_7_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_7_R2.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_7_R2.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_7_R2.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R1.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_7_R2.util.UnsafeList;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
@@ -77,7 +77,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
 	    if (damage > 0) getAttributeInstance(GenericAttributes.e).setValue(damage);
 	    this.setHealth(maxHp);
-	    this.X = 1.5F;                  // jump height TODO: Update name on version change
+	    this.W = 1.5F;                  // jump height TODO: Update name on version change
 	    this.getNavigation().a(false);  // avoid water
 	    this.getNavigation().b(false);  // break door
 	    this.getNavigation().c(true);   // enter open door
@@ -360,12 +360,12 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}
 
 	@Override
-	protected String aT() { //TODO: Update name on version change
+	protected String aS() { //TODO: Update name on version change
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String aU() { //TODO: Update name on version change
+	protected String aT() { //TODO: Update name on version change
 	    return FactionMobs.sndDeath;
 	}
 
@@ -523,7 +523,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		if (this.getHealth() > 0) {
 			this.dead = false;
 		}
-		this.ao = false; //TODO: Update name on version change
+		this.an = false; //TODO: Update name on version change
 		super.h();
 	}
 }

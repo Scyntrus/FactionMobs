@@ -1,33 +1,33 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import net.minecraft.server.v1_7_R1.AttributeInstance;
-import net.minecraft.server.v1_7_R1.DamageSource;
-import net.minecraft.server.v1_7_R1.Entity;
-import net.minecraft.server.v1_7_R1.EntityCreature;
-import net.minecraft.server.v1_7_R1.EntityHuman;
-import net.minecraft.server.v1_7_R1.EntityIronGolem;
-import net.minecraft.server.v1_7_R1.EntityLiving;
-import net.minecraft.server.v1_7_R1.EntityPlayer;
-import net.minecraft.server.v1_7_R1.EntityProjectile;
-import net.minecraft.server.v1_7_R1.EnumMonsterType;
-import net.minecraft.server.v1_7_R1.GenericAttributes;
-import net.minecraft.server.v1_7_R1.MathHelper;
-import net.minecraft.server.v1_7_R1.NBTTagCompound;
-import net.minecraft.server.v1_7_R1.PathfinderGoal;
-import net.minecraft.server.v1_7_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_7_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_7_R1.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_7_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_7_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_7_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_7_R1.World;
+import net.minecraft.server.v1_7_R2.AttributeInstance;
+import net.minecraft.server.v1_7_R2.DamageSource;
+import net.minecraft.server.v1_7_R2.Entity;
+import net.minecraft.server.v1_7_R2.EntityCreature;
+import net.minecraft.server.v1_7_R2.EntityHuman;
+import net.minecraft.server.v1_7_R2.EntityIronGolem;
+import net.minecraft.server.v1_7_R2.EntityLiving;
+import net.minecraft.server.v1_7_R2.EntityPlayer;
+import net.minecraft.server.v1_7_R2.EntityProjectile;
+import net.minecraft.server.v1_7_R2.EnumMonsterType;
+import net.minecraft.server.v1_7_R2.GenericAttributes;
+import net.minecraft.server.v1_7_R2.MathHelper;
+import net.minecraft.server.v1_7_R2.NBTTagCompound;
+import net.minecraft.server.v1_7_R2.PathfinderGoal;
+import net.minecraft.server.v1_7_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_7_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_7_R2.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_7_R2.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_7_R2.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_7_R2.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_7_R2.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R1.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_7_R2.util.UnsafeList;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
@@ -73,7 +73,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	    getAttributeInstance(GenericAttributes.d).setValue(this.moveSpeed);
 	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
 	    this.setHealth(maxHp);
-	    this.X = 1.5F;
+	    this.W = 1.5F;
 	    this.getNavigation().a(false);
 	    this.getNavigation().b(false);
 	    this.getNavigation().c(true);
@@ -434,7 +434,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	}
 	
 	@Override
-	public boolean m(Entity entity) {
+	public boolean n(Entity entity) {
 		if (damage>0) {
 			this.world.broadcastEntityEffect(this, (byte)4);
 			boolean flag = entity.damageEntity(DamageSource.mobAttack(this), (float) damage);
@@ -444,7 +444,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 			makeSound("mob.irongolem.throw", 1.0F, 1.0F);
 			return flag;
 		} else {
-			return super.m(entity);
+			return super.n(entity);
 		}
 	}
 
@@ -503,7 +503,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		if (this.getHealth() > 0) {
 			this.dead = false;
 		}
-		this.ao = false;
+		this.an = false;
 		super.h();
 	}
 }
