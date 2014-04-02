@@ -154,6 +154,7 @@ public class EntityListener implements Listener {
         }, 1L);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof CraftLivingEntity)) return;
@@ -242,6 +243,7 @@ public class EntityListener implements Listener {
 	}
 
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e) {
 		EntityDamageEvent lastDamage = e.getEntity().getLastDamageCause();
@@ -299,6 +301,7 @@ public class EntityListener implements Listener {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler(ignoreCancelled = true)
 	public void onPotionSplash(PotionSplashEvent e) {
 		if (e.getPotion().getShooter() == null) return;
