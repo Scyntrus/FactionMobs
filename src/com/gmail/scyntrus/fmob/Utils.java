@@ -5,17 +5,17 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import net.minecraft.server.v1_7_R2.Entity;
-import net.minecraft.server.v1_7_R2.EntityAnimal;
-import net.minecraft.server.v1_7_R2.EntityCreeper;
-import net.minecraft.server.v1_7_R2.EntityPlayer;
-import net.minecraft.server.v1_7_R2.EntitySlime;
-import net.minecraft.server.v1_7_R2.EntityWolf;
-import net.minecraft.server.v1_7_R2.EntityZombie;
-import net.minecraft.server.v1_7_R2.IMonster;
-import net.minecraft.server.v1_7_R2.Item;
-import net.minecraft.server.v1_7_R2.ItemStack;
-import net.minecraft.server.v1_7_R2.NBTTagCompound;
+import net.minecraft.server.v1_7_R3.Entity;
+import net.minecraft.server.v1_7_R3.EntityAnimal;
+import net.minecraft.server.v1_7_R3.EntityCreeper;
+import net.minecraft.server.v1_7_R3.EntityPlayer;
+import net.minecraft.server.v1_7_R3.EntitySlime;
+import net.minecraft.server.v1_7_R3.EntityWolf;
+import net.minecraft.server.v1_7_R3.EntityZombie;
+import net.minecraft.server.v1_7_R3.IMonster;
+import net.minecraft.server.v1_7_R3.Item;
+import net.minecraft.server.v1_7_R3.ItemStack;
+import net.minecraft.server.v1_7_R3.NBTTagCompound;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
