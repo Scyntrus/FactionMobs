@@ -165,8 +165,9 @@ public class Utils {
 			}
 		} catch (Exception e) {
 			if (!FactionMobs.silentErrors){
-				e.printStackTrace();
 				System.out.println("Unable to create configDefaults.yml. Check permissions or create it manually.");
+				//debugging check should be here
+				e.printStackTrace();
 			}
 		} finally {
 			try {
