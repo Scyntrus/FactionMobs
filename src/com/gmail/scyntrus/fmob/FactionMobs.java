@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_7_R3.Entity;
-
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -23,7 +21,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import org.mcstats.Metrics.Graph;
-
 import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
@@ -36,18 +33,13 @@ public class FactionMobs extends JavaPlugin {
 	public PluginManager pm = null;
 	public static List<FactionMob> mobList = new ArrayList<FactionMob>();
 	public static Map<String,Integer> factionColors = new HashMap<String,Integer>();
-	
 	public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
-	
 	public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
-	
 	public static long mobCount = 0;
-	
 	public static String sndBreath = "";
 	public static String sndHurt = "";
 	public static String sndDeath = "";
 	public static String sndStep = "";
-	
 	public static int spawnLimit = 50;
 	public static int mobsPerFaction = 0;
 	public static boolean attackMobs = true;
@@ -56,24 +48,17 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean displayMobFaction = true;
 	public static boolean attackZombies = true;
 	public static boolean alertAllies = true;
-	
 	private long saveInterval = 6000;
-	
-    public Economy econ = null;
+	public Economy econ = null;
 	public Boolean vaultEnabled = false;
-	
 	public static double mobSpeed = .3;
 	public static double mobPatrolSpeed = .175;
 	public static double mobNavRange = 64;
-	
 	public static FactionMobs instance;
-	
 	public static boolean scheduleChunkMobLoad = false;
 	public static int chunkMobLoadTask = -1;
-	
 	public static boolean feedEnabled = true;
 	public static float feedAmount = 5;
-	
 	public static boolean silentErrors = true;
 	
 	@SuppressWarnings("unchecked")
@@ -82,39 +67,37 @@ public class FactionMobs extends JavaPlugin {
 		this.saveDefaultConfig();
 		FileConfiguration config = this.getConfig();
 		config.options().copyDefaults(true);
-    	this.saveConfig();
-
+		this.saveConfig();
 		FactionMobs.silentErrors = config.getBoolean("silentErrors", FactionMobs.silentErrors);
-		
 		Utils.copyDefaultConfig();
 		
-    	try {
-    	    Class.forName("org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity");
-    	} catch (Exception e) {
-        	try {
-        		if (Class.forName("za.co.mcportcentral.entity.CraftCustomEntity")
-        				.getResourceAsStream("/mappings/v1_7_R3/cb2numpkg.srg") != null) {
-        			System.out.println("[FactionMobs] MCPC detected. MCPC compatibility is experimental.");
-        		} else {
-        			throw e;
-        		}
-    		} catch (Exception e1) {
-        	    System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires v1_7_R3). FactionMobs will not be enabled.");
-                getServer().getConsoleSender().sendMessage("§cFactionMobs is incompatible with this version of CraftBukkit, please download a newer version.");
-        	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
-        	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
-        	    if (!FactionMobs.silentErrors) e.printStackTrace();
-    		}
-    	    return;
-    	}
-    	
-    	if (!Factions.init(this.getName())) {
-    		System.out.println("[FactionMobs] You are running an unsupported version of Factions. Please contact the plugin author for more info.");
+		try {
+			Class.forName("org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity");
+		} catch (Exception e) {
+			try {
+				if (Class.forName("za.co.mcportcentral.entity.CraftCustomEntity")
+						.getResourceAsStream("/mappings/v1_7_R3/cb2numpkg.srg") != null) {
+					System.out.println("[FactionMobs] MCPC detected. MCPC compatibility is experimental.");
+				} else {
+					throw e;
+				}
+			} catch (Exception e1) {
+				System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires v1_7_R3). FactionMobs will not be enabled.");
+				getServer().getConsoleSender().sendMessage("ï¿½cFactionMobs is incompatible with this version of CraftBukkit, please download a newer version.");
+				this.getCommand("fm").setExecutor(new ErrorCommand(this));
+				this.getCommand("fmc").setExecutor(new ErrorCommand(this));
+				if (!FactionMobs.silentErrors) e.printStackTrace();
+			}
+			return;
+		}
+		
+		if (!Factions.init(this.getName())) {
+			System.out.println("[FactionMobs] You are running an unsupported version of Factions. Please contact the plugin author for more info.");
 			this.getCommand("fm").setExecutor(new ErrorCommand(this));
 			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
 			return;
-    	}
-    	
+		}
+
 		int modelNum = 51;
 		switch (config.getInt("model")) {
 		case 0: // skeleton
@@ -152,7 +135,6 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
 		FactionMobs.mobPatrolSpeed = FactionMobs.mobPatrolSpeed / FactionMobs.mobSpeed;
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
-
 		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
 		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
 		
@@ -176,7 +158,6 @@ public class FactionMobs extends JavaPlugin {
 		Mage.enabled = config.getBoolean("Mage.enabled", Mage.enabled);
 		Swordsman.enabled = config.getBoolean("Swordsman.enabled", Swordsman.enabled);
 		Titan.enabled = config.getBoolean("Titan.enabled", Titan.enabled);
-		
 		Archer.powerCost = config.getDouble("Archer.powerCost", Archer.powerCost);
 		Archer.moneyCost = config.getDouble("Archer.moneyCost", Archer.moneyCost);
 		Mage.powerCost = config.getDouble("Mage.powerCost", Mage.powerCost);
@@ -185,116 +166,115 @@ public class FactionMobs extends JavaPlugin {
 		Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost", Swordsman.moneyCost);
 		Titan.powerCost = config.getDouble("Titan.powerCost", Titan.powerCost);
 		Titan.moneyCost = config.getDouble("Titan.moneyCost", Titan.moneyCost);
-
 		Archer.drops = config.getInt("Archer.drops", 0);
 		Mage.drops = config.getInt("Mage.drops", 0);
 		Swordsman.drops = config.getInt("Swordsman.drops", 0);
 		Titan.drops = config.getInt("Titan.drops", 0);
 		
 		this.pm = this.getServer().getPluginManager();
-		
 		if (!ReflectionManager.init()) {
-        	this.getLogger().severe("[Fatal Error] Unable to register mobs");
-	    	pm.disablePlugin(this);
+			this.getLogger().severe("[Fatal Error] Unable to register mobs");
+			pm.disablePlugin(this);
+			return;
+		}
+		try {
+			addEntityType(Archer.class, Archer.typeName, modelNum);
+			addEntityType(Swordsman.class, Swordsman.typeName, modelNum);
+			addEntityType(Mage.class, Mage.typeName, modelNum);
+			addEntityType(Titan.class, Titan.typeName, 99);
+		} catch (Exception e) {
+			this.getLogger().severe("[Fatal Error] Unable to register mobs");
+			this.getCommand("fm").setExecutor(new ErrorCommand(this));
+			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
+			
+			if (!FactionMobs.silentErrors) e.printStackTrace();
 			return;
 		}
 		
-	    try {
-	    	addEntityType(Archer.class, Archer.typeName, modelNum);
-	    	addEntityType(Swordsman.class, Swordsman.typeName, modelNum);
-	    	addEntityType(Mage.class, Mage.typeName, modelNum);
-	    	addEntityType(Titan.class, Titan.typeName, 99);
-	    } catch (Exception e) {
-        	this.getLogger().severe("[Fatal Error] Unable to register mobs");
-    	    this.getCommand("fm").setExecutor(new ErrorCommand(this));
-    	    this.getCommand("fmc").setExecutor(new ErrorCommand(this));
-    	    if (!FactionMobs.silentErrors) e.printStackTrace();
-	    	return;
-	    }
-	    
-	    this.getCommand("fm").setExecutor(new FmCommand(this));
-	    if (config.getBoolean("fmcEnabled", false)) {
-		    this.getCommand("fmc").setExecutor(new FmcCommand(this));
-	    }
-	    
-	    this.pm.registerEvents(new EntityListener(this), this);
-	    this.pm.registerEvents(new CommandListener(this), this);
-    	if (Factions.factionsVersion == 2) {
-    	    this.pm.registerEvents(new FactionListener2(this), this);
-    	} else if (Factions.factionsVersion == 6 || Factions.factionsVersion == 8) {
-    	    this.pm.registerEvents(new FactionListener68(this), this);
-    	}
-    	
-	    File colorFile = new File(getDataFolder(), "colors.dat");
-	    if (colorFile.exists()){
+		this.getCommand("fm").setExecutor(new FmCommand(this));
+		if (config.getBoolean("fmcEnabled", false)) {
+			this.getCommand("fmc").setExecutor(new FmcCommand(this));
+		}
+		
+		this.pm.registerEvents(new EntityListener(this), this);
+		this.pm.registerEvents(new CommandListener(this), this);
+		
+		if (Factions.factionsVersion == 2) {
+			this.pm.registerEvents(new FactionListener2(this), this);
+		} else if (Factions.factionsVersion == 6 || Factions.factionsVersion == 8) {
+			this.pm.registerEvents(new FactionListener68(this), this);
+		}
+		
+		File colorFile = new File(getDataFolder(), "colors.dat");
+		if (colorFile.exists()){
 			try {
 				FileInputStream fileInputStream = new FileInputStream(colorFile);
-		    	ObjectInputStream oInputStream = new ObjectInputStream(fileInputStream);
-		    	FactionMobs.factionColors = (HashMap<String, Integer>) oInputStream.readObject();
-		    	oInputStream.close();
-		    	fileInputStream.close();
+				ObjectInputStream oInputStream = new ObjectInputStream(fileInputStream);
+				FactionMobs.factionColors = (HashMap<String, Integer>) oInputStream.readObject();
+				oInputStream.close();
+				fileInputStream.close();
 			} catch (Exception e) {
-	        	this.getLogger().severe("[FactionMobs] Error reading faction colors file, colors.dat");
-	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+				this.getLogger().severe("[FactionMobs] Error reading faction colors file, colors.dat");
+				if (!FactionMobs.silentErrors) e.printStackTrace();
 			}
-	    }
-	    
-	    if (config.getBoolean("autoSave", false)) {
-	    	this.saveInterval = config.getLong("saveInterval", this.saveInterval);
-	    	if (this.saveInterval > 0) {
-	    		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoSaver(this), this.saveInterval, this.saveInterval);
-	    		System.out.println("[FactionMobs] Auto-Save enabled.");
-	    	}
-	    }
-	    
-        if (getServer().getPluginManager().getPlugin("Vault") != null) {
-            RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-            if (rsp != null) {
-                econ = rsp.getProvider();
-                if (econ != null) {
-                	vaultEnabled = true;
-                }
-            }
-        }
-        if (vaultEnabled) {
-        	System.out.println("[FactionMobs] Vault detected.");
-        } else {
-        	System.out.println("[FactionMobs] Vault not detected.");
-        }
+		}
+		
+		if (config.getBoolean("autoSave", false)) {
+			this.saveInterval = config.getLong("saveInterval", this.saveInterval);
+			if (this.saveInterval > 0) {
+				this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoSaver(this), this.saveInterval, this.saveInterval);
+				System.out.println("[FactionMobs] Auto-Save enabled.");
+			}
+		}
+		
+		if (getServer().getPluginManager().getPlugin("Vault") != null) {
+			RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+			if (rsp != null) {
+				econ = rsp.getProvider();
+				if (econ != null) {
+					vaultEnabled = true;
+				}
+			}
+		}
+		if (vaultEnabled) {
+			System.out.println("[FactionMobs] Vault detected.");
+		} else {
+			System.out.println("[FactionMobs] Vault not detected.");
+		}
 		
 		runMetrics(); // using mcstats.org metrics
 		
 		this.loadMobList();
 		
-        chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
+		chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void addEntityType(Class paramClass, String paramString, int paramInt) {
-	    ReflectionManager.mapC.put(paramString, paramClass);
-	    ReflectionManager.mapD.put(paramClass, paramString);
-	    ReflectionManager.mapF.put(paramClass, Integer.valueOf(paramInt));
-	    ReflectionManager.mapG.put(paramString, Integer.valueOf(paramInt));
+		ReflectionManager.mapC.put(paramString, paramClass);
+		ReflectionManager.mapD.put(paramClass, paramString);
+		ReflectionManager.mapF.put(paramClass, Integer.valueOf(paramInt));
+		ReflectionManager.mapG.put(paramString, Integer.valueOf(paramInt));
 	}
 	
 	private void runMetrics() {
 		try {
-		    Metrics metrics = new Metrics(this);
+			Metrics metrics = new Metrics(this);
 
-		    Graph versionGraph = metrics.createGraph("Factions Version");
+			Graph versionGraph = metrics.createGraph("Factions Version");
 
-		    versionGraph.addPlotter(new Metrics.Plotter(this.getServer().getPluginManager().getPlugin("Factions").getDescription().getVersion()) {
+			versionGraph.addPlotter(new Metrics.Plotter(this.getServer().getPluginManager().getPlugin("Factions").getDescription().getVersion()) {
 
-		            @Override
-		            public int getValue() {
-		                    return 1;
-		            }
+				@Override
+				public int getValue() {
+					return 1;
+				}
 
-		    });
+			});
 
-		    metrics.start();
+			metrics.start();
 		} catch (IOException e) {
-    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+			if (!FactionMobs.silentErrors) e.printStackTrace();
 		}
 	}
 	
@@ -304,9 +284,9 @@ public class FactionMobs extends JavaPlugin {
 	
 	public void loadMobList() {
 		File file = new File(getDataFolder(), "data.dat");
-	    boolean backup = false;
-	    if (file.exists()) {
-	    	YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		boolean backup = false;
+		if (file.exists()) {
+			YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
 			@SuppressWarnings("unchecked")
 			List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
 			for (List<String> mobData : save) {
@@ -320,7 +300,7 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
-				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+							if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 					continue;
@@ -335,7 +315,7 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
-				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+							if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 					continue;
@@ -350,16 +330,16 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
-				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+							if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 					continue;
 				}
 				Location spawnLoc = new Location(
-						world, 
-						Double.parseDouble(mobData.get(3)), 
-						Double.parseDouble(mobData.get(4)), 
-						Double.parseDouble(mobData.get(5)));
+				world, 
+				Double.parseDouble(mobData.get(3)), 
+				Double.parseDouble(mobData.get(4)), 
+				Double.parseDouble(mobData.get(5)));
 				if (mobData.get(0).equalsIgnoreCase("Archer") || mobData.get(0).equalsIgnoreCase("Ranger")) {
 					newMob = new Archer(spawnLoc, faction);
 				} else if (mobData.get(0).equalsIgnoreCase("Mage")) {
@@ -380,27 +360,27 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
-				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+							if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 					continue;
 				}
 				newMob.getEntity().setPosition(Double.parseDouble(mobData.get(6)),
-						Double.parseDouble(mobData.get(7)),
-						Double.parseDouble(mobData.get(8)));
+				Double.parseDouble(mobData.get(7)),
+				Double.parseDouble(mobData.get(8)));
 				newMob.getEntity().setHealth(Float.parseFloat(mobData.get(9)));
 				
 				if (mobData.size() > 10) {
 					newMob.setPoi(
-						Double.parseDouble(mobData.get(10)), 
-						Double.parseDouble(mobData.get(11)), 
-						Double.parseDouble(mobData.get(12)));
+					Double.parseDouble(mobData.get(10)), 
+					Double.parseDouble(mobData.get(11)), 
+					Double.parseDouble(mobData.get(12)));
 					newMob.setOrder(mobData.get(13));
 				} else {
 					newMob.setPoi(
-							Double.parseDouble(mobData.get(6)), 
-							Double.parseDouble(mobData.get(7)), 
-							Double.parseDouble(mobData.get(8)));
+					Double.parseDouble(mobData.get(6)), 
+					Double.parseDouble(mobData.get(7)), 
+					Double.parseDouble(mobData.get(8)));
 					newMob.setOrder("poi");
 				}
 				
@@ -413,14 +393,14 @@ public class FactionMobs extends JavaPlugin {
 							System.out.println("Backup file saved as data_backup.dat");
 						} catch (IOException e) {
 							System.out.println("Failed to save backup file");
-				    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+							if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
 				}
 				mobList.add(newMob);
 				newMob.getEntity().dead = false;
 			}
-	    }
+		}
 	}
 	
 	public void saveMobList() {
@@ -453,21 +433,21 @@ public class FactionMobs extends JavaPlugin {
 			conf.save(new File(getDataFolder(), "data.dat"));
 			System.out.println("FactionMobs data saved.");
 		} catch (IOException e) {
-        	this.getLogger().severe("Failed to save faction mob data, data.dat");
-    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+			this.getLogger().severe("Failed to save faction mob data, data.dat");
+			if (!FactionMobs.silentErrors) e.printStackTrace();
 		}
 		try {
-		    File colorFile = new File(getDataFolder(), "colors.dat");
-		    colorFile.createNewFile();
+			File colorFile = new File(getDataFolder(), "colors.dat");
+			colorFile.createNewFile();
 			FileOutputStream fileOut = new FileOutputStream(colorFile);
-	    	ObjectOutputStream oOut = new ObjectOutputStream(fileOut);
-	    	oOut.writeObject(FactionMobs.factionColors);
-	    	oOut.close();
-	    	fileOut.close();
+			ObjectOutputStream oOut = new ObjectOutputStream(fileOut);
+			oOut.writeObject(FactionMobs.factionColors);
+			oOut.close();
+			fileOut.close();
 			System.out.println("FactionMobs color data saved.");
 		} catch (Exception e) {
-        	this.getLogger().severe("Error writing faction colors file, colors.dat");
-    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+			this.getLogger().severe("Error writing faction colors file, colors.dat");
+			if (!FactionMobs.silentErrors) e.printStackTrace();
 		}
 	}
 	
