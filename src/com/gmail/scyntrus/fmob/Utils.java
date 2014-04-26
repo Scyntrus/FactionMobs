@@ -164,8 +164,10 @@ public class Utils {
 				resStreamOut.write(buffer, 0, readBytes);
 			}
 		} catch (Exception e) {
-			if (!FactionMobs.silentErrors)
+			if (!FactionMobs.silentErrors){
 				e.printStackTrace();
+				System.out.println("Unable to create configDefaults.yml. Check permissions or create it manually.");
+			}
 		} finally {
 			try {
 				stream.close();
