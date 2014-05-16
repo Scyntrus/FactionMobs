@@ -81,7 +81,6 @@ public class Mage extends EntityWitch implements FactionMob {
 	    this.getNavigation().c(true);
 	    this.getNavigation().d(false);
 	    this.getNavigation().e(true);
-	    this.setHealth(maxHp);
 		this.setEquipment(0, new ItemStack((Item)Item.REGISTRY.a("potion"), 1, 8204));
 	    
 	    if (ReflectionManager.goodNavigationE) {

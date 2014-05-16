@@ -87,7 +87,7 @@ public class ReflectionManager {
 				pathfinderGoalSelectorB.setAccessible(true);
 				goodPathfinderGoalSelectorB = true;
 			} catch (Exception e2) {
-				System.out.println("[Faction Mobs] [Minor Error] Field not found: PathfinderGoalSelector.a; Unable to override mob goals");
+				System.out.println("[Faction Mobs] [Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
 	    	    if (!FactionMobs.silentErrors) {
 	    	    	e1.printStackTrace();
 	    	    	e2.printStackTrace();

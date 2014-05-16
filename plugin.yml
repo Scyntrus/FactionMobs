@@ -38,7 +38,7 @@ permissions:
         description: Allows you to use /fm order moveToPoint
         default: true
     fmob.order.tp:
-        description: Allows you to use /fm order [tpSpawn|tpHere]
+        description: Allows you to use /fm order [tpHome|tpHere]
         default: op
     fmob.bypass:
         description: Allows you to spawn mobs without restriction
