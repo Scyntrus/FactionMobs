@@ -69,14 +69,13 @@ public class FactionMobs extends JavaPlugin {
 		config.options().copyDefaults(true);
 		this.saveConfig();
 		FactionMobs.silentErrors = config.getBoolean("silentErrors", FactionMobs.silentErrors);
-		Utils.copyDefaultConfig();
 		
 		try {
 			Class.forName("org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity");
 		} catch (Exception e) {
 			try {
 				if (Class.forName("za.co.mcportcentral.entity.CraftCustomEntity")
-						.getResourceAsStream("/mappings/v1_7_R3/cb2numpkg.srg") != null) {
+						.getResourceAsStream("/mappings/v1_7_R1/cb2numpkg.srg") != null) {
 					System.out.println("[FactionMobs] MCPC detected. MCPC compatibility is experimental.");
 				} else {
 					throw e;
@@ -90,6 +89,8 @@ public class FactionMobs extends JavaPlugin {
 			}
 			return;
 		}
+		
+		Utils.copyDefaultConfig();
 		
 		if (!Factions.init(this.getName())) {
 			System.out.println("[FactionMobs] You are running an unsupported version of Factions. Please contact the plugin author for more info.");
@@ -174,7 +175,8 @@ public class FactionMobs extends JavaPlugin {
 		this.pm = this.getServer().getPluginManager();
 		if (!ReflectionManager.init()) {
 			this.getLogger().severe("[Fatal Error] Unable to register mobs");
-			pm.disablePlugin(this);
+			this.getCommand("fm").setExecutor(new ErrorCommand(this));
+			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
 			return;
 		}
 		try {

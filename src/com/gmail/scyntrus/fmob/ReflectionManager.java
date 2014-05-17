@@ -70,7 +70,7 @@ public class ReflectionManager {
 				navigationE.setAccessible(true);
 				goodNavigationE = true;
 			} catch (Exception e2) {
-				System.out.println("[Faction Mobs] [Minor Error] Field not found: Navigation.e; Custom pathfinding distances cannot be set");
+				System.out.println("[FactionMobs] [Minor Error] Field not found: Navigation.e; Custom pathfinding distances cannot be set");
 	    	    if (!FactionMobs.silentErrors) {
 	    	    	e1.printStackTrace();
 	    	    	e2.printStackTrace();
@@ -87,7 +87,7 @@ public class ReflectionManager {
 				pathfinderGoalSelectorB.setAccessible(true);
 				goodPathfinderGoalSelectorB = true;
 			} catch (Exception e2) {
-				System.out.println("[Faction Mobs] [Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
+				System.out.println("[FactionMobs] [Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
 	    	    if (!FactionMobs.silentErrors) {
 	    	    	e1.printStackTrace();
 	    	    	e2.printStackTrace();
