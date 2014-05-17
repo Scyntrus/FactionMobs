@@ -86,8 +86,8 @@ public class FactionMobs extends JavaPlugin {
 				this.getCommand("fm").setExecutor(new ErrorCommand(this));
 				this.getCommand("fmc").setExecutor(new ErrorCommand(this));
 				if (!FactionMobs.silentErrors) e.printStackTrace();
+				return;
 			}
-			return;
 		}
 		
 		Utils.copyDefaultConfig();
