@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import com.gmail.scyntrus.fmob.FactionMobs;
 
@@ -13,6 +15,7 @@ public class Factions {
 	private static com.massivecraft.factions.Factions f;
 	private static Method gBT;
 	private static boolean initialized = false;
+	public static Method fPlayerGet;
 	public static int factionsVersion;
 	
 	public static boolean init(String pluginName) {
@@ -25,12 +28,19 @@ public class Factions {
         	try {
         	    Class.forName("com.massivecraft.factions.struct.Relation");
         	    factionsVersion = 6; //Factions 1.6
-        	    System.out.println("["+pluginName+"] Factions 1.6.x detected");
+        	    try {
+        	    	fPlayerGet = com.massivecraft.factions.FPlayers.class.getMethod("get", OfflinePlayer.class);
+            	    System.out.println("["+pluginName+"] Factions 1.6.x-U detected");
+        	    } catch (NoSuchMethodException e2)
+        	    {
+        	    	fPlayerGet = com.massivecraft.factions.FPlayers.class.getMethod("get", Player.class);
+            	    System.out.println("["+pluginName+"] Factions 1.6.x detected. It is recommended you switch to Factions UUID at http://ci.drtshock.net/job/FactionsUUID/");
+        	    }
         	} catch (Exception e2) {
             	try {
             	    Class.forName("com.massivecraft.factions.struct.Rel");
             	    factionsVersion = 8; //Factions 1.8
-            	    System.out.println("["+pluginName+"] Factions 1.8.x detected");
+            	    System.out.println("["+pluginName+"] Factions 1.8.x detected. Support for this version will be discontinued. Please switch to Factions 2.x or Factions UUID at http://ci.drtshock.net/job/FactionsUUID/");
             	} catch (Exception e3) {
 					System.out.println("["+pluginName+"] No compatible version of Factions detected. "+pluginName+" will not be enabled.");
 					if (!FactionMobs.silentErrors) {
