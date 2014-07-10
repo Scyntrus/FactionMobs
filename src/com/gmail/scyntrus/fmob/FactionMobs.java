@@ -387,7 +387,7 @@ public class FactionMobs extends JavaPlugin {
 				}
 				
 				if (!newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM)) {
-					System.out.println("Unable to respawn a Faction Mob.");
+                    System.out.println(String.format("Unable to respawn a Faction Mob: %s %s .", mobData.get(2), mobData.get(0)));
 					if (!backup) {
 						backup = true;
 						try {
@@ -398,6 +398,7 @@ public class FactionMobs extends JavaPlugin {
 							if (!FactionMobs.silentErrors) e.printStackTrace();
 						}
 					}
+					continue;
 				}
 				mobList.add(newMob);
 				newMob.getEntity().dead = false;

@@ -149,7 +149,7 @@ public class Utils {
 	}
 	
 	public static void copyDefaultConfig() {
-		InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("/config.yml");
+		InputStream stream = Utils.class.getResourceAsStream("/config.yml");
 		if (stream == null) {
 			if (!FactionMobs.silentErrors)
 				System.out.println("Unable to find default config.yml");
