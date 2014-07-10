@@ -1,36 +1,36 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import net.minecraft.server.v1_7_R3.AttributeInstance;
-import net.minecraft.server.v1_7_R3.Block;
-import net.minecraft.server.v1_7_R3.DamageSource;
-import net.minecraft.server.v1_7_R3.Entity;
-import net.minecraft.server.v1_7_R3.EntityCreature;
-import net.minecraft.server.v1_7_R3.EntityHuman;
-import net.minecraft.server.v1_7_R3.EntityLiving;
-import net.minecraft.server.v1_7_R3.EntityPlayer;
-import net.minecraft.server.v1_7_R3.EntityProjectile;
-import net.minecraft.server.v1_7_R3.EntitySkeleton;
-import net.minecraft.server.v1_7_R3.EnumMonsterType;
-import net.minecraft.server.v1_7_R3.GenericAttributes;
-import net.minecraft.server.v1_7_R3.Item;
-import net.minecraft.server.v1_7_R3.ItemStack;
-import net.minecraft.server.v1_7_R3.MathHelper;
-import net.minecraft.server.v1_7_R3.NBTTagCompound;
-import net.minecraft.server.v1_7_R3.PathfinderGoal;
-import net.minecraft.server.v1_7_R3.PathfinderGoalFloat;
-import net.minecraft.server.v1_7_R3.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_7_R3.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_7_R3.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_7_R3.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_7_R3.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_7_R3.World;
+import net.minecraft.server.v1_7_R4.AttributeInstance;
+import net.minecraft.server.v1_7_R4.Block;
+import net.minecraft.server.v1_7_R4.DamageSource;
+import net.minecraft.server.v1_7_R4.Entity;
+import net.minecraft.server.v1_7_R4.EntityCreature;
+import net.minecraft.server.v1_7_R4.EntityHuman;
+import net.minecraft.server.v1_7_R4.EntityLiving;
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.EntityProjectile;
+import net.minecraft.server.v1_7_R4.EntitySkeleton;
+import net.minecraft.server.v1_7_R4.EnumMonsterType;
+import net.minecraft.server.v1_7_R4.GenericAttributes;
+import net.minecraft.server.v1_7_R4.Item;
+import net.minecraft.server.v1_7_R4.ItemStack;
+import net.minecraft.server.v1_7_R4.MathHelper;
+import net.minecraft.server.v1_7_R4.NBTTagCompound;
+import net.minecraft.server.v1_7_R4.PathfinderGoal;
+import net.minecraft.server.v1_7_R4.PathfinderGoalFloat;
+import net.minecraft.server.v1_7_R4.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_7_R4.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_7_R4.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_7_R4.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_7_R4.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_7_R4.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R3.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_7_R4.util.UnsafeList;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
@@ -75,7 +75,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	    this.canPickUpLoot = false;
 	    this.moveSpeed = FactionMobs.mobSpeed;
 	    getAttributeInstance(GenericAttributes.d).setValue(this.moveSpeed);
-	    getAttributeInstance(GenericAttributes.a).setValue(maxHp);
+	    getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
 	    if (damage > 0) getAttributeInstance(GenericAttributes.e).setValue(damage);
 	    this.setHealth(maxHp);
 	    this.W = 1.5F;
@@ -84,7 +84,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	    this.getNavigation().c(true);
 	    this.getNavigation().d(false);
 	    this.getNavigation().e(true);
-	    this.setEquipment(0, new ItemStack((Item)Item.REGISTRY.a("iron_sword")));
+	    this.setEquipment(0, new ItemStack((Item)Item.REGISTRY.get("iron_sword")));
 	    
 	    if (ReflectionManager.goodNavigationE) {
 		    try {
@@ -362,12 +362,12 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	}
 
 	@Override
-	protected String aS() {
+	protected String aT() {
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String aT() {
+	protected String aU() {
 	    return FactionMobs.sndDeath;
 	}
 
