@@ -74,12 +74,16 @@ public class FactionMobs extends JavaPlugin {
 			Class.forName("org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity");
 		} catch (Exception e) {
 			try {
-				if (Class.forName("za.co.mcportcentral.entity.CraftCustomEntity")
-						.getResourceAsStream("/mappings/v1_7_R1/cb2numpkg.srg") != null) {
-					System.out.println("[FactionMobs] MCPC detected. MCPC compatibility is experimental.");
-				} else {
-					throw e;
-				}
+                Class<?> tmpMcpcClass = Class.forName("za.co.mcportcentral.entity.CraftCustomEntity");
+                if (tmpMcpcClass != null) {
+                    if (tmpMcpcClass.getResourceAsStream("/mappings/v1_7_R4/cb2numpkg.srg") != null) {
+                        System.out.println("[FactionMobs] MCPC detected. MCPC compatibility is experimental.");
+                    } else {
+                        System.out.println("[FactionMobs] WARNING: INCOMPATIBLE VERSION OF MCPC DETECTED, FactionMobs will probably not work.");
+                    }
+                } else {
+                    throw e;
+                }
 			} catch (Exception e1) {
 				System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires v1_7_R4). FactionMobs will not be enabled.");
 				getServer().getConsoleSender().sendMessage("§cFactionMobs is incompatible with this version of CraftBukkit, please download a newer version.");
