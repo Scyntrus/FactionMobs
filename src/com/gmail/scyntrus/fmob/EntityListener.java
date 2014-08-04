@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftExperienceOrb;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -48,6 +49,8 @@ public class EntityListener implements Listener {
 	
 	@EventHandler
 	public void onEntityTarget(EntityTargetEvent e) {
+	    if (e.getEntity() instanceof CraftExperienceOrb)
+	        return;
 		Entity entity = ((CraftEntity) e.getEntity()).getHandle();
 		if (entity != null && entity instanceof FactionMob) {
 			e.setCancelled(true);
