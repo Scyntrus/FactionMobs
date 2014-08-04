@@ -36,10 +36,10 @@ public class FactionMobs extends JavaPlugin {
 	public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
 	public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
 	public static long mobCount = 0;
-	public static String sndBreath = "";
-	public static String sndHurt = "";
-	public static String sndDeath = "";
-	public static String sndStep = "";
+	public static String sndBreath = null;
+	public static String sndHurt = null;
+	public static String sndDeath = null;
+	public static String sndStep = null;
 	public static int spawnLimit = 50;
 	public static int mobsPerFaction = 0;
 	public static boolean attackMobs = true;
