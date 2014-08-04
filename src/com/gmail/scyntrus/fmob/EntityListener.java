@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.server.v1_7_R4.Entity;
+import net.minecraft.server.v1_7_R4.EntityCreature;
 import net.minecraft.server.v1_7_R4.EntityInsentient;
 import net.minecraft.server.v1_7_R4.EntityWolf;
+import net.minecraft.server.v1_7_R4.EntityZombie;
+import net.minecraft.server.v1_7_R4.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_7_R4.PathfinderGoalNearestAttackableTarget;
+import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -171,6 +176,25 @@ public class EntityListener implements Listener {
 			FactionMob fmob = (FactionMob) damager.getHandle();
 			if (Utils.FactionCheck(entity.getHandle(), fmob.getFaction()) < 1) {
 				if (fmob.getEntity().isAlive()) {
+                    if (entity.getHandle() instanceof EntityZombie 
+                            && !entity.hasMetadata("CustomEntity") 
+                            && !entity.hasMetadata("Fmob Goal Added")) {
+                        try {
+                            PathfinderGoalSelector targetSelector = (PathfinderGoalSelector) ReflectionManager.EntityTargetSelector.get(entity.getHandle());
+                            targetSelector.a(2, new PathfinderGoalNearestAttackableTarget((EntityCreature) entity.getHandle(), FactionMob.class, 0, false));
+                        } catch (Exception e1) {
+                            if (!FactionMobs.silentErrors)
+                                e1.printStackTrace();
+                        }
+                        try {
+                            PathfinderGoalSelector goalSelector = (PathfinderGoalSelector) ReflectionManager.EntityGoalSelector.get(entity.getHandle());
+                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), FactionMob.class, 1.0D, false));
+                        } catch (Exception e1) {
+                            if (!FactionMobs.silentErrors)
+                                e1.printStackTrace();
+                        }
+                        entity.setMetadata("Fmob Goal Added", new FixedMetadataValue(FactionMobs.instance, true));
+                    }
 					if (entity instanceof CraftCreature) {
 						((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) damager).getHandle());
 					}
