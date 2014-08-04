@@ -123,7 +123,7 @@ public class FactionMobs extends JavaPlugin {
 			modelNum = 57;
 			//FactionMobs.sndBreath = "mob.zombiepig.zpig";
 			FactionMobs.sndHurt = "mob.zombiepig.zpighurt";
-			FactionMobs.sndDeath = "mmob.zombiepig.zpigdeath";
+			FactionMobs.sndDeath = "mob.zombiepig.zpigdeath";
 			FactionMobs.sndStep = "mob.zombie.step";
 			break;
 		}
