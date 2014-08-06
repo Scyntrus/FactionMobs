@@ -352,7 +352,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	@Override
 	public double getlocZ() {
 		return this.locZ;
-	}	
+	}
 
 	@Override
 	protected String t() { //TODO: Update name on version change
