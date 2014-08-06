@@ -1,7 +1,7 @@
 name: FactionMobs
 main: com.gmail.scyntrus.fmob.FactionMobs
 author: Scyntrus
-version: 2.7.6_v1_7_R4
+version: 2.7.7_v1_7_R4
 depend: [Factions]
 softdepend: [Vault]
 commands:
