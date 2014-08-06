@@ -11,7 +11,6 @@ import net.minecraft.server.v1_7_R4.EntityCreeper;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.EntitySlime;
 import net.minecraft.server.v1_7_R4.EntityWolf;
-import net.minecraft.server.v1_7_R4.EntityZombie;
 import net.minecraft.server.v1_7_R4.IMonster;
 import net.minecraft.server.v1_7_R4.Item;
 import net.minecraft.server.v1_7_R4.ItemStack;
@@ -58,11 +57,6 @@ public class Utils {
 		} else if (!FactionMobs.attackMobs) {
 			return 0;
 		} else if (entity instanceof EntityAnimal) {
-			return 0;
-		} else if (entity instanceof EntityZombie) {
-			if (FactionMobs.attackZombies) {
-				return -1;
-			}
 			return 0;
 		} else if (entity instanceof EntitySlime) {
 			EntitySlime slime = (EntitySlime) entity;

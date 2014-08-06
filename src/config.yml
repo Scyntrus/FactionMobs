@@ -13,11 +13,6 @@ spawnLimit: 60
 # Attack naturally spawning hostile mobs
 attackMobs: true
 
-# Since vanilla zombies don't attack back, this will decide
-# whether or not faction mobs will attack zombies.
-# Only works when attackMobs is enabled.
-attackZombies: true
-
 # Prevent mobs from damaging friendly players and mobs
 noFriendlyFire: true
 
