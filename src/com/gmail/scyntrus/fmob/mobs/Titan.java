@@ -505,4 +505,9 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		this.an = false;
 		super.h();
 	}
+
+    @Override
+    protected String t() { //TODO: Update name on version change
+        return null;
+    }
 }
