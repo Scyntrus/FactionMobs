@@ -9,7 +9,7 @@ import net.minecraft.server.v1_7_R4.EntityInsentient;
 import net.minecraft.server.v1_7_R4.EntityWolf;
 import net.minecraft.server.v1_7_R4.EntityZombie;
 import net.minecraft.server.v1_7_R4.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_7_R4.PathfinderGoalNearestAttackableTarget;
+import net.minecraft.server.v1_7_R4.PathfinderGoalMoveTowardsTarget;
 import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
 
 import org.bukkit.ChatColor;
@@ -179,16 +179,18 @@ public class EntityListener implements Listener {
                     if (entity.getHandle() instanceof EntityZombie 
                             && !entity.hasMetadata("CustomEntity") 
                             && !entity.hasMetadata("Fmob Goal Added")) {
-                        try {
-                            PathfinderGoalSelector targetSelector = (PathfinderGoalSelector) ReflectionManager.EntityTargetSelector.get(entity.getHandle());
-                            targetSelector.a(2, new PathfinderGoalNearestAttackableTarget((EntityCreature) entity.getHandle(), FactionMob.class, 0, false));
-                        } catch (Exception e1) {
-                            if (!FactionMobs.silentErrors)
-                                e1.printStackTrace();
-                        }
+//                        try {
+//                            PathfinderGoalSelector targetSelector = (PathfinderGoalSelector) ReflectionManager.EntityTargetSelector.get(entity.getHandle());
+//                            targetSelector.a(2, new PathfinderGoalNearestAttackableTarget((EntityCreature) entity.getHandle(), FactionMob.class, 0, false));
+//                        } catch (Exception e1) {
+//                            if (!FactionMobs.silentErrors)
+//                                e1.printStackTrace();
+//                        }
                         try {
                             PathfinderGoalSelector goalSelector = (PathfinderGoalSelector) ReflectionManager.EntityGoalSelector.get(entity.getHandle());
                             goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), FactionMob.class, 1.0D, false));
+                            goalSelector.a(2, new PathfinderGoalMoveTowardsTarget((EntityCreature) entity.getHandle(), 1.0, 16.0f));
+                            
                         } catch (Exception e1) {
                             if (!FactionMobs.silentErrors)
                                 e1.printStackTrace();

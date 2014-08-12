@@ -11,7 +11,6 @@ import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
 public class ReflectionManager {
 	public static Field navigationE = null;
 	public static Field pathfinderGoalSelectorB = null;
-	public static Field EntityTargetSelector = null;
 	public static Field EntityGoalSelector = null;
 	
 	public static boolean goodNavigationE = false;
@@ -100,16 +99,12 @@ public class ReflectionManager {
 		}
 		try {
             EntityGoalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
-            EntityTargetSelector = EntityInsentient.class.getDeclaredField("targetSelector");
 		    EntityGoalSelector.setAccessible(true);
-		    EntityTargetSelector.setAccessible(true);
 		    goodEntitySelectors = true;
 		} catch ( Exception e1 ) {
             try {
                 EntityGoalSelector = EntityInsentient.class.getDeclaredField("field_70714_bg");
-                EntityTargetSelector = EntityInsentient.class.getDeclaredField("field_70715_bh");
                 EntityGoalSelector.setAccessible(true);
-                EntityTargetSelector.setAccessible(true);
                 goodEntitySelectors = true;
             } catch (Exception e2) {
                 System.out.println("[FactionMobs] [Minor Error] Field not found: EntityInsentient.goalSelector; Unable to override zombie goals");
