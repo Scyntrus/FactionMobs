@@ -15,7 +15,7 @@ public class FactionListener2 implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onFactionRename(com.massivecraft.factions.event.FactionsEventNameChange e) {
+	public void onFactionRename(com.massivecraft.factions.event.EventFactionsNameChange e) {
 		String oldName = e.getFaction().getName();
 		String newName = e.getNewName();
 		FactionMobs.factionColors.put(newName, 
@@ -44,7 +44,7 @@ public class FactionListener2 implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onFactionDisband(com.massivecraft.factions.event.FactionsEventDisband e) {
+	public void onFactionDisband(com.massivecraft.factions.event.EventFactionsDisband e) {
 		String factionName = e.getFaction().getName();
 		for (int i = FactionMobs.mobList.size()-1; i >= 0; i--) {
 			if (FactionMobs.mobList.get(i).getFactionName().equals(factionName)) {
