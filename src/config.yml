@@ -88,6 +88,10 @@ Titan.powerCost: 11.0
 Titan.moneyCost: 0.0
 Titan.drops: 0
 
+
+#TO BE IMPLEMENTED
+dropHeads: false
+
 # === Auto-Save Options ===
 
 # Enable periodic saving in case of server crash
