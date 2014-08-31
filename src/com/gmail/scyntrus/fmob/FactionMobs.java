@@ -286,6 +286,9 @@ public class FactionMobs extends JavaPlugin {
 	
 	public void onDisable() {
 		this.saveMobList();
+        for (int i = mobList.size() - 1; i >= 0; --i) {
+            mobList.get(i).forceDie();
+        }
 	}
 	
 	public void loadMobList() {
