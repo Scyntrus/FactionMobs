@@ -1,33 +1,35 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import net.minecraft.server.v1_7_R4.AttributeInstance;
-import net.minecraft.server.v1_7_R4.DamageSource;
-import net.minecraft.server.v1_7_R4.Entity;
-import net.minecraft.server.v1_7_R4.EntityCreature;
-import net.minecraft.server.v1_7_R4.EntityHuman;
-import net.minecraft.server.v1_7_R4.EntityIronGolem;
-import net.minecraft.server.v1_7_R4.EntityLiving;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.EntityProjectile;
-import net.minecraft.server.v1_7_R4.EnumMonsterType;
-import net.minecraft.server.v1_7_R4.GenericAttributes;
-import net.minecraft.server.v1_7_R4.MathHelper;
-import net.minecraft.server.v1_7_R4.NBTTagCompound;
-import net.minecraft.server.v1_7_R4.PathfinderGoal;
-import net.minecraft.server.v1_7_R4.PathfinderGoalFloat;
-import net.minecraft.server.v1_7_R4.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_7_R4.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_7_R4.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_7_R4.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_7_R4.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_7_R4.World;
+import java.lang.ref.WeakReference;
+
+import net.minecraft.server.v1_8_R1.AttributeInstance;
+import net.minecraft.server.v1_8_R1.DamageSource;
+import net.minecraft.server.v1_8_R1.Entity;
+import net.minecraft.server.v1_8_R1.EntityCreature;
+import net.minecraft.server.v1_8_R1.EntityHuman;
+import net.minecraft.server.v1_8_R1.EntityIronGolem;
+import net.minecraft.server.v1_8_R1.EntityLiving;
+import net.minecraft.server.v1_8_R1.EntityPlayer;
+import net.minecraft.server.v1_8_R1.EntityProjectile;
+import net.minecraft.server.v1_8_R1.EnumMonsterType;
+import net.minecraft.server.v1_8_R1.GenericAttributes;
+import net.minecraft.server.v1_8_R1.MathHelper;
+import net.minecraft.server.v1_8_R1.NBTTagCompound;
+import net.minecraft.server.v1_8_R1.PathfinderGoal;
+import net.minecraft.server.v1_8_R1.PathfinderGoalFloat;
+import net.minecraft.server.v1_8_R1.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_8_R1.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_8_R1.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_8_R1.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_8_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_8_R1.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R4.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R1.util.UnsafeList;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
@@ -43,6 +45,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	public Faction faction = null;
 	public String factionName = "";
 	public Entity attackedBy = null;
+    public Entity target = null;
 	public static String typeName = "Titan";
 	public static float maxHp = 40;
 	public static Boolean enabled = true;
@@ -73,25 +76,20 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	    getAttributeInstance(GenericAttributes.d).setValue(this.moveSpeed);
 	    getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
 	    this.setHealth(maxHp);
-	    this.W = 1.5F;
-	    this.getNavigation().a(false);
-	    this.getNavigation().b(false);
-	    this.getNavigation().c(true);
-	    this.getNavigation().d(false);
-	    this.getNavigation().e(true);
+	    this.S = 1.5F;
 	    
-	    if (ReflectionManager.goodNavigationE) {
+	    if (ReflectionManager.good_Navigation_Distance) {
 		    try {
-				AttributeInstance e = (AttributeInstance) ReflectionManager.navigationE.get(this.getNavigation());
+				AttributeInstance e = (AttributeInstance) ReflectionManager.navigation_Distance.get(this.getNavigation());
 				e.setValue(FactionMobs.mobNavRange);
 			} catch (Exception e) {
 	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 			}
 	    }
-	    if (ReflectionManager.goodPathfinderGoalSelectorB) {
+	    if (ReflectionManager.good_PathfinderGoalSelector_GoalList) {
 		    try {
-		    	ReflectionManager.pathfinderGoalSelectorB.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
-		    	ReflectionManager.pathfinderGoalSelectorB.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
+		    	ReflectionManager.pathfinderGoalSelector_GoalList.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
+		    	ReflectionManager.pathfinderGoalSelector_GoalList.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
 			} catch (Exception e) {
 	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 			}
@@ -108,8 +106,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	}
 
 	@Override
-	public void e() {
-		super.e();
+	public void m() {
+		super.m();
 		if (this.inWater) {
 			this.motY += .1;
 		}
@@ -204,7 +202,6 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		return findTarget();
 	}
 	
-	@Override
 	public Entity findTarget() {
 		Entity found = this.findCloserTarget();
 		if (found != null) {
@@ -285,8 +282,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
 			this.setCustomNameVisible(true);
 		}
 	}
-	
-	@Override
+
+    @Override
 	public void setTarget(Entity entity) {
 		this.target = entity;
 		if (entity instanceof EntityLiving) {
@@ -298,15 +295,23 @@ public class Titan extends EntityIronGolem implements FactionMob {
 			this.setGoalTarget(null);
 		}
 	}
-	
-	@Override
-	public void setGoalTarget(EntityLiving target) {
-		if (this.target instanceof EntityLiving && this.target.isAlive()) {
-			super.setGoalTarget((EntityLiving) this.target);
-		} else {
-			super.setGoalTarget(null);
-		}
-	}
+    
+    @Override
+    public void setGoalTarget(EntityLiving target) {
+        if (this.target instanceof EntityLiving && this.target.isAlive()) {
+            try {
+                ReflectionManager.entityInsentient_GoalTarget.set(this, new WeakReference<EntityLiving>((EntityLiving) this.target));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                ReflectionManager.entityInsentient_GoalTarget.set(this, new WeakReference<EntityLiving>(null));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 	
 	@Override
 	public void updateMob() {
@@ -433,7 +438,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	}
 	
 	@Override
-	public boolean n(Entity entity) {
+	public boolean r(Entity entity) { //TODO: Update name on version change
 		if (damage>0) {
 			this.world.broadcastEntityEffect(this, (byte)4);
 			boolean flag = entity.damageEntity(DamageSource.mobAttack(this), (float) damage);
@@ -443,7 +448,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 			makeSound("mob.irongolem.throw", 1.0F, 1.0F);
 			return flag;
 		} else {
-			return super.n(entity);
+			return super.r(entity);
 		}
 	}
 
@@ -498,16 +503,11 @@ public class Titan extends EntityIronGolem implements FactionMob {
 	}
 	
 	@Override
-	public void h() {
+	public void s_() {
 		if (this.getHealth() > 0) {
 			this.dead = false;
 		}
-		this.an = false;
-		super.h();
+		this.ak = false;
+		super.s_();
 	}
-
-    @Override
-    protected String t() { //TODO: Update name on version change
-        return null;
-    }
 }

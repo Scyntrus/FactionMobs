@@ -5,16 +5,16 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import net.minecraft.server.v1_7_R4.Entity;
-import net.minecraft.server.v1_7_R4.EntityAnimal;
-import net.minecraft.server.v1_7_R4.EntityCreeper;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.EntitySlime;
-import net.minecraft.server.v1_7_R4.EntityWolf;
-import net.minecraft.server.v1_7_R4.IMonster;
-import net.minecraft.server.v1_7_R4.Item;
-import net.minecraft.server.v1_7_R4.ItemStack;
-import net.minecraft.server.v1_7_R4.NBTTagCompound;
+import net.minecraft.server.v1_8_R1.Entity;
+import net.minecraft.server.v1_8_R1.EntityAnimal;
+import net.minecraft.server.v1_8_R1.EntityCreeper;
+import net.minecraft.server.v1_8_R1.EntityPlayer;
+import net.minecraft.server.v1_8_R1.EntitySlime;
+import net.minecraft.server.v1_8_R1.EntityWolf;
+import net.minecraft.server.v1_8_R1.IMonster;
+import net.minecraft.server.v1_8_R1.Item;
+import net.minecraft.server.v1_8_R1.ItemStack;
+import net.minecraft.server.v1_8_R1.NBTTagCompound;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -82,18 +82,18 @@ public class Utils {
 		}
 		
 		if (color == -1 || color == 10511680) {
-			entity.getEntity().setEquipment(1, new ItemStack((Item)Item.REGISTRY.get("leather_boots")));
-			entity.getEntity().setEquipment(2, new ItemStack((Item)Item.REGISTRY.get("leather_leggings")));
-			entity.getEntity().setEquipment(3, new ItemStack((Item)Item.REGISTRY.get("leather_chestplate")));
-			entity.getEntity().setEquipment(4, new ItemStack((Item)Item.REGISTRY.get("leather_helmet")));
+			entity.getEntity().setEquipment(1, new ItemStack((Item)Item.d("leather_boots")));
+			entity.getEntity().setEquipment(2, new ItemStack((Item)Item.d("leather_leggings")));
+			entity.getEntity().setEquipment(3, new ItemStack((Item)Item.d("leather_chestplate")));
+			entity.getEntity().setEquipment(4, new ItemStack((Item)Item.d("leather_helmet")));
 			return;
 		}
 		
 		ItemStack[] itemStacks = {
-				new ItemStack((Item)Item.REGISTRY.get("leather_boots")), 
-				new ItemStack((Item)Item.REGISTRY.get("leather_leggings")), 
-				new ItemStack((Item)Item.REGISTRY.get("leather_chestplate")),
-				new ItemStack((Item)Item.REGISTRY.get("leather_helmet"))};
+				new ItemStack((Item)Item.d("leather_boots")), 
+				new ItemStack((Item)Item.d("leather_leggings")), 
+				new ItemStack((Item)Item.d("leather_chestplate")),
+				new ItemStack((Item)Item.d("leather_helmet"))};
 
 	    for (ItemStack i : itemStacks) {
 	    	NBTTagCompound n = i.getTag();

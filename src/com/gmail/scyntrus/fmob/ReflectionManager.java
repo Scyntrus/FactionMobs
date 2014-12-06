@@ -3,19 +3,21 @@ package com.gmail.scyntrus.fmob;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import net.minecraft.server.v1_7_R4.EntityInsentient;
-import net.minecraft.server.v1_7_R4.EntityTypes;
-import net.minecraft.server.v1_7_R4.Navigation;
-import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
+import net.minecraft.server.v1_8_R1.EntityInsentient;
+import net.minecraft.server.v1_8_R1.EntityTypes;
+import net.minecraft.server.v1_8_R1.NavigationAbstract;
+import net.minecraft.server.v1_8_R1.PathfinderGoalSelector;
 
 public class ReflectionManager {
-	public static Field navigationE = null;
-	public static Field pathfinderGoalSelectorB = null;
-	public static Field EntityGoalSelector = null;
+	public static Field navigation_Distance = null;
+	public static Field pathfinderGoalSelector_GoalList = null;
+	public static Field entityInsentient_GoalSelector = null;
+	public static Field entityInsentient_GoalTarget = null;
 	
-	public static boolean goodNavigationE = false;
-	public static boolean goodPathfinderGoalSelectorB = false;
-	public static boolean goodEntitySelectors = false;
+	public static boolean good_Navigation_Distance = false;
+	public static boolean good_PathfinderGoalSelector_GoalList = false;
+	public static boolean good_EntityInsentient_GoalSelector = false;
+    public static boolean good_EntityInsentient_GoalTarget = false;
 
 	@SuppressWarnings("rawtypes")
 	public static Map mapC;
@@ -64,14 +66,14 @@ public class ReflectionManager {
 			}
 		}
 		try {
-			navigationE = Navigation.class.getDeclaredField("e"); //TODO: Update name on version change
-			navigationE.setAccessible(true);
-			goodNavigationE = true;
+			navigation_Distance = NavigationAbstract.class.getDeclaredField("a"); //TODO: Update name on version change
+			navigation_Distance.setAccessible(true);
+			good_Navigation_Distance = true;
 		} catch (Exception e1) {
 			try {
-				navigationE = Navigation.class.getDeclaredField("field_75512_e");
-				navigationE.setAccessible(true);
-				goodNavigationE = true;
+				navigation_Distance = NavigationAbstract.class.getDeclaredField("field_75512_e");
+				navigation_Distance.setAccessible(true);
+				good_Navigation_Distance = true;
 			} catch (Exception e2) {
 				System.out.println("[FactionMobs] [Minor Error] Field not found: Navigation.e; Custom pathfinding distances cannot be set");
 	    	    if (!FactionMobs.silentErrors) {
@@ -81,14 +83,14 @@ public class ReflectionManager {
 			}
 		}
 		try {
-			pathfinderGoalSelectorB = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change
-			pathfinderGoalSelectorB.setAccessible(true);
-			goodPathfinderGoalSelectorB = true;
+			pathfinderGoalSelector_GoalList = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change
+			pathfinderGoalSelector_GoalList.setAccessible(true);
+			good_PathfinderGoalSelector_GoalList = true;
 		} catch (Exception e1) {
 			try {
-				pathfinderGoalSelectorB = PathfinderGoalSelector.class.getDeclaredField("field_75782_a");
-				pathfinderGoalSelectorB.setAccessible(true);
-				goodPathfinderGoalSelectorB = true;
+				pathfinderGoalSelector_GoalList = PathfinderGoalSelector.class.getDeclaredField("field_75782_a");
+				pathfinderGoalSelector_GoalList.setAccessible(true);
+				good_PathfinderGoalSelector_GoalList = true;
 			} catch (Exception e2) {
 				System.out.println("[FactionMobs] [Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
 	    	    if (!FactionMobs.silentErrors) {
@@ -98,14 +100,14 @@ public class ReflectionManager {
 			}
 		}
 		try {
-            EntityGoalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
-		    EntityGoalSelector.setAccessible(true);
-		    goodEntitySelectors = true;
+            entityInsentient_GoalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
+		    entityInsentient_GoalSelector.setAccessible(true);
+		    good_EntityInsentient_GoalSelector = true;
 		} catch ( Exception e1 ) {
             try {
-                EntityGoalSelector = EntityInsentient.class.getDeclaredField("field_70714_bg");
-                EntityGoalSelector.setAccessible(true);
-                goodEntitySelectors = true;
+                entityInsentient_GoalSelector = EntityInsentient.class.getDeclaredField("field_70714_bg");
+                entityInsentient_GoalSelector.setAccessible(true);
+                good_EntityInsentient_GoalSelector = true;
             } catch (Exception e2) {
                 System.out.println("[FactionMobs] [Minor Error] Field not found: EntityInsentient.goalSelector; Unable to override zombie goals");
                 if (!FactionMobs.silentErrors) {
@@ -114,6 +116,23 @@ public class ReflectionManager {
                 }
             }
 		}
+        try {
+            entityInsentient_GoalTarget = EntityInsentient.class.getDeclaredField("goalTarget");
+            entityInsentient_GoalTarget.setAccessible(true);
+            good_EntityInsentient_GoalTarget = true;
+        } catch ( Exception e1 ) {
+            try {
+                entityInsentient_GoalTarget = EntityInsentient.class.getDeclaredField("field_70714_bg");
+                entityInsentient_GoalTarget.setAccessible(true);
+                good_EntityInsentient_GoalTarget = true;
+            } catch (Exception e2) {
+                System.out.println("[FactionMobs] [Minor Error] Field not found: EntityInsentient.goalTarget; Unabled to override target");
+                if (!FactionMobs.silentErrors) {
+                    e1.printStackTrace();
+                    e2.printStackTrace();
+                }
+            }
+        }
 		return true;
 	}
 }

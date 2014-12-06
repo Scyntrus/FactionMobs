@@ -3,22 +3,21 @@ package com.gmail.scyntrus.fmob;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_7_R4.Entity;
-import net.minecraft.server.v1_7_R4.EntityCreature;
-import net.minecraft.server.v1_7_R4.EntityInsentient;
-import net.minecraft.server.v1_7_R4.EntityWolf;
-import net.minecraft.server.v1_7_R4.EntityZombie;
-import net.minecraft.server.v1_7_R4.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_7_R4.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
+import net.minecraft.server.v1_8_R1.Entity;
+import net.minecraft.server.v1_8_R1.EntityCreature;
+import net.minecraft.server.v1_8_R1.EntityInsentient;
+import net.minecraft.server.v1_8_R1.EntityWolf;
+import net.minecraft.server.v1_8_R1.EntityZombie;
+import net.minecraft.server.v1_8_R1.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_8_R1.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_8_R1.PathfinderGoalSelector;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftExperienceOrb;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftExperienceOrb;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -67,7 +66,7 @@ public class EntityListener implements Listener {
 			if (e.getTarget() != null) {
 				Entity target = ((CraftEntity) e.getTarget()).getHandle();
 				if (Utils.FactionCheck(target, fmob.getFaction()) == -1) {
-					fmob.getEntity().setTarget(target);
+					fmob.setTarget(target);
 					return;
 				}
 			}
@@ -187,7 +186,7 @@ public class EntityListener implements Listener {
 //                                e1.printStackTrace();
 //                        }
                         try {
-                            PathfinderGoalSelector goalSelector = (PathfinderGoalSelector) ReflectionManager.EntityGoalSelector.get(entity.getHandle());
+                            PathfinderGoalSelector goalSelector = (PathfinderGoalSelector) ReflectionManager.entityInsentient_GoalSelector.get(entity.getHandle());
                             goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), FactionMob.class, 1.0D, false));
                             goalSelector.a(2, new PathfinderGoalMoveTowardsTarget((EntityCreature) entity.getHandle(), 1.0, 16.0f));
                             
@@ -197,9 +196,6 @@ public class EntityListener implements Listener {
                         }
                         entity.setMetadata("Fmob Goal Added", new FixedMetadataValue(FactionMobs.instance, true));
                     }
-					if (entity instanceof CraftCreature) {
-						((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) damager).getHandle());
-					}
 					if (entity.getHandle() instanceof EntityInsentient) {
 						((EntityInsentient) entity.getHandle()).setGoalTarget(((CraftLivingEntity) damager).getHandle());
 					}
@@ -339,9 +335,6 @@ public class EntityListener implements Listener {
 			for (LivingEntity entity : e.getAffectedEntities()) {
 				if (Utils.FactionCheck(((CraftEntity) entity).getHandle(), fmob.getFaction()) < 1) {
 					if (fmob.getEntity().isAlive()) {
-						if (entity instanceof CraftCreature) {
-							((CraftCreature) entity).getHandle().setTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
-						}
 						if (((CraftLivingEntity) entity).getHandle() instanceof EntityInsentient) {
 							((EntityInsentient) ((CraftLivingEntity) entity).getHandle()).setGoalTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
 						}

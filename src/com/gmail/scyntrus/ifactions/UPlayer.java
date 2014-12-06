@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 public class UPlayer {
 	public static Faction getPlayerFaction(Player player) {
 		if (Factions.factionsVersion == 2) {
-			return new Faction2(com.massivecraft.factions.entity.UPlayer.get(player).getFaction());
+			return new Faction2(com.massivecraft.factions.entity.MPlayer.get(player).getFaction());
 		} else if (Factions.factionsVersion == 6) {
 			try {
 				return new Faction6((

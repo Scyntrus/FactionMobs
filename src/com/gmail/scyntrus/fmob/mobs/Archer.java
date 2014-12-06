@@ -1,35 +1,38 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import net.minecraft.server.v1_7_R4.AttributeInstance;
-import net.minecraft.server.v1_7_R4.Block;
-import net.minecraft.server.v1_7_R4.DamageSource;
-import net.minecraft.server.v1_7_R4.Entity;
-import net.minecraft.server.v1_7_R4.EntityCreature;
-import net.minecraft.server.v1_7_R4.EntityHuman;
-import net.minecraft.server.v1_7_R4.EntityLiving;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.EntityProjectile;
-import net.minecraft.server.v1_7_R4.EntitySkeleton;
-import net.minecraft.server.v1_7_R4.EnumMonsterType;
-import net.minecraft.server.v1_7_R4.GenericAttributes;
-import net.minecraft.server.v1_7_R4.Item;
-import net.minecraft.server.v1_7_R4.ItemStack;
-import net.minecraft.server.v1_7_R4.MathHelper;
-import net.minecraft.server.v1_7_R4.NBTTagCompound;
-import net.minecraft.server.v1_7_R4.PathfinderGoal;
-import net.minecraft.server.v1_7_R4.PathfinderGoalArrowAttack;
-import net.minecraft.server.v1_7_R4.PathfinderGoalFloat;
-import net.minecraft.server.v1_7_R4.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_7_R4.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_7_R4.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_7_R4.World;
+import java.lang.ref.WeakReference;
+
+import net.minecraft.server.v1_8_R1.AttributeInstance;
+import net.minecraft.server.v1_8_R1.Block;
+import net.minecraft.server.v1_8_R1.BlockPosition;
+import net.minecraft.server.v1_8_R1.DamageSource;
+import net.minecraft.server.v1_8_R1.Entity;
+import net.minecraft.server.v1_8_R1.EntityCreature;
+import net.minecraft.server.v1_8_R1.EntityHuman;
+import net.minecraft.server.v1_8_R1.EntityLiving;
+import net.minecraft.server.v1_8_R1.EntityPlayer;
+import net.minecraft.server.v1_8_R1.EntityProjectile;
+import net.minecraft.server.v1_8_R1.EntitySkeleton;
+import net.minecraft.server.v1_8_R1.EnumMonsterType;
+import net.minecraft.server.v1_8_R1.GenericAttributes;
+import net.minecraft.server.v1_8_R1.Item;
+import net.minecraft.server.v1_8_R1.ItemStack;
+import net.minecraft.server.v1_8_R1.MathHelper;
+import net.minecraft.server.v1_8_R1.NBTTagCompound;
+import net.minecraft.server.v1_8_R1.PathfinderGoal;
+import net.minecraft.server.v1_8_R1.PathfinderGoalArrowAttack;
+import net.minecraft.server.v1_8_R1.PathfinderGoalFloat;
+import net.minecraft.server.v1_8_R1.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_8_R1.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_8_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_8_R1.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R4.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R1.util.UnsafeList;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
@@ -45,6 +48,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	public Faction faction = null;
 	public String factionName = "";
 	public Entity attackedBy = null;
+	public Entity target = null;
 	public static String typeName = "Archer";
 	public static float maxHp = 20;
 	public static Boolean enabled = true;
@@ -77,26 +81,21 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	    getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
 	    if (damage > 0) getAttributeInstance(GenericAttributes.e).setValue(damage);
 	    this.setHealth(maxHp);
-	    this.W = 1.5F;                  // jump height TODO: Update name on version change
-	    this.getNavigation().a(false);  // avoid water
-	    this.getNavigation().b(false);  // break door
-	    this.getNavigation().c(true);   // enter open door
-	    this.getNavigation().d(false);  // avoid sunlight
-	    this.getNavigation().e(true);   // swim
-	    this.setEquipment(0, new ItemStack((Item)Item.REGISTRY.get("bow")));
+	    this.S = 1.5F;                  // jump height TODO: Update name on version change
+	    this.setEquipment(0, new ItemStack((Item)Item.d("bow")));
 	    
-	    if (ReflectionManager.goodNavigationE) {
+	    if (ReflectionManager.good_Navigation_Distance) {
 		    try {
-				AttributeInstance e = (AttributeInstance) ReflectionManager.navigationE.get(this.getNavigation());
+				AttributeInstance e = (AttributeInstance) ReflectionManager.navigation_Distance.get(this.getNavigation());
 				e.setValue(FactionMobs.mobNavRange);
 			} catch (Exception e) {
 	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 			}
 	    }
-	    if (ReflectionManager.goodPathfinderGoalSelectorB) {
+	    if (ReflectionManager.good_PathfinderGoalSelector_GoalList) {
 		    try {
-		    	ReflectionManager.pathfinderGoalSelectorB.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
-		    	ReflectionManager.pathfinderGoalSelectorB.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
+		    	ReflectionManager.pathfinderGoalSelector_GoalList.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
+		    	ReflectionManager.pathfinderGoalSelector_GoalList.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
 		    } catch (Exception e) {
 	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
 			}
@@ -112,9 +111,9 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}
 	
 	@Override
-	public void e() { //TODO: Update name on version change
+	public void m() { //TODO: Update name on version change
 		int tmpFire = this.fireTicks;
-		super.e();
+		super.m();
 		this.fireTicks = tmpFire;
 		if (this.getEquipment(4) != null) {
 			this.getEquipment(4).setData(0);
@@ -210,7 +209,6 @@ public class Archer extends EntitySkeleton implements FactionMob {
 		return findTarget();
 	}
 	
-	@Override
 	public Entity findTarget() {
 		Entity found = this.findCloserTarget();
 		if (found != null) {
@@ -308,9 +306,17 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	@Override
 	public void setGoalTarget(EntityLiving target) {
 		if (this.target instanceof EntityLiving && this.target.isAlive()) {
-			super.setGoalTarget((EntityLiving) this.target);
+			try {
+                ReflectionManager.entityInsentient_GoalTarget.set(this, new WeakReference<EntityLiving>((EntityLiving) this.target));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 		} else {
-			super.setGoalTarget(null);
+            try {
+                ReflectionManager.entityInsentient_GoalTarget.set(this, new WeakReference<EntityLiving>(null));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 		}
 	}
 	
@@ -355,22 +361,22 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}
 
 	@Override
-	protected String t() { //TODO: Update name on version change
+	protected String z() { //TODO: Update name on version change
 	    return FactionMobs.sndBreath;
 	}
 
 	@Override
-	protected String aT() { //TODO: Update name on version change
+	protected String bn() { //TODO: Update name on version change
 	    return FactionMobs.sndHurt;
 	}
 
 	@Override
-	protected String aU() { //TODO: Update name on version change
+	protected String bo() { //TODO: Update name on version change
 	    return FactionMobs.sndDeath;
 	}
 
 	@Override
-	protected void a(int i, int j, int k, Block block) { //TODO: Update name on version change
+	protected void a(BlockPosition blockposition, Block block) { //TODO: Update name on version change
 	    makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
 	}
 
@@ -519,11 +525,11 @@ public class Archer extends EntitySkeleton implements FactionMob {
 	}
 	
 	@Override
-	public void h() { //TODO: Update name on version change
+	public void s_() { //TODO: Update name on version change
 		if (this.getHealth() > 0) {
 			this.dead = false;
 		}
-		this.an = false; //TODO: Update name on version change
-		super.h();
+		this.ak = false; //TODO: Update name on version change
+		super.s_();
 	}
 }

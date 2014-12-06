@@ -103,7 +103,7 @@ public class Factions {
 	
 	public static Faction getFactionByName(String worldName, String factionName) {
 		if (factionsVersion == 2) {
-			return new Faction2(com.massivecraft.factions.entity.FactionColls.get().getForWorld(worldName).getByName(factionName));
+			return new Faction2(com.massivecraft.factions.entity.FactionColl.get().getByName(factionName));
 		} else if (factionsVersion == 6) {
 			try {
 				return new Faction6(gBT.invoke(f, factionName));
@@ -122,7 +122,7 @@ public class Factions {
 	
 	public static Faction getFactionAt(Location loc) {
 		if (factionsVersion == 2) {
-			return new Faction2(com.massivecraft.factions.entity.BoardColls.get().getFactionAt(com.massivecraft.massivecore.ps.PS.valueOf(loc)));
+			return new Faction2(com.massivecraft.factions.entity.BoardColl.get().getFactionAt(com.massivecraft.massivecore.ps.PS.valueOf(loc)));
 		} else if (factionsVersion == 6) {
 			return new Faction6(com.massivecraft.factions.Board.getFactionAt(new com.massivecraft.factions.FLocation(loc)));
 		} else if (factionsVersion == 8) {

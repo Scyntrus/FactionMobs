@@ -1,7 +1,7 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_7_R4.Entity;
-import net.minecraft.server.v1_7_R4.EntityCreature;
+import net.minecraft.server.v1_8_R1.Entity;
+import net.minecraft.server.v1_8_R1.EntityCreature;
 
 import org.bukkit.Location;
 
@@ -32,4 +32,5 @@ public interface FactionMob {
 	public Entity findTargetAlias();
 	public void setFaction(Faction faction);
 	public void forceDie();
+	public void setTarget(Entity target);
 }
