@@ -12,12 +12,10 @@ public class ReflectionManager {
 	public static Field navigation_Distance = null;
 	public static Field pathfinderGoalSelector_GoalList = null;
 	public static Field entityInsentient_GoalSelector = null;
-	public static Field entityInsentient_GoalTarget = null;
 	
 	public static boolean good_Navigation_Distance = false;
 	public static boolean good_PathfinderGoalSelector_GoalList = false;
 	public static boolean good_EntityInsentient_GoalSelector = false;
-    public static boolean good_EntityInsentient_GoalTarget = false;
 
 	@SuppressWarnings("rawtypes")
 	public static Map mapC;
@@ -116,23 +114,6 @@ public class ReflectionManager {
                 }
             }
 		}
-        try {
-            entityInsentient_GoalTarget = EntityInsentient.class.getDeclaredField("goalTarget");
-            entityInsentient_GoalTarget.setAccessible(true);
-            good_EntityInsentient_GoalTarget = true;
-        } catch ( Exception e1 ) {
-            try {
-                entityInsentient_GoalTarget = EntityInsentient.class.getDeclaredField("field_70714_bg");
-                entityInsentient_GoalTarget.setAccessible(true);
-                good_EntityInsentient_GoalTarget = true;
-            } catch (Exception e2) {
-                System.out.println("[FactionMobs] [Minor Error] Field not found: EntityInsentient.goalTarget; Unabled to override target");
-                if (!FactionMobs.silentErrors) {
-                    e1.printStackTrace();
-                    e2.printStackTrace();
-                }
-            }
-        }
 		return true;
 	}
 }

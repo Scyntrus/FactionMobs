@@ -1,7 +1,7 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_8_R1.Entity;
 import net.minecraft.server.v1_8_R1.EntityCreature;
+import net.minecraft.server.v1_8_R1.EntityLiving;
 
 import org.bukkit.Location;
 
@@ -28,9 +28,10 @@ public interface FactionMob {
 	public String getFactionName();
 	public void clearAttackedBy();
 	public int getDrops();
-	public boolean softAgro(Entity entity);
-	public Entity findTargetAlias();
+	public boolean softAgro(EntityLiving entity);
+	public void findTarget();
 	public void setFaction(Faction faction);
 	public void forceDie();
-	public void setTarget(Entity target);
+	public void setTarget(EntityLiving target);
+	public EntityLiving findCloserTarget();
 }

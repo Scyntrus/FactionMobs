@@ -1,12 +1,9 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import java.lang.ref.WeakReference;
-
 import net.minecraft.server.v1_8_R1.AttributeInstance;
 import net.minecraft.server.v1_8_R1.Block;
 import net.minecraft.server.v1_8_R1.BlockPosition;
 import net.minecraft.server.v1_8_R1.DamageSource;
-import net.minecraft.server.v1_8_R1.Entity;
 import net.minecraft.server.v1_8_R1.EntityCreature;
 import net.minecraft.server.v1_8_R1.EntityHuman;
 import net.minecraft.server.v1_8_R1.EntityLiving;
@@ -35,6 +32,7 @@ import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_8_R1.util.UnsafeList;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.FactionMob;
@@ -49,8 +47,8 @@ public class Mage extends EntityWitch implements FactionMob {
 	public Location spawnLoc = null;
 	public Faction faction = null;
 	public String factionName = "";
-	public Entity attackedBy = null;
-    public Entity target = null;
+    public EntityLiving attackedBy = null;
+    public EntityLiving target = null;
 	public static String typeName = "Mage";
 	public static float maxHp = 20;
 	public static Boolean enabled = true;
@@ -165,97 +163,107 @@ public class Mage extends EntityWitch implements FactionMob {
 		this.setPoi(loc.getX(),loc.getY(),loc.getZ());
 		this.order = "home";
 	}
-	
-	public Entity findCloserTarget() {
-		if (this.attackedBy != null) {
-			if (this.attackedBy.isAlive() 
-					&& this.attackedBy.world.getWorldData().getName().equals(this.world.getWorldData().getName())
-					&& Utils.FactionCheck(this.attackedBy, this.faction) < 1) {
-				double dist = Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ);
-				if (dist < 16) {
-					this.setTarget(this.attackedBy);
-					return this.attackedBy;
-				} else if (dist > 32) {
-					this.attackedBy = null;
-				}
-			} else {
-				this.attackedBy = null;
-			}
-		}
-		Location thisLoc;
-		double thisDist;
-		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(1.5, 1.5, 1.5)) {
-			if (!e.isDead() && e instanceof CraftLivingEntity && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
-				thisLoc = e.getLocation();
-				thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
-				if (thisDist < 1.5) {
-					if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
-						this.setTarget(((CraftEntity) e).getHandle());
-						return ((CraftEntity) e).getHandle();
-					}
-				}
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	public Entity findTargetAlias() {
-		return findTarget();
-	}
-	
-	public Entity findTarget() {
-		Entity found = this.findCloserTarget();
-		if (found != null) {
-			return found;
-		}
-		double dist = range;
-		Location thisLoc;
-		double thisDist;
-		for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(range, range, range)) {
-			if (!e.isDead() && e instanceof CraftLivingEntity && Utils.FactionCheck(((CraftEntity) e).getHandle(), faction) == -1) {
-				thisLoc = e.getLocation();
-				thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
-				if (thisDist < dist) {
-					if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
-						found = ((CraftEntity) e).getHandle();
-						dist = thisDist;
-					}
-				}
-			}
-		}
-		this.setTarget(found);
-		return found;
-	}
-	
-	@Override
-	public boolean damageEntity(DamageSource damagesource, float i) {
-		boolean out = super.damageEntity(damagesource, i);
-		if (out) {
-			switch (Utils.FactionCheck(damagesource.getEntity(), this.faction)) {
-			case 1:
-				this.findTarget();
-				if (damagesource.getEntity() instanceof EntityPlayer) {
-					this.lastDamageByPlayerTime = 0;
-				}
-				break;
-			case 0:
-			case -1:
-				if (damagesource.getEntity() instanceof EntityLiving) {
-					this.attackedBy = damagesource.getEntity();
-					this.setTarget(damagesource.getEntity());
-				} else if (damagesource.getEntity() instanceof EntityProjectile) {
-					EntityProjectile p = (EntityProjectile) damagesource.getEntity();
-					this.attackedBy = p.getShooter();
-					this.setTarget(p.getShooter());
-				} else {
-					this.findTarget();
-				}
-				break;
-			}
-		}
-		return out;
-	}
+
+    @Override
+    public EntityLiving findCloserTarget() {
+        if (this.attackedBy != null) {
+            if (this.attackedBy.isAlive() 
+                    && this.attackedBy.world.getWorldData().getName().equals(this.world.getWorldData().getName())
+                    && Utils.FactionCheck(this.attackedBy, this.faction) < 1) {
+                double dist = Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ);
+                if (dist < 16) {
+                    this.setTarget(this.attackedBy);
+                    return this.attackedBy;
+                } else if (dist > 32) {
+                    this.attackedBy = null;
+                }
+            } else {
+                this.attackedBy = null;
+            }
+        }
+        Location thisLoc;
+        double thisDist;
+        for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(1.5, 1.5, 1.5)) {
+            if (e.isDead() || !(((CraftEntity) e).getHandle() instanceof EntityLiving))
+                continue;
+            EntityLiving entity = (EntityLiving) ((CraftEntity) e).getHandle();
+            if (Utils.FactionCheck(entity, faction) == -1) {
+                thisLoc = e.getLocation();
+                thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
+                if (thisDist < 1.5) {
+                    if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
+                        this.setTarget(entity);
+                        return entity;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    public void findTarget() {
+        EntityLiving found = this.findCloserTarget();
+        if (found != null) {
+            return;
+        }
+        double dist = range;
+        Location thisLoc;
+        double thisDist;
+        for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(range, range, range)) {
+            if (e.isDead() || !(((CraftEntity) e).getHandle() instanceof EntityLiving))
+                continue;
+            EntityLiving entity = (EntityLiving) ((CraftEntity) e).getHandle();
+            if (Utils.FactionCheck(entity, faction) == -1) {
+                thisLoc = e.getLocation();
+                thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
+                if (thisDist < dist) {
+                    if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
+                        found = entity;
+                        dist = thisDist;
+                    }
+                }
+            }
+        }
+        this.setTarget(found);
+        return;
+    }
+    
+    @Override
+    public boolean damageEntity(DamageSource damagesource, float i) {
+        boolean out = super.damageEntity(damagesource, i);
+        if (!out)
+            return out;
+        EntityLiving damager;
+        if (damagesource.getEntity() instanceof EntityLiving) {
+            damager = (EntityLiving) damagesource.getEntity();
+        } else if (damagesource.getEntity() instanceof EntityProjectile) {
+            damager = ((EntityProjectile) damagesource.getEntity()).getShooter();
+        } else {
+            return out;
+        }
+        switch (Utils.FactionCheck(damager, this.faction)) {
+        case 1:
+            this.findTarget();
+            if (damager instanceof EntityPlayer) {
+                this.lastDamageByPlayerTime = 0;
+            }
+            break;
+        case 0:
+        case -1:
+            if (damager instanceof EntityLiving) {
+                this.attackedBy = damager;
+                this.setTarget(damager);
+            } else if (damagesource.getEntity() instanceof EntityProjectile) {
+                EntityProjectile p = (EntityProjectile) damagesource.getEntity();
+                this.attackedBy = p.getShooter();
+                this.setTarget(p.getShooter());
+            } else {
+                this.findTarget();
+            }
+            break;
+        }
+        return out;
+    }
 	
 	@Override
 	public boolean canSpawn() {
@@ -286,32 +294,24 @@ public class Mage extends EntityWitch implements FactionMob {
 	}
 
     @Override
-	public void setTarget(Entity entity) {
-		this.target = entity;
-		if (entity instanceof EntityLiving) {
-			this.setGoalTarget((EntityLiving) entity);
-		} else if (entity == null) {
-			this.setGoalTarget(null);
-		}
-		if (this.getGoalTarget() != null && !this.getGoalTarget().isAlive()) {
-			this.setGoalTarget(null);
-		}
-	}
+    public void setTarget(EntityLiving entity) {
+        this.target = entity;
+        if (entity instanceof EntityLiving) {
+            this.setGoalTarget((EntityLiving) entity);
+        } else if (entity == null) {
+            this.setGoalTarget(null);
+        }
+        if (this.getGoalTarget() != null && !this.getGoalTarget().isAlive()) {
+            this.setGoalTarget(null);
+        }
+    }
     
     @Override
-    public void setGoalTarget(EntityLiving target) {
+    public void setGoalTarget(EntityLiving entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
         if (this.target instanceof EntityLiving && this.target.isAlive()) {
-            try {
-                ReflectionManager.entityInsentient_GoalTarget.set(this, new WeakReference<EntityLiving>((EntityLiving) this.target));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            super.setGoalTarget(this.target, EntityTargetEvent.TargetReason.CUSTOM, false);
         } else {
-            try {
-                ReflectionManager.entityInsentient_GoalTarget.set(this, new WeakReference<EntityLiving>(null));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            super.setGoalTarget(null, EntityTargetEvent.TargetReason.CUSTOM, false);
         }
     }
 	
@@ -323,7 +323,7 @@ public class Mage extends EntityWitch implements FactionMob {
 			return;
 		}
 		if (this.target instanceof EntityLiving && this.target.isAlive()) {
-			super.setGoalTarget((EntityLiving) this.target);
+			this.setGoalTarget((EntityLiving) this.target);
 		} else {
 			this.findTarget();
 		}
@@ -494,7 +494,7 @@ public class Mage extends EntityWitch implements FactionMob {
 	}
 	
 	@Override
-	public boolean softAgro(Entity entity) {
+    public boolean softAgro(EntityLiving entity) {
 		if (this.attackedBy == null 
 				&& entity instanceof EntityLiving
 				&& entity.isAlive()) {

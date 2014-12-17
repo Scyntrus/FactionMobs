@@ -5,9 +5,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import net.minecraft.server.v1_8_R1.Entity;
 import net.minecraft.server.v1_8_R1.EntityAnimal;
 import net.minecraft.server.v1_8_R1.EntityCreeper;
+import net.minecraft.server.v1_8_R1.EntityLiving;
 import net.minecraft.server.v1_8_R1.EntityPlayer;
 import net.minecraft.server.v1_8_R1.EntitySlime;
 import net.minecraft.server.v1_8_R1.EntityWolf;
@@ -23,7 +23,7 @@ import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.UPlayer;
 
 public class Utils {
-	public static int FactionCheck(Entity entity, Faction faction) {
+	public static int FactionCheck(EntityLiving entity, Faction faction) {
 		if (entity == null || faction == null || faction.isNone()) {
 			return 0;
 		}

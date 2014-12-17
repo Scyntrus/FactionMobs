@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.server.v1_8_R1.Entity;
 import net.minecraft.server.v1_8_R1.EntityCreature;
 import net.minecraft.server.v1_8_R1.EntityInsentient;
+import net.minecraft.server.v1_8_R1.EntityLiving;
 import net.minecraft.server.v1_8_R1.EntityWolf;
 import net.minecraft.server.v1_8_R1.EntityZombie;
 import net.minecraft.server.v1_8_R1.PathfinderGoalMeleeAttack;
@@ -60,17 +61,17 @@ public class EntityListener implements Listener {
 			e.setCancelled(true);
 			FactionMob fmob = (FactionMob) entity;
 			if (fmob instanceof Titan) {
-				fmob.findTargetAlias();
+				fmob.findTarget();
 				return;
 			}
-			if (e.getTarget() != null) {
-				Entity target = ((CraftEntity) e.getTarget()).getHandle();
+			if (e.getTarget() != null && ((CraftEntity) e.getTarget()).getHandle() instanceof EntityLiving) {
+				EntityLiving target = (EntityLiving) ((CraftEntity) e.getTarget()).getHandle();
 				if (Utils.FactionCheck(target, fmob.getFaction()) == -1) {
 					fmob.setTarget(target);
 					return;
 				}
 			}
-			fmob.findTargetAlias();
+			fmob.findTarget();
 			return;
 		} else if (entity != null && entity instanceof EntityWolf) {
 			if (e.getTarget() != null) {
@@ -167,9 +168,19 @@ public class EntityListener implements Listener {
 		if (!(e.getEntity() instanceof CraftLivingEntity)) return;
 		CraftLivingEntity entity = (CraftLivingEntity) e.getEntity();
 		if (entity.getNoDamageTicks() > 0) return;
-		CraftEntity damager = (CraftEntity) e.getDamager();
-		if (damager instanceof Projectile) damager = (CraftEntity) ((Projectile) damager).getShooter();
-		if (damager == null) return;
+		CraftLivingEntity damager;
+		if (e.getDamager() instanceof CraftLivingEntity) {
+		    damager = (CraftLivingEntity) e.getDamager();
+		} else if (e.getDamager() instanceof Projectile) {
+		    Projectile p = (Projectile) e.getDamager();
+		    if (p.getShooter() instanceof CraftLivingEntity) {
+		        damager = (CraftLivingEntity) p.getShooter();
+		    } else {
+		        return;
+		    }
+		} else {
+		    return;
+		}
 		
 		if (damager.getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) damager.getHandle();
@@ -178,13 +189,6 @@ public class EntityListener implements Listener {
                     if (entity.getHandle() instanceof EntityZombie 
                             && !entity.hasMetadata("CustomEntity") 
                             && !entity.hasMetadata("Fmob Goal Added")) {
-//                        try {
-//                            PathfinderGoalSelector targetSelector = (PathfinderGoalSelector) ReflectionManager.EntityTargetSelector.get(entity.getHandle());
-//                            targetSelector.a(2, new PathfinderGoalNearestAttackableTarget((EntityCreature) entity.getHandle(), FactionMob.class, 0, false));
-//                        } catch (Exception e1) {
-//                            if (!FactionMobs.silentErrors)
-//                                e1.printStackTrace();
-//                        }
                         try {
                             PathfinderGoalSelector goalSelector = (PathfinderGoalSelector) ReflectionManager.entityInsentient_GoalSelector.get(entity.getHandle());
                             goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), FactionMob.class, 1.0D, false));
@@ -197,7 +201,7 @@ public class EntityListener implements Listener {
                         entity.setMetadata("Fmob Goal Added", new FixedMetadataValue(FactionMobs.instance, true));
                     }
 					if (entity.getHandle() instanceof EntityInsentient) {
-						((EntityInsentient) entity.getHandle()).setGoalTarget(((CraftLivingEntity) damager).getHandle());
+						((EntityInsentient) entity.getHandle()).setGoalTarget(((CraftLivingEntity) damager).getHandle(), EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true);
 					}
 					return;
 				}
@@ -209,7 +213,7 @@ public class EntityListener implements Listener {
 				&& (entity.getHandle() instanceof FactionMob)) {
 			FactionMob fmob = (FactionMob) entity.getHandle();
 			Player player = (Player) damager;
-			if (Utils.FactionCheck((Entity) fmob, UPlayer.getPlayerFaction(player)) >= 1) {
+			if (Utils.FactionCheck(fmob.getEntity(), UPlayer.getPlayerFaction(player)) >= 1) {
 				if (fmob.getFaction().equals(UPlayer.getPlayerFaction(player))) {
 					if (FactionMobs.noPlayerFriendlyFire) {
 						player.sendMessage(String.format("%sYou cannot hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
@@ -333,10 +337,10 @@ public class EntityListener implements Listener {
 		if (((CraftEntity) e.getPotion().getShooter()).getHandle() instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) ((CraftEntity) e.getPotion().getShooter()).getHandle();
 			for (LivingEntity entity : e.getAffectedEntities()) {
-				if (Utils.FactionCheck(((CraftEntity) entity).getHandle(), fmob.getFaction()) < 1) {
+				if (Utils.FactionCheck(((CraftLivingEntity) entity).getHandle(), fmob.getFaction()) < 1) {
 					if (fmob.getEntity().isAlive()) {
 						if (((CraftLivingEntity) entity).getHandle() instanceof EntityInsentient) {
-							((EntityInsentient) ((CraftLivingEntity) entity).getHandle()).setGoalTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle());
+							((EntityInsentient) ((CraftLivingEntity) entity).getHandle()).setGoalTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle(), EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true);
 						}
 					}
 				} else if (FactionMobs.noFriendlyFire) {
