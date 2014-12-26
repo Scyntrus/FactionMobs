@@ -20,7 +20,7 @@ noFriendlyFire: true
 # Players cannot damage mobs on allied teams regardless
 noPlayerFriendlyFire: true
 
-# Rank required in order to spawn faction mobs, Member, Officer (Moderator) and Leader (Admin/Owner).
+# Rank required in order to spawn faction mobs, you can choose from 'Member', 'Moderator' (Officer) and 'Admin' (Leader).
 mustBeAtleast: MEMBER
 
 # Attacking a faction member or faction mob will agro their nearby faction mobs
