@@ -1,9 +1,13 @@
 package com.gmail.scyntrus.fmob;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import net.minecraft.server.v1_8_R1.EntityAnimal;
 import net.minecraft.server.v1_8_R1.EntityCreeper;
@@ -158,24 +162,64 @@ public class Utils {
 				resStreamOut.write(buffer, 0, readBytes);
 			}
 		} catch (Exception e) {
-			if (!FactionMobs.silentErrors){
-				System.out.println("Unable to create configDefaults.yml. Check permissions or create it manually.");
-				//debugging check should be here
-				e.printStackTrace();
-			}
+		    Utils.handleError("Unable to create configDefaults.yml. Check permissions or create it manually.", e);
 		} finally {
 			try {
 				stream.close();
 			} catch (Exception e) {
-				if (!FactionMobs.silentErrors)
-					e.printStackTrace();
+	            Utils.handleError("Unable to close config.yml resource.", e);
 			}
 			try {
 				resStreamOut.close();
 			} catch (Exception e) {
-				if (!FactionMobs.silentErrors)
-					e.printStackTrace();
+                Utils.handleError("Unable to close configDefaults.yml.", e);
 			}
 		}
+	}
+	
+	private static PrintWriter errorStream;
+	
+	public static void handleError(String message, Exception e) {
+	    handleError(message, e);
+	}
+	
+	public static void handleError(String message) {
+	    if (message == null)
+	        return;
+        FactionMobs.instance.getServer().getConsoleSender().sendMessage("§c[FactionMobs] " + message);
+        if (errorStream == null) {
+            try {
+                errorStream = new PrintWriter(new BufferedWriter(new FileWriter("myfile.txt", true)));
+            } catch (IOException e1) {
+            }
+        }
+        if (errorStream != null) {
+            errorStream.println(message);
+            errorStream.flush();
+        }
+	}
+	
+	public static void handleError(Exception e) {
+        if (e == null)
+            return;
+        if (!FactionMobs.silentErrors) {
+            e.printStackTrace();
+        }
+        if (errorStream == null) {
+            try {
+                errorStream = new PrintWriter(new BufferedWriter(new FileWriter("myfile.txt", true)));
+            } catch (IOException e1) {
+            }
+        }
+        if (errorStream != null) {
+            errorStream.println(e.getLocalizedMessage());
+            errorStream.flush();
+        }
+	}
+	
+	public static void closeErrorStream() {
+	    if (errorStream != null)
+	        errorStream.close();
+	    errorStream = null;
 	}
 }

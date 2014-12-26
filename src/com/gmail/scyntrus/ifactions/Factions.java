@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import com.gmail.scyntrus.fmob.FactionMobs;
+import com.gmail.scyntrus.fmob.Utils;
 
 public class Factions {
 	
@@ -31,8 +31,7 @@ public class Factions {
         	    try {
         	    	fPlayerGet = com.massivecraft.factions.FPlayers.class.getMethod("get", OfflinePlayer.class);
             	    System.out.println("["+pluginName+"] Factions 1.6.x-U detected");
-        	    } catch (NoSuchMethodException e2)
-        	    {
+        	    } catch (NoSuchMethodException e2) {
         	    	fPlayerGet = com.massivecraft.factions.FPlayers.class.getMethod("get", Player.class);
             	    System.out.println("["+pluginName+"] Factions 1.6.x detected. It is recommended you switch to Factions UUID at http://ci.drtshock.net/job/FactionsUUID/");
         	    }
@@ -42,12 +41,10 @@ public class Factions {
             	    factionsVersion = 8; //Factions 1.8
             	    System.out.println("["+pluginName+"] Factions 1.8.x detected. Support for this version will be discontinued. Please switch to Factions 2.x or Factions UUID at http://ci.drtshock.net/job/FactionsUUID/");
             	} catch (Exception e3) {
-					System.out.println("["+pluginName+"] No compatible version of Factions detected. "+pluginName+" will not be enabled.");
-					if (!FactionMobs.silentErrors) {
-						e1.printStackTrace();
-						e2.printStackTrace();
-						e3.printStackTrace();
-					}
+                    Utils.handleError("No compatible version of Factions detected. "+pluginName+" will not be enabled.");
+                    Utils.handleError(e1);
+                    Utils.handleError(e2);
+                    Utils.handleError(e3);
 					return false;
             	}
         	}
@@ -76,7 +73,7 @@ public class Factions {
 			f = (com.massivecraft.factions.Factions) i.get(null);
 			gBT = com.massivecraft.factions.Factions.class.getDeclaredMethod("getByTag", new Class<?>[]{String.class});
 		} catch (Exception e) {
-			if (!FactionMobs.silentErrors) e.printStackTrace();
+		    Utils.handleError(e);
 			return false;
 		}
 		initialized = true;
@@ -94,7 +91,7 @@ public class Factions {
 			Faction8.getFlag = com.massivecraft.factions.Faction.class.getDeclaredMethod("getFlag", new Class<?>[]{com.massivecraft.factions.struct.FFlag.class});
 			Faction8.getFlag.setAccessible(true);
 		} catch (Exception e) {
-			if (!FactionMobs.silentErrors) e.printStackTrace();
+            Utils.handleError(e);
 			return false;
 		}
 		initialized = true;
@@ -108,13 +105,13 @@ public class Factions {
 			try {
 				return new Faction6(gBT.invoke(f, factionName));
 			} catch (Exception e) {
-				if (!FactionMobs.silentErrors) e.printStackTrace();
+	            Utils.handleError(e);
 			}
 		} else if (factionsVersion == 8) {
 			try {
 				return new Faction8(gBT.invoke(f, factionName));
 			} catch (Exception e) {
-				if (!FactionMobs.silentErrors) e.printStackTrace();
+	            Utils.handleError(e);
 			}
 		}
 		return null;
@@ -140,7 +137,7 @@ public class Factions {
                         (com.massivecraft.factions.FPlayer)Factions.fPlayerGet.invoke(com.massivecraft.factions.FPlayers.i, player)
                     ).getFaction());
             } catch (Exception e) {
-                e.printStackTrace();
+                Utils.handleError(e);
             }
         } else if (Factions.factionsVersion == 8) {
             return new Faction8(com.massivecraft.factions.FPlayers.i.get(player).getFaction());
@@ -149,23 +146,23 @@ public class Factions {
     }
     
     public static FRank getPlayerRank(Player player) {
-        switch (Factions.factionsVersion) {
-            case 6:
-                try {
+        try {
+            switch (Factions.factionsVersion) {
+                case 6:
                     com.massivecraft.factions.FPlayer fPlayer = (com.massivecraft.factions.FPlayer) Factions.fPlayerGet.invoke(com.massivecraft.factions.FPlayers.i, player);
                     return FRank.getByName(fPlayer.getRole().name());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                case 8:
+                    com.massivecraft.factions.struct.Role role = com.massivecraft.factions.FPlayers.i.get(player).getRole();
+                    return FRank.getByName(role.name());
+                case 2:
+                    com.massivecraft.factions.Rel rel = com.massivecraft.factions.entity.MPlayer.get(player).getRole();
+                    return FRank.getByName(rel.name());
+                default:
                     return FRank.MEMBER;
-                }
-            case 8:
-                com.massivecraft.factions.struct.Role role = com.massivecraft.factions.FPlayers.i.get(player).getRole();
-                return FRank.getByName(role.name());
-            case 2:
-                com.massivecraft.factions.Rel rel = com.massivecraft.factions.entity.MPlayer.get(player).getRole();
-                return FRank.getByName(rel.name());
-            default:
-                return FRank.MEMBER;
+            }
+        } catch (Exception e) {
+            Utils.handleError(e);
+            return FRank.MEMBER;
         }
     }
 }

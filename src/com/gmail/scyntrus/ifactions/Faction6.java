@@ -1,6 +1,6 @@
 package com.gmail.scyntrus.ifactions;
 
-import com.gmail.scyntrus.fmob.FactionMobs;
+import com.gmail.scyntrus.fmob.Utils;
 
 public class Faction6 extends Faction {
 	
@@ -27,7 +27,7 @@ public class Faction6 extends Faction {
     			return 1;
     		}
 		} catch (Exception e) {
-    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+            Utils.handleError(e);
     	}
 		return 0;
 	}

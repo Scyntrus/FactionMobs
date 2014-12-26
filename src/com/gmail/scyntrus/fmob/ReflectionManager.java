@@ -56,10 +56,9 @@ public class ReflectionManager {
 		        mapF = (Map) fieldF.get(null);
 		        mapG = (Map) fieldG.get(null);
 			} catch (Exception e2) {
-	    	    if (!FactionMobs.silentErrors) {
-	    	    	e1.printStackTrace();
-	    	    	e2.printStackTrace();
-	    	    }
+                Utils.handleError("Failed to reflect entity registration methods.");
+			    Utils.handleError(e1);
+                Utils.handleError(e2);
 				return false;
 			}
 		}
@@ -73,11 +72,9 @@ public class ReflectionManager {
 				navigation_Distance.setAccessible(true);
 				good_Navigation_Distance = true;
 			} catch (Exception e2) {
-				System.out.println("[FactionMobs] [Minor Error] Field not found: Navigation.e; Custom pathfinding distances cannot be set");
-	    	    if (!FactionMobs.silentErrors) {
-	    	    	e1.printStackTrace();
-	    	    	e2.printStackTrace();
-	    	    }
+			    Utils.handleError("[Minor Error] Field not found: Navigation.e; Custom pathfinding distances cannot be set");
+                Utils.handleError(e1);
+                Utils.handleError(e2);
 			}
 		}
 		try {
@@ -90,11 +87,9 @@ public class ReflectionManager {
 				pathfinderGoalSelector_GoalList.setAccessible(true);
 				good_PathfinderGoalSelector_GoalList = true;
 			} catch (Exception e2) {
-				System.out.println("[FactionMobs] [Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
-	    	    if (!FactionMobs.silentErrors) {
-	    	    	e1.printStackTrace();
-	    	    	e2.printStackTrace();
-	    	    }
+			    Utils.handleError("[Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
+                Utils.handleError(e1);
+                Utils.handleError(e2);
 			}
 		}
 		try {
@@ -107,11 +102,9 @@ public class ReflectionManager {
                 entityInsentient_GoalSelector.setAccessible(true);
                 good_EntityInsentient_GoalSelector = true;
             } catch (Exception e2) {
-                System.out.println("[FactionMobs] [Minor Error] Field not found: EntityInsentient.goalSelector; Unable to override zombie goals");
-                if (!FactionMobs.silentErrors) {
-                    e1.printStackTrace();
-                    e2.printStackTrace();
-                }
+                Utils.handleError("[Minor Error] Field not found: EntityInsentient.goalSelector; Unable to override zombie goals");
+                Utils.handleError(e1);
+                Utils.handleError(e2);
             }
 		}
 		return true;

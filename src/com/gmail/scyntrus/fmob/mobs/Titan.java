@@ -82,7 +82,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 				AttributeInstance e = (AttributeInstance) ReflectionManager.navigation_Distance.get(this.getNavigation());
 				e.setValue(FactionMobs.mobNavRange);
 			} catch (Exception e) {
-	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+                Utils.handleError(e);
 			}
 	    }
 	    if (ReflectionManager.good_PathfinderGoalSelector_GoalList) {
@@ -90,7 +90,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 		    	ReflectionManager.pathfinderGoalSelector_GoalList.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
 		    	ReflectionManager.pathfinderGoalSelector_GoalList.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
 			} catch (Exception e) {
-	    	    if (!FactionMobs.silentErrors) e.printStackTrace();
+                Utils.handleError(e);
 			}
 	    }
 	    

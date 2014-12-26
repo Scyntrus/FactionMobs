@@ -87,11 +87,9 @@ public class FactionMobs extends JavaPlugin {
                     throw e;
                 }
 			} catch (Exception e1) {
-				System.out.println("[FactionMobs] You are running an unsupported version of CraftBukkit (requires v1_8_R1). FactionMobs will not be enabled.");
-				getServer().getConsoleSender().sendMessage("§cFactionMobs is incompatible with this version of CraftBukkit, please download a newer version.");
+                Utils.handleError("You are running an unsupported version of CraftBukkit (requires v1_8_R1). Please download a newer version. FactionMobs will not be enabled.", e);
 				this.getCommand("fm").setExecutor(new ErrorCommand(this));
 				this.getCommand("fmc").setExecutor(new ErrorCommand(this));
-				if (!FactionMobs.silentErrors) e.printStackTrace();
 				return;
 			}
 		}
@@ -99,7 +97,7 @@ public class FactionMobs extends JavaPlugin {
 		Utils.copyDefaultConfig();
 		
 		if (!Factions.init(this.getName())) {
-			System.out.println("[FactionMobs] You are running an unsupported version of Factions. Please contact the plugin author for more info.");
+            Utils.handleError("You are running an unsupported version of Factions. Please contact the plugin author for more info.", null);
 			this.getCommand("fm").setExecutor(new ErrorCommand(this));
 			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
 			return;
@@ -195,8 +193,6 @@ public class FactionMobs extends JavaPlugin {
 			this.getLogger().severe("[Fatal Error] Unable to register mobs");
 			this.getCommand("fm").setExecutor(new ErrorCommand(this));
 			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
-			
-			if (!FactionMobs.silentErrors) e.printStackTrace();
 			return;
 		}
 		
@@ -223,8 +219,7 @@ public class FactionMobs extends JavaPlugin {
 				oInputStream.close();
 				fileInputStream.close();
 			} catch (Exception e) {
-				this.getLogger().severe("[FactionMobs] Error reading faction colors file, colors.dat");
-				if (!FactionMobs.silentErrors) e.printStackTrace();
+	            Utils.handleError("Error reading faction colors file, colors.dat.", e);
 			}
 		}
 		
@@ -283,7 +278,7 @@ public class FactionMobs extends JavaPlugin {
 
 			metrics.start();
 		} catch (IOException e) {
-			if (!FactionMobs.silentErrors) e.printStackTrace();
+            Utils.handleError("Metrics failed to start", e);
 		}
 	}
 	
@@ -292,6 +287,7 @@ public class FactionMobs extends JavaPlugin {
         for (int i = mobList.size() - 1; i >= 0; --i) {
             mobList.get(i).forceDie();
         }
+        Utils.closeErrorStream();
 	}
 	
 	public void loadMobList() {
@@ -305,46 +301,19 @@ public class FactionMobs extends JavaPlugin {
 				FactionMob newMob = null;
 				if (mobData.size() < 10) {
 					System.out.println("Incomplete Faction Mob found and removed. Did you edit the data.dat file?");
-					if (!backup) {
-						backup = true;
-						try {
-							conf.save(new File(getDataFolder(), "data_backup.dat"));
-							System.out.println("Backup file saved as data_backup.dat");
-						} catch (IOException e) {
-							System.out.println("Failed to save backup file");
-							if (!FactionMobs.silentErrors) e.printStackTrace();
-						}
-					}
+                    backup = true;
 					continue;
 				}
 				org.bukkit.World world = this.getServer().getWorld(mobData.get(1));
 				if (world == null) {
 					System.out.println("Worldless Faction Mob found and removed. Did you delete or rename a world?");
-					if (!backup) {
-						backup = true;
-						try {
-							conf.save(new File(getDataFolder(), "data_backup.dat"));
-							System.out.println("Backup file saved as data_backup.dat");
-						} catch (IOException e) {
-							System.out.println("Failed to save backup file");
-							if (!FactionMobs.silentErrors) e.printStackTrace();
-						}
-					}
+					backup = true;
 					continue;
 				}
 				Faction faction = Factions.getFactionByName(mobData.get(1),mobData.get(2));
 				if (faction == null || faction.isNone()) {
 					System.out.println("Factionless Faction Mob found and removed. Did you delete a Faction?");
-					if (!backup) {
-						backup = true;
-						try {
-							conf.save(new File(getDataFolder(), "data_backup.dat"));
-							System.out.println("Backup file saved as data_backup.dat");
-						} catch (IOException e) {
-							System.out.println("Failed to save backup file");
-							if (!FactionMobs.silentErrors) e.printStackTrace();
-						}
-					}
+					backup = true;
 					continue;
 				}
 				Location spawnLoc = new Location(
@@ -365,16 +334,7 @@ public class FactionMobs extends JavaPlugin {
 				}
 				if (newMob.getFaction() == null || newMob.getFactionName() == null || newMob.getFaction().isNone()) {
 					System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
-					if (!backup) {
-						backup = true;
-						try {
-							conf.save(new File(getDataFolder(), "data_backup.dat"));
-							System.out.println("Backup file saved as data_backup.dat");
-						} catch (IOException e) {
-							System.out.println("Failed to save backup file");
-							if (!FactionMobs.silentErrors) e.printStackTrace();
-						}
-					}
+					backup = true;
 					continue;
 				}
 				newMob.getEntity().setPosition(Double.parseDouble(mobData.get(6)),
@@ -398,21 +358,21 @@ public class FactionMobs extends JavaPlugin {
 				
 				if (!newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM)) {
                     System.out.println(String.format("Unable to respawn a Faction Mob: %s %s .", mobData.get(2), mobData.get(0)));
-					if (!backup) {
-						backup = true;
-						try {
-							conf.save(new File(getDataFolder(), "data_backup.dat"));
-							System.out.println("Backup file saved as data_backup.dat");
-						} catch (IOException e) {
-							System.out.println("Failed to save backup file");
-							if (!FactionMobs.silentErrors) e.printStackTrace();
-						}
-					}
+                    backup = true;
 					continue;
 				}
 				mobList.add(newMob);
 				newMob.getEntity().dead = false;
 			}
+            if (backup) {
+                try {
+                    conf.save(new File(getDataFolder(), "data_backup.dat"));
+                    System.out.println("Backup file saved as data_backup.dat");
+                } catch (IOException e) {
+                    System.out.println("Failed to save backup file");
+                    if (!FactionMobs.silentErrors) e.printStackTrace();
+                }
+            }
 		}
 	}
 	
@@ -446,8 +406,7 @@ public class FactionMobs extends JavaPlugin {
 			conf.save(new File(getDataFolder(), "data.dat"));
 			System.out.println("FactionMobs data saved.");
 		} catch (IOException e) {
-			this.getLogger().severe("Failed to save faction mob data, data.dat");
-			if (!FactionMobs.silentErrors) e.printStackTrace();
+			Utils.handleError("Failed to save faction mob data, data.dat", e);
 		}
 		try {
 			File colorFile = new File(getDataFolder(), "colors.dat");
@@ -459,8 +418,7 @@ public class FactionMobs extends JavaPlugin {
 			fileOut.close();
 			System.out.println("FactionMobs color data saved.");
 		} catch (Exception e) {
-			this.getLogger().severe("Error writing faction colors file, colors.dat");
-			if (!FactionMobs.silentErrors) e.printStackTrace();
+            Utils.handleError("Error writing faction colors file, colors.dat", e);
 		}
 	}
 	
