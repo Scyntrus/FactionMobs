@@ -129,9 +129,11 @@ public class FmCommand implements CommandExecutor {
 						!player.hasPermission("fmob.spawn.mage") &&
 						!player.hasPermission("fmob.spawn.swordsman") &&
 						!player.hasPermission("fmob.spawn.titan")) {
+				if(UPlayer.getPlayerFaction(player) != null && !Utils.hasSpawnPermission(player)) {
 					player.sendMessage(ChatColor.RED + "You do not have permission.");
 					return true;
-				}
+				}							
+
 				Location loc = player.getLocation();
 				Faction playerfaction = UPlayer.getPlayerFaction(player);
 				if (playerfaction == null || playerfaction.isNone()) {
