@@ -124,15 +124,14 @@ public class FmCommand implements CommandExecutor {
 				player.sendMessage("You have not selected any mob");
 				return true;
 			} else if (split[0].equalsIgnoreCase("spawn")) {
-				if (!player.hasPermission("fmob.spawn") &&
+				if ((!player.hasPermission("fmob.spawn") &&
 						!player.hasPermission("fmob.spawn.archer") &&
 						!player.hasPermission("fmob.spawn.mage") &&
 						!player.hasPermission("fmob.spawn.swordsman") &&
-						!player.hasPermission("fmob.spawn.titan")) {
-				if(UPlayer.getPlayerFaction(player) != null && !Utils.hasSpawnPermission(player)) {
+						!player.hasPermission("fmob.spawn.titan") || (UPlayer.getPlayerFaction(player) != null && !Utils.hasSpawnPermission(player)))) {
 					player.sendMessage(ChatColor.RED + "You do not have permission.");
 					return true;
-				}							
+					}					
 
 				Location loc = player.getLocation();
 				Faction playerfaction = UPlayer.getPlayerFaction(player);
