@@ -124,14 +124,14 @@ public class FmCommand implements CommandExecutor {
 				player.sendMessage("You have not selected any mob");
 				return true;
 			} else if (split[0].equalsIgnoreCase("spawn")) {
-				if ((!player.hasPermission("fmob.spawn") &&
-						!player.hasPermission("fmob.spawn.archer") &&
-						!player.hasPermission("fmob.spawn.mage") &&
-						!player.hasPermission("fmob.spawn.swordsman") &&
-						!player.hasPermission("fmob.spawn.titan") || (UPlayer.getPlayerFaction(player) != null && !Utils.hasSpawnPermission(player)))) {
-					player.sendMessage(ChatColor.RED + "You do not have permission.");
-					return true;
-					}					
+                if ((!player.hasPermission("fmob.spawn") 
+                        && !player.hasPermission("fmob.spawn.archer")
+                        && !player.hasPermission("fmob.spawn.mage")
+                        && !player.hasPermission("fmob.spawn.swordsman") 
+                        && !player.hasPermission("fmob.spawn.titan"))) {
+                    player.sendMessage(ChatColor.RED + "You do not have permission.");
+                    return true;
+                }
 
 				Location loc = player.getLocation();
 				Faction playerfaction = UPlayer.getPlayerFaction(player);
@@ -139,6 +139,12 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You must be in a faction.");
 					return true;
 				}
+				
+				if (!UPlayer.getPlayerRank(player).isAtLeast(FactionMobs.minRankToSpawn)) {
+                    player.sendMessage(ChatColor.RED + "Your rank is too low.");
+                    return true;
+				}
+				
 				if (!player.hasPermission("fmob.bypass")) {
 					Faction areafaction = Factions.getFactionAt(loc);
 					if (!playerfaction.getName().equals(areafaction.getName())) {

@@ -19,4 +19,25 @@ public class UPlayer {
 		}
 		return null;
 	}
+	
+	public static FRank getPlayerRank(Player player) {
+        switch (Factions.factionsVersion) {
+            case 6:
+                try {
+                    com.massivecraft.factions.FPlayer fPlayer = (com.massivecraft.factions.FPlayer) Factions.fPlayerGet.invoke(com.massivecraft.factions.FPlayers.i, player);
+                    return FRank.getByName(fPlayer.getRole().name());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return FRank.MEMBER;
+                }
+            case 8:
+                com.massivecraft.factions.struct.Role role = com.massivecraft.factions.FPlayers.i.get(player).getRole();
+                return FRank.getByName(role.name());
+            case 2:
+                com.massivecraft.factions.Rel rel = com.massivecraft.factions.entity.MPlayer.get(player).getRole();
+                return FRank.getByName(rel.name());
+            default:
+                return FRank.MEMBER;
+        }
+	}
 }

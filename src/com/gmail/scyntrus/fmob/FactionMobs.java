@@ -25,6 +25,7 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.gmail.scyntrus.ifactions.FRank;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 
@@ -59,7 +60,8 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean feedEnabled = true;
 	public static float feedAmount = 5;
 	public static boolean silentErrors = true;
-	public static String minRankToSpawn = "MEMBER";
+	private static String minRankToSpawnStr = "MEMBER";
+	public static FRank minRankToSpawn;
 	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
@@ -141,14 +143,8 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
 		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
 		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
-		FactionMobs.minRankToSpawn = config.getString("mustBeAtleast", FactionMobs.minRankToSpawn);
-		FactionMobs.minRankToSpawn = FactionMobs.minRankToSpawn.toUpperCase();
-		if (minRankToSpawn.equals("NORMAL"))
-		    minRankToSpawn = "MEMBER";
-		else if (minRankToSpawn.equals("MODERATOR"))
-		    minRankToSpawn = "OFFICER";
-        else if (minRankToSpawn.equals("ADMIN"))
-            minRankToSpawn = "LEADER";
+		FactionMobs.minRankToSpawnStr = config.getString("mustBeAtleast", FactionMobs.minRankToSpawnStr);
+		FactionMobs.minRankToSpawn = FRank.getByName(FactionMobs.minRankToSpawnStr);
 		
 		Archer.maxHp = (float) config.getDouble("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;
