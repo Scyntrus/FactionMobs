@@ -150,8 +150,7 @@ public class Utils {
                         com.massivecraft.factions.FPlayer fp= null;
 	        	try {
 				fp = (com.massivecraft.factions.FPlayer)Factions.fPlayerGet.invoke(com.massivecraft.factions.FPlayers.i, player);
-			} catch (IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
                		com.massivecraft.factions.struct.Role role6 = fp.getRole();
