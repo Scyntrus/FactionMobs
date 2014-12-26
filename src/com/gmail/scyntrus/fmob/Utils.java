@@ -143,32 +143,38 @@ public class Utils {
 		return count;
 	}
 	
-	public static boolean hasSpawnPermission(Player player) {
-		int i = Factions.factionsVersion;
-		switch (i) {
-		case 6:
-                        com.massivecraft.factions.FPlayer fp= null;
-	        	try {
-				fp = (com.massivecraft.factions.FPlayer)Factions.fPlayerGet.invoke(com.massivecraft.factions.FPlayers.i, player);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-               		com.massivecraft.factions.struct.Role role6 = fp.getRole();
-               		return role6.toString().equalsIgnoreCase(FactionMobs.mustBeAtleast);
-		case 8:
-			final com.massivecraft.factions.struct.Role r = com.massivecraft.factions.FPlayers.i.get(player).getRole();
-        	        return r.toString().equalsIgnoreCase(FactionMobs.mustBeAtleast);
-		case 2:
-		com.massivecraft.factions.Rel r1 = com.massivecraft.factions.entity.MPlayer.get(player).getRole();
-			String role = "";
-			if(r1 == com.massivecraft.factions.Rel.MEMBER) role = "NORMAL";
-			if(r1 == com.massivecraft.factions.Rel.OFFICER) role = "MODERATOR";
-			if(r1 == com.massivecraft.factions.Rel.LEADER) role = "ADMIN";
-            	return role.equalsIgnoreCase(FactionMobs.mustBeAtleast);
-                       	}
-		return false;
+    public static boolean hasSpawnPermission(Player player) {
+        int i = Factions.factionsVersion;
+        switch (i) {
+            case 6:
+                com.massivecraft.factions.FPlayer fp = null;
+                try {
+                    fp = (com.massivecraft.factions.FPlayer) Factions.fPlayerGet.invoke(
+                            com.massivecraft.factions.FPlayers.i, player);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                com.massivecraft.factions.struct.Role role6 = fp.getRole();
+                return role6.toString().equalsIgnoreCase(FactionMobs.minRankToSpawn);
+            case 8:
+                final com.massivecraft.factions.struct.Role r = com.massivecraft.factions.FPlayers.i.get(
+                        player).getRole();
+                return r.toString().equalsIgnoreCase(FactionMobs.minRankToSpawn);
+            case 2:
+                com.massivecraft.factions.Rel r1 = com.massivecraft.factions.entity.MPlayer.get(player)
+                        .getRole();
+                String role = "";
+                if (r1 == com.massivecraft.factions.Rel.MEMBER)
+                    role = "NORMAL";
+                if (r1 == com.massivecraft.factions.Rel.OFFICER)
+                    role = "MODERATOR";
+                if (r1 == com.massivecraft.factions.Rel.LEADER)
+                    role = "ADMIN";
+                return role.equalsIgnoreCase(FactionMobs.minRankToSpawn);
+        }
+        return false;
 
-	}	
+    }
 	
 	public static void copyDefaultConfig() {
 		InputStream stream = Utils.class.getResourceAsStream("/config.yml");

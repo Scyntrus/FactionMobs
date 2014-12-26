@@ -59,7 +59,7 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean feedEnabled = true;
 	public static float feedAmount = 5;
 	public static boolean silentErrors = true;
-	public static String mustBeAtleast = "MEMBER";
+	public static String minRankToSpawn = "MEMBER";
 	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
@@ -141,8 +141,14 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
 		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
 		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
-		FactionMobs.mustBeAtleast = config.getString("mustBeAtleast", FactionMobs.mustBeAtleast);
-		if(mustBeAtleast.equalsIgnoreCase("mod")) mustBeAtleast = "Moderator";
+		FactionMobs.minRankToSpawn = config.getString("mustBeAtleast", FactionMobs.minRankToSpawn);
+		FactionMobs.minRankToSpawn = FactionMobs.minRankToSpawn.toUpperCase();
+		if (minRankToSpawn.equals("NORMAL"))
+		    minRankToSpawn = "MEMBER";
+		else if (minRankToSpawn.equals("MODERATOR"))
+		    minRankToSpawn = "OFFICER";
+        else if (minRankToSpawn.equals("ADMIN"))
+            minRankToSpawn = "LEADER";
 		
 		Archer.maxHp = (float) config.getDouble("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;
