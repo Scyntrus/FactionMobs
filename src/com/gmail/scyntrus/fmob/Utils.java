@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.UPlayer;
+import com.gmail.scyntrus.ifactions.Factions;
 
 public class Utils {
 	public static int FactionCheck(EntityLiving entity, Faction faction) {
