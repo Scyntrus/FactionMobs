@@ -142,7 +142,7 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
 		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
 		FactionMobs.mustBeAtleast = config.getString("mustBeAtleast", FactionMobs.mustBeAtleast);
-		if(mustBeAtleast.equalsIgnoreCase("mod") mustBeAtleast = "Moderator";
+		if(mustBeAtleast.equalsIgnoreCase("mod")) mustBeAtleast = "Moderator";
 		
 		Archer.maxHp = (float) config.getDouble("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;
