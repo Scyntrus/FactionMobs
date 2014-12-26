@@ -40,7 +40,7 @@ displayMobFaction: true
 
 # Set the normal movement speed of the mobs (Recommend between .3 and .5, default .3)
 mobSpeed: .3
-a
+
 # Set the speed of the mobs when patroling (Recommend between .175 and .3, default .175)
 mobPatrolSpeed: .175
 
