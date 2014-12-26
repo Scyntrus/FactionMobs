@@ -21,9 +21,8 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.gmail.scyntrus.ifactions.Factions;
-import com.gmail.scyntrus.ifactions.UPlayer;
 import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.Factions;
 
 public class FmCommand implements CommandExecutor {
 
@@ -106,7 +105,7 @@ public class FmCommand implements CommandExecutor {
 					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
 				}
 				for (FactionMob fmob : FactionMobs.mobList) {
-					if (fmob.getFaction().getName().equals(UPlayer.getPlayerFaction(player).getName())) {
+					if (fmob.getFaction().getName().equals(Factions.getPlayerFaction(player).getName())) {
 						plugin.playerSelections.get(player.getName()).add(fmob);
 					}
 				}
@@ -134,13 +133,13 @@ public class FmCommand implements CommandExecutor {
                 }
 
 				Location loc = player.getLocation();
-				Faction playerfaction = UPlayer.getPlayerFaction(player);
+				Faction playerfaction = Factions.getPlayerFaction(player);
 				if (playerfaction == null || playerfaction.isNone()) {
 					player.sendMessage(ChatColor.RED + "You must be in a faction.");
 					return true;
 				}
 				
-				if (!UPlayer.getPlayerRank(player).isAtLeast(FactionMobs.minRankToSpawn)) {
+				if (!Factions.getPlayerRank(player).isAtLeast(FactionMobs.minRankToSpawn)) {
                     player.sendMessage(ChatColor.RED + "Your rank is too low.");
                     return true;
 				}
@@ -259,7 +258,7 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You do not have permission");
 					return true;
 				}
-				Faction playerfaction = UPlayer.getPlayerFaction(player);
+				Faction playerfaction = Factions.getPlayerFaction(player);
 				if (playerfaction.isNone()) {
 					player.sendMessage(ChatColor.RED + "You must be in a faction");
 					return true;
@@ -304,7 +303,7 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "Before giving orders, you must select mobs by right-clicking them");
 					return true;
 				} else {
-					String factionName = UPlayer.getPlayerFaction(player).getName();
+					String factionName = Factions.getPlayerFaction(player).getName();
 					List<FactionMob> selection = plugin.playerSelections.get(player.getName());
 					for (int i = selection.size()-1; i >= 0; i--) {
 						if (!selection.get(i).getEntity().isAlive()

@@ -17,7 +17,6 @@ import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
-import com.gmail.scyntrus.ifactions.UPlayer;
 
 public class FmcCommand implements CommandExecutor {
 
@@ -78,7 +77,7 @@ public class FmcCommand implements CommandExecutor {
 					}
 				}
 				if (pNear == null) return true;
-				faction = UPlayer.getPlayerFaction(pNear);
+				faction = Factions.getPlayerFaction(pNear);
 			} else {
 				faction = Factions.getFactionByName(split[2],factionName);
 			}
