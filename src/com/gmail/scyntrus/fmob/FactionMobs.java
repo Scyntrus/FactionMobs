@@ -71,6 +71,7 @@ public class FactionMobs extends JavaPlugin {
 		config.options().copyDefaults(true);
 		this.saveConfig();
 		FactionMobs.silentErrors = config.getBoolean("silentErrors", FactionMobs.silentErrors);
+		Utils.initErrorStream();
 		
 		try {
 			Class.forName("org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity");

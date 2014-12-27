@@ -183,16 +183,19 @@ public class Utils {
 	    handleError(message, e);
 	}
 	
+	public static void initErrorStream() {
+        if (errorStream == null) {
+            try {
+                errorStream = new PrintWriter(new BufferedWriter(new FileWriter(new File(FactionMobs.instance.getDataFolder(), "error.log"))));
+            } catch (IOException e1) {
+            }
+        }
+	}
+	
 	public static void handleError(String message) {
 	    if (message == null)
 	        return;
         FactionMobs.instance.getServer().getConsoleSender().sendMessage("§c[FactionMobs] " + message);
-        if (errorStream == null) {
-            try {
-                errorStream = new PrintWriter(new BufferedWriter(new FileWriter("myfile.txt", true)));
-            } catch (IOException e1) {
-            }
-        }
         if (errorStream != null) {
             errorStream.println(message);
             errorStream.flush();
@@ -204,12 +207,6 @@ public class Utils {
             return;
         if (!FactionMobs.silentErrors) {
             e.printStackTrace();
-        }
-        if (errorStream == null) {
-            try {
-                errorStream = new PrintWriter(new BufferedWriter(new FileWriter("myfile.txt", true)));
-            } catch (IOException e1) {
-            }
         }
         if (errorStream != null) {
             errorStream.println(e.getLocalizedMessage());
