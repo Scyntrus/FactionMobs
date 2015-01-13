@@ -53,6 +53,6 @@ public class Faction2 extends Faction {
 	@Override
 	public boolean monstersNotAllowed() {
 		if (faction == null) return false;
-		return !faction.getFlag(com.massivecraft.factions.FFlag.MONSTERS);
+		return !faction.getFlag(com.massivecraft.factions.entity.MFlag.ID_MONSTERS);
 	}
 }
