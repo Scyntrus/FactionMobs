@@ -58,6 +58,7 @@ public class FactionMobs extends JavaPlugin {
 	public static boolean scheduleChunkMobLoad = false;
 	public static int chunkMobLoadTask = -1;
 	public static boolean feedEnabled = true;
+	public static int feedItem = 260;
 	public static float feedAmount = 5;
 	public static boolean silentErrors = true;
 	private static String minRankToSpawnStr = "MEMBER";
@@ -141,6 +142,7 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.mobPatrolSpeed = FactionMobs.mobPatrolSpeed / FactionMobs.mobSpeed;
 		FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
 		FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
+		FactionMobs.feedItem = config.getInt("feedItem", FactionMobs.feedItem);
 		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
 		FactionMobs.minRankToSpawnStr = config.getString("mustBeAtleast", FactionMobs.minRankToSpawnStr);
 		FactionMobs.minRankToSpawn = FRank.getByName(FactionMobs.minRankToSpawnStr);

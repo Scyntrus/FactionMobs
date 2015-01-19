@@ -29,6 +29,9 @@ alertAllies: true
 # Enabling this option will allow players to heal their mobs for a set amount of health
 # by right clicking them with an apple
 feedEnabled: true
+# Id of item used to feed, default 260 (apple)
+feedItem: 260
+# Amount of health restored
 feedAmount: 5
 
 # Set the maximum number of mobs a faction can spawn, regardless of power

@@ -106,6 +106,7 @@ public class EntityListener implements Listener {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEntityEvent e) {
 		if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
@@ -137,7 +138,7 @@ public class EntityListener implements Listener {
 			}
 			fmob.updateMob();
 			if (FactionMobs.feedEnabled) {
-				if (player.getItemInHand().getType() == Material.APPLE) {
+				if (player.getItemInHand().getType() == Material.getMaterial(FactionMobs.feedItem)) {
 					player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
 					float iHp = fmob.getEntity().getHealth();
 					fmob.getEntity().setHealth(fmob.getEntity().getHealth() + FactionMobs.feedAmount);
@@ -161,8 +162,7 @@ public class EntityListener implements Listener {
         	}
         }, 1L);
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof CraftLivingEntity)) return;
@@ -271,7 +271,6 @@ public class EntityListener implements Listener {
 	}
 
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e) {
 		EntityDamageEvent lastDamage = e.getEntity().getLastDamageCause();
@@ -329,7 +328,6 @@ public class EntityListener implements Listener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler(ignoreCancelled = true)
 	public void onPotionSplash(PotionSplashEvent e) {
 		if (e.getPotion().getShooter() == null) return;
