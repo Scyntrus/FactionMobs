@@ -1,5 +1,7 @@
 package com.gmail.scyntrus.ifactions;
 
+import java.lang.reflect.Method;
+
 import com.gmail.scyntrus.fmob.Utils;
 
 public class Faction6 extends Faction {
@@ -11,14 +13,29 @@ public class Faction6 extends Faction {
 	}
 	
 	public Faction6 (Object faction) {
-		this.faction = (com.massivecraft.factions.Faction) faction;
+		this((com.massivecraft.factions.Faction) faction);
 	}
 	
+	public static boolean init() {
+	    try {
+            getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", new Class<?>[]{com.massivecraft.factions.iface.RelationParticipator.class});
+	        isNone = com.massivecraft.factions.Faction.class.getMethod("isNone");
+            getTag = com.massivecraft.factions.Faction.class.getMethod("getTag");
+            getPower = com.massivecraft.factions.Faction.class.getMethod("getPower");
+            noMonstersInTerritory = com.massivecraft.factions.Faction.class.getMethod("noMonstersInTerritory");
+            return true;
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+	    return false;
+	}
+
+    public static Method getRelationTo;
 	@Override
 	public int getRelationTo(Faction other) {
 		if (faction == null || isNone()) return 0;
 		try {
-    		Object rel = faction.getRelationTo(((Faction6)other).faction);
+            Object rel = getRelationTo.invoke(faction, ((Faction6)other).faction);
     		if (rel.equals(com.massivecraft.factions.struct.Relation.ENEMY)) {
     			return -1;
     		} else if (rel.equals(com.massivecraft.factions.struct.Relation.NEUTRAL)) {
@@ -32,27 +49,51 @@ public class Faction6 extends Faction {
 		return 0;
 	}
 
+	private static Method isNone;
 	@Override
 	public boolean isNone() {
-		if (faction == null || faction.detached()) return true;
-		return faction.isNone();
+	    try {
+	        if (faction == null) return true;
+	        return (Boolean) isNone.invoke(faction);
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+	    return true;
 	}
 
+    private static Method getTag;
 	@Override
 	public String getName() {
-		if (faction == null) return "";
-		return faction.getTag();
+        try {
+            if (faction == null) return "";
+            return (String) getTag.invoke(faction);
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+        return "";
 	}
 
+    private static Method getPower;
 	@Override
 	public double getPower() {
-		if (faction == null) return 0;
-		return faction.getPower();
+        try {
+            if (faction == null) return 0;
+            return (Double) getPower.invoke(faction);
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+        return 0;
 	}
 
+    private static Method noMonstersInTerritory;
 	@Override
 	public boolean monstersNotAllowed() {
-		if (faction == null) return false;
-		return faction.noMonstersInTerritory();
+        try {
+            if (faction == null) return false;
+            return (Boolean) noMonstersInTerritory.invoke(faction);
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+        return false;
 	}
 }

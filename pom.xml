@@ -1,6 +1,125 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>FactionMobs</groupId>
-  <artifactId>FactionMobs</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.gmail.scyntrus</groupId>
+	<artifactId>FactionMobs</artifactId>
+	<version>2.8.3</version>
+	<packaging>jar</packaging>
+	<name>FactionMobs</name>
+	<properties>
+		<craftbukkit.version>1.8-R0.1-SNAPSHOT</craftbukkit.version>
+		<factions.version>2.7.5</factions.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+		<defaultGoal>clean package</defaultGoal>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>plugin.yml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>config.yml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>README.md</include>
+					<include>LICENSE.md</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
+			<version>${craftbukkit.version}</version>
+			<!-- http://tcpr.ca/bukkit -->
+<!--
+			<systemPath>${basedir}/lib/bukkit-1.8-R0.1-SNAPSHOT-b5.jar</systemPath>
+			<scope>system</scope>
+ -->
+		</dependency>
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
+			<version>${craftbukkit.version}</version>
+			<!-- http://tcpr.ca/craftbukkit -->
+<!--
+			<systemPath>${basedir}/lib/craftbukkit-1.8-R0.1-SNAPSHOT-b5.jar</systemPath>
+	 		<scope>system</scope>
+ -->
+		</dependency>
+		<dependency>
+			<groupId>com.massivecraft</groupId>
+			<artifactId>Factions</artifactId>
+			<version>${factions.version}</version>
+			<!-- http://dev.bukkit.org/bukkit-plugins/factions/files/ -->
+			<systemPath>${basedir}/lib/Factions-${factions.version}.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.massivecraft</groupId>
+			<artifactId>MassiveCore</artifactId>
+			<version>${factions.version}</version>
+			<!-- http://dev.bukkit.org/bukkit-plugins/mcore/files/ -->
+			<systemPath>${basedir}/lib/MassiveCore-${factions.version}.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.massivecraft</groupId>
+			<artifactId>Factions1.6</artifactId>
+			<version>1.6.9.5</version>
+			<!-- http://dev.bukkit.org/bukkit-plugins/factions/files/52/ -->
+			<systemPath>${basedir}/lib/Factions-1.6.9.5.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.massivecraft</groupId>
+			<artifactId>Factions1.8</artifactId>
+			<version>1.8.2</version>
+			<!-- http://dev.bukkit.org/bukkit-plugins/factions/files/53/ -->
+			<systemPath>${basedir}/lib/Factions-1.8.2.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.daboross.vault</groupId>
+			<artifactId>vault-api</artifactId>
+			<version>LATEST</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>repo-daboross-net</id>
+			<url>http://repo.daboross.net/</url>
+		</repository>
+        <repository>
+            <id>bukkit-repo</id>
+            <url>http://repo.bukkit.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>repo.mikeprimm.com</id>
+            <url>http://repo.mikeprimm.com/</url>
+        </repository>
+	</repositories>
 </project>

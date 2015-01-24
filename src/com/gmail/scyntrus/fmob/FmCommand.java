@@ -215,8 +215,8 @@ public class FmCommand implements CommandExecutor {
 					}
 					
 					if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
-						if (plugin.econ.has(player.getName(), newMob.getMoneyCost())) {
-				            EconomyResponse r = plugin.econ.withdrawPlayer(player.getName(), newMob.getMoneyCost());
+						if (plugin.econ.has(player, newMob.getMoneyCost())) {
+				            EconomyResponse r = plugin.econ.withdrawPlayer(player, newMob.getMoneyCost());
 				            if(r.transactionSuccess()) {
 				            	player.sendMessage(String.format("You paid %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
 				            } else {
@@ -242,7 +242,7 @@ public class FmCommand implements CommandExecutor {
 					}
 					if (!player.hasPermission("fmob.bypass")) {
 						if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
-				            EconomyResponse r = plugin.econ.depositPlayer(player.getName(), newMob.getMoneyCost());
+				            EconomyResponse r = plugin.econ.depositPlayer(player, newMob.getMoneyCost());
 				            if(r.transactionSuccess()) {
 				            	player.sendMessage(String.format("You have been refunded %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
 				            } else {
@@ -357,7 +357,7 @@ public class FmCommand implements CommandExecutor {
 					}
 					plugin.mobLeader.remove(player.getName());
 					@SuppressWarnings("deprecation")
-					Block block = player.getTargetBlock(null, 64);
+                    Block block = player.getTargetBlock(null, 64);
 					if (block == null) {
 						player.sendMessage(ChatColor.RED + "You must be pointing at a block");
 						return true;

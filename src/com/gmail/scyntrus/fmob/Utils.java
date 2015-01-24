@@ -180,7 +180,8 @@ public class Utils {
 	private static PrintWriter errorStream;
 	
 	public static void handleError(String message, Exception e) {
-	    handleError(message, e);
+	    handleError(message);
+        handleError(e);
 	}
 	
 	public static void initErrorStream() {
@@ -192,10 +193,11 @@ public class Utils {
         }
 	}
 	
+	private static final char colorChar = Character.toChars(167)[0];
 	public static void handleError(String message) {
 	    if (message == null)
 	        return;
-        FactionMobs.instance.getServer().getConsoleSender().sendMessage("§c[FactionMobs] " + message);
+        FactionMobs.instance.getServer().getConsoleSender().sendMessage(colorChar + "c[FactionMobs] " + message);
         if (errorStream != null) {
             errorStream.println(message);
             errorStream.flush();
@@ -209,7 +211,7 @@ public class Utils {
             e.printStackTrace();
         }
         if (errorStream != null) {
-            errorStream.println(e.getLocalizedMessage());
+            e.printStackTrace(errorStream);
             errorStream.flush();
         }
 	}

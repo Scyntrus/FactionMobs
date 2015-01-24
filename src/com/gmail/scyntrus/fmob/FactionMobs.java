@@ -64,8 +64,7 @@ public class FactionMobs extends JavaPlugin {
 	private static String minRankToSpawnStr = "MEMBER";
 	public static FRank minRankToSpawn;
 	
-	@SuppressWarnings("unchecked")
-	public void onEnable() {
+    public void onEnable() {
 		FactionMobs.instance = this;
 		this.saveDefaultConfig();
 		FileConfiguration config = this.getConfig();
@@ -218,7 +217,9 @@ public class FactionMobs extends JavaPlugin {
 			try {
 				FileInputStream fileInputStream = new FileInputStream(colorFile);
 				ObjectInputStream oInputStream = new ObjectInputStream(fileInputStream);
-				FactionMobs.factionColors = (HashMap<String, Integer>) oInputStream.readObject();
+			    @SuppressWarnings("unchecked")
+			    HashMap<String, Integer> colorMap = (HashMap<String, Integer>) oInputStream.readObject();
+				FactionMobs.factionColors = colorMap;
 				oInputStream.close();
 				fileInputStream.close();
 			} catch (Exception e) {
@@ -256,8 +257,8 @@ public class FactionMobs extends JavaPlugin {
 		chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void addEntityType(Class paramClass, String paramString, int paramInt) {
+	@SuppressWarnings("unchecked")
+    private void addEntityType(Class<?> paramClass, String paramString, int paramInt) {
 		ReflectionManager.mapC.put(paramString, paramClass);
 		ReflectionManager.mapD.put(paramClass, paramString);
 		ReflectionManager.mapF.put(paramClass, Integer.valueOf(paramInt));
@@ -266,11 +267,13 @@ public class FactionMobs extends JavaPlugin {
 	
 	private void runMetrics() {
 		try {
+		    String factionsVersion = this.getServer().getPluginManager().getPlugin("Factions").getDescription().getVersion();
+		    String factionMobsVersion = this.getServer().getPluginManager().getPlugin("FactionMobs").getDescription().getVersion();
 			Metrics metrics = new Metrics(this);
 
 			Graph versionGraph = metrics.createGraph("Factions Version");
 
-			versionGraph.addPlotter(new Metrics.Plotter(this.getServer().getPluginManager().getPlugin("Factions").getDescription().getVersion()) {
+			versionGraph.addPlotter(new Metrics.Plotter(factionsVersion) {
 
 				@Override
 				public int getValue() {
@@ -278,6 +281,17 @@ public class FactionMobs extends JavaPlugin {
 				}
 
 			});
+
+            Graph versionComboGraph = metrics.createGraph("Version Combination");
+
+            versionComboGraph.addPlotter(new Metrics.Plotter(factionMobsVersion+":"+factionsVersion) {
+
+                @Override
+                public int getValue() {
+                    return 1;
+                }
+
+            });
 
 			metrics.start();
 		} catch (IOException e) {
@@ -299,7 +313,7 @@ public class FactionMobs extends JavaPlugin {
 		if (file.exists()) {
 			YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
 			@SuppressWarnings("unchecked")
-			List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
+            List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
 			for (List<String> mobData : save) {
 				FactionMob newMob = null;
 				if (mobData.size() < 10) {

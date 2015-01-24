@@ -106,7 +106,6 @@ public class EntityListener implements Listener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEntityEvent e) {
 		if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
@@ -138,7 +137,9 @@ public class EntityListener implements Listener {
 			}
 			fmob.updateMob();
 			if (FactionMobs.feedEnabled) {
-				if (player.getItemInHand().getType() == Material.getMaterial(FactionMobs.feedItem)) {
+			    @SuppressWarnings("deprecation")
+                Material mat = Material.getMaterial(FactionMobs.feedItem);
+				if (player.getItemInHand().getType() == mat) {
 					player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
 					float iHp = fmob.getEntity().getHealth();
 					fmob.getEntity().setHealth(fmob.getEntity().getHealth() + FactionMobs.feedAmount);
@@ -148,13 +149,14 @@ public class EntityListener implements Listener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {
 		if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
 			((FactionMob) ((CraftEntity) e.getEntity()).getHandle()).forceDie();
 			e.getDrops().clear();
-			e.getDrops().add(new ItemStack(((FactionMob) ((CraftEntity) e.getEntity()).getHandle()).getDrops()));
+			@SuppressWarnings("deprecation")
+            ItemStack item = new ItemStack(((FactionMob) ((CraftEntity) e.getEntity()).getHandle()).getDrops());
+			e.getDrops().add(item);
 		}
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
         	public void run() {
