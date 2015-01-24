@@ -103,8 +103,10 @@ public class Factions {
 			fPlayersInstanceField = com.massivecraft.factions.FPlayers.class.getDeclaredField("i");
 		} catch (Exception e1) {
 	        try {
+	            // New Factions 1.6-UUID with Interfaces instead of Classes
 	            factionsInstanceField = com.massivecraft.factions.Factions.class.getDeclaredField("instance");
 	            fPlayersInstanceField = com.massivecraft.factions.FPlayers.class.getDeclaredField("instance");
+	            boardInstance = com.massivecraft.factions.Board.class.getMethod("getInstance").invoke(null); 
 	        } catch (Exception e2) {
 	            Utils.handleError(e1);
                 Utils.handleError(e2);
@@ -119,6 +121,7 @@ public class Factions {
             fPlayersInstance = (FPlayers) fPlayersInstanceField.get(null);
             fPlayerGetFactionMethod = Class.forName("com.massivecraft.factions.FPlayer").getMethod("getFaction");
             fPlayerGetRoleMethod = Class.forName("com.massivecraft.factions.FPlayer").getMethod("getRole");
+            boardGetFactionAt = com.massivecraft.factions.Board.class.getMethod("getFactionAt", new Class<?>[]{com.massivecraft.factions.FLocation.class}); 
 		} catch (Exception e3) {
             Utils.handleError(e3);
             return false;
@@ -165,11 +168,19 @@ public class Factions {
 		return null;
 	}
 	
+	private static Object boardInstance = null;
+	private static Method boardGetFactionAt;
 	public static Faction getFactionAt(Location loc) {
 		if (factionsVersion == 2) {
 			return new Faction2(com.massivecraft.factions.entity.BoardColl.get().getFactionAt(com.massivecraft.massivecore.ps.PS.valueOf(loc)));
 		} else if (factionsVersion == 6) {
-			return new Faction6(com.massivecraft.factions.Board.getFactionAt(new com.massivecraft.factions.FLocation(loc)));
+		    try {
+                Object f = boardGetFactionAt.invoke(boardInstance, new com.massivecraft.factions.FLocation(loc));
+                return new Faction6(f);
+            } catch (Exception e) {
+                Utils.handleError(e);
+            }
+            return null;
 		} else if (factionsVersion == 8) {
 			return new Faction8(com.massivecraft.factions.Board.getFactionAt(new com.massivecraft.factions.FLocation(loc)));
 		}
