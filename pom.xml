@@ -10,6 +10,7 @@
 		<craftbukkit.version>1.8-R0.1-SNAPSHOT</craftbukkit.version>
 		<factions.version>2.7.5</factions.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    	<skipTests>true</skipTests>
 	</properties>
 	<build>
 		<defaultGoal>clean package</defaultGoal>
