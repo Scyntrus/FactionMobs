@@ -1,10 +1,11 @@
-package com.gmail.scyntrus.ifactions;
+package com.gmail.scyntrus.ifactions.f8;
 
 import java.lang.reflect.Method;
 
 import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.ifactions.Faction;
 
-public class Faction8 extends Faction {
+class Faction8 extends Faction {
 
 	public static Method getRelationTo;
 	public static Method getFlag;

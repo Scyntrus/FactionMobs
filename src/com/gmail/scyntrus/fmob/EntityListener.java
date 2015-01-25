@@ -42,7 +42,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class EntityListener implements Listener {
 	
@@ -117,7 +117,7 @@ public class EntityListener implements Listener {
 			player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s", 
 					ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED, 
 					fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth()));
-			if (player.hasPermission("fmob.order") && Factions.getPlayerFaction(player).equals(fmob.getFaction())) {
+			if (player.hasPermission("fmob.order") && FactionsManager.getPlayerFaction(player).equals(fmob.getFaction())) {
 				if (!plugin.playerSelections.containsKey(player.getName())) {
 					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
 				}
@@ -214,8 +214,8 @@ public class EntityListener implements Listener {
 				&& (entity.getHandle() instanceof FactionMob)) {
 			FactionMob fmob = (FactionMob) entity.getHandle();
 			Player player = (Player) damager;
-			if (Utils.FactionCheck(fmob.getEntity(), Factions.getPlayerFaction(player)) >= 1) {
-				if (fmob.getFaction().equals(Factions.getPlayerFaction(player))) {
+			if (Utils.FactionCheck(fmob.getEntity(), FactionsManager.getPlayerFaction(player)) >= 1) {
+				if (fmob.getFaction().equals(FactionsManager.getPlayerFaction(player))) {
 					if (FactionMobs.noPlayerFriendlyFire) {
 						player.sendMessage(String.format("%sYou cannot hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
 						e.setCancelled(true);
@@ -249,7 +249,7 @@ public class EntityListener implements Listener {
 				}
 			}
 		} else if (entity instanceof Player) {
-			Faction faction = Factions.getPlayerFaction((Player) entity);
+			Faction faction = FactionsManager.getPlayerFaction((Player) entity);
 			if (faction.isNone()) return;
 			List<org.bukkit.entity.Entity> aoeList = entity.getNearbyEntities(8, 8, 8);
 			for (org.bukkit.entity.Entity nearEntity : aoeList) {

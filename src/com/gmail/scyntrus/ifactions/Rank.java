@@ -1,6 +1,6 @@
 package com.gmail.scyntrus.ifactions;
 
-public enum FRank {
+public enum Rank {
 
     LEADER(5),
     OFFICER(4),
@@ -9,15 +9,15 @@ public enum FRank {
     
     private int rankVal; 
     
-    private FRank(int rankVal) {
+    private Rank(int rankVal) {
         this.rankVal = rankVal;
     }
     
-    public boolean isAtLeast(FRank rank) {
+    public boolean isAtLeast(Rank rank) {
         return rank.rankVal <= this.rankVal;
     }
     
-    public static FRank getByName(String name) {
+    public static Rank getByName(String name) {
         name = name.toUpperCase();
         if (name.equals("NORMAL"))
             name = "MEMBER";
@@ -26,9 +26,9 @@ public enum FRank {
         else if (name.equals("ADMIN"))
             name = "LEADER";
         try {
-            return FRank.valueOf(name);
+            return Rank.valueOf(name);
         } catch (IllegalArgumentException  e) {
-            return FRank.MEMBER;
+            return Rank.MEMBER;
         }
     }
 }

@@ -25,9 +25,9 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.gmail.scyntrus.ifactions.FRank;
+import com.gmail.scyntrus.ifactions.Rank;
 import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class FactionMobs extends JavaPlugin {
 	
@@ -62,7 +62,7 @@ public class FactionMobs extends JavaPlugin {
 	public static float feedAmount = 5;
 	public static boolean silentErrors = true;
 	private static String minRankToSpawnStr = "MEMBER";
-	public static FRank minRankToSpawn;
+	public static Rank minRankToSpawn;
 	
     public void onEnable() {
 		FactionMobs.instance = this;
@@ -97,7 +97,7 @@ public class FactionMobs extends JavaPlugin {
 		
 		Utils.copyDefaultConfig();
 		
-		if (!Factions.init(this.getName())) {
+		if (!FactionsManager.init(this.getName())) {
             Utils.handleError("You are running an unsupported version of Factions. Please contact the plugin author for more info.", null);
 			this.getCommand("fm").setExecutor(new ErrorCommand(this));
 			this.getCommand("fmc").setExecutor(new ErrorCommand(this));
@@ -144,7 +144,7 @@ public class FactionMobs extends JavaPlugin {
 		FactionMobs.feedItem = config.getInt("feedItem", FactionMobs.feedItem);
 		FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
 		FactionMobs.minRankToSpawnStr = config.getString("mustBeAtleast", FactionMobs.minRankToSpawnStr);
-		FactionMobs.minRankToSpawn = FRank.getByName(FactionMobs.minRankToSpawnStr);
+		FactionMobs.minRankToSpawn = Rank.getByName(FactionMobs.minRankToSpawnStr);
 		
 		Archer.maxHp = (float) config.getDouble("Archer.maxHp", Archer.maxHp);
 		if (Archer.maxHp<1) Archer.maxHp = 1;
@@ -206,16 +206,21 @@ public class FactionMobs extends JavaPlugin {
 		this.pm.registerEvents(new EntityListener(this), this);
 		this.pm.registerEvents(new CommandListener(this), this);
 		
-		if (Factions.factionsVersion == 2) {
-			this.pm.registerEvents(new FactionListener2(this), this);
-		} else if (Factions.factionsVersion == 6 || Factions.factionsVersion == 8) {
-			this.pm.registerEvents(new FactionListener68(this), this);
+		switch (FactionsManager.getFactionsVersion()) {
+		    case 2:
+	            this.pm.registerEvents(new FactionListener2(this), this);
+	            break;
+		    case 6:
+		    case 62:
+		    case 8:
+	            this.pm.registerEvents(new FactionListener68(this), this);
 		}
 		
 		File colorFile = new File(getDataFolder(), "colors.dat");
 		if (colorFile.exists()){
+		    FileInputStream fileInputStream = null;
 			try {
-				FileInputStream fileInputStream = new FileInputStream(colorFile);
+				fileInputStream = new FileInputStream(colorFile);
 				ObjectInputStream oInputStream = new ObjectInputStream(fileInputStream);
 			    @SuppressWarnings("unchecked")
 			    HashMap<String, Integer> colorMap = (HashMap<String, Integer>) oInputStream.readObject();
@@ -327,7 +332,7 @@ public class FactionMobs extends JavaPlugin {
 					backup = true;
 					continue;
 				}
-				Faction faction = Factions.getFactionByName(mobData.get(1),mobData.get(2));
+				Faction faction = FactionsManager.getFactionByName(mobData.get(2));
 				if (faction == null || faction.isNone()) {
 					System.out.println("Factionless Faction Mob found and removed. Did you delete a Faction?");
 					backup = true;

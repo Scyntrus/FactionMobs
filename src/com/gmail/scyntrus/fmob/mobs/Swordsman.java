@@ -39,7 +39,7 @@ import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class Swordsman extends EntitySkeleton implements FactionMob {
 	
@@ -280,7 +280,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	@Override
 	public Faction getFaction() {
 		if (this.faction == null) {
-			this.setFaction(Factions.getFactionByName(this.world.getWorldData().getName(),factionName));
+			this.setFaction(FactionsManager.getFactionByName(factionName));
 		}
 		if (this.faction == null) {
 			this.forceDie();
@@ -324,7 +324,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 	
 	@Override
 	public void updateMob() {
-		this.setFaction(Factions.getFactionByName(this.world.getWorldData().getName(),factionName));
+		this.setFaction(FactionsManager.getFactionByName(factionName));
 		if (this.faction == null || this.faction.isNone()) {
 			this.forceDie();
 			return;

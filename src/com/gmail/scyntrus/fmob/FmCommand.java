@@ -22,7 +22,7 @@ import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class FmCommand implements CommandExecutor {
 
@@ -105,7 +105,7 @@ public class FmCommand implements CommandExecutor {
 					plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
 				}
 				for (FactionMob fmob : FactionMobs.mobList) {
-					if (fmob.getFaction().getName().equals(Factions.getPlayerFaction(player).getName())) {
+					if (fmob.getFaction().getName().equals(FactionsManager.getPlayerFaction(player).getName())) {
 						plugin.playerSelections.get(player.getName()).add(fmob);
 					}
 				}
@@ -133,19 +133,19 @@ public class FmCommand implements CommandExecutor {
                 }
 
 				Location loc = player.getLocation();
-				Faction playerfaction = Factions.getPlayerFaction(player);
+				Faction playerfaction = FactionsManager.getPlayerFaction(player);
 				if (playerfaction == null || playerfaction.isNone()) {
 					player.sendMessage(ChatColor.RED + "You must be in a faction.");
 					return true;
 				}
 				
-				if (!Factions.getPlayerRank(player).isAtLeast(FactionMobs.minRankToSpawn)) {
+				if (!FactionsManager.getPlayerRank(player).isAtLeast(FactionMobs.minRankToSpawn)) {
                     player.sendMessage(ChatColor.RED + "Your rank is too low.");
                     return true;
 				}
 				
 				if (!player.hasPermission("fmob.bypass")) {
-					Faction areafaction = Factions.getFactionAt(loc);
+					Faction areafaction = FactionsManager.getFactionAt(loc);
 					if (!playerfaction.getName().equals(areafaction.getName())) {
 						player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
 						return true;
@@ -258,7 +258,7 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You do not have permission");
 					return true;
 				}
-				Faction playerfaction = Factions.getPlayerFaction(player);
+				Faction playerfaction = FactionsManager.getPlayerFaction(player);
 				if (playerfaction.isNone()) {
 					player.sendMessage(ChatColor.RED + "You must be in a faction");
 					return true;
@@ -302,7 +302,7 @@ public class FmCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "Before giving orders, you must select mobs by right-clicking them");
 					return true;
 				} else {
-					String factionName = Factions.getPlayerFaction(player).getName();
+					String factionName = FactionsManager.getPlayerFaction(player).getName();
 					List<FactionMob> selection = plugin.playerSelections.get(player.getName());
 					for (int i = selection.size()-1; i >= 0; i--) {
 						if (!selection.get(i).getEntity().isAlive()

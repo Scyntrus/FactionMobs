@@ -24,7 +24,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class Utils {
 	public static int FactionCheck(EntityLiving entity, Faction faction) {
@@ -36,7 +36,7 @@ public class Utils {
 		if (entity instanceof EntityPlayer) {
 			Player player = ((EntityPlayer)entity).getBukkitEntity();
 			if (player.getGameMode() == GameMode.CREATIVE) return 1;
-			return Factions.getPlayerFaction(player).getRelationTo(faction);
+			return FactionsManager.getPlayerFaction(player).getRelationTo(faction);
 		} else if (entity instanceof FactionMob) {
 			FactionMob fmob = (FactionMob) entity;
 			if (fmob.getFaction() == null) {

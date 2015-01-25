@@ -1,9 +1,10 @@
-package com.gmail.scyntrus.ifactions;
+package com.gmail.scyntrus.ifactions.f2;
 
 import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.ifactions.Faction;
 
-public class Faction2 extends Faction {
-	
+class Faction2 extends Faction {
+    
 	public com.massivecraft.factions.entity.Faction faction;
 
 	public Faction2 (com.massivecraft.factions.entity.Faction faction) {
