@@ -18,6 +18,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -218,6 +219,9 @@ public class FactionMobs extends JavaPlugin {
             case F16U:
             case F18:
                 this.pm.registerEvents(new FactionListener68(this), this);
+                break;
+            case TOWNY:
+                this.pm.registerEvents(new TownyListener(this), this);
         }
 
         File colorFile = new File(getDataFolder(), "colors.dat");
@@ -276,7 +280,13 @@ public class FactionMobs extends JavaPlugin {
 
     private void runMetrics() {
         try {
-            String factionsVersion = this.getServer().getPluginManager().getPlugin("Factions").getDescription().getVersion();
+            Plugin plugin = this.getServer().getPluginManager().getPlugin("Factions");
+            String factionsVersion = "";
+            if (plugin == null) {
+                plugin = this.getServer().getPluginManager().getPlugin("Towny");
+                factionsVersion = "T";
+            }
+            factionsVersion = factionsVersion + plugin.getDescription().getVersion();
             String factionMobsVersion = this.getServer().getPluginManager().getPlugin("FactionMobs").getDescription().getVersion();
             Metrics metrics = new Metrics(this);
 
@@ -303,7 +313,7 @@ public class FactionMobs extends JavaPlugin {
             });
 
             metrics.start();
-        } catch (IOException e) {
+        } catch (Exception e) {
             Utils.handleError("Metrics failed to start", e);
         }
     }

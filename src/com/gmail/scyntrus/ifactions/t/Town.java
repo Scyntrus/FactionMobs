@@ -4,34 +4,34 @@ import com.gmail.scyntrus.ifactions.Faction;
 
 class Town extends Faction {
 
-    public com.palmergames.bukkit.towny.object.Town faction;
+    public com.palmergames.bukkit.towny.object.Town town;
 
     public Town (com.palmergames.bukkit.towny.object.Town faction) {
-        this.faction = faction;
+        this.town = faction;
     }
 
     public Town (Object faction) {
-        this.faction = (com.palmergames.bukkit.towny.object.Town) faction;
+        this.town = (com.palmergames.bukkit.towny.object.Town) faction;
     }
 
     @Override
     public int getRelationTo(Faction other) {
-        if (faction == null || isNone()) return 0;
-        if (faction.equals(other)) return 1;
-        if (!faction.hasNation()) return 0;
+        if (town == null || isNone()) return 0;
+        if (town.equals(other)) return 1;
+        if (!town.hasNation()) return 0;
         com.palmergames.bukkit.towny.object.Nation nation = null;
         try {
-            nation = faction.getNation();
+            nation = town.getNation();
         } catch (com.palmergames.bukkit.towny.exceptions.NotRegisteredException e) {
             return 0;
         }
         if (nation == null) return 0;
         Town otherTown = (Town)other;
-        if (nation.hasTown(otherTown.faction)) return 1;
-        if (!otherTown.faction.hasNation()) return 0;
+        if (nation.hasTown(otherTown.town)) return 1;
+        if (!otherTown.town.hasNation()) return 0;
         com.palmergames.bukkit.towny.object.Nation otherNation = null;
         try {
-            otherNation = otherTown.faction.getNation();
+            otherNation = otherTown.town.getNation();
         } catch (com.palmergames.bukkit.towny.exceptions.NotRegisteredException e) {
             return 0;
         }
@@ -48,24 +48,24 @@ class Town extends Faction {
 
     @Override
     public boolean isNone() {
-        return (faction == null);
+        return (town == null);
     }
 
     @Override
     public String getName() {
-        if (faction == null) return "";
-        return faction.getName();
+        if (town == null) return "";
+        return town.getName();
     }
 
     @Override
     public double getPower() {
-        if (faction == null) return 0;
-        return faction.getTotalBlocks();
+        if (town == null) return 0;
+        return town.getTotalBlocks();
     }
 
     @Override
     public boolean monstersNotAllowed() {
-        if (faction == null) return false;
-        return !(faction.getWorld().hasWorldMobs() && faction.hasMobs());
+        if (town == null) return false;
+        return !(town.getWorld().hasWorldMobs() && town.hasMobs());
     }
 }
