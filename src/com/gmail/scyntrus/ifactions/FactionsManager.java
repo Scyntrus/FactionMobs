@@ -13,11 +13,19 @@ import com.gmail.scyntrus.ifactions.f6u.Factions6U;
 import com.gmail.scyntrus.ifactions.f8.Factions8;
 
 public class FactionsManager {
+    
+    public static enum Version {
+        INVALID,
+        F16, // Factions 1.6 and old UUID
+        F16U, // new Factions 1.6-UUID
+        F18, // Factions 1.8
+        F2 // Factions 2
+    }
 
     private static boolean initialized = false;
     private static Method fPlayersGet;
     private static Factions instance;
-    private static int factionsVersion = 0;
+    private static Version factionsVersion = Version.INVALID;
 
     private static Method tryGetMethod(Class<?> c, String name, Class<?>... parameterTypes) {
         try {
@@ -36,58 +44,58 @@ public class FactionsManager {
         }
     }
 
-    public static int getFactionsVersion() {
+    public static Version getFactionsVersion() {
         return factionsVersion;
     }
 
-    private static int getFactionsVersion(String pluginName) {
+    private static Version getFactionsVersion(String pluginName) {
         StringBuilder log = new StringBuilder();
         log.append("\nSTART FactionMobs getFactionsVersion\n");
         if (classExists("com.massivecraft.factions.Rel")) {
             log.append("FOUND com.massivecraft.factions.Rel\n");
             System.out.println("["+pluginName+"] Factions 2 detected");
-            return 2; //Factions 2.x
+            return Version.F2; //Factions 2.x
         } else if (classExists("com.massivecraft.factions.struct.Rel")) {
             log.append("FOUND com.massivecraft.factions.struct.Rel\n");
             System.out.println("["+pluginName+"] Factions 1.8 detected. It is recommended you update to Factions 2.");
-            return 8; //Factions 1.8
+            return Version.F18; //Factions 1.8
         } else if (classExists("com.massivecraft.factions.struct.Relation")) {
             log.append("FOUND com.massivecraft.factions.struct.Relation\n");
             fPlayersGet = tryGetMethod(com.massivecraft.factions.FPlayers.class, "get", OfflinePlayer.class);
             if (fPlayersGet != null) {
                 log.append("FOUND com.massivecraft.factions.FPlayers.get(OfflinePlayer)\n");
                 System.out.println("["+pluginName+"] Factions 1.6-U detected");
-                return 6; //Factions 1.6-U old
+                return Version.F16; //Factions 1.6-U old
             }
             fPlayersGet = tryGetMethod(com.massivecraft.factions.FPlayers.class, "get", Player.class);
             if (fPlayersGet != null) {
                 log.append("FOUND com.massivecraft.factions.FPlayers.get(Player)\n");
                 System.out.println("["+pluginName+"] Factions 1.6 detected. It is recommended you update to Factions 2.");
-                return 6; //Factions 1.6
+                return Version.F16; //Factions 1.6
             }
             fPlayersGet = tryGetMethod(com.massivecraft.factions.FPlayers.class, "getByOfflinePlayer", OfflinePlayer.class);
             if (fPlayersGet != null) {
                 log.append("FOUND com.massivecraft.factions.FPlayers.getByOfflinePlayer(OfflinePlayer)\n");
                 System.out.println("["+pluginName+"] Factions 1.6-U detected. It is recommended you update to Factions 2.");
-                return 62; //Factions 1.6-U
+                return Version.F16U; //Factions 1.6-U
             }
         }
         Utils.handleError(log.toString());
         Utils.handleError("No compatible version of Factions detected. "+pluginName+" will not be enabled.");
-        return 0;
+        return Version.INVALID;
     }
 
     public static boolean init(String pluginName) {
         if (initialized) return true;
 
         factionsVersion = getFactionsVersion(pluginName);
-        if (factionsVersion == 2) {
+        if (factionsVersion == Version.F2) {
             instance = Factions2.get();
-        } else if (factionsVersion == 6) {
+        } else if (factionsVersion == Version.F16) {
             instance = Factions6.get(fPlayersGet);
-        } else if (factionsVersion == 62) {
+        } else if (factionsVersion == Version.F16U) {
             instance = Factions6U.get(fPlayersGet);
-        } else if (factionsVersion == 8) {
+        } else if (factionsVersion == Version.F18) {
             instance = Factions8.get();
         } else {
             return false;

@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_8_R1.Entity;
+
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,13 +23,14 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import org.mcstats.Metrics.Graph;
+
 import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.gmail.scyntrus.ifactions.Rank;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
+import com.gmail.scyntrus.ifactions.Rank;
 
 public class FactionMobs extends JavaPlugin {
 
@@ -208,12 +211,12 @@ public class FactionMobs extends JavaPlugin {
         this.pm.registerEvents(new CommandListener(this), this);
 
         switch (FactionsManager.getFactionsVersion()) {
-            case 2:
+            case F2:
                 this.pm.registerEvents(new FactionListener2(this), this);
                 break;
-            case 6:
-            case 62:
-            case 8:
+            case F16:
+            case F16U:
+            case F18:
                 this.pm.registerEvents(new FactionListener68(this), this);
         }
 
