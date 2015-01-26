@@ -43,13 +43,13 @@ import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class Mage extends EntityWitch implements FactionMob {
-	
+
+    public static final String typeName = "Mage";
 	public Location spawnLoc = null;
 	public Faction faction = null;
 	public String factionName = "";
     public EntityLiving attackedBy = null;
     public EntityLiving target = null;
-	public static String typeName = "Mage";
 	public static float maxHp = 20;
 	public static Boolean enabled = true;
 	public static double powerCost = 0;
