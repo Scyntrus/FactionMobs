@@ -117,7 +117,8 @@ public class EntityListener implements Listener {
             player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s",
                     ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED,
                     fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth()));
-            if (player.hasPermission("fmob.order") && FactionsManager.getPlayerFaction(player).equals(fmob.getFaction())) {
+            Faction playerFaction = FactionsManager.getPlayerFaction(player);
+            if (player.hasPermission("fmob.order") && playerFaction != null && playerFaction.equals(fmob.getFaction())) {
                 if (!plugin.playerSelections.containsKey(player.getName())) {
                     plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
                 }
@@ -251,7 +252,7 @@ public class EntityListener implements Listener {
             }
         } else if (entity instanceof Player) {
             Faction faction = FactionsManager.getPlayerFaction((Player) entity);
-            if (faction.isNone()) return;
+            if (faction == null || faction.isNone()) return;
             List<org.bukkit.entity.Entity> aoeList = entity.getNearbyEntities(8, 8, 8);
             for (org.bukkit.entity.Entity nearEntity : aoeList) {
                 if (((CraftEntity) nearEntity).getHandle() instanceof FactionMob) {

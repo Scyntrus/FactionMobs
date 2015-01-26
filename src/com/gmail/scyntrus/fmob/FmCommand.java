@@ -105,7 +105,8 @@ public class FmCommand implements CommandExecutor {
                     plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
                 }
                 for (FactionMob fmob : FactionMobs.mobList) {
-                    if (fmob.getFaction().getName().equals(FactionsManager.getPlayerFaction(player).getName())) {
+                    Faction playerFaction = FactionsManager.getPlayerFaction(player);
+                    if (playerFaction != null && fmob.getFaction().getName().equals(playerFaction.getName())) {
                         plugin.playerSelections.get(player.getName()).add(fmob);
                     }
                 }
@@ -146,7 +147,7 @@ public class FmCommand implements CommandExecutor {
 
                 if (!player.hasPermission("fmob.bypass")) {
                     Faction areafaction = FactionsManager.getFactionAt(loc);
-                    if (!playerfaction.getName().equals(areafaction.getName())) {
+                    if (areafaction == null || !playerfaction.getName().equals(areafaction.getName())) {
                         player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
                         return true;
                     }
@@ -259,7 +260,7 @@ public class FmCommand implements CommandExecutor {
                     return true;
                 }
                 Faction playerfaction = FactionsManager.getPlayerFaction(player);
-                if (playerfaction.isNone()) {
+                if (playerfaction == null || playerfaction.isNone()) {
                     player.sendMessage(ChatColor.RED + "You must be in a faction");
                     return true;
                 }
@@ -302,7 +303,13 @@ public class FmCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "Before giving orders, you must select mobs by right-clicking them");
                     return true;
                 } else {
-                    String factionName = FactionsManager.getPlayerFaction(player).getName();
+                    Faction playerFaction = FactionsManager.getPlayerFaction(player);
+                    if (playerFaction == null || playerFaction.isNone()) {
+                        plugin.playerSelections.remove(player.getName());
+                        player.sendMessage(ChatColor.RED + "You must be in a faction");
+                        return true;
+                    }
+                    String factionName = playerFaction.getName();
                     List<FactionMob> selection = plugin.playerSelections.get(player.getName());
                     for (int i = selection.size()-1; i >= 0; i--) {
                         if (!selection.get(i).getEntity().isAlive()

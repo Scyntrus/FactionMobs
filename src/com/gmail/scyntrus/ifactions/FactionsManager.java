@@ -19,7 +19,8 @@ public class FactionsManager {
         F16, // Factions 1.6 and old UUID
         F16U, // new Factions 1.6-UUID
         F18, // Factions 1.8
-        F2 // Factions 2
+        F2, // Factions 2
+        TOWNY // Towny
     }
 
     private static boolean initialized = false;
@@ -79,6 +80,10 @@ public class FactionsManager {
                 System.out.println("["+pluginName+"] Factions 1.6-U detected. It is recommended you update to Factions 2.");
                 return Version.F16U; //Factions 1.6-U
             }
+        } else if (classExists("com.palmergames.bukkit.towny.Towny")) {
+            log.append("FOUND com.palmergames.bukkit.towny.Towny\n");
+            System.out.println("["+pluginName+"] Towny detected. Towny support is highly experimental and ugly.");
+            return Version.TOWNY; //Towny
         }
         Utils.handleError(log.toString());
         Utils.handleError("No compatible version of Factions detected. "+pluginName+" will not be enabled.");
@@ -105,18 +110,22 @@ public class FactionsManager {
     }
 
     public static Faction getFactionByName(String name) {
-        return instance.getFactionByName(name);
+        Faction faction = instance.getFactionByName(name);
+        return faction != null ? faction : new NoneFaction();
     }
 
     public static Faction getFactionAt(Location loc) {
-        return instance.getFactionAt(loc);
+        Faction faction = instance.getFactionAt(loc);
+        return faction != null ? faction : new NoneFaction();
     }
 
     public static Faction getPlayerFaction(Player player) {
-        return instance.getPlayerFaction(player);
+        Faction faction = instance.getPlayerFaction(player);
+        return faction != null ? faction : new NoneFaction();
     }
 
     public static Rank getPlayerRank(Player player) {
-        return instance.getPlayerRank(player);
+        Rank rank = instance.getPlayerRank(player);
+        return rank != null ? rank : Rank.MEMBER;
     }
 }

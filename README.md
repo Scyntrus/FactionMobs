@@ -1,10 +1,11 @@
 Information can be found at
 http://dev.bukkit.org/server-mods/faction-mobs/
 
-This code requires the following External jars as Libraries:
-	CraftBukkit - http://dl.bukkit.org/downloads/craftbukkit/list/rb/
+This code uses the following External jars as Libraries:
+	CraftBukkit (fetched by Maven) - http://dl.bukkit.org/downloads/craftbukkit/list/rb/
 	Factions - http://dev.bukkit.org/server-mods/factions/
 	MCore (required for Factions) - http://dev.bukkit.org/server-mods/mcore/
-	Vault - http://dev.bukkit.org/server-mods/vault/
+	Towny - http://palmergames.com/towny/
+	Vault (fetched by Maven) - http://dev.bukkit.org/server-mods/vault/
 
 By default, the pom file is configure to look for these jars in the lib folder

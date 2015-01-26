@@ -102,6 +102,14 @@
 			<scope>system</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.palmergames</groupId>
+			<artifactId>Towny</artifactId>
+			<version>0.89.2.0</version>
+			<!-- http://palmergames.com/towny/ -->
+			<systemPath>${basedir}/lib/Towny-0.89.2.0.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+		<dependency>
 			<groupId>net.daboross.vault</groupId>
 			<artifactId>vault-api</artifactId>
 			<version>LATEST</version>
