@@ -92,6 +92,11 @@ public class Factions6U implements Factions {
     }
 
     @Override
+    public Faction getFactionFromNativeObject(Object nativeObject) {
+        return new Faction6U(nativeObject);
+    }
+
+    @Override
     public Rank getPlayerRank(Player player) {
         try {
             com.massivecraft.factions.struct.Role role6 = (com.massivecraft.factions.struct.Role) fPlayerGetRoleMethod.invoke(fPlayersGet.invoke(fPlayersInstance, player));

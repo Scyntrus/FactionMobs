@@ -54,6 +54,11 @@ public class Towny implements Factions {
     }
 
     @Override
+    public Faction getFactionFromNativeObject(Object nativeObject) {
+        return new Town(nativeObject);
+    }
+
+    @Override
     public Rank getPlayerRank(Player player) {
         try {
             if (com.palmergames.bukkit.towny.object.TownyUniverse.getDataSource().getResident(player.getName()).isMayor())

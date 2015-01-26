@@ -9,4 +9,5 @@ public interface Factions {
     public Faction getPlayerFaction(Player player);
     public Rank getPlayerRank(Player player);
     public boolean init();
+    public Faction getFactionFromNativeObject(Object nativeObject);
 }

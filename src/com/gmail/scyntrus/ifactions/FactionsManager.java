@@ -13,7 +13,7 @@ import com.gmail.scyntrus.ifactions.f6u.Factions6U;
 import com.gmail.scyntrus.ifactions.f8.Factions8;
 
 public class FactionsManager {
-    
+
     public static enum Version {
         INVALID,
         F16, // Factions 1.6 and old UUID
@@ -110,22 +110,52 @@ public class FactionsManager {
     }
 
     public static Faction getFactionByName(String name) {
-        Faction faction = instance.getFactionByName(name);
-        return faction != null ? faction : new NoneFaction();
+        try {
+            Faction faction = instance.getFactionByName(name);
+            return faction != null ? faction : new NoneFaction();
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+        return new NoneFaction();
     }
 
     public static Faction getFactionAt(Location loc) {
-        Faction faction = instance.getFactionAt(loc);
-        return faction != null ? faction : new NoneFaction();
+        try {
+            Faction faction = instance.getFactionAt(loc);
+            return faction != null ? faction : new NoneFaction();
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+        return new NoneFaction();
     }
 
     public static Faction getPlayerFaction(Player player) {
-        Faction faction = instance.getPlayerFaction(player);
-        return faction != null ? faction : new NoneFaction();
+        try {
+            Faction faction = instance.getPlayerFaction(player);
+            return faction != null ? faction : new NoneFaction();
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+        return new NoneFaction();
+    }
+
+    public static Faction getFactionFromNativeObject(Object nativeObject) {
+        try {
+            Faction faction = instance.getFactionFromNativeObject(nativeObject);
+            return faction != null ? faction : new NoneFaction();
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+        return new NoneFaction();
     }
 
     public static Rank getPlayerRank(Player player) {
-        Rank rank = instance.getPlayerRank(player);
-        return rank != null ? rank : Rank.MEMBER;
+        try {
+            Rank rank = instance.getPlayerRank(player);
+            return rank != null ? rank : Rank.MEMBER;
+        } catch (Exception e) {
+            Utils.handleError(e);
+        }
+        return Rank.MEMBER;
     }
 }

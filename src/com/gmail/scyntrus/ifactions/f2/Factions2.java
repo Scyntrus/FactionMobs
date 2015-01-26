@@ -41,9 +41,13 @@ public class Factions2 implements Factions{
     }
 
     @Override
+    public Faction getFactionFromNativeObject(Object nativeObject) {
+        return new Faction2(nativeObject);
+    }
+
+    @Override
     public Rank getPlayerRank(Player player) {
         com.massivecraft.factions.Rel rel = com.massivecraft.factions.entity.MPlayer.get(player).getRole();
         return Rank.getByName(rel.name());
     }
-
 }

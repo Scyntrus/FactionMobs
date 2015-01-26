@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class FactionListener68 implements Listener {
@@ -35,9 +36,11 @@ public class FactionListener68 implements Listener {
 
             @Override
             public void run() {
+                Faction faction = FactionsManager.getFactionByName(newName);
+                if (faction == null || faction.isNone()) return;
                 for (FactionMob fmob : FactionMobs.mobList) {
                     if (fmob.getFactionName().equals(oldName)) {
-                        fmob.setFaction(FactionsManager.getFactionByName(newName));
+                        fmob.setFaction(faction);
                     }
                 }
             }

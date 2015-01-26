@@ -75,4 +75,5 @@ class Faction6 extends Faction {
         }
         return false;
     }
+
 }
