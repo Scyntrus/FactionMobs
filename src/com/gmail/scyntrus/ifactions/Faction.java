@@ -1,18 +1,18 @@
 package com.gmail.scyntrus.ifactions;
 
 public abstract class Faction {
-	
-	public abstract int getRelationTo(Faction other);
-	public abstract boolean isNone();
-	public abstract String getName();
-	public abstract double getPower();
-	public abstract boolean monstersNotAllowed();
-	
-	public int getPowerRounded() {
-		return (int)Math.round(getPower());
-	}
-	
-	public boolean equals(Faction other) {
-		return this.getName().equals(other.getName());
-	}
+
+    public abstract int getRelationTo(Faction other);
+    public abstract boolean isNone();
+    public abstract String getName();
+    public abstract double getPower();
+    public abstract boolean monstersNotAllowed();
+
+    public int getPowerRounded() {
+        return (int)Math.round(getPower());
+    }
+
+    public boolean equals(Faction other) {
+        return this.getName().equals(other.getName());
+    }
 }

@@ -26,7 +26,7 @@ public class Factions8 implements Factions {
     private com.massivecraft.factions.Factions factionsInstance;
     private Method getByTagMethod;
     private Method fPlayerGetRoleMethod;
-    
+
     @Override
     public boolean init() {
         try {

@@ -2,14 +2,15 @@ package com.gmail.scyntrus.fmob;
 
 public class AutoSaver implements Runnable {
 
-	FactionMobs plugin;
-	
-    public AutoSaver(FactionMobs factionMobs) {
-		this.plugin = factionMobs;
-	}
+    FactionMobs plugin;
 
-	public void run() {
-		this.plugin.saveMobList();
-		System.out.println("Faction Mobs data saved via AutoSave");
+    public AutoSaver(FactionMobs factionMobs) {
+        this.plugin = factionMobs;
+    }
+
+    @Override
+    public void run() {
+        this.plugin.saveMobList();
+        System.out.println("Faction Mobs data saved via AutoSave");
     }
 }

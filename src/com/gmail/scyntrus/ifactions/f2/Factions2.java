@@ -11,7 +11,7 @@ public class Factions2 implements Factions{
 
     private static Factions2 instance;
     private Factions2() {
-        
+
     }
     public static Factions get() {
         if (instance == null) {

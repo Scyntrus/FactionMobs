@@ -6,17 +6,17 @@ public enum Rank {
     OFFICER(4),
     MEMBER(3),
     RECRUIT(2);
-    
-    private int rankVal; 
-    
+
+    private int rankVal;
+
     private Rank(int rankVal) {
         this.rankVal = rankVal;
     }
-    
+
     public boolean isAtLeast(Rank rank) {
         return rank.rankVal <= this.rankVal;
     }
-    
+
     public static Rank getByName(String name) {
         name = name.toUpperCase();
         if (name.equals("NORMAL"))

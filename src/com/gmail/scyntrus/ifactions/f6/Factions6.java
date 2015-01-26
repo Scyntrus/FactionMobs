@@ -27,7 +27,7 @@ public class Factions6 implements Factions {
     private com.massivecraft.factions.Factions factionsInstance;
     private Method getByTagMethod;
     private Method fPlayersGet; // Because Factions 1.6 and old 1.6-U had different method signatures
-    
+
     @Override
     public boolean init() {
         try {

@@ -32,7 +32,7 @@ public class Factions6U implements Factions {
     private Method fPlayerGetRoleMethod;
     private Object boardInstance = null;
     private Method boardGetFactionAt;
-    
+
     @Override
     public boolean init() {
         try {
