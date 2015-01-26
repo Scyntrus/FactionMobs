@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 
 import net.minecraft.server.v1_8_R1.EntityAnimal;
 import net.minecraft.server.v1_8_R1.EntityCreeper;
@@ -187,7 +188,7 @@ public class Utils {
 	public static void initErrorStream() {
         if (errorStream == null) {
             try {
-                errorStream = new PrintWriter(new BufferedWriter(new FileWriter(new File(FactionMobs.instance.getDataFolder(), "error.log"))));
+                errorStream = new PrintWriter(new BufferedWriter(new FileWriter(new File(FactionMobs.instance.getDataFolder(), "error.log"), true)));
             } catch (IOException e1) {
             }
         }
@@ -199,6 +200,7 @@ public class Utils {
 	        return;
         FactionMobs.instance.getServer().getConsoleSender().sendMessage(colorChar + "c[FactionMobs] " + message);
         if (errorStream != null) {
+            
             errorStream.println(message);
             errorStream.flush();
         }
