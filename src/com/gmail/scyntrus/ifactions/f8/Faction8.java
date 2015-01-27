@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
+import com.massivecraft.factions.struct.FFlag;
+import com.massivecraft.factions.struct.Rel;
 
 class Faction8 extends Faction {
 
@@ -25,11 +27,11 @@ class Faction8 extends Faction {
         if (faction == null || isNone()) return 0;
         try {
             Object rel = getRelationTo.invoke(faction, ((Faction8)other).faction);
-            if (rel.equals(com.massivecraft.factions.struct.Rel.ENEMY)) {
+            if (rel.equals(Rel.ENEMY)) {
                 return -1;
-            } else if (rel.equals(com.massivecraft.factions.struct.Rel.NEUTRAL)) {
+            } else if (rel.equals(Rel.NEUTRAL)) {
                 return 0;
-            } else if (rel.equals(com.massivecraft.factions.struct.Rel.ALLY) || rel.equals(com.massivecraft.factions.struct.Rel.MEMBER)) {
+            } else if (rel.equals(Rel.ALLY) || rel.equals(Rel.MEMBER)) {
                 return 1;
             }
         } catch (Exception e) {
@@ -60,7 +62,7 @@ class Faction8 extends Faction {
     public boolean monstersNotAllowed() {
         if (faction == null) return false;
         try {
-            return !((Boolean) getFlag.invoke(faction, com.massivecraft.factions.struct.FFlag.MONSTERS));
+            return !((Boolean) getFlag.invoke(faction, FFlag.MONSTERS));
         } catch (Exception e) {
             Utils.handleError(e);
         }

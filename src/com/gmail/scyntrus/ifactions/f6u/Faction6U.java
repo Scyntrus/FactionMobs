@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
+import com.massivecraft.factions.struct.Relation;
 
 class Faction6U extends Faction {
 
@@ -23,11 +24,11 @@ class Faction6U extends Faction {
         if (faction == null || isNone()) return 0;
         try {
             Object rel = getRelationTo.invoke(faction, ((Faction6U)other).faction);
-            if (rel.equals(com.massivecraft.factions.struct.Relation.ENEMY)) {
+            if (rel.equals(Relation.ENEMY)) {
                 return -1;
-            } else if (rel.equals(com.massivecraft.factions.struct.Relation.NEUTRAL)) {
+            } else if (rel.equals(Relation.NEUTRAL)) {
                 return 0;
-            } else if (rel.equals(com.massivecraft.factions.struct.Relation.ALLY) || rel.equals(com.massivecraft.factions.struct.Relation.MEMBER)) {
+            } else if (rel.equals(Relation.ALLY) || rel.equals(Relation.MEMBER)) {
                 return 1;
             }
         } catch (Exception e) {

@@ -10,6 +10,11 @@ import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.Rank;
+import com.massivecraft.factions.Board;
+import com.massivecraft.factions.FLocation;
+import com.massivecraft.factions.FPlayer;
+import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.struct.Role;
 
 public class Factions6 implements Factions {
 
@@ -43,7 +48,7 @@ public class Factions6 implements Factions {
 
     @Override
     public Faction getFactionAt(Location loc) {
-        return new Faction6(com.massivecraft.factions.Board.getFactionAt(new com.massivecraft.factions.FLocation(loc)));
+        return new Faction6(Board.getFactionAt(new FLocation(loc)));
     }
 
     @Override
@@ -59,7 +64,7 @@ public class Factions6 implements Factions {
     @Override
     public Faction getPlayerFaction(Player player) {
         try {
-            return new Faction6(((com.massivecraft.factions.FPlayer) fPlayersGet.invoke(com.massivecraft.factions.FPlayers.i, player)).getFaction());
+            return new Faction6(((FPlayer) fPlayersGet.invoke(FPlayers.i, player)).getFaction());
         } catch (Exception e) {
             Utils.handleError(e);
         }
@@ -74,7 +79,7 @@ public class Factions6 implements Factions {
     @Override
     public Rank getPlayerRank(Player player) {
         try {
-            com.massivecraft.factions.struct.Role role6 = ((com.massivecraft.factions.FPlayer) fPlayersGet.invoke(com.massivecraft.factions.FPlayers.i, player)).getRole();
+            Role role6 = ((FPlayer) fPlayersGet.invoke(FPlayers.i, player)).getRole();
             return Rank.getByName(role6.name());
         } catch (Exception e) {
             Utils.handleError(e);

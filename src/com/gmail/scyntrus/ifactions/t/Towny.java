@@ -7,6 +7,8 @@ import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.Rank;
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class Towny implements Factions {
 
@@ -28,9 +30,8 @@ public class Towny implements Factions {
     @Override
     public Faction getFactionAt(Location loc) {
         try {
-            return new Town(com.palmergames.bukkit.towny.object.TownyUniverse.getDataSource()
-                    .getTown(com.palmergames.bukkit.towny.object.TownyUniverse.getTownName(loc)));
-        } catch (com.palmergames.bukkit.towny.exceptions.NotRegisteredException e) {
+            return new Town(TownyUniverse.getDataSource().getTown(TownyUniverse.getTownName(loc)));
+        } catch (NotRegisteredException e) {
         }
         return null;
     }
@@ -38,8 +39,8 @@ public class Towny implements Factions {
     @Override
     public Faction getFactionByName(String name) {
         try {
-            return new Town(com.palmergames.bukkit.towny.object.TownyUniverse.getDataSource().getTown(name));
-        } catch (com.palmergames.bukkit.towny.exceptions.NotRegisteredException e) {
+            return new Town(TownyUniverse.getDataSource().getTown(name));
+        } catch (NotRegisteredException e) {
         }
         return null;
     }
@@ -47,8 +48,8 @@ public class Towny implements Factions {
     @Override
     public Faction getPlayerFaction(Player player) {
         try {
-            return new Town(com.palmergames.bukkit.towny.object.TownyUniverse.getDataSource().getResident(player.getName()).getTown());
-        } catch (com.palmergames.bukkit.towny.exceptions.NotRegisteredException e) {
+            return new Town(TownyUniverse.getDataSource().getResident(player.getName()).getTown());
+        } catch (NotRegisteredException e) {
         }
         return null;
     }
@@ -61,7 +62,7 @@ public class Towny implements Factions {
     @Override
     public Rank getPlayerRank(Player player) {
         try {
-            if (com.palmergames.bukkit.towny.object.TownyUniverse.getDataSource().getResident(player.getName()).isMayor())
+            if (TownyUniverse.getDataSource().getResident(player.getName()).isMayor())
                 return Rank.LEADER;
             else
                 return Rank.MEMBER;

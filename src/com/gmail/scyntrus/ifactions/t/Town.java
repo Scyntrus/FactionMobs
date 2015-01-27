@@ -1,6 +1,9 @@
 package com.gmail.scyntrus.ifactions.t;
 
 import com.gmail.scyntrus.ifactions.Faction;
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
+import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 class Town extends Faction {
 
@@ -19,26 +22,26 @@ class Town extends Faction {
         if (town == null || isNone()) return 0;
         if (town.equals(other)) return 1;
         if (!town.hasNation()) return 0;
-        com.palmergames.bukkit.towny.object.Nation nation = null;
+        Nation nation = null;
         try {
             nation = town.getNation();
-        } catch (com.palmergames.bukkit.towny.exceptions.NotRegisteredException e) {
+        } catch (NotRegisteredException e) {
             return 0;
         }
         if (nation == null) return 0;
         Town otherTown = (Town)other;
         if (nation.hasTown(otherTown.town)) return 1;
         if (!otherTown.town.hasNation()) return 0;
-        com.palmergames.bukkit.towny.object.Nation otherNation = null;
+        Nation otherNation = null;
         try {
             otherNation = otherTown.town.getNation();
-        } catch (com.palmergames.bukkit.towny.exceptions.NotRegisteredException e) {
+        } catch (NotRegisteredException e) {
             return 0;
         }
         if (otherNation == null) return 0;
         if (nation.hasAlly(otherNation)) return 1;
         if (nation.hasEnemy(otherNation)) return 1;
-        if (com.palmergames.bukkit.towny.object.TownyUniverse.isWarTime()) {
+        if (TownyUniverse.isWarTime()) {
             if (nation.isNeutral()) return 0;
             if (otherNation.isNeutral()) return 0;
             return -1;

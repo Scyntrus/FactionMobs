@@ -2,6 +2,8 @@ package com.gmail.scyntrus.ifactions.f2;
 
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
+import com.massivecraft.factions.Rel;
+import com.massivecraft.factions.entity.MFlag;
 
 class Faction2 extends Faction {
 
@@ -19,12 +21,12 @@ class Faction2 extends Faction {
     public int getRelationTo(Faction other) {
         if (faction == null || isNone()) return 0;
         try {
-            com.massivecraft.factions.Rel rel = faction.getRelationTo(((Faction2)other).faction);
-            if (rel.equals(com.massivecraft.factions.Rel.ENEMY)) {
+            Rel rel = faction.getRelationTo(((Faction2)other).faction);
+            if (rel.equals(Rel.ENEMY)) {
                 return -1;
-            } else if (rel.equals(com.massivecraft.factions.Rel.NEUTRAL)) {
+            } else if (rel.equals(Rel.NEUTRAL)) {
                 return 0;
-            } else if (rel.equals(com.massivecraft.factions.Rel.ALLY) || rel.equals(com.massivecraft.factions.Rel.MEMBER)) {
+            } else if (rel.equals(Rel.ALLY) || rel.equals(Rel.MEMBER)) {
                 return 1;
             }
         } catch (Exception e) {
@@ -54,6 +56,6 @@ class Faction2 extends Faction {
     @Override
     public boolean monstersNotAllowed() {
         if (faction == null) return false;
-        return !faction.getFlag(com.massivecraft.factions.entity.MFlag.ID_MONSTERS);
+        return !faction.getFlag(MFlag.ID_MONSTERS);
     }
 }

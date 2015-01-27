@@ -10,6 +10,13 @@ import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.Rank;
+import com.massivecraft.factions.Board;
+import com.massivecraft.factions.FLocation;
+import com.massivecraft.factions.FPlayer;
+import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.iface.RelationParticipator;
+import com.massivecraft.factions.struct.FFlag;
+import com.massivecraft.factions.struct.Rel;
 
 public class Factions8 implements Factions {
 
@@ -34,9 +41,9 @@ public class Factions8 implements Factions {
             factionsInstanceField.setAccessible(true);
             factionsInstance = (com.massivecraft.factions.Factions) factionsInstanceField.get(null);
             getByTagMethod = com.massivecraft.factions.Factions.class.getMethod("getByTag", new Class<?>[]{String.class});
-            fPlayerGetRoleMethod = com.massivecraft.factions.FPlayer.class.getMethod("getRole");
-            Faction8.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", new Class<?>[]{com.massivecraft.factions.iface.RelationParticipator.class});
-            Faction8.getFlag = com.massivecraft.factions.Faction.class.getMethod("getFlag", new Class<?>[]{com.massivecraft.factions.struct.FFlag.class});
+            fPlayerGetRoleMethod = FPlayer.class.getMethod("getRole");
+            Faction8.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", new Class<?>[]{RelationParticipator.class});
+            Faction8.getFlag = com.massivecraft.factions.Faction.class.getMethod("getFlag", new Class<?>[]{FFlag.class});
             return true;
         } catch (Exception e) {
             Utils.handleError(e);
@@ -46,7 +53,7 @@ public class Factions8 implements Factions {
 
     @Override
     public Faction getFactionAt(Location loc) {
-        return new Faction8(com.massivecraft.factions.Board.getFactionAt(new com.massivecraft.factions.FLocation(loc)));
+        return new Faction8(Board.getFactionAt(new FLocation(loc)));
     }
 
     @Override
@@ -61,7 +68,7 @@ public class Factions8 implements Factions {
 
     @Override
     public Faction getPlayerFaction(Player player) {
-        return new Faction8(com.massivecraft.factions.FPlayers.i.get(player).getFaction());
+        return new Faction8(FPlayers.i.get(player).getFaction());
     }
 
     @Override
@@ -72,7 +79,7 @@ public class Factions8 implements Factions {
     @Override
     public Rank getPlayerRank(Player player) {
         try {
-            com.massivecraft.factions.struct.Rel role6 = (com.massivecraft.factions.struct.Rel) fPlayerGetRoleMethod.invoke(com.massivecraft.factions.FPlayers.i.get(player));
+            Rel role6 = (Rel) fPlayerGetRoleMethod.invoke(FPlayers.i.get(player));
             return Rank.getByName(role6.name());
         } catch (Exception e) {
             Utils.handleError(e);
