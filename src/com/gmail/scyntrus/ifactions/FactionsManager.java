@@ -11,6 +11,7 @@ import com.gmail.scyntrus.ifactions.f2.Factions2;
 import com.gmail.scyntrus.ifactions.f6.Factions6;
 import com.gmail.scyntrus.ifactions.f6u.Factions6U;
 import com.gmail.scyntrus.ifactions.f8.Factions8;
+import com.gmail.scyntrus.ifactions.t.Towny;
 
 public class FactionsManager {
 
@@ -102,6 +103,8 @@ public class FactionsManager {
             instance = Factions6U.get(fPlayersGet);
         } else if (factionsVersion == Version.F18) {
             instance = Factions8.get();
+        } else if (factionsVersion == Version.TOWNY) {
+            instance = Towny.get();
         } else {
             return false;
         }
