@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import net.minecraft.server.v1_8_R1.EntityAnimal;
 import net.minecraft.server.v1_8_R1.EntityCreeper;
@@ -196,13 +200,14 @@ public class Utils {
         }
     }
 
+    public static DateFormat dateFormat = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss] ");
     private static final char colorChar = Character.toChars(167)[0];
     public static void handleError(String message) {
         if (message == null)
             return;
         FactionMobs.instance.getServer().getConsoleSender().sendMessage(colorChar + "c[FactionMobs] " + message);
         if (errorStream != null) {
-
+            errorStream.print(dateFormat.format(new Date()));
             errorStream.println(message);
             errorStream.flush();
         }
@@ -215,6 +220,7 @@ public class Utils {
             e.printStackTrace();
         }
         if (errorStream != null) {
+            errorStream.print(dateFormat.format(new Date()));
             e.printStackTrace(errorStream);
             errorStream.flush();
         }
