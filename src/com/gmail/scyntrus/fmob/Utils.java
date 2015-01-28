@@ -189,6 +189,9 @@ public class Utils {
             try {
                 errorStream = new PrintWriter(new BufferedWriter(new FileWriter(new File(FactionMobs.instance.getDataFolder(), "error.log"), true)));
             } catch (IOException e1) {
+                FactionMobs.instance.getServer().getConsoleSender().sendMessage(colorChar + "c[FactionMobs] Could not write to error.log file. " +
+                		"Defaulting to spamming errors in the console.");
+                FactionMobs.silentErrors = false;
             }
         }
     }
