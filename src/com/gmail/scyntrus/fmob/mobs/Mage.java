@@ -1,37 +1,36 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import net.minecraft.server.v1_8_R1.AttributeInstance;
-import net.minecraft.server.v1_8_R1.Block;
-import net.minecraft.server.v1_8_R1.BlockPosition;
-import net.minecraft.server.v1_8_R1.DamageSource;
-import net.minecraft.server.v1_8_R1.EntityCreature;
-import net.minecraft.server.v1_8_R1.EntityHuman;
-import net.minecraft.server.v1_8_R1.EntityLiving;
-import net.minecraft.server.v1_8_R1.EntityPlayer;
-import net.minecraft.server.v1_8_R1.EntityPotion;
-import net.minecraft.server.v1_8_R1.EntityProjectile;
-import net.minecraft.server.v1_8_R1.EntityWitch;
-import net.minecraft.server.v1_8_R1.EnumMonsterType;
-import net.minecraft.server.v1_8_R1.GenericAttributes;
-import net.minecraft.server.v1_8_R1.Item;
-import net.minecraft.server.v1_8_R1.ItemStack;
-import net.minecraft.server.v1_8_R1.MathHelper;
-import net.minecraft.server.v1_8_R1.MobEffectList;
-import net.minecraft.server.v1_8_R1.NBTTagCompound;
-import net.minecraft.server.v1_8_R1.PathfinderGoal;
-import net.minecraft.server.v1_8_R1.PathfinderGoalArrowAttack;
-import net.minecraft.server.v1_8_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_8_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_8_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_8_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_8_R1.World;
+import net.minecraft.server.v1_8_R2.AttributeInstance;
+import net.minecraft.server.v1_8_R2.Block;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.DamageSource;
+import net.minecraft.server.v1_8_R2.EntityCreature;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.EntityLiving;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.EntityPotion;
+import net.minecraft.server.v1_8_R2.EntityProjectile;
+import net.minecraft.server.v1_8_R2.EntityWitch;
+import net.minecraft.server.v1_8_R2.EnumMonsterType;
+import net.minecraft.server.v1_8_R2.GenericAttributes;
+import net.minecraft.server.v1_8_R2.Item;
+import net.minecraft.server.v1_8_R2.ItemStack;
+import net.minecraft.server.v1_8_R2.MathHelper;
+import net.minecraft.server.v1_8_R2.MobEffectList;
+import net.minecraft.server.v1_8_R2.NBTTagCompound;
+import net.minecraft.server.v1_8_R2.PathfinderGoalArrowAttack;
+import net.minecraft.server.v1_8_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_8_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_8_R2.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_8_R2.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_8_R2.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_8_R1.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R2.util.UnsafeList;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -92,8 +91,12 @@ public class Mage extends EntityWitch implements FactionMob {
         }
         if (ReflectionManager.good_PathfinderGoalSelector_GoalList) {
             try {
-                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
-                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
+                @SuppressWarnings("rawtypes")
+                UnsafeList tempList1 = new UnsafeList();
+                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.goalSelector, tempList1);
+                @SuppressWarnings("rawtypes")
+                UnsafeList tempList2 = new UnsafeList();
+                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.targetSelector, tempList2);
             } catch (Exception e) {
                 Utils.handleError(e);
             }
@@ -358,22 +361,22 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    protected String z() { //TODO: Update name on version change
+    protected String z() {
         return FactionMobs.sndBreath;
     }
 
     @Override
-    protected String bn() { //TODO: Update name on version change
+    protected String bo() {
         return FactionMobs.sndHurt;
     }
 
     @Override
-    protected String bo() { //TODO: Update name on version change
+    protected String bp() {
         return FactionMobs.sndDeath;
     }
 
     @Override
-    protected void a(BlockPosition blockposition, Block block) { //TODO: Update name on version change
+    protected void a(BlockPosition blockposition, Block block) {
         makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
     }
 
@@ -513,12 +516,12 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void s_() {
+    public void t_() {
         if (this.getHealth() > 0) {
             this.dead = false;
         }
         this.ak = false;
-        super.s_();
+        super.t_();
     }
 
     @Override

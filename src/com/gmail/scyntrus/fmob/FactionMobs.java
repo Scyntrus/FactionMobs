@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_8_R1.Entity;
+import net.minecraft.server.v1_8_R2.Entity;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -79,12 +79,12 @@ public class FactionMobs extends JavaPlugin {
         Utils.initErrorStream();
 
         try {
-            Class.forName("org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity");
+            Class.forName("org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity");
         } catch (Exception e) {
             try {
                 Class<?> tmpMcpcClass = Class.forName("za.co.mcportcentral.entity.CraftCustomEntity");
                 if (tmpMcpcClass != null) {
-                    if (tmpMcpcClass.getResourceAsStream("/mappings/v1_8_R1/cb2numpkg.srg") != null) {
+                    if (tmpMcpcClass.getResourceAsStream("/mappings/v1_8_R2/cb2numpkg.srg") != null) {
                         System.out.println("[FactionMobs] MCPC detected. MCPC compatibility is experimental.");
                     } else {
                         System.out.println("[FactionMobs] WARNING: INCOMPATIBLE VERSION OF MCPC DETECTED, FactionMobs will probably not work.");
@@ -93,7 +93,7 @@ public class FactionMobs extends JavaPlugin {
                     throw e;
                 }
             } catch (Exception e1) {
-                Utils.handleError("You are running an unsupported version of CraftBukkit (requires v1_8_R1). Please download a newer version. FactionMobs will not be enabled.", e);
+                Utils.handleError("You are running an unsupported version of CraftBukkit (requires v1_8_R2). Please download a newer version. FactionMobs will not be enabled.", e);
                 this.getCommand("fm").setExecutor(new ErrorCommand(this));
                 this.getCommand("fmc").setExecutor(new ErrorCommand(this));
                 return;
@@ -270,8 +270,7 @@ public class FactionMobs extends JavaPlugin {
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
     }
 
-    @SuppressWarnings("unchecked")
-    private void addEntityType(Class<?> paramClass, String paramString, int paramInt) {
+    private void addEntityType(Class<? extends Entity> paramClass, String paramString, int paramInt) {
         ReflectionManager.mapC.put(paramString, paramClass);
         ReflectionManager.mapD.put(paramClass, paramString);
         ReflectionManager.mapF.put(paramClass, Integer.valueOf(paramInt));

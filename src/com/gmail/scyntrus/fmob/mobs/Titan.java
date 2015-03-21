@@ -1,33 +1,32 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import net.minecraft.server.v1_8_R1.AttributeInstance;
-import net.minecraft.server.v1_8_R1.DamageSource;
-import net.minecraft.server.v1_8_R1.Entity;
-import net.minecraft.server.v1_8_R1.EntityCreature;
-import net.minecraft.server.v1_8_R1.EntityHuman;
-import net.minecraft.server.v1_8_R1.EntityIronGolem;
-import net.minecraft.server.v1_8_R1.EntityLiving;
-import net.minecraft.server.v1_8_R1.EntityPlayer;
-import net.minecraft.server.v1_8_R1.EntityProjectile;
-import net.minecraft.server.v1_8_R1.EnumMonsterType;
-import net.minecraft.server.v1_8_R1.GenericAttributes;
-import net.minecraft.server.v1_8_R1.MathHelper;
-import net.minecraft.server.v1_8_R1.NBTTagCompound;
-import net.minecraft.server.v1_8_R1.PathfinderGoal;
-import net.minecraft.server.v1_8_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_8_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_8_R1.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_8_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_8_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_8_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_8_R1.World;
+import net.minecraft.server.v1_8_R2.AttributeInstance;
+import net.minecraft.server.v1_8_R2.DamageSource;
+import net.minecraft.server.v1_8_R2.Entity;
+import net.minecraft.server.v1_8_R2.EntityCreature;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.EntityIronGolem;
+import net.minecraft.server.v1_8_R2.EntityLiving;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.EntityProjectile;
+import net.minecraft.server.v1_8_R2.EnumMonsterType;
+import net.minecraft.server.v1_8_R2.GenericAttributes;
+import net.minecraft.server.v1_8_R2.MathHelper;
+import net.minecraft.server.v1_8_R2.NBTTagCompound;
+import net.minecraft.server.v1_8_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_8_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_8_R2.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_8_R2.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_8_R2.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_8_R2.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_8_R2.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_8_R1.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R2.util.UnsafeList;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -87,8 +86,12 @@ public class Titan extends EntityIronGolem implements FactionMob {
         }
         if (ReflectionManager.good_PathfinderGoalSelector_GoalList) {
             try {
-                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.goalSelector, new UnsafeList<PathfinderGoal>());
-                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.targetSelector, new UnsafeList<PathfinderGoal>());
+                @SuppressWarnings("rawtypes")
+                UnsafeList tempList1 = new UnsafeList();
+                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.goalSelector, tempList1);
+                @SuppressWarnings("rawtypes")
+                UnsafeList tempList2 = new UnsafeList();
+                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.targetSelector, tempList2);
             } catch (Exception e) {
                 Utils.handleError(e);
             }
@@ -506,11 +509,11 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void s_() {
+    public void t_() {
         if (this.getHealth() > 0) {
             this.dead = false;
         }
         this.ak = false;
-        super.s_();
+        super.t_();
     }
 }

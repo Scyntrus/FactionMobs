@@ -3,22 +3,22 @@ package com.gmail.scyntrus.fmob;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_8_R1.Entity;
-import net.minecraft.server.v1_8_R1.EntityCreature;
-import net.minecraft.server.v1_8_R1.EntityInsentient;
-import net.minecraft.server.v1_8_R1.EntityLiving;
-import net.minecraft.server.v1_8_R1.EntityWolf;
-import net.minecraft.server.v1_8_R1.EntityZombie;
-import net.minecraft.server.v1_8_R1.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_8_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_8_R1.PathfinderGoalSelector;
+import net.minecraft.server.v1_8_R2.Entity;
+import net.minecraft.server.v1_8_R2.EntityCreature;
+import net.minecraft.server.v1_8_R2.EntityInsentient;
+import net.minecraft.server.v1_8_R2.EntityLiving;
+import net.minecraft.server.v1_8_R2.EntityWolf;
+import net.minecraft.server.v1_8_R2.EntityZombie;
+import net.minecraft.server.v1_8_R2.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_8_R2.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_8_R2.PathfinderGoalSelector;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftExperienceOrb;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftExperienceOrb;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -40,6 +40,9 @@ import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.gmail.scyntrus.fmob.mobs.Archer;
+import com.gmail.scyntrus.fmob.mobs.Mage;
+import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
@@ -195,7 +198,10 @@ public class EntityListener implements Listener {
                             && !entity.hasMetadata("Fmob Goal Added")) {
                         try {
                             PathfinderGoalSelector goalSelector = (PathfinderGoalSelector) ReflectionManager.entityInsentient_GoalSelector.get(entity.getHandle());
-                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), FactionMob.class, 1.0D, false));
+                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), Archer.class, 1.0D, false));
+                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), Mage.class, 1.0D, false));
+                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), Swordsman.class, 1.0D, false));
+                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), Titan.class, 1.0D, false));
                             goalSelector.a(2, new PathfinderGoalMoveTowardsTarget((EntityCreature) entity.getHandle(), 1.0, 16.0f));
 
                         } catch (Exception e1) {

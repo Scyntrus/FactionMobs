@@ -2,18 +2,20 @@ package com.gmail.scyntrus.fmob;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.minecraft.server.v1_8_R1.Entity;
+import net.minecraft.server.v1_8_R2.Entity;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
@@ -162,7 +164,7 @@ public class FmCommand implements CommandExecutor {
                         }
                     }
                 }
-                net.minecraft.server.v1_8_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
+                net.minecraft.server.v1_8_R2.World world = ((CraftWorld)player.getWorld()).getHandle();
                 FactionMob newMob = null;
                 if (split.length == 1) {
                     player.sendMessage(ChatColor.RED + "You must specify a mob");
@@ -363,8 +365,7 @@ public class FmCommand implements CommandExecutor {
                         return true;
                     }
                     plugin.mobLeader.remove(player.getName());
-                    @SuppressWarnings("deprecation")
-                    Block block = player.getTargetBlock(null, 64);
+                    Block block = player.getTargetBlock((Set<Material>) null, 64);
                     if (block == null) {
                         player.sendMessage(ChatColor.RED + "You must be pointing at a block");
                         return true;
