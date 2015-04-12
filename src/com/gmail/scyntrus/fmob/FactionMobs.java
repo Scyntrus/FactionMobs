@@ -391,20 +391,7 @@ public class FactionMobs extends JavaPlugin {
 					newMob.setOrder("poi");
 				}
 				
-				if (!newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM)) {
-                    System.out.println(String.format("Unable to respawn a Faction Mob: %s %s .", mobData.get(2), mobData.get(0)));
-					if (!backup) {
-						backup = true;
-						try {
-							conf.save(new File(getDataFolder(), "data_backup.dat"));
-							System.out.println("Backup file saved as data_backup.dat");
-						} catch (IOException e) {
-							System.out.println("Failed to save backup file");
-							if (!FactionMobs.silentErrors) e.printStackTrace();
-						}
-					}
-					continue;
-				}
+				newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
 				mobList.add(newMob);
 				newMob.getEntity().dead = false;
 			}
