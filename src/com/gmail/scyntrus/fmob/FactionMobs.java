@@ -392,11 +392,7 @@ public class FactionMobs extends JavaPlugin {
                     newMob.setOrder("poi");
                 }
 
-                if (!newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM)) {
-                    System.out.println(String.format("Unable to respawn a Faction Mob: %s %s .", mobData.get(2), mobData.get(0)));
-                    backup = true;
-                    continue;
-                }
+                newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
                 mobList.add(newMob);
                 newMob.getEntity().dead = false;
             }
