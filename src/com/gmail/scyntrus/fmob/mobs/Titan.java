@@ -1,32 +1,32 @@
 package com.gmail.scyntrus.fmob.mobs;
 
-import net.minecraft.server.v1_8_R2.AttributeInstance;
-import net.minecraft.server.v1_8_R2.DamageSource;
-import net.minecraft.server.v1_8_R2.Entity;
-import net.minecraft.server.v1_8_R2.EntityCreature;
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EntityIronGolem;
-import net.minecraft.server.v1_8_R2.EntityLiving;
-import net.minecraft.server.v1_8_R2.EntityPlayer;
-import net.minecraft.server.v1_8_R2.EntityProjectile;
-import net.minecraft.server.v1_8_R2.EnumMonsterType;
-import net.minecraft.server.v1_8_R2.GenericAttributes;
-import net.minecraft.server.v1_8_R2.MathHelper;
-import net.minecraft.server.v1_8_R2.NBTTagCompound;
-import net.minecraft.server.v1_8_R2.PathfinderGoalFloat;
-import net.minecraft.server.v1_8_R2.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_8_R2.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_8_R2.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_8_R2.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_8_R2.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_8_R2.World;
+import net.minecraft.server.v1_8_R3.AttributeInstance;
+import net.minecraft.server.v1_8_R3.DamageSource;
+import net.minecraft.server.v1_8_R3.Entity;
+import net.minecraft.server.v1_8_R3.EntityCreature;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.EntityIronGolem;
+import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.EntityProjectile;
+import net.minecraft.server.v1_8_R3.EnumMonsterType;
+import net.minecraft.server.v1_8_R3.GenericAttributes;
+import net.minecraft.server.v1_8_R3.MathHelper;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.PathfinderGoalFloat;
+import net.minecraft.server.v1_8_R3.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_8_R3.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_8_R3.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_8_R3.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_8_R3.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_8_R3.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_8_R2.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R3.util.UnsafeList;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -71,7 +71,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
         this.fireProof = false;
         this.canPickUpLoot = false;
         this.moveSpeed = FactionMobs.mobSpeed;
-        getAttributeInstance(GenericAttributes.d).setValue(this.moveSpeed);
+        getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(this.moveSpeed);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         this.setHealth(maxHp);
         this.S = 1.5F;
@@ -516,4 +516,12 @@ public class Titan extends EntityIronGolem implements FactionMob {
         this.ak = false;
         super.t_();
     }
+    
+    @Override
+    protected String z() { //TODO: Update name on version change
+        // Fix to prevent console spam:
+        // "Unable to play unknown soundEvent: minecraft:none"
+        return null;
+    }
+    
 }

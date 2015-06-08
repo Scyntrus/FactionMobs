@@ -3,18 +3,18 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.gmail.scyntrus</groupId>
   <artifactId>FactionMobs</artifactId>
-  <version>2.8.6</version>
+  <version>2.8.7</version>
   <packaging>jar</packaging>
   <name>FactionMobs</name>
   <properties>
-    <craftbukkit.version>1.8.3-R0.1</craftbukkit.version>
+    <craftbukkit.version>1.8.7-R0.1</craftbukkit.version>
     <factions.version>2.7.5</factions.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skipTests>true</skipTests>
   </properties>
   <build>
     <defaultGoal>clean package</defaultGoal>
-    <finalName>${artifactId}</finalName>
+    <finalName>${project.artifactId}</finalName>
     <sourceDirectory>src</sourceDirectory>
     <resources>
       <resource>
@@ -116,17 +116,17 @@
       <scope>system</scope>
     </dependency>
     <dependency>
-      <groupId>net.daboross.vault</groupId>
-      <artifactId>vault-api</artifactId>
-      <version>LATEST</version>
+      <groupId>net.milkbowl.vault</groupId>
+      <artifactId>VaultAPI</artifactId>
+      <version>1.5</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
 
   <repositories>
     <repository>
-      <id>repo-daboross-net</id>
-      <url>http://repo.daboross.net/</url>
+      <id>vault-repo</id>
+      <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
     </repository>
     <repository>
       <id>bukkit-repo</id>
