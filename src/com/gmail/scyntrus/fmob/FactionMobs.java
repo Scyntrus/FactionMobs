@@ -222,6 +222,10 @@ public class FactionMobs extends JavaPlugin {
                 break;
             case TOWNY:
                 this.pm.registerEvents(new TownyListener(this), this);
+                break;
+            case INVALID:
+                // Should never happen
+                break;
         }
 
         File colorFile = new File(getDataFolder(), "colors.dat");

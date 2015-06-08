@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -7,6 +8,7 @@ import org.bukkit.event.Listener;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.palmergames.bukkit.towny.event.DeleteTownEvent;
+import com.palmergames.bukkit.towny.event.MobRemovalEvent;
 import com.palmergames.bukkit.towny.event.RenameTownEvent;
 import com.palmergames.bukkit.towny.object.Town;
 
@@ -41,6 +43,13 @@ public class TownyListener implements Listener {
             if (FactionMobs.mobList.get(i).getFactionName().equals(townName)) {
                 FactionMobs.mobList.get(i).forceDie();
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onMobRemoval(MobRemovalEvent e) {
+        if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
+            e.setCancelled(true);
         }
     }
 }

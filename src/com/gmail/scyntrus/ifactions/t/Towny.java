@@ -30,7 +30,10 @@ public class Towny implements Factions {
     @Override
     public Faction getFactionAt(Location loc) {
         try {
-            return new Town(TownyUniverse.getDataSource().getTown(TownyUniverse.getTownName(loc)));
+            String townName = TownyUniverse.getTownName(loc);
+            if (townName == null)
+                return null;
+            return new Town(TownyUniverse.getDataSource().getTown(townName));
         } catch (NotRegisteredException e) {
         }
         return null;
