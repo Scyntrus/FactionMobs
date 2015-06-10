@@ -1,7 +1,7 @@
 name: FactionMobs
 main: com.gmail.scyntrus.fmob.FactionMobs
 author: Scyntrus
-version: ${version}.${craftbukkit.version}
+version: ${version}_${craftbukkit.version}
 softdepend: [Factions, Towny, Vault]
 commands:
     fm:
