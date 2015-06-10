@@ -30,8 +30,8 @@ class Town extends Faction {
         }
         if (nation == null) return 0;
         Town otherTown = (Town)other;
-        if (nation.hasTown(otherTown.town)) return 1;
         if (!otherTown.town.hasNation()) return 0;
+        if (nation.hasTown(otherTown.town)) return 1;
         Nation otherNation = null;
         try {
             otherNation = otherTown.town.getNation();
@@ -40,7 +40,7 @@ class Town extends Faction {
         }
         if (otherNation == null) return 0;
         if (nation.hasAlly(otherNation)) return 1;
-        if (nation.hasEnemy(otherNation)) return 1;
+        if (nation.hasEnemy(otherNation)) return -1;
         if (TownyUniverse.isWarTime()) {
             if (nation.isNeutral()) return 0;
             if (otherNation.isNeutral()) return 0;
