@@ -86,7 +86,8 @@ public class EntityListener implements Listener {
                         return;
                     } else if (wolf.isTamed()) {
                         if (wolf.getOwner() != null) {
-                            if (fmob.getEntity().getGoalTarget().equals(wolf.getOwner())) {
+                            if (fmob.getEntity().getGoalTarget() != null && 
+                                    fmob.getEntity().getGoalTarget().equals(wolf.getOwner())) {
                                 return;
                             }
                             switch (Utils.FactionCheck(wolf.getOwner(), fmob.getFaction())) {
