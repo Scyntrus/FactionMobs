@@ -172,25 +172,25 @@ public class FmCommand implements CommandExecutor {
                 } else if (split[1].equalsIgnoreCase("Archer") || split[1].equalsIgnoreCase("Ranger")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.archer")) {
                         player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
-                        return false;
+                        return true;
                     }
                     newMob = new Archer(player.getLocation(), playerfaction);
                 } else if (split[1].equalsIgnoreCase("Swordsman")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.swordsman")) {
                         player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
-                        return false;
+                        return true;
                     }
                     newMob = new Swordsman(player.getLocation(), playerfaction);
                 } else if (split[1].equalsIgnoreCase("Titan") || split[1].equalsIgnoreCase("Golem")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.titan")) {
                         player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
-                        return false;
+                        return true;
                     }
                     newMob = new Titan(player.getLocation(), playerfaction);
                 } else if (split[1].equalsIgnoreCase("Mage") || split[1].equalsIgnoreCase("Witch")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.mage")) {
                         player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
-                        return false;
+                        return true;
                     }
                     newMob = new Mage(player.getLocation(), playerfaction);
                 } else {
