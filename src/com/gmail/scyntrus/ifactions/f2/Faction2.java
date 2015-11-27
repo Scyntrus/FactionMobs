@@ -1,6 +1,6 @@
 package com.gmail.scyntrus.ifactions.f2;
 
-import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.MFlag;
@@ -30,7 +30,7 @@ class Faction2 extends Faction {
                 return 1;
             }
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return 0;
     }

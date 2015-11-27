@@ -165,69 +165,18 @@ public class Utils {
                 resStreamOut.write(buffer, 0, readBytes);
             }
         } catch (Exception e) {
-            Utils.handleError("Unable to create configDefaults.yml. Check permissions or create it manually.", e);
+            ErrorManager.handleError("Unable to create configDefaults.yml. Check permissions or create it manually.", e);
         } finally {
             try {
                 stream.close();
             } catch (Exception e) {
-                Utils.handleError("Unable to close config.yml resource.", e);
+                ErrorManager.handleError("Unable to close config.yml resource.", e);
             }
             try {
                 resStreamOut.close();
             } catch (Exception e) {
-                Utils.handleError("Unable to close configDefaults.yml.", e);
+                ErrorManager.handleError("Unable to close configDefaults.yml.", e);
             }
         }
-    }
-
-    private static PrintWriter errorStream;
-
-    public static void handleError(String message, Exception e) {
-        handleError(message);
-        handleError(e);
-    }
-
-    public static void initErrorStream() {
-        if (errorStream == null) {
-            try {
-                errorStream = new PrintWriter(new BufferedWriter(new FileWriter(new File(FactionMobs.instance.getDataFolder(), "error.log"), true)));
-            } catch (IOException e1) {
-                FactionMobs.instance.getServer().getConsoleSender().sendMessage(colorChar + "c[FactionMobs] Could not write to error.log file. " +
-                		"Defaulting to spamming errors in the console.");
-                FactionMobs.silentErrors = false;
-            }
-        }
-    }
-
-    public static DateFormat dateFormat = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss] ");
-    private static final char colorChar = Character.toChars(167)[0];
-    public static void handleError(String message) {
-        if (message == null)
-            return;
-        FactionMobs.instance.getServer().getConsoleSender().sendMessage(colorChar + "c[FactionMobs] " + message);
-        if (errorStream != null) {
-            errorStream.print(dateFormat.format(new Date()));
-            errorStream.println(message);
-            errorStream.flush();
-        }
-    }
-
-    public static void handleError(Exception e) {
-        if (e == null)
-            return;
-        if (!FactionMobs.silentErrors) {
-            e.printStackTrace();
-        }
-        if (errorStream != null) {
-            errorStream.print(dateFormat.format(new Date()));
-            e.printStackTrace(errorStream);
-            errorStream.flush();
-        }
-    }
-
-    public static void closeErrorStream() {
-        if (errorStream != null)
-            errorStream.close();
-        errorStream = null;
     }
 }

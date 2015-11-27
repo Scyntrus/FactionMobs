@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.f2.Factions2;
 import com.gmail.scyntrus.ifactions.f6.Factions6;
 import com.gmail.scyntrus.ifactions.f6u.Factions6U;
@@ -86,8 +86,8 @@ public class FactionsManager {
             System.out.println("["+pluginName+"] Towny detected. Towny support is highly experimental and ugly.");
             return Version.TOWNY; //Towny
         }
-        Utils.handleError(log.toString());
-        Utils.handleError("No compatible version of Factions detected. "+pluginName+" will not be enabled.");
+        ErrorManager.handleError(log.toString());
+        ErrorManager.handleError("No compatible version of Factions detected. "+pluginName+" will not be enabled.");
         return Version.INVALID;
     }
 
@@ -117,7 +117,7 @@ public class FactionsManager {
             Faction faction = instance.getFactionByName(name);
             return faction != null ? faction : new NoneFaction();
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return new NoneFaction();
     }
@@ -127,7 +127,7 @@ public class FactionsManager {
             Faction faction = instance.getFactionAt(loc);
             return faction != null ? faction : new NoneFaction();
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return new NoneFaction();
     }
@@ -137,7 +137,7 @@ public class FactionsManager {
             Faction faction = instance.getPlayerFaction(player);
             return faction != null ? faction : new NoneFaction();
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return new NoneFaction();
     }
@@ -147,7 +147,7 @@ public class FactionsManager {
             Faction faction = instance.getFactionFromNativeObject(nativeObject);
             return faction != null ? faction : new NoneFaction();
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return new NoneFaction();
     }
@@ -157,7 +157,7 @@ public class FactionsManager {
             Rank rank = instance.getPlayerRank(player);
             return rank != null ? rank : Rank.MEMBER;
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return Rank.MEMBER;
     }

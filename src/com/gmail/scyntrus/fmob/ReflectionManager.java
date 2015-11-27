@@ -41,9 +41,9 @@ public class ReflectionManager {
                     fieldF = EntityTypes.class.getDeclaredField("field_75624_e");
                     fieldG = EntityTypes.class.getDeclaredField("field_75622_f");
                 } catch (Exception e2) {
-                    Utils.handleError("Failed to reflect entity registration methods.");
-                    Utils.handleError(e1);
-                    Utils.handleError(e2);
+                    ErrorManager.handleError("Failed to reflect entity registration methods.");
+                    ErrorManager.handleError(e1);
+                    ErrorManager.handleError(e2);
                     return false;
                 }
             }
@@ -65,7 +65,7 @@ public class ReflectionManager {
                 Map<String, Integer> tempMap4 = (Map<String, Integer>) fieldG.get(null);
                 mapG = tempMap4;
             } catch (Exception e) {
-                Utils.handleError(e);
+                ErrorManager.handleError(e);
                 return false;
             }
         }
@@ -79,9 +79,9 @@ public class ReflectionManager {
                 navigation_Distance.setAccessible(true);
                 good_Navigation_Distance = true;
             } catch (Exception e2) {
-                Utils.handleError("[Minor Error] Field not found: Navigation.e; Custom pathfinding distances cannot be set");
-                Utils.handleError(e1);
-                Utils.handleError(e2);
+                ErrorManager.handleError("[Minor Error] Field not found: Navigation.e; Custom pathfinding distances cannot be set");
+                ErrorManager.handleError(e1);
+                ErrorManager.handleError(e2);
             }
         }
         try {
@@ -94,9 +94,9 @@ public class ReflectionManager {
                 pathfinderGoalSelector_GoalList.setAccessible(true);
                 good_PathfinderGoalSelector_GoalList = true;
             } catch (Exception e2) {
-                Utils.handleError("[Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
-                Utils.handleError(e1);
-                Utils.handleError(e2);
+                ErrorManager.handleError("[Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
+                ErrorManager.handleError(e1);
+                ErrorManager.handleError(e2);
             }
         }
         try {
@@ -109,9 +109,9 @@ public class ReflectionManager {
                 entityInsentient_GoalSelector.setAccessible(true);
                 good_EntityInsentient_GoalSelector = true;
             } catch (Exception e2) {
-                Utils.handleError("[Minor Error] Field not found: EntityInsentient.goalSelector; Unable to override zombie goals");
-                Utils.handleError(e1);
-                Utils.handleError(e2);
+                ErrorManager.handleError("[Minor Error] Field not found: EntityInsentient.goalSelector; Unable to override zombie goals");
+                ErrorManager.handleError(e1);
+                ErrorManager.handleError(e2);
             }
         }
         return true;

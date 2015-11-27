@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.Rank;
@@ -46,7 +46,7 @@ public class Factions8 implements Factions {
             Faction8.getFlag = com.massivecraft.factions.Faction.class.getMethod("getFlag", new Class<?>[]{FFlag.class});
             return true;
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return false;
     }
@@ -61,7 +61,7 @@ public class Factions8 implements Factions {
         try {
             return new Faction8(getByTagMethod.invoke(factionsInstance, name));
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return null;
     }
@@ -82,7 +82,7 @@ public class Factions8 implements Factions {
             Rel role6 = (Rel) fPlayerGetRoleMethod.invoke(FPlayers.i.get(player));
             return Rank.getByName(role6.name());
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return Rank.MEMBER;
     }

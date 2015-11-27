@@ -2,7 +2,7 @@ package com.gmail.scyntrus.ifactions.f8;
 
 import java.lang.reflect.Method;
 
-import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.massivecraft.factions.struct.FFlag;
 import com.massivecraft.factions.struct.Rel;
@@ -35,7 +35,7 @@ class Faction8 extends Faction {
                 return 1;
             }
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return 0;
     }
@@ -64,7 +64,7 @@ class Faction8 extends Faction {
         try {
             return !((Boolean) getFlag.invoke(faction, FFlag.MONSTERS));
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return false;
     }

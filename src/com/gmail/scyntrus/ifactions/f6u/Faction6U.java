@@ -2,7 +2,7 @@ package com.gmail.scyntrus.ifactions.f6u;
 
 import java.lang.reflect.Method;
 
-import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.massivecraft.factions.struct.Relation;
 
@@ -32,7 +32,7 @@ class Faction6U extends Faction {
                 return 1;
             }
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return 0;
     }
@@ -44,7 +44,7 @@ class Faction6U extends Faction {
             if (faction == null) return true;
             return (Boolean) isNone.invoke(faction);
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return true;
     }
@@ -56,7 +56,7 @@ class Faction6U extends Faction {
             if (faction == null) return "";
             return (String) getTag.invoke(faction);
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return "";
     }
@@ -68,7 +68,7 @@ class Faction6U extends Faction {
             if (faction == null) return 0;
             return (Double) getPower.invoke(faction);
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return 0;
     }
@@ -80,7 +80,7 @@ class Faction6U extends Faction {
             if (faction == null) return false;
             return (Boolean) noMonstersInTerritory.invoke(faction);
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return false;
     }

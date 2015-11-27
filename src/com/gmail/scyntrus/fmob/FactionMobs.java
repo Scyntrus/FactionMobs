@@ -76,34 +76,21 @@ public class FactionMobs extends JavaPlugin {
         config.options().copyDefaults(true);
         this.saveConfig();
         FactionMobs.silentErrors = config.getBoolean("silentErrors", FactionMobs.silentErrors);
-        Utils.initErrorStream();
+        ErrorManager.initErrorStream();
 
         try {
-            Class.forName("org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity");
-        } catch (Exception e) {
-            try {
-                Class<?> tmpMcpcClass = Class.forName("za.co.mcportcentral.entity.CraftCustomEntity");
-                if (tmpMcpcClass != null) {
-                    if (tmpMcpcClass.getResourceAsStream("/mappings/v1_8_R3/cb2numpkg.srg") != null) {
-                        System.out.println("[FactionMobs] MCPC detected. MCPC compatibility is experimental.");
-                    } else {
-                        System.out.println("[FactionMobs] WARNING: INCOMPATIBLE VERSION OF MCPC DETECTED, FactionMobs will probably not work.");
-                    }
-                } else {
-                    throw e;
-                }
-            } catch (Exception e1) {
-                Utils.handleError("You are running an unsupported version of CraftBukkit (requires v1_8_R3). Please download a newer version. FactionMobs will not be enabled.", e);
-                this.getCommand("fm").setExecutor(new ErrorCommand(this));
-                this.getCommand("fmc").setExecutor(new ErrorCommand(this));
-                return;
-            }
+            VersionManager.checkVersion();
+        } catch (VersionManager.VersionException e) {
+            ErrorManager.handleError(e.getMessage(), e);
+            this.getCommand("fm").setExecutor(new ErrorCommand(this));
+            this.getCommand("fmc").setExecutor(new ErrorCommand(this));
+            return;
         }
 
         Utils.copyDefaultConfig();
 
         if (!FactionsManager.init(this.getName())) {
-            Utils.handleError("You are running an unsupported version of Factions. Please contact the plugin author for more info.", null);
+            ErrorManager.handleError("You are running an unsupported version of Factions. Please contact the plugin author for more info.", null);
             this.getCommand("fm").setExecutor(new ErrorCommand(this));
             this.getCommand("fmc").setExecutor(new ErrorCommand(this));
             return;
@@ -240,7 +227,7 @@ public class FactionMobs extends JavaPlugin {
                 oInputStream.close();
                 fileInputStream.close();
             } catch (Exception e) {
-                Utils.handleError("Error reading faction colors file, colors.dat.", e);
+                ErrorManager.handleError("Error reading faction colors file, colors.dat.", e);
             }
         }
 
@@ -317,7 +304,7 @@ public class FactionMobs extends JavaPlugin {
 
             metrics.start();
         } catch (Exception e) {
-            Utils.handleError("Metrics failed to start", e);
+            ErrorManager.handleError("Metrics failed to start", e);
         }
     }
 
@@ -327,7 +314,7 @@ public class FactionMobs extends JavaPlugin {
         for (int i = mobList.size() - 1; i >= 0; --i) {
             mobList.get(i).forceDie();
         }
-        Utils.closeErrorStream();
+        ErrorManager.closeErrorStream();
     }
 
     public void loadMobList() {
@@ -442,7 +429,7 @@ public class FactionMobs extends JavaPlugin {
             conf.save(new File(getDataFolder(), "data.dat"));
             System.out.println("FactionMobs data saved.");
         } catch (IOException e) {
-            Utils.handleError("Failed to save faction mob data, data.dat", e);
+            ErrorManager.handleError("Failed to save faction mob data, data.dat", e);
         }
         try {
             File colorFile = new File(getDataFolder(), "colors.dat");
@@ -454,7 +441,7 @@ public class FactionMobs extends JavaPlugin {
             fileOut.close();
             System.out.println("FactionMobs color data saved.");
         } catch (Exception e) {
-            Utils.handleError("Error writing faction colors file, colors.dat", e);
+            ErrorManager.handleError("Error writing faction colors file, colors.dat", e);
         }
     }
 

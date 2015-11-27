@@ -206,7 +206,7 @@ public class EntityListener implements Listener {
                             goalSelector.a(2, new PathfinderGoalMoveTowardsTarget((EntityCreature) entity.getHandle(), 1.0, 16.0f));
 
                         } catch (Exception e1) {
-                            Utils.handleError(e1);
+                            ErrorManager.handleError(e1);
                         }
                         entity.setMetadata("Fmob Goal Added", new FixedMetadataValue(FactionMobs.instance, true));
                     }

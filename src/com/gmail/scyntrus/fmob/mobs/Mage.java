@@ -34,6 +34,7 @@ import org.bukkit.craftbukkit.v1_8_R3.util.UnsafeList;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.ReflectionManager;
@@ -86,7 +87,7 @@ public class Mage extends EntityWitch implements FactionMob {
                 AttributeInstance e = (AttributeInstance) ReflectionManager.navigation_Distance.get(this.getNavigation());
                 e.setValue(FactionMobs.mobNavRange);
             } catch (Exception e) {
-                Utils.handleError(e);
+                ErrorManager.handleError(e);
             }
         }
         if (ReflectionManager.good_PathfinderGoalSelector_GoalList) {
@@ -98,7 +99,7 @@ public class Mage extends EntityWitch implements FactionMob {
                 UnsafeList tempList2 = new UnsafeList();
                 ReflectionManager.pathfinderGoalSelector_GoalList.set(this.targetSelector, tempList2);
             } catch (Exception e) {
-                Utils.handleError(e);
+                ErrorManager.handleError(e);
             }
         }
 

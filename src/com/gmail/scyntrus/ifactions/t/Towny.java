@@ -3,7 +3,7 @@ package com.gmail.scyntrus.ifactions.t;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.Rank;
@@ -70,7 +70,7 @@ public class Towny implements Factions {
             else
                 return Rank.MEMBER;
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return Rank.MEMBER;
     }

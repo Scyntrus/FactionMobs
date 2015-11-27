@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.Rank;
@@ -54,7 +54,7 @@ public class Factions6U implements Factions {
             Faction6U.noMonstersInTerritory = com.massivecraft.factions.Faction.class.getMethod("noMonstersInTerritory");
             return true;
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return false;
     }
@@ -66,7 +66,7 @@ public class Factions6U implements Factions {
             f = boardGetFactionAt.invoke(boardInstance, new com.massivecraft.factions.FLocation(loc));
             return new Faction6U(f);
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return null;
     }
@@ -76,7 +76,7 @@ public class Factions6U implements Factions {
         try {
             return new Faction6U(getByTagMethod.invoke(factionsInstance, name));
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return null;
     }
@@ -86,7 +86,7 @@ public class Factions6U implements Factions {
         try {
             return new Faction6U(fPlayerGetFactionMethod.invoke(fPlayersGet.invoke(fPlayersInstance, player)));
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return null;
     }
@@ -102,7 +102,7 @@ public class Factions6U implements Factions {
             com.massivecraft.factions.struct.Role role6 = (com.massivecraft.factions.struct.Role) fPlayerGetRoleMethod.invoke(fPlayersGet.invoke(fPlayersInstance, player));
             return Rank.getByName(role6.name());
         } catch (Exception e) {
-            Utils.handleError(e);
+            ErrorManager.handleError(e);
         }
         return Rank.MEMBER;
     }
