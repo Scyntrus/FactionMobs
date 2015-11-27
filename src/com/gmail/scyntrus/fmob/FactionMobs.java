@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_8_R3.Entity;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -90,7 +89,7 @@ public class FactionMobs extends JavaPlugin {
         Utils.copyDefaultConfig();
 
         if (!FactionsManager.init(this.getName())) {
-            ErrorManager.handleError("You are running an unsupported version of Factions. Please contact the plugin author for more info.", null);
+            ErrorManager.handleError("You are running an unsupported version of Factions. Please contact the plugin author for more info.");
             this.getCommand("fm").setExecutor(new ErrorCommand(this));
             this.getCommand("fmc").setExecutor(new ErrorCommand(this));
             return;
@@ -173,7 +172,7 @@ public class FactionMobs extends JavaPlugin {
 
         this.pm = this.getServer().getPluginManager();
         if (!ReflectionManager.init()) {
-            this.getLogger().severe("[Fatal Error] Unable to register mobs");
+            this.getLogger().severe("[Fatal Error] Unable to access native code.");
             this.getCommand("fm").setExecutor(new ErrorCommand(this));
             this.getCommand("fmc").setExecutor(new ErrorCommand(this));
             return;
@@ -261,7 +260,7 @@ public class FactionMobs extends JavaPlugin {
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
     }
 
-    private void addEntityType(Class<? extends Entity> paramClass, String paramString, int paramInt) {
+    private void addEntityType(Class<? extends net.minecraft.server.v1_8_R3.Entity> paramClass, String paramString, int paramInt) {
         ReflectionManager.mapC.put(paramString, paramClass);
         ReflectionManager.mapD.put(paramClass, paramString);
         ReflectionManager.mapF.put(paramClass, Integer.valueOf(paramInt));
@@ -383,7 +382,7 @@ public class FactionMobs extends JavaPlugin {
                     newMob.setOrder("poi");
                 }
 
-                newMob.getEntity().world.addEntity((Entity) newMob, SpawnReason.CUSTOM);
+                newMob.getEntity().world.addEntity((net.minecraft.server.v1_8_R3.Entity) newMob, SpawnReason.CUSTOM);
                 mobList.add(newMob);
                 newMob.getEntity().dead = false;
             }
