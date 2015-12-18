@@ -43,7 +43,7 @@ public class ErrorManager {
         }
     }
 
-    public static void handleError(Exception e) {
+    public static void handleError(Throwable e) {
         if (e == null)
             return;
         if (!FactionMobs.silentErrors) {

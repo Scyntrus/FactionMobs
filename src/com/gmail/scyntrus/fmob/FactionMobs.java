@@ -209,6 +209,8 @@ public class FactionMobs extends JavaPlugin {
             case TOWNY:
                 this.pm.registerEvents(new TownyListener(this), this);
                 break;
+            case SIMPLECLANS:
+                break;
             case INVALID:
                 // Should never happen
                 break;
@@ -275,8 +277,16 @@ public class FactionMobs extends JavaPlugin {
                 plugin = this.getServer().getPluginManager().getPlugin("Towny");
                 factionsVersion = "T";
             }
-            factionsVersion = factionsVersion + plugin.getDescription().getVersion();
-            String factionMobsVersion = this.getServer().getPluginManager().getPlugin("FactionMobs").getDescription().getVersion();
+            if (plugin == null) {
+                plugin = this.getServer().getPluginManager().getPlugin("SimpleClans");
+                factionsVersion = "SC";
+            }
+            if (plugin == null) {
+                factionsVersion = "unkown";
+            } else {
+                factionsVersion = factionsVersion + plugin.getDescription().getVersion();
+            }
+            String factionMobsVersion = this.getDescription().getVersion();
             Metrics metrics = new Metrics(this);
 
             Graph versionGraph = metrics.createGraph("Factions Version");

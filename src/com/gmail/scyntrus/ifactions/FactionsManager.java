@@ -11,6 +11,7 @@ import com.gmail.scyntrus.ifactions.f2.Factions2;
 import com.gmail.scyntrus.ifactions.f6.Factions6;
 import com.gmail.scyntrus.ifactions.f6u.Factions6U;
 import com.gmail.scyntrus.ifactions.f8.Factions8;
+import com.gmail.scyntrus.ifactions.sc.SimpleClansConnector;
 import com.gmail.scyntrus.ifactions.t.Towny;
 
 public class FactionsManager {
@@ -21,7 +22,8 @@ public class FactionsManager {
         F16U, // new Factions 1.6-UUID
         F18, // Factions 1.8
         F2, // Factions 2
-        TOWNY // Towny
+        TOWNY, // Towny
+        SIMPLECLANS
     }
 
     private static boolean initialized = false;
@@ -83,8 +85,12 @@ public class FactionsManager {
             }
         } else if (classExists("com.palmergames.bukkit.towny.Towny")) {
             log.append("FOUND com.palmergames.bukkit.towny.Towny\n");
-            System.out.println("["+pluginName+"] Towny detected. Towny support is highly experimental and ugly.");
+            System.out.println("["+pluginName+"] Towny detected. Towny support is experimental.");
             return Version.TOWNY; //Towny
+        } else if (classExists("net.sacredlabyrinth.phaed.simpleclans.SimpleClans")) {
+            log.append("FOUND net.sacredlabyrinth.phaed.simpleclans.SimpleClans\n");
+            System.out.println("["+pluginName+"] SimpleClans detected. SimpleClans support is highly experimental.");
+            return Version.SIMPLECLANS; //SimpleClans
         }
         ErrorManager.handleError(log.toString());
         ErrorManager.handleError("No compatible version of Factions detected. "+pluginName+" will not be enabled.");
@@ -95,19 +101,29 @@ public class FactionsManager {
         if (initialized) return true;
 
         factionsVersion = getFactionsVersion(pluginName);
-        if (factionsVersion == Version.F2) {
-            instance = Factions2.get();
-        } else if (factionsVersion == Version.F16) {
-            instance = Factions6.get(fPlayersGet);
-        } else if (factionsVersion == Version.F16U) {
-            instance = Factions6U.get(fPlayersGet);
-        } else if (factionsVersion == Version.F18) {
-            instance = Factions8.get();
-        } else if (factionsVersion == Version.TOWNY) {
-            instance = Towny.get();
-        } else {
-            return false;
+        switch (factionsVersion) {
+            case F2:
+                instance = Factions2.get();
+                break;
+            case F16:
+                instance = Factions6.get(fPlayersGet);
+                break;
+            case F16U:
+                instance = Factions6U.get(fPlayersGet);
+                break;
+            case F18:
+                instance = Factions8.get();
+                break;
+            case TOWNY:
+                instance = Towny.get();
+                break;
+            case SIMPLECLANS:
+                instance = SimpleClansConnector.get();
+                break;
+            default:
+                return false;
         }
+        
         initialized = true;
         return instance.init();
     }
