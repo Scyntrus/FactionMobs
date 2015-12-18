@@ -271,21 +271,7 @@ public class FactionMobs extends JavaPlugin {
 
     private void runMetrics() {
         try {
-            Plugin plugin = this.getServer().getPluginManager().getPlugin("Factions");
-            String factionsVersion = "";
-            if (plugin == null) {
-                plugin = this.getServer().getPluginManager().getPlugin("Towny");
-                factionsVersion = "T";
-            }
-            if (plugin == null) {
-                plugin = this.getServer().getPluginManager().getPlugin("SimpleClans");
-                factionsVersion = "SC";
-            }
-            if (plugin == null) {
-                factionsVersion = "unkown";
-            } else {
-                factionsVersion = factionsVersion + plugin.getDescription().getVersion();
-            }
+            String factionsVersion = FactionsManager.getVersionString();
             String factionMobsVersion = this.getDescription().getVersion();
             Metrics metrics = new Metrics(this);
 

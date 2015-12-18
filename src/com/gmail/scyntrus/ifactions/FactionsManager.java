@@ -127,6 +127,25 @@ public class FactionsManager {
         initialized = true;
         return instance.init();
     }
+    
+    public static String getVersionString() {
+        switch (factionsVersion) {
+            case F2:
+                return "F2";
+            case F16:
+                return "F1.6";
+            case F16U:
+                return "F1.6U";
+            case F18:
+                return "F1.8";
+            case TOWNY:
+                return "T";
+            case SIMPLECLANS:
+                return "SC";
+            default:
+                return "INVALID";
+        }
+    }
 
     public static Faction getFactionByName(String name) {
         try {
