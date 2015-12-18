@@ -20,7 +20,7 @@ class Town extends Faction {
     @Override
     public int getRelationTo(Faction other) {
         if (town == null || isNone()) return 0;
-        if (town.equals(other)) return 1;
+        if (this.getName().equals(other.getName())) return 1;
         if (!town.hasNation()) return 0;
         Nation nation = null;
         try {
