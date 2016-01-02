@@ -74,5 +74,10 @@ public class Towny implements Factions {
         }
         return Rank.MEMBER;
     }
+    
+    @Override
+    public boolean supportsLandOwnership() {
+        return true;
+    }
 
 }

@@ -70,5 +70,10 @@ public class SimpleClansConnector implements Factions {
             return Rank.LEADER;
         return Rank.MEMBER;
     }
+    
+    @Override
+    public boolean supportsLandOwnership() {
+        return false;
+    }
 
 }

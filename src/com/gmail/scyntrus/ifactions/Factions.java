@@ -10,4 +10,5 @@ public interface Factions {
     public Rank getPlayerRank(Player player);
     public boolean init();
     public Faction getFactionFromNativeObject(Object nativeObject);
+    public boolean supportsLandOwnership();
 }

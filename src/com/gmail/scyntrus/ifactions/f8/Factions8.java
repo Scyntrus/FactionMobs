@@ -86,5 +86,10 @@ public class Factions8 implements Factions {
         }
         return Rank.MEMBER;
     }
+    
+    @Override
+    public boolean supportsLandOwnership() {
+        return true;
+    }
 
 }

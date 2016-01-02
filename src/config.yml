@@ -23,6 +23,9 @@ noPlayerFriendlyFire: true
 # Minimum rank required in order to spawn faction mobs, you can choose from 'RECRUIT', 'MEMBER' (NORMAL), 'OFFICER' (MODERATOR) and 'LEADER' (ADMIN).
 minRankToSpawn: MEMBER
 
+# Can only spawn mobs while on owned land
+onlySpawnInTerritory: true
+
 # Attacking a faction member or faction mob will agro their nearby faction mobs
 alertAllies: true
 

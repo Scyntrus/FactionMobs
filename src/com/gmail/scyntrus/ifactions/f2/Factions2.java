@@ -50,4 +50,9 @@ public class Factions2 implements Factions{
         com.massivecraft.factions.Rel rel = com.massivecraft.factions.entity.MPlayer.get(player).getRole();
         return Rank.getByName(rel.name());
     }
+    
+    @Override
+    public boolean supportsLandOwnership() {
+        return true;
+    }
 }

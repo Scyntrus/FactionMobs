@@ -149,7 +149,8 @@ public class FmCommand implements CommandExecutor {
 
                 if (!player.hasPermission("fmob.bypass")) {
                     Faction areafaction = FactionsManager.getFactionAt(loc);
-                    if (areafaction == null || !playerfaction.getName().equals(areafaction.getName())) {
+                    if (FactionMobs.onlySpawnInTerritory && FactionsManager.supportsLandOwnership() &&
+                            (areafaction == null || !playerfaction.getName().equals(areafaction.getName()))) {
                         player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
                         return true;
                     }

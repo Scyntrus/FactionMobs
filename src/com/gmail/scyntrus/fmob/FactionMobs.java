@@ -17,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -66,6 +65,7 @@ public class FactionMobs extends JavaPlugin {
     public static boolean silentErrors = true;
     private static String minRankToSpawnStr = "MEMBER";
     public static Rank minRankToSpawn;
+    public static boolean onlySpawnInTerritory = true;
 
     @Override
     public void onEnable() {
@@ -136,6 +136,7 @@ public class FactionMobs extends JavaPlugin {
         FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
         FactionMobs.minRankToSpawnStr = config.getString("mustBeAtleast", FactionMobs.minRankToSpawnStr);
         FactionMobs.minRankToSpawn = Rank.getByName(FactionMobs.minRankToSpawnStr);
+        FactionMobs.onlySpawnInTerritory = config.getBoolean("onlySpawnInTerritory", FactionMobs.onlySpawnInTerritory);
 
         Archer.maxHp = (float) config.getDouble("Archer.maxHp", Archer.maxHp);
         if (Archer.maxHp<1) Archer.maxHp = 1;

@@ -196,4 +196,9 @@ public class FactionsManager {
         }
         return Rank.MEMBER;
     }
+    
+    public static boolean supportsLandOwnership() {
+        return instance.supportsLandOwnership();
+    }
+    
 }

@@ -106,5 +106,10 @@ public class Factions6U implements Factions {
         }
         return Rank.MEMBER;
     }
+    
+    @Override
+    public boolean supportsLandOwnership() {
+        return true;
+    }
 
 }
