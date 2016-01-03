@@ -118,9 +118,9 @@ public class EntityListener implements Listener {
                 return;
             }
             Player player = e.getPlayer();
-            player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%s",
+            player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%.2f/%.2f",
                     ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED,
-                    fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth()));
+                    fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth(), fmob.getEntity().getMaxHealth()));
             Faction playerFaction = FactionsManager.getPlayerFaction(player);
             if (player.hasPermission("fmob.order") && playerFaction != null && playerFaction.equals(fmob.getFaction())) {
                 if (!plugin.playerSelections.containsKey(player.getName())) {
@@ -148,7 +148,7 @@ public class EntityListener implements Listener {
                     player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
                     float iHp = fmob.getEntity().getHealth();
                     fmob.getEntity().setHealth(fmob.getEntity().getHealth() + FactionMobs.feedAmount);
-                    player.sendMessage(String.format("%sThis mob has been healed by %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth() - iHp));
+                    player.sendMessage(String.format("%sThis mob has been healed by %s%.2f", ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth() - iHp));
                 }
             }
         }

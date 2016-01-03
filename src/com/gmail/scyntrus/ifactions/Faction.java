@@ -8,10 +8,6 @@ public abstract class Faction {
     public abstract double getPower();
     public abstract boolean monstersNotAllowed();
 
-    public int getPowerRounded() {
-        return (int)Math.round(getPower());
-    }
-
     public boolean equals(Faction other) {
         return this.getName().equals(other.getName());
     }
