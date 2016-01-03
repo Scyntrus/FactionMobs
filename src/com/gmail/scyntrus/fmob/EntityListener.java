@@ -5,8 +5,10 @@ import java.util.List;
 
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.EntityCreature;
+import net.minecraft.server.v1_8_R3.EntityEndermite;
 import net.minecraft.server.v1_8_R3.EntityInsentient;
 import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.EntitySpider;
 import net.minecraft.server.v1_8_R3.EntityWolf;
 import net.minecraft.server.v1_8_R3.EntityZombie;
 import net.minecraft.server.v1_8_R3.PathfinderGoalMeleeAttack;
@@ -194,7 +196,9 @@ public class EntityListener implements Listener {
             FactionMob fmob = (FactionMob) damager.getHandle();
             if (Utils.FactionCheck(entity.getHandle(), fmob.getFaction()) < 1) {
                 if (fmob.getEntity().isAlive()) {
-                    if (entity.getHandle() instanceof EntityZombie
+                    if ((entity.getHandle() instanceof EntityZombie 
+                            || entity.getHandle() instanceof EntitySpider
+                            || entity.getHandle() instanceof EntityEndermite)
                             && !entity.hasMetadata("CustomEntity")
                             && !entity.hasMetadata("Fmob Goal Added")) {
                         try {
