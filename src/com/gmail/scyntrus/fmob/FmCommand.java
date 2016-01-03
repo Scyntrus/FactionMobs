@@ -209,7 +209,7 @@ public class FmCommand implements CommandExecutor {
                         double factionPowerUsage = Utils.countMobPowerInFaction(playerfaction);
                         if (playerfaction.getPower() >= (factionPowerUsage + newMob.getPowerCost())) {
                             player.sendMessage(String.format("%sYour faction is now using %.2f/%.2f power for faction mobs.",
-                                    ChatColor.GREEN, Math.round(factionPowerUsage + newMob.getPowerCost()), playerfaction.getPower()));
+                                    ChatColor.GREEN, factionPowerUsage + newMob.getPowerCost(), playerfaction.getPower()));
                         } else {
                             player.sendMessage(String.format("%sYour faction is using %.2f/%.2f power for faction mobs.",
                                     ChatColor.RED, Math.round(factionPowerUsage), playerfaction.getPower()));
