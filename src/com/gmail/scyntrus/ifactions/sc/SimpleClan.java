@@ -38,7 +38,7 @@ class SimpleClan extends Faction {
     @Override
     public double getPower() {
         if (clan == null) return 0;
-        return clan.getSize() * 5; // Power will be member count * 5
+        return clan.getSize(); // Power will be number of members
     }
 
     @Override
