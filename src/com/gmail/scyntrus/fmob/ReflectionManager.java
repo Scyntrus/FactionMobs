@@ -3,11 +3,11 @@ package com.gmail.scyntrus.fmob;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import net.minecraft.server.v1_8_R3.Entity;
-import net.minecraft.server.v1_8_R3.EntityInsentient;
-import net.minecraft.server.v1_8_R3.EntityTypes;
-import net.minecraft.server.v1_8_R3.NavigationAbstract;
-import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
+import net.minecraft.server.v1_9_R1.Entity;
+import net.minecraft.server.v1_9_R1.EntityInsentient;
+import net.minecraft.server.v1_9_R1.EntityTypes;
+import net.minecraft.server.v1_9_R1.NavigationAbstract;
+import net.minecraft.server.v1_9_R1.PathfinderGoalSelector;
 
 public class ReflectionManager {
     public static Field navigation_Distance = null;
