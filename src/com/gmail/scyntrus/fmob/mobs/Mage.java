@@ -14,7 +14,6 @@ import net.minecraft.server.v1_9_R1.EntityWitch;
 import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.EnumMonsterType;
 import net.minecraft.server.v1_9_R1.GenericAttributes;
-import net.minecraft.server.v1_9_R1.Item;
 import net.minecraft.server.v1_9_R1.ItemStack;
 import net.minecraft.server.v1_9_R1.Items;
 import net.minecraft.server.v1_9_R1.MathHelper;
@@ -85,7 +84,7 @@ public class Mage extends EntityWitch implements FactionMob {
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         this.setHealth(maxHp);
         this.P = 1.5F;
-        this.setEquipment(EnumItemSlot.MAINHAND, new ItemStack(Item.d("potion"), 1, 8204));
+        this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a(new ItemStack(Items.POTION), Potions.x)); // TODO: Update name on version change
 
         if (ReflectionManager.good_Navigation_Distance) {
             try {
@@ -434,12 +433,12 @@ public class Mage extends EntityWitch implements FactionMob {
         if (this.getHealth() <= 0) {
             super.die();
             this.setHealth(0);
-            this.setEquipment(EnumItemSlot.CHEST, null);
-            this.setEquipment(EnumItemSlot.FEET, null);
-            this.setEquipment(EnumItemSlot.HEAD, null);
-            this.setEquipment(EnumItemSlot.LEGS, null);
-            this.setEquipment(EnumItemSlot.MAINHAND, null);
-            this.setEquipment(EnumItemSlot.OFFHAND, null);
+            this.setSlot(EnumItemSlot.CHEST, null);
+            this.setSlot(EnumItemSlot.FEET, null);
+            this.setSlot(EnumItemSlot.HEAD, null);
+            this.setSlot(EnumItemSlot.LEGS, null);
+            this.setSlot(EnumItemSlot.MAINHAND, null);
+            this.setSlot(EnumItemSlot.OFFHAND, null);
             if (FactionMobs.mobList.contains(this)) {
                 FactionMobs.mobList.remove(this);
             }
@@ -536,6 +535,8 @@ public class Mage extends EntityWitch implements FactionMob {
         else if (paramEntityLiving.getMonsterType() == EnumMonsterType.UNDEAD) {
             localPotionRegistry = Potions.v;
         }
+        
+        this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a(new ItemStack(Items.POTION), localPotionRegistry));
 
         EntityPotion localEntityPotion = new EntityPotion(this.world, this, PotionUtil.a(new ItemStack(Items.SPLASH_POTION), localPotionRegistry));
         localEntityPotion.pitch -= -20.0F;

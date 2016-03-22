@@ -13,8 +13,8 @@ import net.minecraft.server.v1_9_R1.EntitySkeleton;
 import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.EnumMonsterType;
 import net.minecraft.server.v1_9_R1.GenericAttributes;
-import net.minecraft.server.v1_9_R1.Item;
 import net.minecraft.server.v1_9_R1.ItemStack;
+import net.minecraft.server.v1_9_R1.Items;
 import net.minecraft.server.v1_9_R1.MathHelper;
 import net.minecraft.server.v1_9_R1.NBTTagCompound;
 import net.minecraft.server.v1_9_R1.PathfinderGoalFloat;
@@ -81,7 +81,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         if (damage > 0) getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(damage);
         this.setHealth(maxHp);
         this.P = 1.5F;
-        this.setEquipment(EnumItemSlot.MAINHAND, new ItemStack(Item.d("iron_sword")));
+        this.setSlot(EnumItemSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
 
         if (ReflectionManager.good_Navigation_Distance) {
             try {
@@ -436,12 +436,12 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         if (this.getHealth() <= 0) {
             super.die();
             this.setHealth(0);
-            this.setEquipment(EnumItemSlot.CHEST, null);
-            this.setEquipment(EnumItemSlot.FEET, null);
-            this.setEquipment(EnumItemSlot.HEAD, null);
-            this.setEquipment(EnumItemSlot.LEGS, null);
-            this.setEquipment(EnumItemSlot.MAINHAND, null);
-            this.setEquipment(EnumItemSlot.OFFHAND, null);
+            this.setSlot(EnumItemSlot.CHEST, null);
+            this.setSlot(EnumItemSlot.FEET, null);
+            this.setSlot(EnumItemSlot.HEAD, null);
+            this.setSlot(EnumItemSlot.LEGS, null);
+            this.setSlot(EnumItemSlot.MAINHAND, null);
+            this.setSlot(EnumItemSlot.OFFHAND, null);
             if (FactionMobs.mobList.contains(this)) {
                 FactionMobs.mobList.remove(this);
             }

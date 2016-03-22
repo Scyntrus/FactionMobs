@@ -15,6 +15,7 @@ import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.IMonster;
 import net.minecraft.server.v1_9_R1.Item;
 import net.minecraft.server.v1_9_R1.ItemStack;
+import net.minecraft.server.v1_9_R1.Items;
 import net.minecraft.server.v1_9_R1.NBTTagCompound;
 
 import org.bukkit.GameMode;
@@ -83,18 +84,18 @@ public class Utils {
         }
 
         if (color == -1 || color == 10511680) {
-            entity.getEntity().setEquipment(EnumItemSlot.FEET, new ItemStack(Item.d("leather_boots")));
-            entity.getEntity().setEquipment(EnumItemSlot.LEGS, new ItemStack(Item.d("leather_leggings")));
-            entity.getEntity().setEquipment(EnumItemSlot.CHEST, new ItemStack(Item.d("leather_chestplate")));
-            entity.getEntity().setEquipment(EnumItemSlot.HEAD, new ItemStack(Item.d("leather_helmet")));
+            entity.getEntity().setSlot(EnumItemSlot.FEET, new ItemStack(Items.LEATHER_BOOTS));
+            entity.getEntity().setSlot(EnumItemSlot.LEGS, new ItemStack(Items.LEATHER_LEGGINGS));
+            entity.getEntity().setSlot(EnumItemSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
+            entity.getEntity().setSlot(EnumItemSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));
             return;
         }
 
         ItemStack[] itemStacks = {
-                new ItemStack(Item.d("leather_boots")),
-                new ItemStack(Item.d("leather_leggings")),
-                new ItemStack(Item.d("leather_chestplate")),
-                new ItemStack(Item.d("leather_helmet"))};
+                new ItemStack(Items.LEATHER_BOOTS),
+                new ItemStack(Items.LEATHER_LEGGINGS),
+                new ItemStack(Items.LEATHER_CHESTPLATE),
+                new ItemStack(Items.LEATHER_HELMET)};
 
         for (ItemStack i : itemStacks) {
             NBTTagCompound n = i.getTag();

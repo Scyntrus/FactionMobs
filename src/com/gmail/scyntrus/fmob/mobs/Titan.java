@@ -431,12 +431,12 @@ public class Titan extends EntityIronGolem implements FactionMob {
         if (this.getHealth() <= 0) {
             super.die();
             this.setHealth(0);
-            this.setEquipment(EnumItemSlot.CHEST, null);
-            this.setEquipment(EnumItemSlot.FEET, null);
-            this.setEquipment(EnumItemSlot.HEAD, null);
-            this.setEquipment(EnumItemSlot.LEGS, null);
-            this.setEquipment(EnumItemSlot.MAINHAND, null);
-            this.setEquipment(EnumItemSlot.OFFHAND, null);
+            this.setSlot(EnumItemSlot.CHEST, null);
+            this.setSlot(EnumItemSlot.FEET, null);
+            this.setSlot(EnumItemSlot.HEAD, null);
+            this.setSlot(EnumItemSlot.LEGS, null);
+            this.setSlot(EnumItemSlot.MAINHAND, null);
+            this.setSlot(EnumItemSlot.OFFHAND, null);
             if (FactionMobs.mobList.contains(this)) {
                 FactionMobs.mobList.remove(this);
             }
