@@ -3,8 +3,6 @@ package com.gmail.scyntrus.fmob.mobs;
 import java.util.LinkedHashSet;
 
 import net.minecraft.server.v1_9_R1.AttributeInstance;
-import net.minecraft.server.v1_9_R1.Block;
-import net.minecraft.server.v1_9_R1.BlockPosition;
 import net.minecraft.server.v1_9_R1.DamageSource;
 import net.minecraft.server.v1_9_R1.EntityCreature;
 import net.minecraft.server.v1_9_R1.EntityHuman;
@@ -24,7 +22,6 @@ import net.minecraft.server.v1_9_R1.PathfinderGoalFloat;
 import net.minecraft.server.v1_9_R1.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_9_R1.SoundEffect;
 import net.minecraft.server.v1_9_R1.World;
 
 import org.bukkit.ChatColor;
@@ -367,26 +364,6 @@ public class Archer extends EntitySkeleton implements FactionMob {
     @Override
     public double getlocZ() {
         return this.locZ;
-    }
-
-    @Override
-    protected SoundEffect G() { //TODO: Update name on version change
-        return FactionMobs.sndBreath;
-    }
-
-    @Override
-    protected SoundEffect bR() { //TODO: Update name on version change
-        return FactionMobs.sndHurt;
-    }
-
-    @Override
-    protected SoundEffect bS() { //TODO: Update name on version change
-        return FactionMobs.sndDeath;
-    }
-
-    @Override
-    protected void a(BlockPosition blockposition, Block block) { //TODO: Update name on version change
-        a(FactionMobs.sndStep, 0.15F, 1.0F);
     }
 
     @Override

@@ -3,9 +3,6 @@
 # View the default config.yml (with full comments and explainations) at
 # https://github.com/Scyntrus/FactionMobs/blob/master/config.yml
 
-# Sets the model of the mobs. Can be 0 (skeleton), 1 (zombie) or 2 (pigzombie)
-model: 2
-
 # Sets the maximum number of Faction Mobs that can spawn 
 # No monsters will naturally spawn if there are too many
 spawnLimit: 60

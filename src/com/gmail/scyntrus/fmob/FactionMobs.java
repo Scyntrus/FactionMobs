@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_9_R1.SoundEffect;
-import net.minecraft.server.v1_9_R1.SoundEffects;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -41,10 +39,6 @@ public class FactionMobs extends JavaPlugin {
     public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
     public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
     public static long mobCount = 0;
-    public static SoundEffect sndBreath = null;
-    public static SoundEffect sndHurt = null;
-    public static SoundEffect sndDeath = null;
-    public static SoundEffect sndStep = null;
     public static int spawnLimit = 50;
     public static int mobsPerFaction = 0;
     public static boolean attackMobs = true;
@@ -95,28 +89,6 @@ public class FactionMobs extends JavaPlugin {
             this.getCommand("fm").setExecutor(new ErrorCommand(this));
             this.getCommand("fmc").setExecutor(new ErrorCommand(this));
             return;
-        }
-
-        int modelNum = 51;
-        switch (config.getInt("model")) {
-            case 0: // skeleton
-                modelNum = 51;
-                FactionMobs.sndHurt = SoundEffects.fm; //TODO: Update name on version change
-                FactionMobs.sndDeath = SoundEffects.fi; //TODO: Update name on version change
-                FactionMobs.sndStep = SoundEffects.fo; //TODO: Update name on version change
-                break;
-            case 1: // zombie
-                modelNum = 54;
-                FactionMobs.sndHurt = SoundEffects.ho; //TODO: Update name on version change
-                FactionMobs.sndDeath = SoundEffects.hy; //TODO: Update name on version change
-                FactionMobs.sndStep = SoundEffects.hu; //TODO: Update name on version change
-                break;
-            case 2: // pigzombie
-                modelNum = 57;
-                FactionMobs.sndHurt = SoundEffects.ht; //TODO: Update name on version change
-                FactionMobs.sndDeath = SoundEffects.hs; //TODO: Update name on version change
-                FactionMobs.sndStep = SoundEffects.hu; //TODO: Update name on version change
-                break;
         }
 
         FactionMobs.spawnLimit = config.getInt("spawnLimit", FactionMobs.spawnLimit);
@@ -178,9 +150,9 @@ public class FactionMobs extends JavaPlugin {
             return;
         }
         try {
-            addEntityType(Archer.class, Archer.typeName, modelNum);
-            addEntityType(Swordsman.class, Swordsman.typeName, modelNum);
-            addEntityType(Mage.class, Mage.typeName, modelNum);
+            addEntityType(Archer.class, Archer.typeName, 51);
+            addEntityType(Swordsman.class, Swordsman.typeName, 51);
+            addEntityType(Mage.class, Mage.typeName, 66);
             addEntityType(Titan.class, Titan.typeName, 99);
         } catch (Exception e) {
             this.getLogger().severe("[Fatal Error] Unable to register mobs");
