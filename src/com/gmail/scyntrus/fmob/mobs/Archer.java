@@ -10,6 +10,7 @@ import net.minecraft.server.v1_9_R1.EntityLiving;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import net.minecraft.server.v1_9_R1.EntityProjectile;
 import net.minecraft.server.v1_9_R1.EntitySkeleton;
+import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.EnumMonsterType;
 import net.minecraft.server.v1_9_R1.GenericAttributes;
 import net.minecraft.server.v1_9_R1.Item;
@@ -21,6 +22,7 @@ import net.minecraft.server.v1_9_R1.PathfinderGoalFloat;
 import net.minecraft.server.v1_9_R1.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_9_R1.SoundEffect;
 import net.minecraft.server.v1_9_R1.World;
 
 import org.bukkit.ChatColor;
@@ -79,8 +81,8 @@ public class Archer extends EntitySkeleton implements FactionMob {
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         if (damage > 0) getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(damage);
         this.setHealth(maxHp);
-        this.S = 1.5F;                  // jump height TODO: Update name on version change
-        this.setEquipment(0, new ItemStack(Item.d("bow")));
+        this.P = 1.5F;                  // jump height TODO: Update name on version change
+        this.setEquipment(EnumItemSlot.MAINHAND, new ItemStack(Item.d("bow")));
 
         if (ReflectionManager.good_Navigation_Distance) {
             try {
@@ -113,12 +115,12 @@ public class Archer extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public void m() { //TODO: Update name on version change
+    public void n() { //TODO: Update name on version change
         int tmpFire = this.fireTicks;
-        super.m();
+        super.n(); //TODO: Update name on version change
         this.fireTicks = tmpFire;
-        if (this.getEquipment(4) != null) {
-            this.getEquipment(4).setData(0);
+        if (this.getEquipment(EnumItemSlot.HEAD) != null) {
+            this.getEquipment(EnumItemSlot.HEAD).setData(0);
         }
         if (--retargetTime < 0) {
             retargetTime = 20;
@@ -367,23 +369,23 @@ public class Archer extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    protected String z() { //TODO: Update name on version change
+    protected SoundEffect G() { //TODO: Update name on version change
         return FactionMobs.sndBreath;
     }
 
     @Override
-    protected String bo() { //TODO: Update name on version change
+    protected SoundEffect bR() { //TODO: Update name on version change
         return FactionMobs.sndHurt;
     }
 
     @Override
-    protected String bp() { //TODO: Update name on version change
+    protected SoundEffect bS() { //TODO: Update name on version change
         return FactionMobs.sndDeath;
     }
 
     @Override
     protected void a(BlockPosition blockposition, Block block) { //TODO: Update name on version change
-        makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
+        a(FactionMobs.sndStep, 0.15F, 1.0F);
     }
 
     @Override
@@ -454,11 +456,12 @@ public class Archer extends EntitySkeleton implements FactionMob {
         if (this.getHealth() <= 0) {
             super.die();
             this.setHealth(0);
-            this.setEquipment(0, null);
-            this.setEquipment(1, null);
-            this.setEquipment(2, null);
-            this.setEquipment(3, null);
-            this.setEquipment(4, null);
+            this.setEquipment(EnumItemSlot.CHEST, null);
+            this.setEquipment(EnumItemSlot.FEET, null);
+            this.setEquipment(EnumItemSlot.HEAD, null);
+            this.setEquipment(EnumItemSlot.LEGS, null);
+            this.setEquipment(EnumItemSlot.MAINHAND, null);
+            this.setEquipment(EnumItemSlot.OFFHAND, null);
             if (FactionMobs.mobList.contains(this)) {
                 FactionMobs.mobList.remove(this);
             }
@@ -527,15 +530,15 @@ public class Archer extends EntitySkeleton implements FactionMob {
 
     @Override
     public void setHealth(float f) {
-        this.datawatcher.watch(6, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
+        this.datawatcher.set(HEALTH, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
     }
 
     @Override
-    public void t_() { //TODO: Update name on version change
+    public void m() { //TODO: Update name on version change
         if (this.getHealth() > 0) {
             this.dead = false;
         }
         this.ak = false; //TODO: Update name on version change
-        super.t_();
+        super.m();
     }
 }

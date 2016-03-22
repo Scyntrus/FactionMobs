@@ -10,6 +10,7 @@ import net.minecraft.server.v1_9_R1.EntityLiving;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import net.minecraft.server.v1_9_R1.EntityProjectile;
 import net.minecraft.server.v1_9_R1.EntitySkeleton;
+import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.EnumMonsterType;
 import net.minecraft.server.v1_9_R1.GenericAttributes;
 import net.minecraft.server.v1_9_R1.Item;
@@ -22,6 +23,7 @@ import net.minecraft.server.v1_9_R1.PathfinderGoalMeleeAttack;
 import net.minecraft.server.v1_9_R1.PathfinderGoalMoveTowardsTarget;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_9_R1.SoundEffect;
 import net.minecraft.server.v1_9_R1.World;
 
 import org.bukkit.ChatColor;
@@ -80,8 +82,8 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         if (damage > 0) getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(damage);
         this.setHealth(maxHp);
-        this.S = 1.5F;
-        this.setEquipment(0, new ItemStack(Item.d("iron_sword")));
+        this.P = 1.5F;
+        this.setEquipment(EnumItemSlot.MAINHAND, new ItemStack(Item.d("iron_sword")));
 
         if (ReflectionManager.good_Navigation_Distance) {
             try {
@@ -115,12 +117,12 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public void m() {
+    public void n() {
         int tmpFire = this.fireTicks;
-        super.m();
+        super.n();
         this.fireTicks = tmpFire;
-        if (this.getEquipment(4) != null) {
-            this.getEquipment(4).setData(0);
+        if (this.getEquipment(EnumItemSlot.HEAD) != null) {
+            this.getEquipment(EnumItemSlot.HEAD).setData(0);
         }
         if (--retargetTime < 0) {
             retargetTime = 20;
@@ -369,23 +371,23 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    protected String z() {
+    protected SoundEffect G() {
         return FactionMobs.sndBreath;
     }
 
     @Override
-    protected String bo() {
+    protected SoundEffect bR() {
         return FactionMobs.sndHurt;
     }
 
     @Override
-    protected String bp() {
+    protected SoundEffect bS() {
         return FactionMobs.sndDeath;
     }
 
     @Override
     protected void a(BlockPosition blockposition, Block block) {
-        makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
+        a(FactionMobs.sndStep, 0.15F, 1.0F);
     }
 
     @Override
@@ -456,11 +458,12 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         if (this.getHealth() <= 0) {
             super.die();
             this.setHealth(0);
-            this.setEquipment(0, null);
-            this.setEquipment(1, null);
-            this.setEquipment(2, null);
-            this.setEquipment(3, null);
-            this.setEquipment(4, null);
+            this.setEquipment(EnumItemSlot.CHEST, null);
+            this.setEquipment(EnumItemSlot.FEET, null);
+            this.setEquipment(EnumItemSlot.HEAD, null);
+            this.setEquipment(EnumItemSlot.LEGS, null);
+            this.setEquipment(EnumItemSlot.MAINHAND, null);
+            this.setEquipment(EnumItemSlot.OFFHAND, null);
             if (FactionMobs.mobList.contains(this)) {
                 FactionMobs.mobList.remove(this);
             }
@@ -520,15 +523,15 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 
     @Override
     public void setHealth(float f) {
-        this.datawatcher.watch(6, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
+        this.datawatcher.set(HEALTH, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
     }
 
     @Override
-    public void t_() {
+    public void m() {
         if (this.getHealth() > 0) {
             this.dead = false;
         }
         this.ak = false;
-        super.t_();
+        super.m();
     }
 }

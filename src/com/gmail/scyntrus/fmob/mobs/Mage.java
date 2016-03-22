@@ -11,18 +11,25 @@ import net.minecraft.server.v1_9_R1.EntityPlayer;
 import net.minecraft.server.v1_9_R1.EntityPotion;
 import net.minecraft.server.v1_9_R1.EntityProjectile;
 import net.minecraft.server.v1_9_R1.EntityWitch;
+import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.EnumMonsterType;
 import net.minecraft.server.v1_9_R1.GenericAttributes;
 import net.minecraft.server.v1_9_R1.Item;
 import net.minecraft.server.v1_9_R1.ItemStack;
+import net.minecraft.server.v1_9_R1.Items;
 import net.minecraft.server.v1_9_R1.MathHelper;
-import net.minecraft.server.v1_9_R1.MobEffectList;
+import net.minecraft.server.v1_9_R1.MobEffects;
 import net.minecraft.server.v1_9_R1.NBTTagCompound;
 import net.minecraft.server.v1_9_R1.PathfinderGoalArrowAttack;
 import net.minecraft.server.v1_9_R1.PathfinderGoalFloat;
 import net.minecraft.server.v1_9_R1.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_9_R1.PotionRegistry;
+import net.minecraft.server.v1_9_R1.PotionUtil;
+import net.minecraft.server.v1_9_R1.Potions;
+import net.minecraft.server.v1_9_R1.SoundEffect;
+import net.minecraft.server.v1_9_R1.SoundEffects;
 import net.minecraft.server.v1_9_R1.World;
 
 import org.bukkit.ChatColor;
@@ -79,8 +86,8 @@ public class Mage extends EntityWitch implements FactionMob {
         getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(this.moveSpeed);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         this.setHealth(maxHp);
-        this.S = 1.5F;
-        this.setEquipment(0, new ItemStack(Item.d("potion"), 1, 8204));
+        this.P = 1.5F;
+        this.setEquipment(EnumItemSlot.MAINHAND, new ItemStack(Item.d("potion"), 1, 8204));
 
         if (ReflectionManager.good_Navigation_Distance) {
             try {
@@ -113,8 +120,8 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void m() {
-        super.m();
+    public void n() {
+        super.n();
         if (--retargetTime < 0) {
             retargetTime = 20;
             if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
@@ -362,23 +369,23 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    protected String z() {
+    protected SoundEffect G() {
         return FactionMobs.sndBreath;
     }
 
     @Override
-    protected String bo() {
+    protected SoundEffect bR() {
         return FactionMobs.sndHurt;
     }
 
     @Override
-    protected String bp() {
+    protected SoundEffect bS() {
         return FactionMobs.sndDeath;
     }
 
     @Override
     protected void a(BlockPosition blockposition, Block block) {
-        makeSound(FactionMobs.sndStep, 0.15F, 1.0F);
+        a(FactionMobs.sndStep, 0.15F, 1.0F);
     }
 
     @Override
@@ -449,11 +456,12 @@ public class Mage extends EntityWitch implements FactionMob {
         if (this.getHealth() <= 0) {
             super.die();
             this.setHealth(0);
-            this.setEquipment(0, null);
-            this.setEquipment(1, null);
-            this.setEquipment(2, null);
-            this.setEquipment(3, null);
-            this.setEquipment(4, null);
+            this.setEquipment(EnumItemSlot.CHEST, null);
+            this.setEquipment(EnumItemSlot.FEET, null);
+            this.setEquipment(EnumItemSlot.HEAD, null);
+            this.setEquipment(EnumItemSlot.LEGS, null);
+            this.setEquipment(EnumItemSlot.MAINHAND, null);
+            this.setEquipment(EnumItemSlot.OFFHAND, null);
             if (FactionMobs.mobList.contains(this)) {
                 FactionMobs.mobList.remove(this);
             }
@@ -513,44 +521,48 @@ public class Mage extends EntityWitch implements FactionMob {
 
     @Override
     public void setHealth(float f) {
-        this.datawatcher.watch(6, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
+        this.datawatcher.set(HEALTH, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
     }
 
     @Override
-    public void t_() {
+    public void m() {
         if (this.getHealth() > 0) {
             this.dead = false;
         }
         this.ak = false;
-        super.t_();
+        super.m();
     }
 
     @Override
     public void a(EntityLiving paramEntityLiving, float paramFloat) {  //TODO: Update name on version change
-        if (n()) //TODO: Update name on version change
+        if (o()) { //TODO: Update name on version change
             return;
+        }
 
-        EntityPotion localEntityPotion = new EntityPotion(this.world, this, 32732);
-        localEntityPotion.pitch -= -20.0F;
-        double d1 = paramEntityLiving.locX + paramEntityLiving.motX - this.locX;
-        double d2 = paramEntityLiving.locY + paramEntityLiving.getHeadHeight() - 1.100000023841858D - this.locY;
-        double d3 = paramEntityLiving.locZ + paramEntityLiving.motZ - this.locZ;
-        float f = MathHelper.sqrt(d1 * d1 + d3 * d3);
+        double d1 = paramEntityLiving.locY + paramEntityLiving.getHeadHeight() - 1.100000023841858D;
+        double d2 = paramEntityLiving.locX + paramEntityLiving.motX - this.locX;
+        double d3 = d1 - this.locY;
+        double d4 = paramEntityLiving.locZ + paramEntityLiving.motZ - this.locZ;
+        float f = MathHelper.sqrt(d2 * d2 + d4 * d4);
 
-        if ((f >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffectList.SLOWER_MOVEMENT)))
-            localEntityPotion.setPotionValue(32698);
-        else if ((paramEntityLiving.getHealth() >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffectList.POISON))
+        PotionRegistry localPotionRegistry = Potions.x;
+        if ((f >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.SLOWER_MOVEMENT)))
+            localPotionRegistry = Potions.r;
+        else if ((paramEntityLiving.getHealth() >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.POISON))
                 && (paramEntityLiving.getMonsterType() != EnumMonsterType.UNDEAD)
                 && (paramEntityLiving.getMonsterType() != EnumMonsterType.ARTHROPOD))
-            localEntityPotion.setPotionValue(32660);
-        else if ((f <= 3.0F) && (!paramEntityLiving.hasEffect(MobEffectList.WEAKNESS)) && (this.random.nextFloat() < 0.25F)) {
-            localEntityPotion.setPotionValue(32696);
+            localPotionRegistry = Potions.z;
+        else if ((f <= 3.0F) && (!paramEntityLiving.hasEffect(MobEffects.WEAKNESS)) && (this.random.nextFloat() < 0.25F)) {
+            localPotionRegistry = Potions.I;
         }
         else if (paramEntityLiving.getMonsterType() == EnumMonsterType.UNDEAD) {
-            localEntityPotion.setPotionValue(32696);
+            localPotionRegistry = Potions.v;
         }
 
-        localEntityPotion.shoot(d1, d2 + f * 0.2F, d3, 0.75F, 8.0F);
+        EntityPotion localEntityPotion = new EntityPotion(this.world, this, PotionUtil.a(new ItemStack(Items.SPLASH_POTION), localPotionRegistry));
+        localEntityPotion.pitch -= -20.0F;
+        localEntityPotion.shoot(d2, d3 + f * 0.2F, d4, 0.75F, 8.0F);
+        this.world.a(null, this.locX, this.locY, this.locZ, SoundEffects.gD, bz(), 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
 
         this.world.addEntity(localEntityPotion);
     }

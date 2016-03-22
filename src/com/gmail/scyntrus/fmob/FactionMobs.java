@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import net.milkbowl.vault.economy.Economy;
+import net.minecraft.server.v1_9_R1.SoundEffect;
+import net.minecraft.server.v1_9_R1.SoundEffects;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,10 +41,10 @@ public class FactionMobs extends JavaPlugin {
     public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
     public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
     public static long mobCount = 0;
-    public static String sndBreath = null;
-    public static String sndHurt = null;
-    public static String sndDeath = null;
-    public static String sndStep = null;
+    public static SoundEffect sndBreath = null;
+    public static SoundEffect sndHurt = null;
+    public static SoundEffect sndDeath = null;
+    public static SoundEffect sndStep = null;
     public static int spawnLimit = 50;
     public static int mobsPerFaction = 0;
     public static boolean attackMobs = true;
@@ -99,24 +101,21 @@ public class FactionMobs extends JavaPlugin {
         switch (config.getInt("model")) {
             case 0: // skeleton
                 modelNum = 51;
-                //FactionMobs.sndBreath = "mob.skeleton.say";
-                FactionMobs.sndHurt = "mob.skeleton.hurt";
-                FactionMobs.sndDeath = "mob.skeleton.death";
-                FactionMobs.sndStep = "mob.skeleton.step";
+                FactionMobs.sndHurt = SoundEffects.fm; //TODO: Update name on version change
+                FactionMobs.sndDeath = SoundEffects.fi; //TODO: Update name on version change
+                FactionMobs.sndStep = SoundEffects.fo; //TODO: Update name on version change
                 break;
             case 1: // zombie
                 modelNum = 54;
-                //FactionMobs.sndBreath = "mob.zombie.say";
-                FactionMobs.sndHurt = "mob.zombie.hurt";
-                FactionMobs.sndDeath = "mob.zombie.death";
-                FactionMobs.sndStep = "mob.zombie.step";
+                FactionMobs.sndHurt = SoundEffects.ho; //TODO: Update name on version change
+                FactionMobs.sndDeath = SoundEffects.hy; //TODO: Update name on version change
+                FactionMobs.sndStep = SoundEffects.hu; //TODO: Update name on version change
                 break;
             case 2: // pigzombie
                 modelNum = 57;
-                //FactionMobs.sndBreath = "mob.zombiepig.zpig";
-                FactionMobs.sndHurt = "mob.zombiepig.zpighurt";
-                FactionMobs.sndDeath = "mob.zombiepig.zpigdeath";
-                FactionMobs.sndStep = "mob.zombie.step";
+                FactionMobs.sndHurt = SoundEffects.ht; //TODO: Update name on version change
+                FactionMobs.sndDeath = SoundEffects.hs; //TODO: Update name on version change
+                FactionMobs.sndStep = SoundEffects.hu; //TODO: Update name on version change
                 break;
         }
 

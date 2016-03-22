@@ -9,6 +9,7 @@ import net.minecraft.server.v1_9_R1.EntityIronGolem;
 import net.minecraft.server.v1_9_R1.EntityLiving;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import net.minecraft.server.v1_9_R1.EntityProjectile;
+import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.EnumMonsterType;
 import net.minecraft.server.v1_9_R1.GenericAttributes;
 import net.minecraft.server.v1_9_R1.MathHelper;
@@ -19,6 +20,8 @@ import net.minecraft.server.v1_9_R1.PathfinderGoalMeleeAttack;
 import net.minecraft.server.v1_9_R1.PathfinderGoalMoveTowardsTarget;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_9_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_9_R1.SoundEffect;
+import net.minecraft.server.v1_9_R1.SoundEffects;
 import net.minecraft.server.v1_9_R1.World;
 
 import org.bukkit.ChatColor;
@@ -75,7 +78,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
         getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(this.moveSpeed);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         this.setHealth(maxHp);
-        this.S = 1.5F;
+        this.P = 1.5F;
 
         if (ReflectionManager.good_Navigation_Distance) {
             try {
@@ -109,8 +112,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void m() {
-        super.m();
+    public void n() {
+        super.n();
         if (this.inWater) {
             this.motY += .1;
         }
@@ -427,11 +430,12 @@ public class Titan extends EntityIronGolem implements FactionMob {
         if (this.getHealth() <= 0) {
             super.die();
             this.setHealth(0);
-            this.setEquipment(0, null);
-            this.setEquipment(1, null);
-            this.setEquipment(2, null);
-            this.setEquipment(3, null);
-            this.setEquipment(4, null);
+            this.setEquipment(EnumItemSlot.CHEST, null);
+            this.setEquipment(EnumItemSlot.FEET, null);
+            this.setEquipment(EnumItemSlot.HEAD, null);
+            this.setEquipment(EnumItemSlot.LEGS, null);
+            this.setEquipment(EnumItemSlot.MAINHAND, null);
+            this.setEquipment(EnumItemSlot.OFFHAND, null);
             if (FactionMobs.mobList.contains(this)) {
                 FactionMobs.mobList.remove(this);
             }
@@ -452,7 +456,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
             if (flag) {
                 entity.motY += 0.4;
             }
-            makeSound("mob.irongolem.throw", 1.0F, 1.0F);
+            a(SoundEffects.cG, 1.0F, 1.0F); //TODO: Update name on version change
             return flag;
         } else {
             return super.r(entity);
@@ -506,20 +510,20 @@ public class Titan extends EntityIronGolem implements FactionMob {
 
     @Override
     public void setHealth(float f) {
-        this.datawatcher.watch(6, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
+        this.datawatcher.set(HEALTH, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
     }
 
     @Override
-    public void t_() {
+    public void m() {
         if (this.getHealth() > 0) {
             this.dead = false;
         }
         this.ak = false;
-        super.t_();
+        super.m();
     }
     
     @Override
-    protected String z() { //TODO: Update name on version change
+    protected SoundEffect G() { //TODO: Update name on version change
         // Fix to prevent console spam:
         // "Unable to play unknown soundEvent: minecraft:none"
         return null;
