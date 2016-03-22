@@ -4,16 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.EntityCreature;
-import net.minecraft.server.v1_9_R1.EntityEndermite;
 import net.minecraft.server.v1_9_R1.EntityInsentient;
 import net.minecraft.server.v1_9_R1.EntityLiving;
-import net.minecraft.server.v1_9_R1.EntitySpider;
 import net.minecraft.server.v1_9_R1.EntityWolf;
-import net.minecraft.server.v1_9_R1.EntityZombie;
-import net.minecraft.server.v1_9_R1.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_9_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_9_R1.PathfinderGoalSelector;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -42,9 +35,6 @@ import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import com.gmail.scyntrus.fmob.mobs.Archer;
-import com.gmail.scyntrus.fmob.mobs.Mage;
-import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
@@ -198,26 +188,6 @@ public class EntityListener implements Listener {
             FactionMob fmob = (FactionMob) damager.getHandle();
             if (Utils.FactionCheck(entity.getHandle(), fmob.getFaction()) < 1) {
                 if (fmob.getEntity().isAlive()) {
-                    if ((entity.getHandle() instanceof EntityZombie 
-                            || entity.getHandle() instanceof EntitySpider
-                            || entity.getHandle() instanceof EntityEndermite)
-                            && !entity.hasMetadata("CustomEntity")
-                            && !entity.hasMetadata("Fmob Goal Added")) {
-                        try {
-                            PathfinderGoalSelector goalSelector = (PathfinderGoalSelector) ReflectionManager.entityInsentient_GoalSelector.get(entity.getHandle());
-                            /* TODO: TEST IF THIS IS REQUIRED STILL
-                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), 1.0D, false));
-                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), 1.0D, false));
-                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), 1.0D, false));
-                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), 1.0D, false));
-                            */
-                            goalSelector.a(2, new PathfinderGoalMoveTowardsTarget((EntityCreature) entity.getHandle(), 1.0, 16.0f));
-
-                        } catch (Exception e1) {
-                            ErrorManager.handleError(e1);
-                        }
-                        entity.setMetadata("Fmob Goal Added", new FixedMetadataValue(FactionMobs.instance, true));
-                    }
                     if (entity.getHandle() instanceof EntityInsentient) {
                         ((EntityInsentient) entity.getHandle()).setGoalTarget(damager.getHandle(), EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true);
                     }

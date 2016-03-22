@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.EntityInsentient;
 import net.minecraft.server.v1_9_R1.EntityTypes;
 import net.minecraft.server.v1_9_R1.NavigationAbstract;
 import net.minecraft.server.v1_9_R1.PathfinderGoalSelector;
@@ -12,7 +11,6 @@ import net.minecraft.server.v1_9_R1.PathfinderGoalSelector;
 public class ReflectionManager {
     public static Field navigation_Distance = null;
     public static Field pathfinderGoalSelector_GoalSet = null;
-    public static Field entityInsentient_GoalSelector = null;
 
     public static boolean good_Navigation_Distance = false;
     public static boolean good_PathfinderGoalSelector_GoalSet = false;
@@ -95,21 +93,6 @@ public class ReflectionManager {
                 good_PathfinderGoalSelector_GoalSet = true;
             } catch (Exception e2) {
                 ErrorManager.handleError("[Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
-                ErrorManager.handleError(e1);
-                ErrorManager.handleError(e2);
-            }
-        }
-        try {
-            entityInsentient_GoalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
-            entityInsentient_GoalSelector.setAccessible(true);
-            good_EntityInsentient_GoalSelector = true;
-        } catch ( Exception e1 ) {
-            try {
-                entityInsentient_GoalSelector = EntityInsentient.class.getDeclaredField("field_70714_bg");
-                entityInsentient_GoalSelector.setAccessible(true);
-                good_EntityInsentient_GoalSelector = true;
-            } catch (Exception e2) {
-                ErrorManager.handleError("[Minor Error] Field not found: EntityInsentient.goalSelector; Unable to override zombie goals");
                 ErrorManager.handleError(e1);
                 ErrorManager.handleError(e2);
             }
