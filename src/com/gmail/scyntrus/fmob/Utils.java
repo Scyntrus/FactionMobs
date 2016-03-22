@@ -13,7 +13,6 @@ import net.minecraft.server.v1_9_R1.EntitySlime;
 import net.minecraft.server.v1_9_R1.EntityWolf;
 import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.IMonster;
-import net.minecraft.server.v1_9_R1.Item;
 import net.minecraft.server.v1_9_R1.ItemStack;
 import net.minecraft.server.v1_9_R1.Items;
 import net.minecraft.server.v1_9_R1.NBTTagCompound;
@@ -109,10 +108,10 @@ public class Utils {
             n2.setInt("color", color);
         }
 
-        entity.getEntity().setEquipment(EnumItemSlot.FEET, itemStacks[0]);
-        entity.getEntity().setEquipment(EnumItemSlot.LEGS, itemStacks[1]);
-        entity.getEntity().setEquipment(EnumItemSlot.CHEST, itemStacks[2]);
-        entity.getEntity().setEquipment(EnumItemSlot.HEAD, itemStacks[3]);
+        entity.getEntity().setSlot(EnumItemSlot.FEET, itemStacks[0]);
+        entity.getEntity().setSlot(EnumItemSlot.LEGS, itemStacks[1]);
+        entity.getEntity().setSlot(EnumItemSlot.CHEST, itemStacks[2]);
+        entity.getEntity().setSlot(EnumItemSlot.HEAD, itemStacks[3]);
         return;
     }
 
