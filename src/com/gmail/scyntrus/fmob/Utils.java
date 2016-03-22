@@ -1,16 +1,9 @@
 package com.gmail.scyntrus.fmob;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import net.minecraft.server.v1_9_R1.EntityAnimal;
 import net.minecraft.server.v1_9_R1.EntityCreeper;
@@ -18,6 +11,7 @@ import net.minecraft.server.v1_9_R1.EntityLiving;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import net.minecraft.server.v1_9_R1.EntitySlime;
 import net.minecraft.server.v1_9_R1.EntityWolf;
+import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.IMonster;
 import net.minecraft.server.v1_9_R1.Item;
 import net.minecraft.server.v1_9_R1.ItemStack;
@@ -89,10 +83,10 @@ public class Utils {
         }
 
         if (color == -1 || color == 10511680) {
-            entity.getEntity().setEquipment(1, new ItemStack(Item.d("leather_boots")));
-            entity.getEntity().setEquipment(2, new ItemStack(Item.d("leather_leggings")));
-            entity.getEntity().setEquipment(3, new ItemStack(Item.d("leather_chestplate")));
-            entity.getEntity().setEquipment(4, new ItemStack(Item.d("leather_helmet")));
+            entity.getEntity().setEquipment(EnumItemSlot.FEET, new ItemStack(Item.d("leather_boots")));
+            entity.getEntity().setEquipment(EnumItemSlot.LEGS, new ItemStack(Item.d("leather_leggings")));
+            entity.getEntity().setEquipment(EnumItemSlot.CHEST, new ItemStack(Item.d("leather_chestplate")));
+            entity.getEntity().setEquipment(EnumItemSlot.HEAD, new ItemStack(Item.d("leather_helmet")));
             return;
         }
 
@@ -114,10 +108,10 @@ public class Utils {
             n2.setInt("color", color);
         }
 
-        entity.getEntity().setEquipment(1, itemStacks[0]);
-        entity.getEntity().setEquipment(2, itemStacks[1]);
-        entity.getEntity().setEquipment(3, itemStacks[2]);
-        entity.getEntity().setEquipment(4, itemStacks[3]);
+        entity.getEntity().setEquipment(EnumItemSlot.FEET, itemStacks[0]);
+        entity.getEntity().setEquipment(EnumItemSlot.LEGS, itemStacks[1]);
+        entity.getEntity().setEquipment(EnumItemSlot.CHEST, itemStacks[2]);
+        entity.getEntity().setEquipment(EnumItemSlot.HEAD, itemStacks[3]);
         return;
     }
 

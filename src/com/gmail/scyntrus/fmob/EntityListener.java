@@ -146,8 +146,10 @@ public class EntityListener implements Listener {
             if (FactionMobs.feedEnabled) {
                 @SuppressWarnings("deprecation")
                 Material mat = Material.getMaterial(FactionMobs.feedItem);
-                if (player.getItemInHand().getType() == mat) {
-                    player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
+                ItemStack itemMainHand = player.getEquipment().getItemInMainHand();
+                if (itemMainHand.getType() == mat) {
+                    itemMainHand.setAmount(itemMainHand.getAmount() - 1);
+                    player.getEquipment().setItemInMainHand(itemMainHand);
                     float iHp = fmob.getEntity().getHealth();
                     fmob.getEntity().setHealth(fmob.getEntity().getHealth() + FactionMobs.feedAmount);
                     player.sendMessage(String.format("%sThis mob has been healed by %s%.2f", ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth() - iHp));
@@ -203,10 +205,12 @@ public class EntityListener implements Listener {
                             && !entity.hasMetadata("Fmob Goal Added")) {
                         try {
                             PathfinderGoalSelector goalSelector = (PathfinderGoalSelector) ReflectionManager.entityInsentient_GoalSelector.get(entity.getHandle());
-                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), Archer.class, 1.0D, false));
-                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), Mage.class, 1.0D, false));
-                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), Swordsman.class, 1.0D, false));
-                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), Titan.class, 1.0D, false));
+                            /* TODO: TEST IF THIS IS REQUIRED STILL
+                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), 1.0D, false));
+                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), 1.0D, false));
+                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), 1.0D, false));
+                            goalSelector.a(2, new PathfinderGoalMeleeAttack((EntityCreature) entity.getHandle(), 1.0D, false));
+                            */
                             goalSelector.a(2, new PathfinderGoalMoveTowardsTarget((EntityCreature) entity.getHandle(), 1.0, 16.0f));
 
                         } catch (Exception e1) {
