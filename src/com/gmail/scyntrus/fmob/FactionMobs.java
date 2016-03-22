@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -62,6 +63,8 @@ public class FactionMobs extends JavaPlugin {
     private static String minRankToSpawnStr = "MEMBER";
     public static Rank minRankToSpawn;
     public static boolean onlySpawnInTerritory = true;
+    public static final Random random = new Random();
+    public static final int responseTime = 30;
 
     @Override
     public void onEnable() {

@@ -85,6 +85,7 @@ public class Mage extends EntityWitch implements FactionMob {
         this.setHealth(maxHp);
         this.P = 1.5F;
         this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a(new ItemStack(Items.POTION), Potions.x)); // TODO: Update name on version change
+        this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_Navigation_Distance) {
             try {
@@ -120,14 +121,14 @@ public class Mage extends EntityWitch implements FactionMob {
     public void n() {
         super.n();
         if (--retargetTime < 0) {
-            retargetTime = 20;
+            retargetTime = FactionMobs.responseTime;
             if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
                 this.findTarget();
             } else {
                 double dist = Utils.dist3D(this.locX, this.getGoalTarget().locX, this.locY, this.getGoalTarget().locY, this.locZ, this.getGoalTarget().locZ);
                 if (dist > range) {
                     this.findTarget();
-                } else if (dist > 1.5) {
+                } else if (dist > 5) {
                     this.findCloserTarget();
                 }
             }
