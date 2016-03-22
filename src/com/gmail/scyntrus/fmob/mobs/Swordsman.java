@@ -1,5 +1,7 @@
 package com.gmail.scyntrus.fmob.mobs;
 
+import java.util.LinkedHashSet;
+
 import net.minecraft.server.v1_9_R1.AttributeInstance;
 import net.minecraft.server.v1_9_R1.Block;
 import net.minecraft.server.v1_9_R1.BlockPosition;
@@ -31,7 +33,6 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_9_R1.util.UnsafeList;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -93,14 +94,14 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
                 ErrorManager.handleError(e);
             }
         }
-        if (ReflectionManager.good_PathfinderGoalSelector_GoalList) {
+        if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {
             try {
                 @SuppressWarnings("rawtypes")
-                UnsafeList tempList1 = new UnsafeList();
-                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.goalSelector, tempList1);
+                LinkedHashSet tempSet1 = (LinkedHashSet) ReflectionManager.pathfinderGoalSelector_GoalSet.get(this.goalSelector);
+                tempSet1.clear();
                 @SuppressWarnings("rawtypes")
-                UnsafeList tempList2 = new UnsafeList();
-                ReflectionManager.pathfinderGoalSelector_GoalList.set(this.targetSelector, tempList2);
+                LinkedHashSet tempSet2 = (LinkedHashSet) ReflectionManager.pathfinderGoalSelector_GoalSet.get(this.targetSelector);
+                tempSet2.clear();
             } catch (Exception e) {
                 ErrorManager.handleError(e);
             }

@@ -11,11 +11,11 @@ import net.minecraft.server.v1_9_R1.PathfinderGoalSelector;
 
 public class ReflectionManager {
     public static Field navigation_Distance = null;
-    public static Field pathfinderGoalSelector_GoalList = null;
+    public static Field pathfinderGoalSelector_GoalSet = null;
     public static Field entityInsentient_GoalSelector = null;
 
     public static boolean good_Navigation_Distance = false;
-    public static boolean good_PathfinderGoalSelector_GoalList = false;
+    public static boolean good_PathfinderGoalSelector_GoalSet = false;
     public static boolean good_EntityInsentient_GoalSelector = false;
 
     public static Map<String, Class<? extends Entity>> mapC;
@@ -85,14 +85,14 @@ public class ReflectionManager {
             }
         }
         try {
-            pathfinderGoalSelector_GoalList = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change
-            pathfinderGoalSelector_GoalList.setAccessible(true);
-            good_PathfinderGoalSelector_GoalList = true;
+            pathfinderGoalSelector_GoalSet = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change
+            pathfinderGoalSelector_GoalSet.setAccessible(true);
+            good_PathfinderGoalSelector_GoalSet = true;
         } catch (Exception e1) {
             try {
-                pathfinderGoalSelector_GoalList = PathfinderGoalSelector.class.getDeclaredField("field_75782_a");
-                pathfinderGoalSelector_GoalList.setAccessible(true);
-                good_PathfinderGoalSelector_GoalList = true;
+                pathfinderGoalSelector_GoalSet = PathfinderGoalSelector.class.getDeclaredField("field_75782_a");
+                pathfinderGoalSelector_GoalSet.setAccessible(true);
+                good_PathfinderGoalSelector_GoalSet = true;
             } catch (Exception e2) {
                 ErrorManager.handleError("[Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
                 ErrorManager.handleError(e1);
