@@ -70,7 +70,7 @@ public class ReflectionManager {
             }
         }
         try {
-            navigation_Distance = NavigationAbstract.class.getDeclaredField("a"); //TODO: Update name on version change
+            navigation_Distance = NavigationAbstract.class.getDeclaredField("g"); //TODO: Update name on version change
             navigation_Distance.setAccessible(true);
             good_Navigation_Distance = true;
         } catch (Exception e1) {
