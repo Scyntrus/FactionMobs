@@ -28,6 +28,7 @@ import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -119,12 +120,12 @@ public class EntityListener implements Listener {
                     plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
                 }
                 if (plugin.playerSelections.get(player.getName()).contains(fmob)) {
-                    plugin.playerSelections.get(player.getName()).remove(fmob);
-                    player.sendMessage(String.format("%sYou have deselected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
-                    if (plugin.playerSelections.get(player.getName()).isEmpty()) {
-                        plugin.playerSelections.remove(player.getName());
-                        player.sendMessage(String.format("%sYou have no mobs selected", ChatColor.GREEN));
-                    }
+//                    plugin.playerSelections.get(player.getName()).remove(fmob);
+//                    player.sendMessage(String.format("%sYou have deselected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
+//                    if (plugin.playerSelections.get(player.getName()).isEmpty()) {
+//                        plugin.playerSelections.remove(player.getName());
+//                        player.sendMessage(String.format("%sYou have no mobs selected", ChatColor.GREEN));
+//                    }
                 } else {
                     plugin.playerSelections.get(player.getName()).add(fmob);
                     player.sendMessage(String.format("%sYou have selected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
