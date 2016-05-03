@@ -317,12 +317,13 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void setGoalTarget(EntityLiving entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
+    public boolean setGoalTarget(EntityLiving entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
         if (this.target instanceof EntityLiving && this.target.isAlive()) {
             super.setGoalTarget(this.target, EntityTargetEvent.TargetReason.CUSTOM, false);
         } else {
             super.setGoalTarget(null, EntityTargetEvent.TargetReason.CUSTOM, false);
         }
+        return true;
     }
 
     @Override
