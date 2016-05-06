@@ -13,7 +13,7 @@ This code depends on the following team plugins:
 	SimpleClans - http://dev.bukkit.org/bukkit-plugins/simpleclans/  
 	Kingdoms - https://www.spigotmc.org/resources/kingdoms-battle-for-land-might-and-glory-1-8-x-1-9.11833/  
 
-If you are compiling for yourself, you can delete the unused packages under "com.gmail.scyntrus.ifactions".  
-The corresponding team plugin dependencies can be ignored.  
+If you are compiling for yourself, you can delete the unused packages under "com.gmail.scyntrus.ifactions"  
+The corresponding team plugin dependencies can be removed from the pom.xml  
 
 By default, the pom file is configure to look for these jars in the lib folder  
