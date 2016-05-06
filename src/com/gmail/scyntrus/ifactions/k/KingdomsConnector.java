@@ -8,24 +8,29 @@ import org.kingdoms.manager.game.GameManagement;
 
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
 
 public class KingdomsConnector implements Factions {
 
     private static KingdomsConnector instance;
-    private KingdomsConnector() {
-    }
-    public static Factions get() {
-        if (instance == null) {
-            instance = new KingdomsConnector();
-        }
-        return instance;
+    
+    private KingdomsConnector(Plugin plugin) {
+        instance = this;
+        plugin.getServer().getPluginManager().registerEvents(new KingdomsListener(), plugin);
     }
 
-    @Override
-    public boolean init(Plugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(new KingdomsListener(), plugin);
-        return true;
+    public static Factions get(Plugin plugin, StringBuilder log) {
+        if (instance != null) {
+            return instance;
+        }
+        String pluginName = plugin.getName();
+        if (FactionsManager.classExists("org.kingdoms.constants.kingdom.Kingdom")) {
+            log.append("FOUND org.kingdoms.constants.kingdom.Kingdom\n");
+            System.out.println("["+pluginName+"] Kingdoms detected. Kingdoms support is highly experimental.");
+            new KingdomsConnector(plugin);
+        }
+        return instance;
     }
 
     @Override

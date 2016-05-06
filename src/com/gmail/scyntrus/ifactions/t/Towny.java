@@ -7,26 +7,30 @@ import org.bukkit.plugin.Plugin;
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
-import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class Towny implements Factions {
 
     private static Towny instance;
-    private Towny() {
-    }
-    public static Factions get() {
-        if (instance == null) {
-            instance = new Towny();
-        }
-        return instance;
+    
+    private Towny(Plugin plugin) {
+        instance = this;
+        plugin.getServer().getPluginManager().registerEvents(new TownyListener(), plugin);
     }
 
-    @Override
-    public boolean init(Plugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(new TownyListener(), plugin);
-        return true;
+    public static Factions get(Plugin plugin, StringBuilder log) {
+        if (instance != null) {
+            return instance;
+        }
+        String pluginName = plugin.getName();
+        if (FactionsManager.classExists("com.palmergames.bukkit.towny.Towny")) {
+            log.append("FOUND com.palmergames.bukkit.towny.Towny\n");
+            System.out.println("["+pluginName+"] Towny detected. Towny support is experimental.");
+            new Towny(plugin);
+        }
+        return instance;
     }
 
     @Override
@@ -36,7 +40,7 @@ public class Towny implements Factions {
             if (townName == null)
                 return null;
             return new Town(TownyUniverse.getDataSource().getTown(townName));
-        } catch (NotRegisteredException e) {
+        } catch (Exception e) {
         }
         return null;
     }
@@ -45,7 +49,7 @@ public class Towny implements Factions {
     public Faction getFactionByName(String name) {
         try {
             return new Town(TownyUniverse.getDataSource().getTown(name));
-        } catch (NotRegisteredException e) {
+        } catch (Exception e) {
         }
         return null;
     }
@@ -54,7 +58,7 @@ public class Towny implements Factions {
     public Faction getPlayerFaction(Player player) {
         try {
             return new Town(TownyUniverse.getDataSource().getResident(player.getName()).getTown());
-        } catch (NotRegisteredException e) {
+        } catch (Exception e) {
         }
         return null;
     }

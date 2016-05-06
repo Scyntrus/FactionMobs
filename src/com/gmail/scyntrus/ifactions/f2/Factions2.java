@@ -6,25 +6,29 @@ import org.bukkit.plugin.Plugin;
 
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
 
 public class Factions2 implements Factions{
 
-    private static Factions2 instance;
-    private Factions2() {
-
+    private static Factions2 instance = null;
+    
+    private Factions2(Plugin plugin) {
+        instance = this;
+        plugin.getServer().getPluginManager().registerEvents(new FactionListener2(), plugin);
     }
-    public static Factions get() {
-        if (instance == null) {
-            instance = new Factions2();
+
+    public static Factions get(Plugin plugin, StringBuilder log) {
+        if (instance != null) {
+            return instance;
+        }
+        String pluginName = plugin.getName();
+        if (FactionsManager.classExists("com.massivecraft.factions.Rel")) {
+            log.append("FOUND com.massivecraft.factions.Rel\n");
+            System.out.println("["+pluginName+"] Factions 2 detected");
+            new Factions2(plugin);
         }
         return instance;
-    }
-
-    @Override
-    public boolean init(Plugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(new FactionListener2(), plugin);
-        return true;
     }
 
     @Override

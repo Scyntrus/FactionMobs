@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
 import com.gmail.scyntrus.ifactions.f6.FactionListener68;
 import com.massivecraft.factions.Board;
@@ -22,22 +23,9 @@ import com.massivecraft.factions.struct.Rel;
 
 public class Factions8 implements Factions {
 
-    private static Factions8 instance;
-    private Factions8() {
-    }
-    public static Factions get() {
-        if (instance == null) {
-            instance = new Factions8();
-        }
-        return instance;
-    }
-
-    private com.massivecraft.factions.Factions factionsInstance;
-    private Method getByTagMethod;
-    private Method fPlayerGetRoleMethod;
-
-    @Override
-    public boolean init(Plugin plugin) {
+    private static Factions8 instance = null;
+    
+    private Factions8(Plugin plugin) {
         try {
             Field factionsInstanceField = com.massivecraft.factions.Factions.class.getDeclaredField("i");
             factionsInstanceField.setAccessible(true);
@@ -46,12 +34,28 @@ public class Factions8 implements Factions {
             fPlayerGetRoleMethod = FPlayer.class.getMethod("getRole");
             Faction8.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", new Class<?>[]{RelationParticipator.class});
             Faction8.getFlag = com.massivecraft.factions.Faction.class.getMethod("getFlag", new Class<?>[]{FFlag.class});
-            plugin.getServer().getPluginManager().registerEvents(new FactionListener68(), plugin);
-            return true;
         } catch (Exception e) {
             ErrorManager.handleError(e);
+            instance = null;
         }
-        return false;
+        plugin.getServer().getPluginManager().registerEvents(new FactionListener68(), plugin);
+    }
+
+    private com.massivecraft.factions.Factions factionsInstance;
+    private Method getByTagMethod;
+    private Method fPlayerGetRoleMethod;
+    
+    public static Factions get(Plugin plugin, StringBuilder log) {
+        if (instance != null) {
+            return instance;
+        }
+        String pluginName = plugin.getName();
+        if (FactionsManager.classExists("com.massivecraft.factions.struct.Rel")) {
+            log.append("FOUND com.massivecraft.factions.struct.Rel\n");
+            System.out.println("["+pluginName+"] Factions 1.8 detected. It is recommended you update to Factions 2.");
+            instance = new Factions8(plugin);
+        }
+        return instance;   
     }
 
     @Override

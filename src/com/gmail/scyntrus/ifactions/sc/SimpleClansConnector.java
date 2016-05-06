@@ -9,37 +9,43 @@ import org.bukkit.plugin.Plugin;
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
 
 public class SimpleClansConnector implements Factions {
+    
+    private SimpleClans SCInstance;
 
     private static SimpleClansConnector instance;
-    private SimpleClansConnector() {
-    }
-    public static Factions get() {
-        if (instance == null) {
-            instance = new SimpleClansConnector();
-        }
-        return instance;
-    }
     
-    private static SimpleClans SCInstance;
-
-    @Override
-    public boolean init(Plugin plugin) {
+    private SimpleClansConnector(Plugin plugin) {
+        instance = this;
         try {
             for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
                 if (p instanceof SimpleClans) {
-                    SCInstance = (SimpleClans) p;
+                    this.SCInstance = (SimpleClans) p;
                     plugin.getServer().getPluginManager().registerEvents(new SimpleClansListener(), plugin);
-                    return true;
+                    return;
                 }
             }
         } catch (NoClassDefFoundError e) {
             ErrorManager.handleError(e);
         }
+        instance = null;
+    }
 
-        return false;
+
+    public static Factions get(Plugin plugin, StringBuilder log) {
+        if (instance != null) {
+            return instance;
+        }
+        String pluginName = plugin.getName();
+        if (FactionsManager.classExists("net.sacredlabyrinth.phaed.simpleclans.SimpleClans")) {
+            log.append("FOUND net.sacredlabyrinth.phaed.simpleclans.SimpleClans\n");
+            System.out.println("["+pluginName+"] SimpleClans detected. SimpleClans support is highly experimental.");
+            new SimpleClansConnector(plugin);
+        }
+        return instance;
     }
 
     @Override

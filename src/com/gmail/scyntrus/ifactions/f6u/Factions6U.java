@@ -4,39 +4,32 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
 import com.gmail.scyntrus.ifactions.f6.FactionListener68;
 
 public class Factions6U implements Factions {
 
-    private static Factions6U instance;
-    private Factions6U(Method fPlayersGet) {
-        this.fPlayersGet = fPlayersGet;
-    }
-    public static Factions get(Method fPlayersGet) {
-        if (instance == null) {
-            instance = new Factions6U(fPlayersGet);
-        }
-        return instance;
-    }
-
     private com.massivecraft.factions.Factions factionsInstance;
     private Method getByTagMethod;
     private com.massivecraft.factions.FPlayers fPlayersInstance;
-    private Method fPlayersGet;
+    private static Method fPlayersGet;
     private Method fPlayerGetFactionMethod;
     private Method fPlayerGetRoleMethod;
     private Object boardInstance = null;
     private Method boardGetFactionAt;
 
-    @Override
-    public boolean init(Plugin plugin) {
+    private static Factions6U instance;
+    
+    private Factions6U(Plugin plugin) {
+        instance = this;
         try {
             Field factionsInstanceField = com.massivecraft.factions.Factions.class.getDeclaredField("instance");
             factionsInstanceField.setAccessible(true);
@@ -54,12 +47,28 @@ public class Factions6U implements Factions {
             Faction6U.getTag = com.massivecraft.factions.Faction.class.getMethod("getTag");
             Faction6U.getPower = com.massivecraft.factions.Faction.class.getMethod("getPower");
             Faction6U.noMonstersInTerritory = com.massivecraft.factions.Faction.class.getMethod("noMonstersInTerritory");
-            plugin.getServer().getPluginManager().registerEvents(new FactionListener68(), plugin);
-            return true;
         } catch (Exception e) {
             ErrorManager.handleError(e);
+            instance = null;
         }
-        return false;
+        plugin.getServer().getPluginManager().registerEvents(new FactionListener68(), plugin);
+    }
+
+    public static Factions get(Plugin plugin, StringBuilder log) {
+        if (instance != null) {
+            return instance;
+        }
+        String pluginName = plugin.getName();
+        if (FactionsManager.classExists("com.massivecraft.factions.struct.Relation")) {
+            log.append("FOUND com.massivecraft.factions.struct.Relation\n");
+            fPlayersGet = FactionsManager.tryGetMethod(com.massivecraft.factions.FPlayers.class, "getByOfflinePlayer", OfflinePlayer.class);
+            if (fPlayersGet != null) {
+                log.append("FOUND com.massivecraft.factions.FPlayers.getByOfflinePlayer(OfflinePlayer)\n");
+                System.out.println("["+pluginName+"] Factions 1.6-U detected.");
+                new Factions6U(plugin);
+            }
+        }
+        return instance;
     }
 
     @Override
