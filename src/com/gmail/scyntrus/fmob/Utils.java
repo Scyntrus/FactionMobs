@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Iterator;
 
+import net.minecraft.server.v1_9_R1.Chunk;
+import net.minecraft.server.v1_9_R1.Entity;
 import net.minecraft.server.v1_9_R1.EntityAnimal;
 import net.minecraft.server.v1_9_R1.EntityCreeper;
 import net.minecraft.server.v1_9_R1.EntityLiving;
@@ -15,8 +18,11 @@ import net.minecraft.server.v1_9_R1.EnumItemSlot;
 import net.minecraft.server.v1_9_R1.IMonster;
 import net.minecraft.server.v1_9_R1.ItemStack;
 import net.minecraft.server.v1_9_R1.Items;
+import net.minecraft.server.v1_9_R1.MathHelper;
 import net.minecraft.server.v1_9_R1.NBTTagCompound;
+import net.minecraft.server.v1_9_R1.WorldServer;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -172,5 +178,137 @@ public class Utils {
                 ErrorManager.handleError("Unable to close configDefaults.yml.", e);
             }
         }
+    }
+    
+    public static final double closeEnough = 2;
+    private static Pair<Double, EntityLiving> optimizedEntitySearchChunk(FactionMob mob, Chunk chunk, int starty, int disty, double x, double y, double z, double range2) {
+
+        EntityLiving found = null;
+        Faction faction = mob.getFaction();
+        EntityLiving entity = mob.getEntity();
+        
+        if (starty > 0 && !chunk.entitySlices[starty].isEmpty()) {
+            Iterator<Entity> iterator = chunk.entitySlices[starty].iterator();
+
+            while (iterator.hasNext()) {
+                Entity entity1 = (Entity) iterator.next();
+                if (!entity1.isAlive())
+                    continue;
+                if (entity1 instanceof EntityLiving) {
+                    if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                        double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
+                                + (entity1.locY - y) * (entity1.locY - y)
+                                + (entity1.locZ - z) * (entity1.locZ - z);
+                        if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
+                            range2 = tempRange2;
+                            found = (EntityLiving) entity1;
+                            if (range2 < closeEnough)
+                                return Pair.of(range2, found);
+                        }
+                    }
+                }
+            }
+        }
+        
+        for (int dy = 1; dy <= disty; dy++) {
+            if (starty-dy > 0 && !chunk.entitySlices[starty-dy].isEmpty()) {
+                Iterator<Entity> iterator = chunk.entitySlices[starty-dy].iterator();
+
+                while (iterator.hasNext()) {
+                    Entity entity1 = (Entity) iterator.next();
+                    if (!entity1.isAlive())
+                        continue;
+                    if (entity1 instanceof EntityLiving) {
+                        if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                            double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
+                                    + (entity1.locY - y) * (entity1.locY - y)
+                                    + (entity1.locZ - z) * (entity1.locZ - z);
+                            if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
+                                range2 = tempRange2;
+                                found = (EntityLiving) entity1;
+                                if (range2 < closeEnough)
+                                    return Pair.of(range2, found);
+                            }
+                        }
+                    }
+                }
+            }
+            if (starty+dy < chunk.entitySlices.length-1 && !chunk.entitySlices[starty+dy].isEmpty()) {
+                Iterator<Entity> iterator = chunk.entitySlices[starty+dy].iterator();
+
+                while (iterator.hasNext()) {
+                    Entity entity1 = (Entity) iterator.next();
+                    if (!entity1.isAlive())
+                        continue;
+                    if (entity1 instanceof EntityLiving) {
+                        if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                            double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
+                                    + (entity1.locY - y) * (entity1.locY - y)
+                                    + (entity1.locZ - z) * (entity1.locZ - z);
+                            if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
+                                range2 = tempRange2;
+                                found = (EntityLiving) entity1;
+                                if (range2 < closeEnough)
+                                    return Pair.of(range2, found);
+                            }
+                        }
+                    }
+                }
+            }
+            if (found != null) {
+                return Pair.of(range2, found);
+            }
+        }
+        return null;
+    }
+    
+    public static EntityLiving optimizedTargetSearch(FactionMob mob, double range) {
+        double x = mob.getlocX();
+        double y = mob.getlocY();
+        double z = mob.getlocZ();
+        int i = MathHelper.floor((x - range) / 16.0D);
+        int j = MathHelper.floor((x + range) / 16.0D);
+        int k = MathHelper.floor((z - range) / 16.0D);
+        int l = MathHelper.floor((z + range) / 16.0D);
+        int starty = MathHelper.floor(y / 16.0D);
+        int disty = MathHelper.floor(range / 16.0D) + 1;
+        int startx = MathHelper.floor(x / 16.0D);
+        int startz = MathHelper.floor(z / 16.0D);
+        double range2 = range * range;
+        starty = MathHelper.clamp(starty, 0, 15);
+        
+        WorldServer world = (WorldServer) mob.getEntity().getWorld();
+        EntityLiving found = null;
+        
+        Pair<Double, EntityLiving> pair;
+        Chunk chunk;
+        
+        chunk = world.getChunkAt(startx, startz);
+        pair = optimizedEntitySearchChunk(mob, chunk, starty, disty, x, y, z, range2);
+        if (pair != null) {
+            range2 = pair.getKey();
+            found = pair.getValue();
+            if (range2 < closeEnough)
+                return found;
+        }
+        
+        for (int i1 = i; i1 <= j; i1++) {
+            for (int j1 = k; j1 <= l; j1++) {
+                if (i1 == startx && j1 == startz)
+                    continue;
+                if (world.getChunkProviderServer().e(i1, j1)) { // isChunkLoaded
+                    chunk = world.getChunkAt(i1, j1);
+                    pair = optimizedEntitySearchChunk(mob, chunk, starty, disty, x, y, z, range2);
+                    if (pair != null) {
+                        range2 = pair.getKey();
+                        found = pair.getValue();
+                        if (range2 < closeEnough)
+                            return found;
+                    }
+                }
+            }
+        }
+        
+        return found;
     }
 }

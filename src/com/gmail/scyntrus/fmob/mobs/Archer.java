@@ -27,8 +27,6 @@ import net.minecraft.server.v1_9_R1.World;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_9_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -191,51 +189,15 @@ public class Archer extends EntitySkeleton implements FactionMob {
                 this.attackedBy = null;
             }
         }
-        Location thisLoc;
-        double thisDist;
-        for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(1.5, 1.5, 1.5)) {
-            if (e.isDead() || !(((CraftEntity) e).getHandle() instanceof EntityLiving))
-                continue;
-            EntityLiving entity = (EntityLiving) ((CraftEntity) e).getHandle();
-            if (Utils.FactionCheck(entity, faction) == -1) {
-                thisLoc = e.getLocation();
-                thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
-                if (thisDist < 1.5) {
-                    if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
-                        this.setTarget(entity);
-                        return entity;
-                    }
-                }
-            }
-        }
-        return null;
+        EntityLiving e = Utils.optimizedTargetSearch(this, Utils.closeEnough);
+        if (e != null)
+            this.setTarget(e);
+        return e;
     }
 
     @Override
     public void findTarget() {
-        EntityLiving found = this.findCloserTarget();
-        if (found != null) {
-            return;
-        }
-        double dist = range;
-        Location thisLoc;
-        double thisDist;
-        for (org.bukkit.entity.Entity e : this.getBukkitEntity().getNearbyEntities(range, range, range)) {
-            if (e.isDead() || !(((CraftEntity) e).getHandle() instanceof EntityLiving))
-                continue;
-            EntityLiving entity = (EntityLiving) ((CraftEntity) e).getHandle();
-            if (Utils.FactionCheck(entity, faction) == -1) {
-                thisLoc = e.getLocation();
-                thisDist = Math.sqrt(Math.pow(this.locX-thisLoc.getX(),2) + Math.pow(this.locY-thisLoc.getY(),2) + Math.pow(this.locZ-thisLoc.getZ(),2));
-                if (thisDist < dist) {
-                    if (((CraftLivingEntity) this.getBukkitEntity()).hasLineOfSight(e)) {
-                        found = entity;
-                        dist = thisDist;
-                    }
-                }
-            }
-        }
-        this.setTarget(found);
+        this.setTarget(Utils.optimizedTargetSearch(this, range));
         return;
     }
 
