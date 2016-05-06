@@ -110,9 +110,9 @@
     <dependency>
       <groupId>com.palmergames</groupId>
       <artifactId>Towny</artifactId>
-      <version>0.89.2.0</version>
+      <version>0.91.1.0</version>
       <!-- http://palmergames.com/towny/ -->
-      <systemPath>${basedir}/lib/Towny-0.90.0.0.jar</systemPath>
+      <systemPath>${basedir}/lib/Towny-0.91.1.0.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
