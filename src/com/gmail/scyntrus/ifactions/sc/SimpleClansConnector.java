@@ -31,6 +31,7 @@ public class SimpleClansConnector implements Factions {
             for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
                 if (p instanceof SimpleClans) {
                     SCInstance = (SimpleClans) p;
+                    plugin.getServer().getPluginManager().registerEvents(new SimpleClansListener(), plugin);
                     return true;
                 }
             }
