@@ -2,7 +2,7 @@ name: FactionMobs
 main: com.gmail.scyntrus.fmob.FactionMobs
 author: Scyntrus
 version: ${version}_${craftbukkit.version}
-softdepend: [Factions, Towny, Vault]
+softdepend: [Factions, Towny, SimpleClans, Kingdoms, Vault]
 commands:
     fm:
         description: Faction mobs control
