@@ -5,11 +5,13 @@ import java.lang.reflect.Method;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.Rank;
+import com.gmail.scyntrus.ifactions.f6.FactionListener68;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.FPlayer;
@@ -35,7 +37,7 @@ public class Factions8 implements Factions {
     private Method fPlayerGetRoleMethod;
 
     @Override
-    public boolean init() {
+    public boolean init(Plugin plugin) {
         try {
             Field factionsInstanceField = com.massivecraft.factions.Factions.class.getDeclaredField("i");
             factionsInstanceField.setAccessible(true);
@@ -44,6 +46,7 @@ public class Factions8 implements Factions {
             fPlayerGetRoleMethod = FPlayer.class.getMethod("getRole");
             Faction8.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", new Class<?>[]{RelationParticipator.class});
             Faction8.getFlag = com.massivecraft.factions.Faction.class.getMethod("getFlag", new Class<?>[]{FFlag.class});
+            plugin.getServer().getPluginManager().registerEvents(new FactionListener68(), plugin);
             return true;
         } catch (Exception e) {
             ErrorManager.handleError(e);
@@ -92,4 +95,8 @@ public class Factions8 implements Factions {
         return true;
     }
 
+    @Override
+    public String getVersionString() {
+        return "F1.8";
+    }
 }

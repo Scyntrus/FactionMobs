@@ -2,6 +2,7 @@ package com.gmail.scyntrus.ifactions.t;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
@@ -23,7 +24,8 @@ public class Towny implements Factions {
     }
 
     @Override
-    public boolean init() {
+    public boolean init(Plugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(new TownyListener(), plugin);
         return true;
     }
 
@@ -80,4 +82,8 @@ public class Towny implements Factions {
         return true;
     }
 
+    @Override
+    public String getVersionString() {
+        return "T";
+    }
 }

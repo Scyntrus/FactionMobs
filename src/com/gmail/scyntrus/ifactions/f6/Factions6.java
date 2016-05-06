@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
@@ -34,11 +35,12 @@ public class Factions6 implements Factions {
     private Method fPlayersGet; // Because Factions 1.6 and old 1.6-U had different method signatures
 
     @Override
-    public boolean init() {
+    public boolean init(Plugin plugin) {
         try {
             Field factionsInstanceField = com.massivecraft.factions.Factions.class.getField("i");
             factionsInstance = (com.massivecraft.factions.Factions) factionsInstanceField.get(null);
             getByTagMethod = com.massivecraft.factions.Factions.class.getDeclaredMethod("getByTag", new Class<?>[]{String.class});
+            plugin.getServer().getPluginManager().registerEvents(new FactionListener68(), plugin);
             return true;
         } catch (Exception e) {
             ErrorManager.handleError(e);
@@ -92,4 +94,8 @@ public class Factions6 implements Factions {
         return true;
     }
 
+    @Override
+    public String getVersionString() {
+        return "F1.6";
+    }
 }

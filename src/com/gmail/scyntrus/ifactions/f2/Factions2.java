@@ -2,6 +2,7 @@ package com.gmail.scyntrus.ifactions.f2;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
@@ -21,7 +22,8 @@ public class Factions2 implements Factions{
     }
 
     @Override
-    public boolean init() {
+    public boolean init(Plugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(new FactionListener2(), plugin);
         return true;
     }
 
@@ -54,5 +56,10 @@ public class Factions2 implements Factions{
     @Override
     public boolean supportsLandOwnership() {
         return true;
+    }
+
+    @Override
+    public String getVersionString() {
+        return "F2";
     }
 }

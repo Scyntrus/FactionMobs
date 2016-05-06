@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.scyntrus.fmob.ErrorManager;
-import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.Rank;
@@ -27,11 +26,11 @@ public class SimpleClansConnector implements Factions {
     private static SimpleClans SCInstance;
 
     @Override
-    public boolean init() {
+    public boolean init(Plugin plugin) {
         try {
-            for (Plugin plugin : FactionMobs.instance.getServer().getPluginManager().getPlugins()) {
-                if (plugin instanceof SimpleClans) {
-                    SCInstance = (SimpleClans) plugin;
+            for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
+                if (p instanceof SimpleClans) {
+                    SCInstance = (SimpleClans) p;
                     return true;
                 }
             }
@@ -76,4 +75,8 @@ public class SimpleClansConnector implements Factions {
         return false;
     }
 
+    @Override
+    public String getVersionString() {
+        return "SC";
+    }
 }

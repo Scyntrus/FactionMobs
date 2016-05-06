@@ -1,10 +1,12 @@
-package com.gmail.scyntrus.fmob;
+package com.gmail.scyntrus.ifactions.t;
 
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import com.gmail.scyntrus.fmob.FactionMob;
+import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.palmergames.bukkit.towny.event.DeleteTownEvent;
@@ -13,12 +15,6 @@ import com.palmergames.bukkit.towny.event.RenameTownEvent;
 import com.palmergames.bukkit.towny.object.Town;
 
 public class TownyListener implements Listener {
-
-    FactionMobs plugin;
-
-    public TownyListener(FactionMobs plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTownRename(RenameTownEvent e) {

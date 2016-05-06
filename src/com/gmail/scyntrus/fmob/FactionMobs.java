@@ -87,7 +87,7 @@ public class FactionMobs extends JavaPlugin {
 
         Utils.copyDefaultConfig();
 
-        if (!FactionsManager.init(this.getName())) {
+        if (!FactionsManager.init(this)) {
             ErrorManager.handleError("You are running an unsupported version of Factions. Please contact the plugin author for more info.");
             this.getCommand("fm").setExecutor(new ErrorCommand(this));
             this.getCommand("fmc").setExecutor(new ErrorCommand(this));
@@ -171,25 +171,6 @@ public class FactionMobs extends JavaPlugin {
 
         this.pm.registerEvents(new EntityListener(this), this);
         this.pm.registerEvents(new CommandListener(this), this);
-
-        switch (FactionsManager.getFactionsVersion()) {
-            case F2:
-                this.pm.registerEvents(new FactionListener2(this), this);
-                break;
-            case F16:
-            case F16U:
-            case F18:
-                this.pm.registerEvents(new FactionListener68(this), this);
-                break;
-            case TOWNY:
-                this.pm.registerEvents(new TownyListener(this), this);
-                break;
-            case SIMPLECLANS:
-                break;
-            case INVALID:
-                // Should never happen
-                break;
-        }
 
         File colorFile = new File(getDataFolder(), "colors.dat");
         if (colorFile.exists()){

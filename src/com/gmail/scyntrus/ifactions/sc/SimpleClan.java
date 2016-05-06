@@ -1,6 +1,7 @@
 package com.gmail.scyntrus.ifactions.sc;
 
 import com.gmail.scyntrus.ifactions.Faction;
+
 import net.sacredlabyrinth.phaed.simpleclans.Clan;
 
 class SimpleClan extends Faction {

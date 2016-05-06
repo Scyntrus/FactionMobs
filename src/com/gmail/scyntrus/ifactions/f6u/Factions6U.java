@@ -5,11 +5,13 @@ import java.lang.reflect.Method;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.Rank;
+import com.gmail.scyntrus.ifactions.f6.FactionListener68;
 
 public class Factions6U implements Factions {
 
@@ -34,7 +36,7 @@ public class Factions6U implements Factions {
     private Method boardGetFactionAt;
 
     @Override
-    public boolean init() {
+    public boolean init(Plugin plugin) {
         try {
             Field factionsInstanceField = com.massivecraft.factions.Factions.class.getDeclaredField("instance");
             factionsInstanceField.setAccessible(true);
@@ -52,6 +54,7 @@ public class Factions6U implements Factions {
             Faction6U.getTag = com.massivecraft.factions.Faction.class.getMethod("getTag");
             Faction6U.getPower = com.massivecraft.factions.Faction.class.getMethod("getPower");
             Faction6U.noMonstersInTerritory = com.massivecraft.factions.Faction.class.getMethod("noMonstersInTerritory");
+            plugin.getServer().getPluginManager().registerEvents(new FactionListener68(), plugin);
             return true;
         } catch (Exception e) {
             ErrorManager.handleError(e);
@@ -112,4 +115,8 @@ public class Factions6U implements Factions {
         return true;
     }
 
+    @Override
+    public String getVersionString() {
+        return "F1.6U";
+    }
 }

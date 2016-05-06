@@ -2,6 +2,7 @@ package com.gmail.scyntrus.ifactions.k;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.kingdoms.constants.land.SimpleChunkLocation;
 import org.kingdoms.manager.game.GameManagement;
 
@@ -22,7 +23,7 @@ public class KingdomsConnector implements Factions {
     }
 
     @Override
-    public boolean init() {
+    public boolean init(Plugin plugin) {
         return true;
     }
 
@@ -69,4 +70,8 @@ public class KingdomsConnector implements Factions {
         return true;
     }
 
+    @Override
+    public String getVersionString() {
+        return "K";
+    }
 }
