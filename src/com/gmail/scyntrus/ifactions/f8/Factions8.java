@@ -23,6 +23,10 @@ import com.massivecraft.factions.struct.Rel;
 
 public class Factions8 implements Factions {
 
+    private com.massivecraft.factions.Factions factionsInstance;
+    private Method getByTagMethod;
+    private Method fPlayerGetRoleMethod;
+
     private static Factions8 instance = null;
     
     private Factions8(Plugin plugin) {
@@ -40,10 +44,6 @@ public class Factions8 implements Factions {
         }
         plugin.getServer().getPluginManager().registerEvents(new FactionListener68(), plugin);
     }
-
-    private com.massivecraft.factions.Factions factionsInstance;
-    private Method getByTagMethod;
-    private Method fPlayerGetRoleMethod;
     
     public static Factions get(Plugin plugin, StringBuilder log) {
         if (instance != null) {
