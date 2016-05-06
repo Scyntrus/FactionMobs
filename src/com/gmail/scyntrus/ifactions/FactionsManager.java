@@ -11,6 +11,7 @@ import com.gmail.scyntrus.ifactions.f2.Factions2;
 import com.gmail.scyntrus.ifactions.f6.Factions6;
 import com.gmail.scyntrus.ifactions.f6u.Factions6U;
 import com.gmail.scyntrus.ifactions.f8.Factions8;
+import com.gmail.scyntrus.ifactions.k.KingdomsConnector;
 import com.gmail.scyntrus.ifactions.sc.SimpleClansConnector;
 import com.gmail.scyntrus.ifactions.t.Towny;
 
@@ -23,7 +24,8 @@ public class FactionsManager {
         F18, // Factions 1.8
         F2, // Factions 2
         TOWNY, // Towny
-        SIMPLECLANS
+        SIMPLECLANS,
+        KINGDOMS
     }
 
     private static boolean initialized = false;
@@ -91,6 +93,10 @@ public class FactionsManager {
             log.append("FOUND net.sacredlabyrinth.phaed.simpleclans.SimpleClans\n");
             System.out.println("["+pluginName+"] SimpleClans detected. SimpleClans support is highly experimental.");
             return Version.SIMPLECLANS; //SimpleClans
+        } else if (classExists("org.kingdoms.constants.kingdom.Kingdom")) {
+            log.append("FOUND org.kingdoms.constants.kingdom.Kingdom\n");
+            System.out.println("["+pluginName+"] Kingdoms detected. Kingdoms support is highly experimental.");
+            return Version.KINGDOMS;
         }
         ErrorManager.handleError(log.toString());
         ErrorManager.handleError("No compatible version of Factions detected. "+pluginName+" will not be enabled.");
@@ -120,6 +126,9 @@ public class FactionsManager {
             case SIMPLECLANS:
                 instance = SimpleClansConnector.get();
                 break;
+            case KINGDOMS:
+                instance = KingdomsConnector.get();
+                break;
             default:
                 return false;
         }
@@ -142,6 +151,8 @@ public class FactionsManager {
                 return "T";
             case SIMPLECLANS:
                 return "SC";
+            case KINGDOMS:
+                return "K";
             default:
                 return "INVALID";
         }
