@@ -24,6 +24,7 @@ public class KingdomsConnector implements Factions {
 
     @Override
     public boolean init(Plugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(new KingdomsListener(), plugin);
         return true;
     }
 
