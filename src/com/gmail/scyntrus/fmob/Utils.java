@@ -24,6 +24,8 @@ import net.minecraft.server.v1_9_R1.WorldServer;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
 import com.gmail.scyntrus.ifactions.Faction;
@@ -187,14 +189,12 @@ public class Utils {
         Faction faction = mob.getFaction();
         EntityLiving entity = mob.getEntity();
         
-        if (starty > 0 && !chunk.entitySlices[starty].isEmpty()) {
+        if (!chunk.entitySlices[starty].isEmpty()) {
             Iterator<Entity> iterator = chunk.entitySlices[starty].iterator();
 
             while (iterator.hasNext()) {
                 Entity entity1 = (Entity) iterator.next();
-                if (!entity1.isAlive())
-                    continue;
-                if (entity1 instanceof EntityLiving) {
+                if (entity1.isAlive() && entity1 instanceof EntityLiving) {
                     if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
                         double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
                                 + (entity1.locY - y) * (entity1.locY - y)
@@ -216,9 +216,7 @@ public class Utils {
 
                 while (iterator.hasNext()) {
                     Entity entity1 = (Entity) iterator.next();
-                    if (!entity1.isAlive())
-                        continue;
-                    if (entity1 instanceof EntityLiving) {
+                    if (entity1.isAlive() && entity1 instanceof EntityLiving) {
                         if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
                             double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
                                     + (entity1.locY - y) * (entity1.locY - y)
@@ -238,9 +236,7 @@ public class Utils {
 
                 while (iterator.hasNext()) {
                     Entity entity1 = (Entity) iterator.next();
-                    if (!entity1.isAlive())
-                        continue;
-                    if (entity1 instanceof EntityLiving) {
+                    if (entity1.isAlive() && entity1 instanceof EntityLiving) {
                         if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
                             double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
                                     + (entity1.locY - y) * (entity1.locY - y)
@@ -271,7 +267,7 @@ public class Utils {
         int k = MathHelper.floor((z - range) / 16.0D);
         int l = MathHelper.floor((z + range) / 16.0D);
         int starty = MathHelper.floor(y / 16.0D);
-        int disty = MathHelper.floor(range / 16.0D) + 1;
+        int disty = Math.max(MathHelper.floor(y + range / 16.0D) - starty, starty - MathHelper.floor(y - range / 16.0D));
         int startx = MathHelper.floor(x / 16.0D);
         int startz = MathHelper.floor(z / 16.0D);
         double range2 = range * range;
@@ -281,10 +277,8 @@ public class Utils {
         EntityLiving found = null;
         
         Pair<Double, EntityLiving> pair;
-        Chunk chunk;
         
-        chunk = world.getChunkAt(startx, startz);
-        pair = optimizedEntitySearchChunk(mob, chunk, starty, disty, x, y, z, range2);
+        pair = optimizedEntitySearchChunk(mob, world.getChunkAt(startx, startz), starty, disty, x, y, z, range2);
         if (pair != null) {
             range2 = pair.getKey();
             found = pair.getValue();
@@ -297,8 +291,7 @@ public class Utils {
                 if (i1 == startx && j1 == startz)
                     continue;
                 if (world.getChunkProviderServer().e(i1, j1)) { // isChunkLoaded
-                    chunk = world.getChunkAt(i1, j1);
-                    pair = optimizedEntitySearchChunk(mob, chunk, starty, disty, x, y, z, range2);
+                    pair = optimizedEntitySearchChunk(mob, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2);
                     if (pair != null) {
                         range2 = pair.getKey();
                         found = pair.getValue();
@@ -310,5 +303,51 @@ public class Utils {
         }
         
         return found;
+    }
+    
+    private static void optimizedEntityAgroChunk(Faction faction, Chunk chunk, double x, double y, double z, double range2, int y1, int y2, EntityLiving damager) {
+        for (int k = y1; k <= y2; k++) {
+            if (!chunk.entitySlices[k].isEmpty()) {
+                Iterator<Entity> iterator = chunk.entitySlices[k].iterator();
+
+                while (iterator.hasNext()) {
+                    Entity entity1 = (Entity) iterator.next();
+                    if (entity1.isAlive() && entity1 instanceof FactionMob) {
+                        FactionMob fmob = (FactionMob) entity1;
+                        Faction otherFaction = fmob.getFaction();
+                        if (faction.getRelationTo(otherFaction) == 1 && Utils.FactionCheck(damager, otherFaction) < 1
+                                && (entity1.locX - x) * (entity1.locX - x) + (entity1.locY - y) * (entity1.locY - y)
+                                + (entity1.locZ - z) * (entity1.locZ - z) < range2) {
+                            fmob.softAgro(damager);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    public static void optimizedAoeAgro(Faction faction, Location loc, double range, EntityLiving damager) {
+        if (faction == null || faction.isNone() || !damager.isAlive())
+            return;
+        double x = loc.getX();
+        double y = loc.getY();
+        double z = loc.getZ();
+        int i = MathHelper.floor((x - range) / 16.0D);
+        int j = MathHelper.floor((x + range) / 16.0D);
+        int k = MathHelper.floor((z - range) / 16.0D);
+        int l = MathHelper.floor((z + range) / 16.0D);
+        int y1 = MathHelper.clamp(MathHelper.floor(y - range / 16.0D), 0, 15);
+        int y2 = MathHelper.clamp(MathHelper.floor(y + range / 16.0D), 0, 15);
+        double range2 = range * range;
+        
+        WorldServer world = ((CraftWorld) loc.getWorld()).getHandle();
+        
+        for (int i1 = i; i1 <= j; i1++) {
+            for (int j1 = k; j1 <= l; j1++) {
+                if (world.getChunkProviderServer().e(i1, j1)) { // isChunkLoaded
+                    optimizedEntityAgroChunk(faction, world.getChunkAt(i1, j1), x, y, z, range2, y1, y2, damager);
+                }
+            }
+        }
     }
 }

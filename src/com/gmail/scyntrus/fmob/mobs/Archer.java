@@ -460,9 +460,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 
     @Override
     public boolean softAgro(EntityLiving entity) {
-        if (this.attackedBy == null
-                && entity instanceof EntityLiving
-                && entity.isAlive()) {
+        if (this.attackedBy == null) {
             this.attackedBy = entity;
             this.setTarget(entity);
             return true;

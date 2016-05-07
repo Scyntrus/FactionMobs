@@ -1,7 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import net.minecraft.server.v1_9_R1.Entity;
 import net.minecraft.server.v1_9_R1.EntityInsentient;
@@ -229,29 +228,10 @@ public class EntityListener implements Listener {
         }
         if (entity.getHandle() instanceof FactionMob) {
             Faction faction = ((FactionMob) entity.getHandle()).getFaction();
-            List<org.bukkit.entity.Entity> aoeList = entity.getNearbyEntities(8, 8, 8);
-            for (org.bukkit.entity.Entity nearEntity : aoeList) {
-                if (((CraftEntity) nearEntity).getHandle() instanceof FactionMob) {
-                    FactionMob fmob2 = (FactionMob) ((CraftEntity) nearEntity).getHandle();
-                    int rel = faction.getRelationTo(fmob2.getFaction());
-                    if ((rel == 1) && Utils.FactionCheck(damager.getHandle(), faction) < 1) {
-                        fmob2.softAgro(damager.getHandle());
-                    }
-                }
-            }
+            Utils.optimizedAoeAgro(faction, entity.getLocation(), 8, damager.getHandle());
         } else if (entity instanceof Player) {
             Faction faction = FactionsManager.getPlayerFaction((Player) entity);
-            if (faction == null || faction.isNone()) return;
-            List<org.bukkit.entity.Entity> aoeList = entity.getNearbyEntities(8, 8, 8);
-            for (org.bukkit.entity.Entity nearEntity : aoeList) {
-                if (((CraftEntity) nearEntity).getHandle() instanceof FactionMob) {
-                    FactionMob fmob2 = (FactionMob) ((CraftEntity) nearEntity).getHandle();
-                    int rel = faction.getRelationTo(fmob2.getFaction());
-                    if ((rel == 1) && Utils.FactionCheck(damager.getHandle(), faction) < 1) {
-                        fmob2.softAgro(damager.getHandle());
-                    }
-                }
-            }
+            Utils.optimizedAoeAgro(faction, entity.getLocation(), 8, damager.getHandle());
         }
     }
 
