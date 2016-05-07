@@ -290,7 +290,7 @@ public class Utils {
             for (int j1 = k; j1 <= l; j1++) {
                 if (i1 == startx && j1 == startz)
                     continue;
-                if (world.getChunkProviderServer().e(i1, j1)) { // isChunkLoaded
+                if (world.getChunkProviderServer().e(i1, j1)) { // isChunkLoaded TODO: Update name on version change
                     pair = optimizedEntitySearchChunk(mob, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2);
                     if (pair != null) {
                         range2 = pair.getKey();
@@ -344,7 +344,7 @@ public class Utils {
         
         for (int i1 = i; i1 <= j; i1++) {
             for (int j1 = k; j1 <= l; j1++) {
-                if (world.getChunkProviderServer().e(i1, j1)) { // isChunkLoaded
+                if (world.getChunkProviderServer().e(i1, j1)) { // isChunkLoaded TODO: Update name on version change
                     optimizedEntityAgroChunk(faction, world.getChunkAt(i1, j1), x, y, z, range2, y1, y2, damager);
                 }
             }
