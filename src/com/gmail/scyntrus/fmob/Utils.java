@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.Iterator;
 
 import net.minecraft.server.v1_9_R2.Chunk;
@@ -188,31 +189,12 @@ public class Utils {
         EntityLiving found = null;
         Faction faction = mob.getFaction();
         EntityLiving entity = mob.getEntity();
-        
-        if (!chunk.entitySlices[starty].isEmpty()) {
-            Iterator<Entity> iterator = chunk.entitySlices[starty].iterator();
-
-            while (iterator.hasNext()) {
-                Entity entity1 = (Entity) iterator.next();
-                if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                    if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
-                        double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
-                                + (entity1.locY - y) * (entity1.locY - y)
-                                + (entity1.locZ - z) * (entity1.locZ - z);
-                        if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
-                            range2 = tempRange2;
-                            found = (EntityLiving) entity1;
-                            if (range2 < closeEnough)
-                                return Pair.of(range2, found);
-                        }
-                    }
-                }
-            }
-        }
-        
-        for (int dy = 1; dy <= disty; dy++) {
-            if (starty-dy > 0 && !chunk.entitySlices[starty-dy].isEmpty()) {
-                Iterator<Entity> iterator = chunk.entitySlices[starty-dy].iterator();
+        try {
+            @SuppressWarnings("unchecked")
+            Collection<Entity>[] entitySlices = (Collection<Entity>[]) ReflectionManager.chunk_EntitySlices.get(chunk);
+            
+            if (!entitySlices[starty].isEmpty()) {
+                Iterator<Entity> iterator = entitySlices[starty].iterator();
 
                 while (iterator.hasNext()) {
                     Entity entity1 = (Entity) iterator.next();
@@ -231,29 +213,55 @@ public class Utils {
                     }
                 }
             }
-            if (starty+dy < chunk.entitySlices.length-1 && !chunk.entitySlices[starty+dy].isEmpty()) {
-                Iterator<Entity> iterator = chunk.entitySlices[starty+dy].iterator();
+            
+            for (int dy = 1; dy <= disty; dy++) {
+                if (starty-dy > 0 && !entitySlices[starty-dy].isEmpty()) {
+                    Iterator<Entity> iterator = entitySlices[starty-dy].iterator();
 
-                while (iterator.hasNext()) {
-                    Entity entity1 = (Entity) iterator.next();
-                    if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                        if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
-                            double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
-                                    + (entity1.locY - y) * (entity1.locY - y)
-                                    + (entity1.locZ - z) * (entity1.locZ - z);
-                            if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
-                                range2 = tempRange2;
-                                found = (EntityLiving) entity1;
-                                if (range2 < closeEnough)
-                                    return Pair.of(range2, found);
+                    while (iterator.hasNext()) {
+                        Entity entity1 = (Entity) iterator.next();
+                        if (entity1.isAlive() && entity1 instanceof EntityLiving) {
+                            if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                                double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
+                                        + (entity1.locY - y) * (entity1.locY - y)
+                                        + (entity1.locZ - z) * (entity1.locZ - z);
+                                if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
+                                    range2 = tempRange2;
+                                    found = (EntityLiving) entity1;
+                                    if (range2 < closeEnough)
+                                        return Pair.of(range2, found);
+                                }
                             }
                         }
                     }
                 }
+                if (starty+dy < entitySlices.length-1 && !entitySlices[starty+dy].isEmpty()) {
+                    Iterator<Entity> iterator = entitySlices[starty+dy].iterator();
+
+                    while (iterator.hasNext()) {
+                        Entity entity1 = (Entity) iterator.next();
+                        if (entity1.isAlive() && entity1 instanceof EntityLiving) {
+                            if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                                double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
+                                        + (entity1.locY - y) * (entity1.locY - y)
+                                        + (entity1.locZ - z) * (entity1.locZ - z);
+                                if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
+                                    range2 = tempRange2;
+                                    found = (EntityLiving) entity1;
+                                    if (range2 < closeEnough)
+                                        return Pair.of(range2, found);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (found != null) {
+                    return Pair.of(range2, found);
+                }
             }
-            if (found != null) {
-                return Pair.of(range2, found);
-            }
+        } catch (Exception e) {
+            ErrorManager.handleError(e);
+            return null;
         }
         return null;
     }
@@ -305,24 +313,32 @@ public class Utils {
         return found;
     }
     
+    
     private static void optimizedEntityAgroChunk(Faction faction, Chunk chunk, double x, double y, double z, double range2, int y1, int y2, EntityLiving damager) {
-        for (int k = y1; k <= y2; k++) {
-            if (!chunk.entitySlices[k].isEmpty()) {
-                Iterator<Entity> iterator = chunk.entitySlices[k].iterator();
+        try {
+            @SuppressWarnings("unchecked")
+            Collection<Entity>[] entitySlices = (Collection<Entity>[]) ReflectionManager.chunk_EntitySlices.get(chunk);
+            for (int k = y1; k <= y2; k++) {
+                if (!entitySlices[k].isEmpty()) {
+                    Iterator<Entity> iterator = entitySlices[k].iterator();
 
-                while (iterator.hasNext()) {
-                    Entity entity1 = (Entity) iterator.next();
-                    if (entity1.isAlive() && entity1 instanceof FactionMob) {
-                        FactionMob fmob = (FactionMob) entity1;
-                        Faction otherFaction = fmob.getFaction();
-                        if (faction.getRelationTo(otherFaction) == 1 && Utils.FactionCheck(damager, otherFaction) < 1
-                                && (entity1.locX - x) * (entity1.locX - x) + (entity1.locY - y) * (entity1.locY - y)
-                                + (entity1.locZ - z) * (entity1.locZ - z) < range2) {
-                            fmob.softAgro(damager);
+                    while (iterator.hasNext()) {
+                        Entity entity1 = (Entity) iterator.next();
+                        if (entity1.isAlive() && entity1 instanceof FactionMob) {
+                            FactionMob fmob = (FactionMob) entity1;
+                            Faction otherFaction = fmob.getFaction();
+                            if (faction.getRelationTo(otherFaction) == 1 && Utils.FactionCheck(damager, otherFaction) < 1
+                                    && (entity1.locX - x) * (entity1.locX - x) + (entity1.locY - y) * (entity1.locY - y)
+                                    + (entity1.locZ - z) * (entity1.locZ - z) < range2) {
+                                fmob.softAgro(damager);
+                            }
                         }
                     }
                 }
             }
+        } catch (Exception e) {
+            ErrorManager.handleError(e);
+            return;
         }
     }
     

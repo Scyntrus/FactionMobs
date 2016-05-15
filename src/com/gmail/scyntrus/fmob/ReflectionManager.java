@@ -3,6 +3,7 @@ package com.gmail.scyntrus.fmob;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import net.minecraft.server.v1_9_R2.Chunk;
 import net.minecraft.server.v1_9_R2.Entity;
 import net.minecraft.server.v1_9_R2.EntityTypes;
 import net.minecraft.server.v1_9_R2.NavigationAbstract;
@@ -11,6 +12,7 @@ import net.minecraft.server.v1_9_R2.PathfinderGoalSelector;
 public class ReflectionManager {
     public static Field navigation_Distance = null;
     public static Field pathfinderGoalSelector_GoalSet = null;
+    public static Field chunk_EntitySlices = null;
 
     public static boolean good_Navigation_Distance = false;
     public static boolean good_PathfinderGoalSelector_GoalSet = false;
@@ -96,6 +98,12 @@ public class ReflectionManager {
                 ErrorManager.handleError(e1);
                 ErrorManager.handleError(e2);
             }
+        }
+        try {
+            chunk_EntitySlices = Chunk.class.getDeclaredField("entitySlices");
+        } catch (Exception e1) {
+            ErrorManager.handleError(e1);
+            return false;
         }
         return true;
     }
