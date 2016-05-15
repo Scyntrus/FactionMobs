@@ -418,13 +418,13 @@ public class Titan extends EntityIronGolem implements FactionMob {
             this.world.broadcastEntityEffect(this, (byte)4);
             boolean flag = entity.damageEntity(DamageSource.mobAttack(this), (float) damage);
             if (flag) {
-                entity.motY += 0.4;
+                entity.motY += 0.4D;
             }
             a( //TODO: Update name on version change (E: play SoundEffect)
                     SoundEffects.cH, 1.0F, 1.0F); //TODO: Update name on version change (E: entity.irongolem.attack sound)
             return flag;
         } else {
-            return super.r(entity);
+            return super.B(entity); //TODO: Update name on version change (E: EntityIronGolem attack)
         }
     }
 
