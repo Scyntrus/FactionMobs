@@ -2,37 +2,37 @@ package com.gmail.scyntrus.fmob.mobs;
 
 import java.util.LinkedHashSet;
 
-import net.minecraft.server.v1_9_R1.AttributeInstance;
-import net.minecraft.server.v1_9_R1.DamageSource;
-import net.minecraft.server.v1_9_R1.EntityCreature;
-import net.minecraft.server.v1_9_R1.EntityHuman;
-import net.minecraft.server.v1_9_R1.EntityLiving;
-import net.minecraft.server.v1_9_R1.EntityPlayer;
-import net.minecraft.server.v1_9_R1.EntityPotion;
-import net.minecraft.server.v1_9_R1.EntityProjectile;
-import net.minecraft.server.v1_9_R1.EntityWitch;
-import net.minecraft.server.v1_9_R1.EnumItemSlot;
-import net.minecraft.server.v1_9_R1.EnumMonsterType;
-import net.minecraft.server.v1_9_R1.GenericAttributes;
-import net.minecraft.server.v1_9_R1.ItemStack;
-import net.minecraft.server.v1_9_R1.Items;
-import net.minecraft.server.v1_9_R1.MathHelper;
-import net.minecraft.server.v1_9_R1.MobEffects;
-import net.minecraft.server.v1_9_R1.NBTTagCompound;
-import net.minecraft.server.v1_9_R1.PathfinderGoalArrowAttack;
-import net.minecraft.server.v1_9_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_9_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_9_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_9_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_9_R1.PotionRegistry;
-import net.minecraft.server.v1_9_R1.PotionUtil;
-import net.minecraft.server.v1_9_R1.Potions;
-import net.minecraft.server.v1_9_R1.SoundEffects;
-import net.minecraft.server.v1_9_R1.World;
+import net.minecraft.server.v1_9_R2.AttributeInstance;
+import net.minecraft.server.v1_9_R2.DamageSource;
+import net.minecraft.server.v1_9_R2.EntityCreature;
+import net.minecraft.server.v1_9_R2.EntityHuman;
+import net.minecraft.server.v1_9_R2.EntityLiving;
+import net.minecraft.server.v1_9_R2.EntityPlayer;
+import net.minecraft.server.v1_9_R2.EntityPotion;
+import net.minecraft.server.v1_9_R2.EntityProjectile;
+import net.minecraft.server.v1_9_R2.EntityWitch;
+import net.minecraft.server.v1_9_R2.EnumItemSlot;
+import net.minecraft.server.v1_9_R2.EnumMonsterType;
+import net.minecraft.server.v1_9_R2.GenericAttributes;
+import net.minecraft.server.v1_9_R2.ItemStack;
+import net.minecraft.server.v1_9_R2.Items;
+import net.minecraft.server.v1_9_R2.MathHelper;
+import net.minecraft.server.v1_9_R2.MobEffects;
+import net.minecraft.server.v1_9_R2.NBTTagCompound;
+import net.minecraft.server.v1_9_R2.PathfinderGoalArrowAttack;
+import net.minecraft.server.v1_9_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_9_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_9_R2.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_9_R2.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_9_R2.PotionRegistry;
+import net.minecraft.server.v1_9_R2.PotionUtil;
+import net.minecraft.server.v1_9_R2.Potions;
+import net.minecraft.server.v1_9_R2.SoundEffects;
+import net.minecraft.server.v1_9_R2.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_9_R2.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -81,8 +81,8 @@ public class Mage extends EntityWitch implements FactionMob {
         getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(this.moveSpeed);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         this.setHealth(maxHp);
-        this.P = 1.5F;
-        this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a(new ItemStack(Items.POTION), Potions.x)); // TODO: Update name on version change
+        this.P = 1.5F; // TODO: Update name on version change (E: jump height)
+        this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a(new ItemStack(Items.POTION), Potions.x)); //TODO: Update name on version change (E: harming potion)
         this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_Navigation_Distance) {
@@ -116,7 +116,7 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void n() {
+    public void n() { //TODO: Update name on version change (E: entity tick)
         super.n();
         if (--retargetTime < 0) {
             retargetTime = FactionMobs.responseTime;
@@ -416,12 +416,12 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public boolean c(NBTTagCompound nbttagcompound) {
+    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
         return false;
     }
 
     @Override
-    public boolean d(NBTTagCompound nbttagcompound) {
+    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
         return false;
     }
 
@@ -464,17 +464,17 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void m() {
+    public void m() { //TODO: Update name on version change (E: tick)
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.ak = false;
+        this.ak = false; //TODO: Update name on version change (E: allow portal)
         super.m();
     }
 
     @Override
-    public void a(EntityLiving paramEntityLiving, float paramFloat) {  //TODO: Update name on version change
-        if (o()) { //TODO: Update name on version change
+    public void a(EntityLiving paramEntityLiving, float paramFloat) {  //TODO: Update name on version change (E: throw potion)
+        if (o()) { //TODO: Update name on version change (E: throw potion cooldown)
             return;
         }
 
@@ -484,26 +484,32 @@ public class Mage extends EntityWitch implements FactionMob {
         double d4 = paramEntityLiving.locZ + paramEntityLiving.motZ - this.locZ;
         float f = MathHelper.sqrt(d2 * d2 + d4 * d4);
 
-        PotionRegistry localPotionRegistry = Potions.x;
+        PotionRegistry localPotionRegistry = Potions.x; //TODO: Update name on version change (E: harming potion)
         if ((f >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.SLOWER_MOVEMENT)))
-            localPotionRegistry = Potions.r;
+            localPotionRegistry = Potions.r; //TODO: Update name on version change (E: slowness potion)
         else if ((paramEntityLiving.getHealth() >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.POISON))
                 && (paramEntityLiving.getMonsterType() != EnumMonsterType.UNDEAD)
                 && (paramEntityLiving.getMonsterType() != EnumMonsterType.ARTHROPOD))
-            localPotionRegistry = Potions.z;
+            localPotionRegistry = Potions.z; //TODO: Update name on version change (E: poison potion)
         else if ((f <= 3.0F) && (!paramEntityLiving.hasEffect(MobEffects.WEAKNESS)) && (this.random.nextFloat() < 0.25F)) {
-            localPotionRegistry = Potions.I;
+            localPotionRegistry = Potions.I; //TODO: Update name on version change (E: weakness potion)
         }
         else if (paramEntityLiving.getMonsterType() == EnumMonsterType.UNDEAD) {
-            localPotionRegistry = Potions.v;
+            localPotionRegistry = Potions.v; //TODO: Update name on version change (E: healing potion)
         }
         
-        this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a(new ItemStack(Items.POTION), localPotionRegistry));
+        this.setSlot(EnumItemSlot.MAINHAND, 
+                PotionUtil.a(new ItemStack(Items.POTION), localPotionRegistry)); //TODO: Update name on version change (E: potion data)
 
-        EntityPotion localEntityPotion = new EntityPotion(this.world, this, PotionUtil.a(new ItemStack(Items.SPLASH_POTION), localPotionRegistry));
+        EntityPotion localEntityPotion = new EntityPotion(this.world, this, 
+                PotionUtil.a(new ItemStack(Items.SPLASH_POTION), localPotionRegistry)); //TODO: Update name on version change (E: potion data)
         localEntityPotion.pitch -= -20.0F;
         localEntityPotion.shoot(d2, d3 + f * 0.2F, d4, 0.75F, 8.0F);
-        this.world.a(null, this.locX, this.locY, this.locZ, SoundEffects.gD, bz(), 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
+        this.world.a( // TODO: Update name on version change (E: play sound effect)
+                null, this.locX, this.locY, this.locZ, 
+                SoundEffects.gE, // TODO: Update name on version change (E: entity.witch.throw sound)
+                bA(), // TODO: Update name on version change (E: SoundCategory.HOSTILE)
+                1.0F, 0.8F + this.random.nextFloat() * 0.4F);
 
         this.world.addEntity(localEntityPotion);
     }

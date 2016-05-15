@@ -2,33 +2,32 @@ package com.gmail.scyntrus.fmob.mobs;
 
 import java.util.LinkedHashSet;
 
-import net.minecraft.server.v1_9_R1.AttributeInstance;
-import net.minecraft.server.v1_9_R1.DamageSource;
-import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.EntityCreature;
-import net.minecraft.server.v1_9_R1.EntityHuman;
-import net.minecraft.server.v1_9_R1.EntityIronGolem;
-import net.minecraft.server.v1_9_R1.EntityLiving;
-import net.minecraft.server.v1_9_R1.EntityPlayer;
-import net.minecraft.server.v1_9_R1.EntityProjectile;
-import net.minecraft.server.v1_9_R1.EnumItemSlot;
-import net.minecraft.server.v1_9_R1.EnumMonsterType;
-import net.minecraft.server.v1_9_R1.GenericAttributes;
-import net.minecraft.server.v1_9_R1.MathHelper;
-import net.minecraft.server.v1_9_R1.NBTTagCompound;
-import net.minecraft.server.v1_9_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_9_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_9_R1.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_9_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_9_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_9_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_9_R1.SoundEffect;
-import net.minecraft.server.v1_9_R1.SoundEffects;
-import net.minecraft.server.v1_9_R1.World;
+import net.minecraft.server.v1_9_R2.AttributeInstance;
+import net.minecraft.server.v1_9_R2.DamageSource;
+import net.minecraft.server.v1_9_R2.Entity;
+import net.minecraft.server.v1_9_R2.EntityCreature;
+import net.minecraft.server.v1_9_R2.EntityHuman;
+import net.minecraft.server.v1_9_R2.EntityIronGolem;
+import net.minecraft.server.v1_9_R2.EntityLiving;
+import net.minecraft.server.v1_9_R2.EntityPlayer;
+import net.minecraft.server.v1_9_R2.EntityProjectile;
+import net.minecraft.server.v1_9_R2.EnumItemSlot;
+import net.minecraft.server.v1_9_R2.EnumMonsterType;
+import net.minecraft.server.v1_9_R2.GenericAttributes;
+import net.minecraft.server.v1_9_R2.MathHelper;
+import net.minecraft.server.v1_9_R2.NBTTagCompound;
+import net.minecraft.server.v1_9_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_9_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_9_R2.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_9_R2.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_9_R2.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_9_R2.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_9_R2.SoundEffects;
+import net.minecraft.server.v1_9_R2.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_9_R2.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -77,7 +76,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
         getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(this.moveSpeed);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         this.setHealth(maxHp);
-        this.P = 1.5F;
+        this.P = 1.5F; // TODO: Update name on version change (E: jump height)
         this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_Navigation_Distance) {
@@ -112,7 +111,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void n() {
+    public void n() { //TODO: Update name on version change (E: entity tick)
         super.n();
         if (this.inWater) {
             this.motY += .1;
@@ -414,14 +413,15 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public boolean r(Entity entity) { //TODO: Update name on version change
+    public boolean B(Entity entity) { //TODO: Update name on version change (E: EntityIronGolem attack)
         if (damage>0) {
             this.world.broadcastEntityEffect(this, (byte)4);
             boolean flag = entity.damageEntity(DamageSource.mobAttack(this), (float) damage);
             if (flag) {
                 entity.motY += 0.4;
             }
-            a(SoundEffects.cG, 1.0F, 1.0F); //TODO: Update name on version change
+            a( //TODO: Update name on version change (E: play SoundEffect)
+                    SoundEffects.cH, 1.0F, 1.0F); //TODO: Update name on version change (E: entity.irongolem.attack sound)
             return flag;
         } else {
             return super.r(entity);
@@ -429,12 +429,12 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public boolean c(NBTTagCompound nbttagcompound) {
+    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
         return false;
     }
 
     @Override
-    public boolean d(NBTTagCompound nbttagcompound) {
+    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
         return false;
     }
 
@@ -477,19 +477,12 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void m() {
+    public void m() { //TODO: Update name on version change (E: tick)
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.ak = false;
+        this.ak = false; //TODO: Update name on version change (E: allow portal)
         super.m();
-    }
-    
-    @Override
-    protected SoundEffect G() { //TODO: Update name on version change
-        // Fix to prevent console spam:
-        // "Unable to play unknown soundEvent: minecraft:none"
-        return null;
     }
     
 }

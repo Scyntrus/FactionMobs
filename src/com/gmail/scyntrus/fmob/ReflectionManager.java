@@ -3,10 +3,10 @@ package com.gmail.scyntrus.fmob;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.EntityTypes;
-import net.minecraft.server.v1_9_R1.NavigationAbstract;
-import net.minecraft.server.v1_9_R1.PathfinderGoalSelector;
+import net.minecraft.server.v1_9_R2.Entity;
+import net.minecraft.server.v1_9_R2.EntityTypes;
+import net.minecraft.server.v1_9_R2.NavigationAbstract;
+import net.minecraft.server.v1_9_R2.PathfinderGoalSelector;
 
 public class ReflectionManager {
     public static Field navigation_Distance = null;
@@ -28,10 +28,10 @@ public class ReflectionManager {
             Field fieldF = null;
             Field fieldG = null;
             try {
-                fieldC = EntityTypes.class.getDeclaredField("c"); //TODO: Update name on version change
-                fieldD = EntityTypes.class.getDeclaredField("d"); //TODO: Update name on version change
-                fieldF = EntityTypes.class.getDeclaredField("f"); //TODO: Update name on version change
-                fieldG = EntityTypes.class.getDeclaredField("g"); //TODO: Update name on version change
+                fieldC = EntityTypes.class.getDeclaredField("c"); //TODO: Update name on version change (map 1)
+                fieldD = EntityTypes.class.getDeclaredField("d"); //TODO: Update name on version change (map 2)
+                fieldF = EntityTypes.class.getDeclaredField("f"); //TODO: Update name on version change (map 4)
+                fieldG = EntityTypes.class.getDeclaredField("g"); //TODO: Update name on version change (map 5)
             } catch (Exception e1) {
                 try {
                     fieldC = EntityTypes.class.getDeclaredField("field_75625_b");
@@ -68,7 +68,7 @@ public class ReflectionManager {
             }
         }
         try {
-            navigation_Distance = NavigationAbstract.class.getDeclaredField("g"); //TODO: Update name on version change
+            navigation_Distance = NavigationAbstract.class.getDeclaredField("g"); //TODO: Update name on version change (FOLLOW_RANGE AttributeInstance)
             navigation_Distance.setAccessible(true);
             good_Navigation_Distance = true;
         } catch (Exception e1) {
@@ -83,7 +83,7 @@ public class ReflectionManager {
             }
         }
         try {
-            pathfinderGoalSelector_GoalSet = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change
+            pathfinderGoalSelector_GoalSet = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change (goal set)
             pathfinderGoalSelector_GoalSet.setAccessible(true);
             good_PathfinderGoalSelector_GoalSet = true;
         } catch (Exception e1) {

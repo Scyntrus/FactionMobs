@@ -2,32 +2,32 @@ package com.gmail.scyntrus.fmob.mobs;
 
 import java.util.LinkedHashSet;
 
-import net.minecraft.server.v1_9_R1.AttributeInstance;
-import net.minecraft.server.v1_9_R1.DamageSource;
-import net.minecraft.server.v1_9_R1.EntityCreature;
-import net.minecraft.server.v1_9_R1.EntityHuman;
-import net.minecraft.server.v1_9_R1.EntityLiving;
-import net.minecraft.server.v1_9_R1.EntityPlayer;
-import net.minecraft.server.v1_9_R1.EntityProjectile;
-import net.minecraft.server.v1_9_R1.EntitySkeleton;
-import net.minecraft.server.v1_9_R1.EnumItemSlot;
-import net.minecraft.server.v1_9_R1.EnumMonsterType;
-import net.minecraft.server.v1_9_R1.GenericAttributes;
-import net.minecraft.server.v1_9_R1.ItemStack;
-import net.minecraft.server.v1_9_R1.Items;
-import net.minecraft.server.v1_9_R1.MathHelper;
-import net.minecraft.server.v1_9_R1.NBTTagCompound;
-import net.minecraft.server.v1_9_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_9_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_9_R1.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_9_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_9_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_9_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_9_R1.World;
+import net.minecraft.server.v1_9_R2.AttributeInstance;
+import net.minecraft.server.v1_9_R2.DamageSource;
+import net.minecraft.server.v1_9_R2.EntityCreature;
+import net.minecraft.server.v1_9_R2.EntityHuman;
+import net.minecraft.server.v1_9_R2.EntityLiving;
+import net.minecraft.server.v1_9_R2.EntityPlayer;
+import net.minecraft.server.v1_9_R2.EntityProjectile;
+import net.minecraft.server.v1_9_R2.EntitySkeleton;
+import net.minecraft.server.v1_9_R2.EnumItemSlot;
+import net.minecraft.server.v1_9_R2.EnumMonsterType;
+import net.minecraft.server.v1_9_R2.GenericAttributes;
+import net.minecraft.server.v1_9_R2.ItemStack;
+import net.minecraft.server.v1_9_R2.Items;
+import net.minecraft.server.v1_9_R2.MathHelper;
+import net.minecraft.server.v1_9_R2.NBTTagCompound;
+import net.minecraft.server.v1_9_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_9_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_9_R2.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_9_R2.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_9_R2.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_9_R2.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_9_R2.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_9_R2.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -78,7 +78,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         if (damage > 0) getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(damage);
         this.setHealth(maxHp);
-        this.P = 1.5F;
+        this.P = 1.5F; // TODO: Update name on version change (E: jump height)
         this.setSlot(EnumItemSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
         this.retargetTime = FactionMobs.random.nextInt(40);
 
@@ -114,7 +114,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public void n() {
+    public void n() { //TODO: Update name on version change (E: entity tick)
         int tmpFire = this.fireTicks;
         super.n();
         this.fireTicks = tmpFire;
@@ -419,12 +419,12 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public boolean c(NBTTagCompound nbttagcompound) {
+    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
         return false;
     }
 
     @Override
-    public boolean d(NBTTagCompound nbttagcompound) {
+    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
         return false;
     }
 
@@ -467,11 +467,11 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public void m() {
+    public void m() { //TODO: Update name on version change (E: tick)
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.ak = false;
+        this.ak = false; //TODO: Update name on version change (E: allow portal)
         super.m();
     }
 }

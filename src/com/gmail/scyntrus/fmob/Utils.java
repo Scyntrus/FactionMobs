@@ -6,26 +6,26 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Iterator;
 
-import net.minecraft.server.v1_9_R1.Chunk;
-import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.EntityAnimal;
-import net.minecraft.server.v1_9_R1.EntityCreeper;
-import net.minecraft.server.v1_9_R1.EntityLiving;
-import net.minecraft.server.v1_9_R1.EntityPlayer;
-import net.minecraft.server.v1_9_R1.EntitySlime;
-import net.minecraft.server.v1_9_R1.EntityWolf;
-import net.minecraft.server.v1_9_R1.EnumItemSlot;
-import net.minecraft.server.v1_9_R1.IMonster;
-import net.minecraft.server.v1_9_R1.ItemStack;
-import net.minecraft.server.v1_9_R1.Items;
-import net.minecraft.server.v1_9_R1.MathHelper;
-import net.minecraft.server.v1_9_R1.NBTTagCompound;
-import net.minecraft.server.v1_9_R1.WorldServer;
+import net.minecraft.server.v1_9_R2.Chunk;
+import net.minecraft.server.v1_9_R2.Entity;
+import net.minecraft.server.v1_9_R2.EntityAnimal;
+import net.minecraft.server.v1_9_R2.EntityCreeper;
+import net.minecraft.server.v1_9_R2.EntityLiving;
+import net.minecraft.server.v1_9_R2.EntityPlayer;
+import net.minecraft.server.v1_9_R2.EntitySlime;
+import net.minecraft.server.v1_9_R2.EntityWolf;
+import net.minecraft.server.v1_9_R2.EnumItemSlot;
+import net.minecraft.server.v1_9_R2.IMonster;
+import net.minecraft.server.v1_9_R2.ItemStack;
+import net.minecraft.server.v1_9_R2.Items;
+import net.minecraft.server.v1_9_R2.MathHelper;
+import net.minecraft.server.v1_9_R2.NBTTagCompound;
+import net.minecraft.server.v1_9_R2.WorldServer;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_9_R2.CraftWorld;
 import org.bukkit.entity.Player;
 
 import com.gmail.scyntrus.ifactions.Faction;
@@ -290,7 +290,7 @@ public class Utils {
             for (int j1 = k; j1 <= l; j1++) {
                 if (i1 == startx && j1 == startz)
                     continue;
-                if (world.getChunkProviderServer().e(i1, j1)) { // isChunkLoaded TODO: Update name on version change
+                if (world.getChunkProviderServer().isLoaded(i1, j1)) {
                     pair = optimizedEntitySearchChunk(mob, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2);
                     if (pair != null) {
                         range2 = pair.getKey();
@@ -344,7 +344,7 @@ public class Utils {
         
         for (int i1 = i; i1 <= j; i1++) {
             for (int j1 = k; j1 <= l; j1++) {
-                if (world.getChunkProviderServer().e(i1, j1)) { // isChunkLoaded TODO: Update name on version change
+                if (world.getChunkProviderServer().isLoaded(i1, j1)) {
                     optimizedEntityAgroChunk(faction, world.getChunkAt(i1, j1), x, y, z, range2, y1, y2, damager);
                 }
             }
