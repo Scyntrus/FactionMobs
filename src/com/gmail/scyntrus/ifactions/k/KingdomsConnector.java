@@ -35,8 +35,8 @@ public class KingdomsConnector implements Factions {
 
     @Override
     public Faction getFactionAt(Location loc) {
-        Object nativeObject = GameManagement.getLandManager().getOrLoadLand(new SimpleChunkLocation(loc.getChunk()));
-        return nativeObject != null ? new Kingdom(nativeObject) : null;
+        String name = GameManagement.getLandManager().getOrLoadLand(new SimpleChunkLocation(loc.getChunk())).getOwner();
+        return this.getFactionByName(name);
     }
 
     @Override
