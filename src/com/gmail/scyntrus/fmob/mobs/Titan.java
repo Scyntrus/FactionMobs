@@ -34,6 +34,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
+import com.gmail.scyntrus.fmob.PathHelpEntity;
 import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
@@ -59,6 +60,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
 
     public double poiX=0, poiY=0, poiZ=0;
     public String order = "poi";
+    
+    private static final PathHelpEntity p = new PathHelpEntity(); 
 
     public Titan(World world) {
         super(world);
@@ -130,28 +133,28 @@ public class Titan extends EntityIronGolem implements FactionMob {
             }
             if (this.getGoalTarget() == null) {
                 if (this.order.equals("home") || this.order == null || this.order.equals("")) {
-                    this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), 1.0);
+                    this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), 1.0);
                     this.order = "home";
                     return;
                 } else if (this.order.equals("poi")) {
-                    this.getNavigation().a(this.poiX, this.poiY, this.poiZ, 1.0);
+                    this.getNavigation().a(p.set(this.poiX, this.poiY, this.poiZ), 1.0);
                     return;
                 } else if (this.order.equals("wander")) {
                     return;
                 } else if (this.order.equals("phome")) {
-                    this.getNavigation().a(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ(), FactionMobs.mobPatrolSpeed);
+                    this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), FactionMobs.mobPatrolSpeed);
                     if (Utils.dist3D(this.locX,this.spawnLoc.getX(),this.locY,this.spawnLoc.getY(),this.locZ,this.spawnLoc.getZ()) < 2) {
                         this.order = "ppoi";
                     }
                     return;
                 } else if (this.order.equals("ppoi")) {
-                    this.getNavigation().a(poiX, poiY, poiZ, FactionMobs.mobPatrolSpeed);
+                    this.getNavigation().a(p.set(poiX, poiY, poiZ), FactionMobs.mobPatrolSpeed);
                     if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 2.5) {
                         this.order = "phome";
                     }
                     return;
                 } else if (this.order.equals("path")) {
-                    this.getNavigation().a(poiX, poiY, poiZ, 1.0);
+                    this.getNavigation().a(p.set(poiX, poiY, poiZ), 1.0);
                     if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 2.5) {
                         this.order = "home";
                     }
