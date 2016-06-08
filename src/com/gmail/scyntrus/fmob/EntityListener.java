@@ -154,10 +154,11 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent e) {
         if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
-            ((FactionMob) ((CraftEntity) e.getEntity()).getHandle()).forceDie();
+            FactionMob fmob = (FactionMob) ((CraftEntity) e.getEntity()).getHandle();
+            fmob.forceDie();
             e.getDrops().clear();
             @SuppressWarnings("deprecation")
-            ItemStack item = new ItemStack(((FactionMob) ((CraftEntity) e.getEntity()).getHandle()).getDrops());
+            ItemStack item = new ItemStack(fmob.getDrops());
             e.getDrops().add(item);
         }
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
