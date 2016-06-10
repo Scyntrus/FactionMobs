@@ -34,10 +34,10 @@ public class Factions8 implements Factions {
             Field factionsInstanceField = com.massivecraft.factions.Factions.class.getDeclaredField("i");
             factionsInstanceField.setAccessible(true);
             factionsInstance = (com.massivecraft.factions.Factions) factionsInstanceField.get(null);
-            getByTagMethod = com.massivecraft.factions.Factions.class.getMethod("getByTag", new Class<?>[]{String.class});
+            getByTagMethod = com.massivecraft.factions.Factions.class.getMethod("getByTag", String.class);
             fPlayerGetRoleMethod = FPlayer.class.getMethod("getRole");
-            Faction8.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", new Class<?>[]{RelationParticipator.class});
-            Faction8.getFlag = com.massivecraft.factions.Faction.class.getMethod("getFlag", new Class<?>[]{FFlag.class});
+            Faction8.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", RelationParticipator.class);
+            Faction8.getFlag = com.massivecraft.factions.Faction.class.getMethod("getFlag", FFlag.class);
         } catch (Exception e) {
             ErrorManager.handleError(e);
             instance = null;

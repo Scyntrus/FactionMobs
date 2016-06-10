@@ -40,7 +40,7 @@ public class Towny implements Factions {
             if (townName == null)
                 return null;
             return new Town(TownyUniverse.getDataSource().getTown(townName));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return null;
     }
@@ -49,7 +49,7 @@ public class Towny implements Factions {
     public Faction getFactionByName(String name) {
         try {
             return new Town(TownyUniverse.getDataSource().getTown(name));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return null;
     }
@@ -58,7 +58,7 @@ public class Towny implements Factions {
     public Faction getPlayerFaction(Player player) {
         try {
             return new Town(TownyUniverse.getDataSource().getResident(player.getName()).getTown());
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return null;
     }

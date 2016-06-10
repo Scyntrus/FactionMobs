@@ -21,10 +21,10 @@ public class ReflectionManager {
 
     public static boolean init() {
         {
-            Field fieldC = null;
-            Field fieldD = null;
-            Field fieldF = null;
-            Field fieldG = null;
+            Field fieldC;
+            Field fieldD;
+            Field fieldF;
+            Field fieldG;
             try {
                 fieldC = EntityTypes.class.getDeclaredField("c"); //TODO: Update name on version change (map 1)
                 fieldD = EntityTypes.class.getDeclaredField("d"); //TODO: Update name on version change (map 2)

@@ -42,8 +42,7 @@ class Faction8 extends Faction {
 
     @Override
     public boolean isNone() {
-        if (faction == null || faction.detached()) return true;
-        return faction.isNone();
+        return faction == null || faction.detached() || faction.isNone();
     }
 
     @Override

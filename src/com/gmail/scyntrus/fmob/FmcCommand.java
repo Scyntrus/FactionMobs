@@ -52,7 +52,7 @@ public class FmcCommand implements CommandExecutor {
         }
         net.minecraft.server.v1_10_R1.World world = ((CraftWorld)craftWorld).getHandle();
 
-        Location loc = null;
+        Location loc;
         try {
             loc = new Location(craftWorld, Double.parseDouble(split[3]), Double.parseDouble(split[4]), Double.parseDouble(split[5]));
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class FmcCommand implements CommandExecutor {
         }
 
         String factionName = split[1];
-        Faction faction = null;
+        Faction faction;
         if (sender instanceof BlockCommandSender) {
             Location blockLoc = ((BlockCommandSender) sender).getBlock().getLocation();
             if (factionName.equalsIgnoreCase("%land%")) {
@@ -88,7 +88,7 @@ public class FmcCommand implements CommandExecutor {
             return false;
         }
 
-        FactionMob newMob = null;
+        FactionMob newMob;
         if (split[0].equalsIgnoreCase("Archer") || split[0].equalsIgnoreCase("Ranger")) {
             newMob = new Archer(loc, faction);
         } else if (split[0].equalsIgnoreCase("Swordsman")) {

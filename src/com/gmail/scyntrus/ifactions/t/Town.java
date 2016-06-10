@@ -22,7 +22,7 @@ class Town extends Faction {
         if (town == null || isNone()) return 0;
         if (this.getName().equals(other.getName())) return 1;
         if (!town.hasNation()) return 0;
-        Nation nation = null;
+        Nation nation;
         try {
             nation = town.getNation();
         } catch (NotRegisteredException e) {
@@ -32,7 +32,7 @@ class Town extends Faction {
         Town otherTown = (Town)other;
         if (!otherTown.town.hasNation()) return 0;
         if (nation.hasTown(otherTown.town)) return 1;
-        Nation otherNation = null;
+        Nation otherNation;
         try {
             otherNation = otherTown.town.getNation();
         } catch (NotRegisteredException e) {
@@ -68,7 +68,6 @@ class Town extends Faction {
 
     @Override
     public boolean monstersNotAllowed() {
-        if (town == null) return false;
-        return !(town.getWorld().hasWorldMobs() && town.hasMobs());
+        return town != null && !(town.getWorld().hasWorldMobs() && town.hasMobs());
     }
 }

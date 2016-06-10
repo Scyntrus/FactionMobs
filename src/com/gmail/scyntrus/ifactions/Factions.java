@@ -4,11 +4,11 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public interface Factions {
-    public Faction getFactionAt(Location loc);
-    public Faction getFactionByName(String name);
-    public Faction getPlayerFaction(Player player);
-    public Rank getPlayerRank(Player player);
-    public Faction getFactionFromNativeObject(Object nativeObject);
-    public boolean supportsLandOwnership();
-    public abstract String getVersionString();
+    Faction getFactionAt(Location loc);
+    Faction getFactionByName(String name);
+    Faction getPlayerFaction(Player player);
+    Rank getPlayerRank(Player player);
+    Faction getFactionFromNativeObject(Object nativeObject);
+    boolean supportsLandOwnership();
+    String getVersionString();
 }

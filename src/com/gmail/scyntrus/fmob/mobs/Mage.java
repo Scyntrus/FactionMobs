@@ -128,7 +128,7 @@ public class Mage extends EntityWitch implements FactionMob {
                 }
             }
             if (this.getGoalTarget() == null) {
-                if (this.order.equals("home") || this.order == null || this.order.equals("")) {
+                if (this.order.equals("home") || this.order.equals("")) {
                     this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), 1.0);
                     this.order = "home";
                     return;
@@ -201,14 +201,14 @@ public class Mage extends EntityWitch implements FactionMob {
     public boolean damageEntity(DamageSource damagesource, float i) {
         boolean out = super.damageEntity(damagesource, i);
         if (!out)
-            return out;
+            return false;
         EntityLiving damager;
         if (damagesource.getEntity() instanceof EntityLiving) {
             damager = (EntityLiving) damagesource.getEntity();
         } else if (damagesource.getEntity() instanceof EntityProjectile) {
             damager = ((EntityProjectile) damagesource.getEntity()).getShooter();
         } else {
-            return out;
+            return true;
         }
         switch (Utils.FactionCheck(damager, this.faction)) {
             case 1:
@@ -231,7 +231,7 @@ public class Mage extends EntityWitch implements FactionMob {
                 }
                 break;
         }
-        return out;
+        return true;
     }
 
     @Override
@@ -266,9 +266,9 @@ public class Mage extends EntityWitch implements FactionMob {
     @Override
     public void setTarget(EntityLiving entity) {
         this.target = entity;
-        if (entity instanceof EntityLiving) {
+        if (entity != null) {
             this.setGoalTarget(entity);
-        } else if (entity == null) {
+        } else {
             this.setGoalTarget(null);
         }
         if (this.getGoalTarget() != null && !this.getGoalTarget().isAlive()) {
@@ -278,7 +278,7 @@ public class Mage extends EntityWitch implements FactionMob {
 
     @Override
     public boolean setGoalTarget(EntityLiving entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
-        if (this.target instanceof EntityLiving && this.target.isAlive()) {
+        if (this.target != null && this.target.isAlive()) {
             super.setGoalTarget(this.target, EntityTargetEvent.TargetReason.CUSTOM, false);
         } else {
             super.setGoalTarget(null, EntityTargetEvent.TargetReason.CUSTOM, false);
@@ -293,7 +293,7 @@ public class Mage extends EntityWitch implements FactionMob {
             this.forceDie();
             return;
         }
-        if (this.target instanceof EntityLiving && this.target.isAlive()) {
+        if (this.target != null && this.target.isAlive()) {
             this.setGoalTarget(this.target);
         } else {
             this.findTarget();

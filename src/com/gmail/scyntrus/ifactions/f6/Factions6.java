@@ -32,7 +32,7 @@ public class Factions6 implements Factions {
         try {
             Field factionsInstanceField = com.massivecraft.factions.Factions.class.getField("i");
             factionsInstance = (com.massivecraft.factions.Factions) factionsInstanceField.get(null);
-            getByTagMethod = com.massivecraft.factions.Factions.class.getDeclaredMethod("getByTag", new Class<?>[]{String.class});
+            getByTagMethod = com.massivecraft.factions.Factions.class.getDeclaredMethod("getByTag", String.class);
         } catch (Exception e) {
             ErrorManager.handleError(e);
             instance = null;

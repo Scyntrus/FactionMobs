@@ -24,7 +24,7 @@ public class VersionManager {
                 }
                 return;
             }
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException ignored) {
         }
 
         String foundVersion = "unkown";

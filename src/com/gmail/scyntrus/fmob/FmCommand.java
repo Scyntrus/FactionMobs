@@ -166,7 +166,7 @@ public class FmCommand implements CommandExecutor {
                     }
                 }
                 net.minecraft.server.v1_10_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
-                FactionMob newMob = null;
+                FactionMob newMob;
                 if (split.length == 1) {
                     player.sendMessage(ChatColor.RED + "You must specify a mob");
                     return true;

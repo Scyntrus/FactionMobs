@@ -69,8 +69,7 @@ class Faction6 extends Faction {
     @Override
     public boolean monstersNotAllowed() {
         try {
-            if (faction == null) return false;
-            return faction.noMonstersInTerritory();
+            return faction != null && faction.noMonstersInTerritory();
         } catch (Exception e) {
             ErrorManager.handleError(e);
         }

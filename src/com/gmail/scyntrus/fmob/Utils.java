@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.Iterator;
 
 import net.minecraft.server.v1_10_R1.Chunk;
 import net.minecraft.server.v1_10_R1.Entity;
@@ -23,7 +22,6 @@ import net.minecraft.server.v1_10_R1.MathHelper;
 import net.minecraft.server.v1_10_R1.NBTTagCompound;
 import net.minecraft.server.v1_10_R1.WorldServer;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
@@ -179,7 +177,8 @@ public class Utils {
                 ErrorManager.handleError("Unable to close config.yml resource.", e);
             }
             try {
-                resStreamOut.close();
+                if (resStreamOut != null)
+                    resStreamOut.close();
             } catch (Exception e) {
                 ErrorManager.handleError("Unable to close configDefaults.yml.", e);
             }

@@ -174,7 +174,7 @@ public class FactionMobs extends JavaPlugin {
 
         File colorFile = new File(getDataFolder(), "colors.dat");
         if (colorFile.exists()){
-            FileInputStream fileInputStream = null;
+            FileInputStream fileInputStream;
             try {
                 fileInputStream = new FileInputStream(colorFile);
                 ObjectInputStream oInputStream = new ObjectInputStream(fileInputStream);
@@ -276,7 +276,7 @@ public class FactionMobs extends JavaPlugin {
             @SuppressWarnings("unchecked")
             List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
             for (List<String> mobData : save) {
-                FactionMob newMob = null;
+                FactionMob newMob;
                 if (mobData.size() < 10) {
                     System.out.println("Incomplete Faction Mob found and removed. Did you edit the data.dat file?");
                     backup = true;
@@ -384,6 +384,7 @@ public class FactionMobs extends JavaPlugin {
         }
         try {
             File colorFile = new File(getDataFolder(), "colors.dat");
+            //noinspection ResultOfMethodCallIgnored
             colorFile.createNewFile();
             FileOutputStream fileOut = new FileOutputStream(colorFile);
             ObjectOutputStream oOut = new ObjectOutputStream(fileOut);

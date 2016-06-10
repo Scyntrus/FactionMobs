@@ -54,7 +54,7 @@ public class FactionsManager {
                 Method m = c.getMethod("get", Plugin.class, StringBuilder.class);
                 instance = (Factions) m.invoke(null, plugin, log);
             } catch (ClassNotFoundException e) {
-                log.append("Module not found: " + f + "\n");
+                log.append("Module not found: ").append(f).append("\n");
             } catch (Exception e) {
                 ErrorManager.handleError(e);
             }

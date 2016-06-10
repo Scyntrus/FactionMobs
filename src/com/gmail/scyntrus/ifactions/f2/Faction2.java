@@ -37,8 +37,7 @@ class Faction2 extends Faction {
 
     @Override
     public boolean isNone() {
-        if (faction == null || faction.detached()) return true;
-        return faction.isNone();
+        return faction == null || faction.detached() || faction.isNone();
     }
 
     @Override
@@ -55,7 +54,6 @@ class Faction2 extends Faction {
 
     @Override
     public boolean monstersNotAllowed() {
-        if (faction == null) return false;
-        return !faction.getFlag(MFlag.ID_MONSTERS);
+        return faction != null && !faction.getFlag(MFlag.ID_MONSTERS);
     }
 }

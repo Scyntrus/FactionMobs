@@ -39,10 +39,10 @@ public class Factions6U implements Factions {
             fPlayersInstance = (com.massivecraft.factions.FPlayers) fPlayersInstanceField.get(null);
             fPlayerGetFactionMethod = Class.forName("com.massivecraft.factions.FPlayer").getMethod("getFaction");
             fPlayerGetRoleMethod = Class.forName("com.massivecraft.factions.FPlayer").getMethod("getRole");
-            getByTagMethod = com.massivecraft.factions.Factions.class.getMethod("getByTag", new Class<?>[]{String.class});
+            getByTagMethod = com.massivecraft.factions.Factions.class.getMethod("getByTag", String.class);
             boardInstance = com.massivecraft.factions.Board.class.getMethod("getInstance").invoke(null);
-            boardGetFactionAt = com.massivecraft.factions.Board.class.getMethod("getFactionAt", new Class<?>[]{com.massivecraft.factions.FLocation.class});
-            Faction6U.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", new Class<?>[]{com.massivecraft.factions.iface.RelationParticipator.class});
+            boardGetFactionAt = com.massivecraft.factions.Board.class.getMethod("getFactionAt", com.massivecraft.factions.FLocation.class);
+            Faction6U.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", com.massivecraft.factions.iface.RelationParticipator.class);
             Faction6U.isNone = com.massivecraft.factions.Faction.class.getMethod("isNone");
             Faction6U.getTag = com.massivecraft.factions.Faction.class.getMethod("getTag");
             Faction6U.getPower = com.massivecraft.factions.Faction.class.getMethod("getPower");
