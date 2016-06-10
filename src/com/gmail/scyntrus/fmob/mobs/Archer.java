@@ -2,7 +2,6 @@ package com.gmail.scyntrus.fmob.mobs;
 
 import java.util.LinkedHashSet;
 
-import net.minecraft.server.v1_10_R1.AttributeInstance;
 import net.minecraft.server.v1_10_R1.DamageSource;
 import net.minecraft.server.v1_10_R1.EntityCreature;
 import net.minecraft.server.v1_10_R1.EntityHuman;
@@ -55,7 +54,6 @@ public class Archer extends EntitySkeleton implements FactionMob {
     public static double damage = 0;
     public static int drops = 0;
     private int retargetTime = 0;
-    private double moveSpeed;
 
     public double poiX=0, poiY=0, poiZ=0;
     public String order = "poi";
@@ -75,23 +73,12 @@ public class Archer extends EntitySkeleton implements FactionMob {
         this.persistent = true;
         this.fireProof = false;
         this.canPickUpLoot = false;
-        this.moveSpeed = FactionMobs.mobSpeed;
-        getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(this.moveSpeed);
-        getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         if (damage > 0) getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(damage);
         this.setHealth(maxHp);
         this.P = 1.5F; // TODO: Update name on version change (E: jump height)
         this.setSlot(EnumItemSlot.MAINHAND, new ItemStack(Items.BOW));
         this.retargetTime = FactionMobs.random.nextInt(40);
 
-        if (ReflectionManager.good_Navigation_Distance) {
-            try {
-                AttributeInstance e = (AttributeInstance) ReflectionManager.navigation_Distance.get(this.getNavigation());
-                e.setValue(FactionMobs.mobNavRange);
-            } catch (Exception e) {
-                ErrorManager.handleError(e);
-            }
-        }
         if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {
             try {
                 @SuppressWarnings("rawtypes")
@@ -112,6 +99,13 @@ public class Archer extends EntitySkeleton implements FactionMob {
         this.goalSelector.a(3, new PathfinderGoalRandomLookaround(this));
         this.getBukkitEntity().setMetadata("CustomEntity", new FixedMetadataValue(FactionMobs.instance, true));
         this.getBukkitEntity().setMetadata("FactionMob", new FixedMetadataValue(FactionMobs.instance, true));
+    }
+
+    @Override
+    protected void initAttributes() {
+        getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(range);
+        getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(FactionMobs.mobSpeed);
+        getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
     }
 
     @Override

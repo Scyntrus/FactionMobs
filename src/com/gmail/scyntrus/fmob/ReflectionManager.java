@@ -6,17 +6,13 @@ import java.util.Map;
 import net.minecraft.server.v1_10_R1.Chunk;
 import net.minecraft.server.v1_10_R1.Entity;
 import net.minecraft.server.v1_10_R1.EntityTypes;
-import net.minecraft.server.v1_10_R1.NavigationAbstract;
 import net.minecraft.server.v1_10_R1.PathfinderGoalSelector;
 
 public class ReflectionManager {
-    public static Field navigation_Distance = null;
     public static Field pathfinderGoalSelector_GoalSet = null;
     public static Field chunk_EntitySlices = null;
 
-    public static boolean good_Navigation_Distance = false;
     public static boolean good_PathfinderGoalSelector_GoalSet = false;
-    public static boolean good_EntityInsentient_GoalSelector = false;
 
     public static Map<String, Class<? extends Entity>> mapC;
     public static Map<Class<? extends Entity>, String> mapD;
@@ -67,21 +63,6 @@ public class ReflectionManager {
             } catch (Exception e) {
                 ErrorManager.handleError(e);
                 return false;
-            }
-        }
-        try {
-            navigation_Distance = NavigationAbstract.class.getDeclaredField("f"); //TODO: Update name on version change (FOLLOW_RANGE AttributeInstance)
-            navigation_Distance.setAccessible(true);
-            good_Navigation_Distance = true;
-        } catch (Exception e1) {
-            try {
-                navigation_Distance = NavigationAbstract.class.getDeclaredField("field_75512_e");
-                navigation_Distance.setAccessible(true);
-                good_Navigation_Distance = true;
-            } catch (Exception e2) {
-                ErrorManager.handleError("[Minor Error] Field not found: Navigation.e; Custom pathfinding distances cannot be set");
-                ErrorManager.handleError(e1);
-                ErrorManager.handleError(e2);
             }
         }
         try {
