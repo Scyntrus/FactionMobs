@@ -65,6 +65,7 @@ public class FactionMobs extends JavaPlugin {
     public static boolean onlySpawnInTerritory = true;
     public static final Random random = new Random();
     public static final int responseTime = 20;
+    public static double agroRange = 8;
 
     @Override
     public void onEnable() {
