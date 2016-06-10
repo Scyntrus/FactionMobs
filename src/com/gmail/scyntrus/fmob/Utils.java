@@ -185,88 +185,62 @@ public class Utils {
             }
         }
     }
-    
-    public static final double closeEnough = 2;
-    private static Pair<Double, EntityLiving> optimizedEntitySearchChunk(FactionMob mob, Chunk chunk, int starty, int disty, double x, double y, double z, double range2) {
 
-        EntityLiving found = null;
-        Faction faction = mob.getFaction();
-        EntityLiving entity = mob.getEntity();
+    private static class EntityHolder {
+        EntityLiving val = null;
+    }
+    
+    public static final double closeEnough = 2.25;
+    private static double optimizedEntitySearchSlice(Faction faction, EntityLiving entity, EntityHolder result, Collection<Entity> slice, double x, double y, double z, double range2) {
+        for (Entity entity1 : slice) {
+            if (entity1.isAlive() && entity1 instanceof EntityLiving) {
+                if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                    double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
+                            + (entity1.locY - y) * (entity1.locY - y)
+                            + (entity1.locZ - z) * (entity1.locZ - z);
+                    if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
+                        range2 = tempRange2;
+                        result.val = (EntityLiving) entity1;
+                        if (range2 < closeEnough)
+                            return 0;
+                    }
+                }
+            }
+        }
+        return range2;
+    }
+
+    private static double optimizedEntitySearchChunk(Faction faction, EntityLiving entity, EntityHolder result, Chunk chunk, int starty, int disty, double x, double y, double z, double range2) {
         try {
             @SuppressWarnings("unchecked")
             Collection<Entity>[] entitySlices = (Collection<Entity>[]) ReflectionManager.chunk_EntitySlices.get(chunk);
-            
-            if (!entitySlices[starty].isEmpty()) {
-                Iterator<Entity> iterator = entitySlices[starty].iterator();
 
-                while (iterator.hasNext()) {
-                    Entity entity1 = (Entity) iterator.next();
-                    if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                        if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
-                            double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
-                                    + (entity1.locY - y) * (entity1.locY - y)
-                                    + (entity1.locZ - z) * (entity1.locZ - z);
-                            if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
-                                range2 = tempRange2;
-                                found = (EntityLiving) entity1;
-                                if (range2 < closeEnough)
-                                    return Pair.of(range2, found);
-                            }
-                        }
-                    }
-                }
+            if (!entitySlices[starty].isEmpty()) {
+                range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty], x, y, z, range2);
+                if (range2 == 0)
+                    return 0;
             }
             
             for (int dy = 1; dy <= disty; dy++) {
                 if (starty-dy > 0 && !entitySlices[starty-dy].isEmpty()) {
-                    Iterator<Entity> iterator = entitySlices[starty-dy].iterator();
-
-                    while (iterator.hasNext()) {
-                        Entity entity1 = (Entity) iterator.next();
-                        if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                            if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
-                                double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
-                                        + (entity1.locY - y) * (entity1.locY - y)
-                                        + (entity1.locZ - z) * (entity1.locZ - z);
-                                if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
-                                    range2 = tempRange2;
-                                    found = (EntityLiving) entity1;
-                                    if (range2 < closeEnough)
-                                        return Pair.of(range2, found);
-                                }
-                            }
-                        }
-                    }
+                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty-dy], x, y, z, range2);
+                    if (range2 == 0)
+                        return 0;
                 }
                 if (starty+dy < entitySlices.length-1 && !entitySlices[starty+dy].isEmpty()) {
-                    Iterator<Entity> iterator = entitySlices[starty+dy].iterator();
-
-                    while (iterator.hasNext()) {
-                        Entity entity1 = (Entity) iterator.next();
-                        if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                            if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
-                                double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
-                                        + (entity1.locY - y) * (entity1.locY - y)
-                                        + (entity1.locZ - z) * (entity1.locZ - z);
-                                if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
-                                    range2 = tempRange2;
-                                    found = (EntityLiving) entity1;
-                                    if (range2 < closeEnough)
-                                        return Pair.of(range2, found);
-                                }
-                            }
-                        }
-                    }
+                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty+dy], x, y, z, range2);
+                    if (range2 == 0)
+                        return 0;
                 }
-                if (found != null) {
-                    return Pair.of(range2, found);
+                if (result.val != null) {
+                    return range2;
                 }
             }
         } catch (Exception e) {
             ErrorManager.handleError(e);
-            return null;
+            return range2;
         }
-        return null;
+        return range2;
     }
     
     public static EntityLiving optimizedTargetSearch(FactionMob mob, double range) {
@@ -285,16 +259,14 @@ public class Utils {
         starty = MathHelper.clamp(starty, 0, 15);
         
         WorldServer world = (WorldServer) mob.getEntity().getWorld();
-        EntityLiving found = null;
-        
-        Pair<Double, EntityLiving> pair;
-        
-        pair = optimizedEntitySearchChunk(mob, world.getChunkAt(startx, startz), starty, disty, x, y, z, range2);
-        if (pair != null) {
-            range2 = pair.getKey();
-            found = pair.getValue();
-            if (range2 < closeEnough)
-                return found;
+
+        Faction faction = mob.getFaction();
+        EntityLiving entity = mob.getEntity();
+        EntityHolder result = new EntityHolder();
+
+        range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(startx, startz), starty, disty, x, y, z, range2);
+        if (range2 == 0) {
+            return result.val;
         }
         
         for (int i1 = i; i1 <= j; i1++) {
@@ -302,18 +274,15 @@ public class Utils {
                 if (i1 == startx && j1 == startz)
                     continue;
                 if (world.getChunkProviderServer().isLoaded(i1, j1)) {
-                    pair = optimizedEntitySearchChunk(mob, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2);
-                    if (pair != null) {
-                        range2 = pair.getKey();
-                        found = pair.getValue();
-                        if (range2 < closeEnough)
-                            return found;
+                    range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2);
+                    if (range2 == 0) {
+                        return result.val;
                     }
                 }
             }
         }
         
-        return found;
+        return result.val;
     }
     
     
@@ -323,10 +292,7 @@ public class Utils {
             Collection<Entity>[] entitySlices = (Collection<Entity>[]) ReflectionManager.chunk_EntitySlices.get(chunk);
             for (int k = y1; k <= y2; k++) {
                 if (!entitySlices[k].isEmpty()) {
-                    Iterator<Entity> iterator = entitySlices[k].iterator();
-
-                    while (iterator.hasNext()) {
-                        Entity entity1 = (Entity) iterator.next();
+                    for (Entity entity1 : entitySlices[k]) {
                         if (entity1.isAlive() && entity1 instanceof FactionMob) {
                             FactionMob fmob = (FactionMob) entity1;
                             Faction otherFaction = fmob.getFaction();
@@ -341,7 +307,6 @@ public class Utils {
             }
         } catch (Exception e) {
             ErrorManager.handleError(e);
-            return;
         }
     }
     
