@@ -63,6 +63,7 @@ public class FactionsManager {
         }
         
         if (instance != null) {
+            initialized = true;
             return true;
         } else {
             ErrorManager.handleError(log.toString());
