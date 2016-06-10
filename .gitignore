@@ -162,3 +162,6 @@ pip-log.txt
 .DS_Store
 target/
 lib/*
+
+#IntelliJ
+*.iml
