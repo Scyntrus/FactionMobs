@@ -2,32 +2,32 @@ package com.gmail.scyntrus.fmob.mobs;
 
 import java.util.LinkedHashSet;
 
-import net.minecraft.server.v1_9_R2.AttributeInstance;
-import net.minecraft.server.v1_9_R2.DamageSource;
-import net.minecraft.server.v1_9_R2.EntityCreature;
-import net.minecraft.server.v1_9_R2.EntityHuman;
-import net.minecraft.server.v1_9_R2.EntityLiving;
-import net.minecraft.server.v1_9_R2.EntityPlayer;
-import net.minecraft.server.v1_9_R2.EntityProjectile;
-import net.minecraft.server.v1_9_R2.EntitySkeleton;
-import net.minecraft.server.v1_9_R2.EnumItemSlot;
-import net.minecraft.server.v1_9_R2.EnumMonsterType;
-import net.minecraft.server.v1_9_R2.GenericAttributes;
-import net.minecraft.server.v1_9_R2.ItemStack;
-import net.minecraft.server.v1_9_R2.Items;
-import net.minecraft.server.v1_9_R2.MathHelper;
-import net.minecraft.server.v1_9_R2.NBTTagCompound;
-import net.minecraft.server.v1_9_R2.PathfinderGoalFloat;
-import net.minecraft.server.v1_9_R2.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_9_R2.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_9_R2.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_9_R2.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_9_R2.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_9_R2.World;
+import net.minecraft.server.v1_10_R1.AttributeInstance;
+import net.minecraft.server.v1_10_R1.DamageSource;
+import net.minecraft.server.v1_10_R1.EntityCreature;
+import net.minecraft.server.v1_10_R1.EntityHuman;
+import net.minecraft.server.v1_10_R1.EntityLiving;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
+import net.minecraft.server.v1_10_R1.EntityProjectile;
+import net.minecraft.server.v1_10_R1.EntitySkeleton;
+import net.minecraft.server.v1_10_R1.EnumItemSlot;
+import net.minecraft.server.v1_10_R1.EnumMonsterType;
+import net.minecraft.server.v1_10_R1.GenericAttributes;
+import net.minecraft.server.v1_10_R1.ItemStack;
+import net.minecraft.server.v1_10_R1.Items;
+import net.minecraft.server.v1_10_R1.MathHelper;
+import net.minecraft.server.v1_10_R1.NBTTagCompound;
+import net.minecraft.server.v1_10_R1.PathfinderGoalFloat;
+import net.minecraft.server.v1_10_R1.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_10_R1.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_10_R1.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_10_R1.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_10_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_10_R1.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_9_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -474,7 +474,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.ak = false; //TODO: Update name on version change (E: allow portal)
+        this.al = false; //TODO: Update name on version change (E: allow portal)
         super.m();
     }
 }

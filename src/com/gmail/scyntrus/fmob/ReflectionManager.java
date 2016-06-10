@@ -3,11 +3,11 @@ package com.gmail.scyntrus.fmob;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import net.minecraft.server.v1_9_R2.Chunk;
-import net.minecraft.server.v1_9_R2.Entity;
-import net.minecraft.server.v1_9_R2.EntityTypes;
-import net.minecraft.server.v1_9_R2.NavigationAbstract;
-import net.minecraft.server.v1_9_R2.PathfinderGoalSelector;
+import net.minecraft.server.v1_10_R1.Chunk;
+import net.minecraft.server.v1_10_R1.Entity;
+import net.minecraft.server.v1_10_R1.EntityTypes;
+import net.minecraft.server.v1_10_R1.NavigationAbstract;
+import net.minecraft.server.v1_10_R1.PathfinderGoalSelector;
 
 public class ReflectionManager {
     public static Field navigation_Distance = null;
@@ -70,7 +70,7 @@ public class ReflectionManager {
             }
         }
         try {
-            navigation_Distance = NavigationAbstract.class.getDeclaredField("g"); //TODO: Update name on version change (FOLLOW_RANGE AttributeInstance)
+            navigation_Distance = NavigationAbstract.class.getDeclaredField("f"); //TODO: Update name on version change (FOLLOW_RANGE AttributeInstance)
             navigation_Distance.setAccessible(true);
             good_Navigation_Distance = true;
         } catch (Exception e1) {

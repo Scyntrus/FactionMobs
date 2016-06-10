@@ -1,8 +1,8 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_9_R2.AxisAlignedBB;
-import net.minecraft.server.v1_9_R2.Entity;
-import net.minecraft.server.v1_9_R2.NBTTagCompound;
+import net.minecraft.server.v1_10_R1.AxisAlignedBB;
+import net.minecraft.server.v1_10_R1.Entity;
+import net.minecraft.server.v1_10_R1.NBTTagCompound;
 
 public class PathHelpEntity extends Entity {
     
