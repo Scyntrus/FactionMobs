@@ -65,29 +65,36 @@ public class FmCommand implements CommandExecutor {
                 if (!Archer.enabled) {
                     player.sendMessage(ChatColor.RED + "disabled");
                 } else {
-                    if (plugin.vaultEnabled) player.sendMessage("cost: " + Archer.moneyCost);
+                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(Archer.moneyCost));
                     player.sendMessage("power: " + Archer.powerCost);
                 }
                 player.sendMessage(ChatColor.BLUE + "Swordsman:");
                 if (!Swordsman.enabled) {
                     player.sendMessage(ChatColor.RED + "disabled");
                 } else {
-                    if (plugin.vaultEnabled) player.sendMessage("cost: " + Swordsman.moneyCost);
+                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(Swordsman.moneyCost));
                     player.sendMessage("power: " + Swordsman.powerCost);
                 }
                 player.sendMessage(ChatColor.BLUE + "Mage:");
                 if (!Mage.enabled) {
                     player.sendMessage(ChatColor.RED + "disabled");
                 } else {
-                    if (plugin.vaultEnabled) player.sendMessage("cost: " + Mage.moneyCost);
+                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(Mage.moneyCost));
                     player.sendMessage("power: " + Mage.powerCost);
                 }
                 player.sendMessage(ChatColor.BLUE + "Titan:");
                 if (!Titan.enabled) {
                     player.sendMessage(ChatColor.RED + "disabled");
                 } else {
-                    if (plugin.vaultEnabled) player.sendMessage("cost: " + Titan.moneyCost);
+                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(Titan.moneyCost));
                     player.sendMessage("power: " + Titan.powerCost);
+                }
+                player.sendMessage(ChatColor.BLUE + "SpiritBear:");
+                if (!SpiritBear.enabled) {
+                    player.sendMessage(ChatColor.RED + "disabled");
+                } else {
+                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(SpiritBear.moneyCost));
+                    player.sendMessage("power: " + SpiritBear.powerCost);
                 }
             } else if (split[0].equalsIgnoreCase("deselect")) {
                 if (plugin.playerSelections.containsKey(player.getName())) {
