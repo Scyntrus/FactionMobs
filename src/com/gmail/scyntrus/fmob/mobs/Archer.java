@@ -103,6 +103,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 
     @Override
     protected void initAttributes() {
+        super.initAttributes();
         getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(range);
         getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(FactionMobs.mobSpeed);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
