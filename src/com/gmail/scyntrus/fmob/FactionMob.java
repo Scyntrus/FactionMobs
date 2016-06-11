@@ -34,4 +34,5 @@ public interface FactionMob {
     void forceDie();
     void setTarget(EntityLiving target);
     EntityLiving findCloserTarget();
+    boolean isWandering();
 }

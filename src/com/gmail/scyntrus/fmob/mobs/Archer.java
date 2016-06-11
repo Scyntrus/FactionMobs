@@ -1,7 +1,15 @@
 package com.gmail.scyntrus.fmob.mobs;
 
+import com.gmail.scyntrus.fmob.ErrorManager;
+import com.gmail.scyntrus.fmob.FactionMob;
+import com.gmail.scyntrus.fmob.FactionMobs;
+import com.gmail.scyntrus.fmob.PathHelpEntity;
+import com.gmail.scyntrus.fmob.PathfinderGoalFmobOrder;
+import com.gmail.scyntrus.fmob.ReflectionManager;
+import com.gmail.scyntrus.fmob.Utils;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 import java.util.LinkedHashSet;
-
 import net.minecraft.server.v1_10_R1.DamageSource;
 import net.minecraft.server.v1_10_R1.EntityCreature;
 import net.minecraft.server.v1_10_R1.EntityHuman;
@@ -17,26 +25,18 @@ import net.minecraft.server.v1_10_R1.Items;
 import net.minecraft.server.v1_10_R1.MathHelper;
 import net.minecraft.server.v1_10_R1.NBTTagCompound;
 import net.minecraft.server.v1_10_R1.PathfinderGoalArrowAttack;
+import net.minecraft.server.v1_10_R1.PathfinderGoalBowShoot;
 import net.minecraft.server.v1_10_R1.PathfinderGoalFloat;
 import net.minecraft.server.v1_10_R1.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_10_R1.PathfinderGoalMoveTowardsTarget;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomStroll;
 import net.minecraft.server.v1_10_R1.World;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-
-import com.gmail.scyntrus.fmob.ErrorManager;
-import com.gmail.scyntrus.fmob.FactionMob;
-import com.gmail.scyntrus.fmob.FactionMobs;
-import com.gmail.scyntrus.fmob.PathHelpEntity;
-import com.gmail.scyntrus.fmob.ReflectionManager;
-import com.gmail.scyntrus.fmob.Utils;
-import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class Archer extends EntitySkeleton implements FactionMob {
 
@@ -54,6 +54,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
     public static double damage = 0;
     public static int drops = 0;
     private int retargetTime = 0;
+    private boolean wandering = false;
 
     public double poiX=0, poiY=0, poiZ=0;
     public String order = "poi";
@@ -93,10 +94,12 @@ public class Archer extends EntitySkeleton implements FactionMob {
         }
 
         this.goalSelector.a(1, new PathfinderGoalFloat(this));
-        this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, 1.0, 60, 10.0F));
-        this.goalSelector.a(2, new PathfinderGoalRandomStroll(this, 1.0));
-        this.goalSelector.a(3, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
-        this.goalSelector.a(3, new PathfinderGoalRandomLookaround(this));
+        this.goalSelector.a(2, new PathfinderGoalBowShoot(this, 1.0, 20, 16.0F));
+        //this.goalSelector.a(3, new PathfinderGoalMoveTowardsTarget(this, 1.0, (float) range));
+        this.goalSelector.a(4, new PathfinderGoalFmobOrder(this));
+        this.goalSelector.a(5, new PathfinderGoalRandomStroll(this, 1.0));
+        this.goalSelector.a(6, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
+        this.goalSelector.a(6, new PathfinderGoalRandomLookaround(this));
         this.getBukkitEntity().setMetadata("CustomEntity", new FixedMetadataValue(FactionMobs.instance, true));
         this.getBukkitEntity().setMetadata("FactionMob", new FixedMetadataValue(FactionMobs.instance, true));
     }
@@ -192,6 +195,11 @@ public class Archer extends EntitySkeleton implements FactionMob {
         if (e != null)
             this.setTarget(e);
         return e;
+    }
+
+    @Override
+    public boolean isWandering() {
+        return this.wandering;
     }
 
     @Override
@@ -366,6 +374,11 @@ public class Archer extends EntitySkeleton implements FactionMob {
 
     @Override
     public void setOrder(String order) {
+        if ("wander".equals(order)) {
+            this.wandering = true;
+        } else {
+            this.wandering = false;
+        }
         this.order = order;
     }
 
