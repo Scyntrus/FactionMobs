@@ -28,6 +28,7 @@
         <directory>src</directory>
         <includes>
           <include>config.yml</include>
+          <include>messages.yml</include>
         </includes>
       </resource>
       <resource>

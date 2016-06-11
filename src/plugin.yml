@@ -7,7 +7,7 @@ commands:
     fm:
         description: Faction mobs control
         usage: "/fm [spawn|order|color] [parameters]"
-        aliases: [fmob, tm, tmob]
+        aliases: [fmob, tm, tmob, mob]
     fmc:
         description: Spawn a mob on a specific faction. Designed to be used by command blocks
         usage: "/fmc MOBTYPE FACTIONTAG WORLDNAME X Y Z [EXTRAINFO]"

@@ -222,6 +222,8 @@ public class FactionMobs extends JavaPlugin {
             System.out.println("[FactionMobs] Vault not detected.");
         }
 
+        Messages.init(this);
+
         runMetrics(); // using mcstats.org metrics
 
         this.loadMobList();

@@ -24,6 +24,7 @@ import com.gmail.scyntrus.fmob.mobs.Archer;
 import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.gmail.scyntrus.fmob.Messages.Message;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 
@@ -42,14 +43,7 @@ public class FmCommand implements CommandExecutor {
             if (split.length == 0) {
                 return false;
             } else if (split[0].equalsIgnoreCase("help")) {
-                //Basic help info here.
-                player.sendMessage("/fm spawn [mob]");
-                player.sendMessage("Mobs: Archer, Swordsman, Titan, Mage");
-                player.sendMessage("/fm color [color]");
-                player.sendMessage("Color is in RRGGBB format");
-                player.sendMessage("/fm order [order]");
-                player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, tpHome, tpHere");
-                player.sendMessage("Before giving orders, you must select mobs by right-clicking them");
+                player.sendMessage(Messages.get(Message.FM_HELP));
             } else if (split[0].equalsIgnoreCase("info")) {
                 if (!player.hasPermission("fmob.spawn")) {
                     player.sendMessage(ChatColor.RED + "You do not have permission to spawn faction mobs.");
@@ -485,11 +479,12 @@ public class FmCommand implements CommandExecutor {
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "Unrecognized command");
-                return false;
+                player.sendMessage(Messages.get(Message.FM_HELP));
+                return true;
             }
         } else {
             sender.sendMessage("You must be a player");
-            return false;
+            return true;
         }
         return true;
     }
