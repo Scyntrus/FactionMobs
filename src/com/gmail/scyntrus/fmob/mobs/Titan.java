@@ -366,11 +366,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
 
     @Override
     public void setOrder(String order) {
-        if ("wander".equals(order)) {
-            this.wandering = true;
-        } else {
-            this.wandering = false;
-        }
+        this.wandering = "wander".equals(order);
         this.order = order;
     }
 

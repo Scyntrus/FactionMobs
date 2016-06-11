@@ -24,11 +24,9 @@ import net.minecraft.server.v1_10_R1.ItemStack;
 import net.minecraft.server.v1_10_R1.Items;
 import net.minecraft.server.v1_10_R1.MathHelper;
 import net.minecraft.server.v1_10_R1.NBTTagCompound;
-import net.minecraft.server.v1_10_R1.PathfinderGoalArrowAttack;
 import net.minecraft.server.v1_10_R1.PathfinderGoalBowShoot;
 import net.minecraft.server.v1_10_R1.PathfinderGoalFloat;
 import net.minecraft.server.v1_10_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_10_R1.PathfinderGoalMoveTowardsTarget;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomStroll;
 import net.minecraft.server.v1_10_R1.World;
@@ -374,11 +372,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
 
     @Override
     public void setOrder(String order) {
-        if ("wander".equals(order)) {
-            this.wandering = true;
-        } else {
-            this.wandering = false;
-        }
+        this.wandering = "wander".equals(order);
         this.order = order;
     }
 
