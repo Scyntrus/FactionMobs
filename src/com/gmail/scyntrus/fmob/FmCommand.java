@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
+import com.gmail.scyntrus.fmob.mobs.SpiritBear;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -194,6 +195,12 @@ public class FmCommand implements CommandExecutor {
                         return true;
                     }
                     newMob = new Mage(player.getLocation(), playerfaction);
+                } else if (split[1].equalsIgnoreCase("SpiritBear") || split[1].equalsIgnoreCase("Bear")) {
+                    if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.swordsman")) {
+                        player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+                        return true;
+                    }
+                    newMob = new SpiritBear(player.getLocation(), playerfaction);
                 } else {
                     player.sendMessage(ChatColor.RED + "Unrecognized mob name");
                     return true;

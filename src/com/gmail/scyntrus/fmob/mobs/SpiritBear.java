@@ -11,10 +11,12 @@ import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import java.util.LinkedHashSet;
 import net.minecraft.server.v1_10_R1.DamageSource;
+import net.minecraft.server.v1_10_R1.EntityAgeable;
 import net.minecraft.server.v1_10_R1.EntityCreature;
 import net.minecraft.server.v1_10_R1.EntityHuman;
 import net.minecraft.server.v1_10_R1.EntityLiving;
 import net.minecraft.server.v1_10_R1.EntityPlayer;
+import net.minecraft.server.v1_10_R1.EntityPolarBear;
 import net.minecraft.server.v1_10_R1.EntityProjectile;
 import net.minecraft.server.v1_10_R1.EntitySkeleton;
 import net.minecraft.server.v1_10_R1.EnumItemSlot;
@@ -37,9 +39,9 @@ import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class Swordsman extends EntitySkeleton implements FactionMob {
+public class SpiritBear extends EntityPolarBear implements FactionMob {
 
-    public static final String typeName = "Swordsman";
+    public static final String typeName = "SpiritBear";
     public Location spawnLoc = null;
     public Faction faction = null;
     public String factionName = "";
@@ -57,25 +59,22 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 
     public double poiX=0, poiY=0, poiZ=0;
     public String order = "poi";
-    
-    private static final PathHelpEntity p = new PathHelpEntity(); 
 
-    public Swordsman(World world) {
+    private static final PathHelpEntity p = new PathHelpEntity();
+
+    public SpiritBear(World world) {
         super(world);
         this.forceDie();
     }
 
-    public Swordsman(Location spawnLoc, Faction faction) {
+    public SpiritBear(Location spawnLoc, Faction faction) {
         super(((CraftWorld) spawnLoc.getWorld()).getHandle());
         this.setSpawn(spawnLoc);
         this.setFaction(faction);
-        Utils.giveColorArmor(this);
         this.persistent = true;
-        this.fireProof = false;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
         this.P = 1.5F; // TODO: Update name on version change (E: jump height)
-        this.setSlot(EnumItemSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
         this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {
@@ -113,13 +112,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 
     @Override
     public void n() { //TODO: Update name on version change (E: entity tick)
-        int tmpFire = this.fireTicks;
         super.n();
-        this.fireTicks = tmpFire;
-        ItemStack helmet = this.getEquipment(EnumItemSlot.HEAD);
-        if (helmet != null) {
-            helmet.setData(0);
-        }
         if (--retargetTime < 0) {
             retargetTime = FactionMobs.responseTime;
             if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
@@ -478,5 +471,10 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         }
         this.al = false; //TODO: Update name on version change (E: allow portal)
         super.m();
+    }
+
+    @Override
+    public EntityAgeable createChild(EntityAgeable var1) {
+        return null;
     }
 }

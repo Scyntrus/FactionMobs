@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
+import com.gmail.scyntrus.fmob.mobs.SpiritBear;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -158,6 +159,7 @@ public class FactionMobs extends JavaPlugin {
             addEntityType(Swordsman.class, Swordsman.typeName, 51);
             addEntityType(Mage.class, Mage.typeName, 66);
             addEntityType(Titan.class, Titan.typeName, 99);
+            addEntityType(SpiritBear.class, SpiritBear.typeName, 102);
         } catch (Exception e) {
             this.getLogger().severe("[Fatal Error] Unable to register mobs");
             this.getCommand("fm").setExecutor(new ErrorCommand(this));

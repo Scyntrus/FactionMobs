@@ -72,7 +72,6 @@ public class Archer extends EntitySkeleton implements FactionMob {
         this.persistent = true;
         this.fireProof = false;
         this.canPickUpLoot = false;
-        if (damage > 0) getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(damage);
         this.setHealth(maxHp);
         this.P = 1.5F; // TODO: Update name on version change (E: jump height)
         this.setSlot(EnumItemSlot.MAINHAND, new ItemStack(Items.BOW));
@@ -108,6 +107,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
         getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(range);
         getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(FactionMobs.mobSpeed);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
+        if (damage > 0) getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(damage);
     }
 
     @Override
