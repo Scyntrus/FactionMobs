@@ -47,7 +47,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     public String factionName = "";
     public EntityLiving attackedBy = null;
     public EntityLiving target = null;
-    public static float maxHp = 20;
+    public static float maxHp = 30;
     public static Boolean enabled = true;
     public static double powerCost = 0;
     public static double moneyCost = 0;

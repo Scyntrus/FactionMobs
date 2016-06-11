@@ -196,7 +196,7 @@ public class FmCommand implements CommandExecutor {
                     }
                     newMob = new Mage(player.getLocation(), playerfaction);
                 } else if (split[1].equalsIgnoreCase("SpiritBear") || split[1].equalsIgnoreCase("Bear")) {
-                    if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.swordsman")) {
+                    if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.spiritbear")) {
                         player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
                         return true;
                     }

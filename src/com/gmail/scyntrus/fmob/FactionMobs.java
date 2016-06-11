@@ -66,7 +66,7 @@ public class FactionMobs extends JavaPlugin {
     public static boolean onlySpawnInTerritory = true;
     public static final Random random = new Random();
     public static final int responseTime = 20;
-    public static double agroRange = 8;
+    public static double agroRange = 16;
 
     @Override
     public void onEnable() {
@@ -122,6 +122,8 @@ public class FactionMobs extends JavaPlugin {
         if (Swordsman.maxHp<1) Swordsman.maxHp = 1;
         Titan.maxHp = (float) config.getDouble("Titan.maxHp", Titan.maxHp);
         if (Titan.maxHp<1) Titan.maxHp = 1;
+        SpiritBear.maxHp = (float) config.getDouble("SpiritBear.maxHp", SpiritBear.maxHp);
+        if (SpiritBear.maxHp<1) SpiritBear.maxHp = 1;
 
         Archer.damage = config.getDouble("Archer.damage", Archer.damage);
         if (Archer.damage<0) Archer.damage = 0;
@@ -129,11 +131,15 @@ public class FactionMobs extends JavaPlugin {
         if (Swordsman.damage<0) Swordsman.damage = 0;
         Titan.damage = config.getDouble("Titan.damage", Titan.damage);
         if (Titan.damage<0) Titan.damage = 0;
+        SpiritBear.damage = config.getDouble("SpiritBear.damage", SpiritBear.damage);
+        if (SpiritBear.damage<0) SpiritBear.damage = 0;
 
         Archer.enabled = config.getBoolean("Archer.enabled", Archer.enabled);
         Mage.enabled = config.getBoolean("Mage.enabled", Mage.enabled);
         Swordsman.enabled = config.getBoolean("Swordsman.enabled", Swordsman.enabled);
         Titan.enabled = config.getBoolean("Titan.enabled", Titan.enabled);
+        SpiritBear.enabled = config.getBoolean("SpiritBear.enabled", SpiritBear.enabled);
+
         Archer.powerCost = config.getDouble("Archer.powerCost", Archer.powerCost);
         Archer.moneyCost = config.getDouble("Archer.moneyCost", Archer.moneyCost);
         Mage.powerCost = config.getDouble("Mage.powerCost", Mage.powerCost);
@@ -142,10 +148,14 @@ public class FactionMobs extends JavaPlugin {
         Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost", Swordsman.moneyCost);
         Titan.powerCost = config.getDouble("Titan.powerCost", Titan.powerCost);
         Titan.moneyCost = config.getDouble("Titan.moneyCost", Titan.moneyCost);
+        SpiritBear.powerCost = config.getDouble("SpiritBear.powerCost", SpiritBear.powerCost);
+        SpiritBear.moneyCost = config.getDouble("SpiritBear.moneyCost", SpiritBear.moneyCost);
+
         Archer.drops = config.getInt("Archer.drops", 0);
         Mage.drops = config.getInt("Mage.drops", 0);
         Swordsman.drops = config.getInt("Swordsman.drops", 0);
         Titan.drops = config.getInt("Titan.drops", 0);
+        SpiritBear.drops = config.getInt("SpiritBear.drops", 0);
 
         this.pm = this.getServer().getPluginManager();
         if (!ReflectionManager.init()) {
