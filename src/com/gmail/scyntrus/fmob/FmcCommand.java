@@ -35,11 +35,6 @@ public class FmcCommand implements CommandExecutor {
             }
         }
 
-        if (FactionMobs.mobList.size() >= FactionMobs.spawnLimit) {
-            sender.sendMessage("There are too many faction mobs");
-            return true;
-        }
-
         if (split.length < 6) {
             sender.sendMessage("Not enough arguments");
             return false;
