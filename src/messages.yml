@@ -1,0 +1,81 @@
+name.archer: Archer
+name.swordsman: Swordsman
+name.mage: Mage
+name.titan: Titan
+name.spiritbear: SpiritBear
+
+interact.nohitfriendly: §eYou cannot hit a friendly §c%1$s
+interact.hitfriendly: §eYou hit a friendly §c%1$s
+interact.nohitally: §eYou cannot hit §c%1$s§e's §c%2$s
+interact.info: "§aThis §c%1$s§a belongs to §c%2$s§a. HP: §c%3$.2f/%4$.2f"
+interact.select: §aYou have selected this §c%1$s
+interact.deselect: §aYou have deselected this §c%1$s
+interact.noselect: §aYou have no mobs selected
+interact.heal: §aThis mob has been healed by §c%1$.2f
+
+fm.error: §cFaction Mobs was unable to load. Please inform your server admin.
+
+fm.help: "
+  /fm spawn [mob]
+  Mobs: Archer, Swordsman, Titan, Mage
+  /fm color [color]
+  Color is in RRGGBB format
+  /fm command [command]
+  Commands: gohome, follow, stop, patrolHere, wander, tpHome, tpHere
+  Before giving commands, you must select mobs by right-clicking them"
+
+fm.info.spawn: §aYou have permission to spawn all units
+fm.info.nospawn: §cYou do not have permission to spawn all units
+fm.info.command: §aYou have permission to command units
+fm.info.nocommand: §cYou do not have permission to command units
+fm.info.mob: "§9%1$s:"
+fm.info.disabled: " §cdisabled"
+fm.info.cost: " price: %1$s"
+fm.info.power: " power: %1$.2f"
+
+fm.deselect: §aSelection cleared
+fm.noselection: |-
+  §cYou have not selected any units
+  Select units by right-clicking them
+fm.nopermission: §cYou do not have permission
+fm.selection: §aYou have selected %1$d units
+fm.selectionstart: "§a== Selection: =="
+fm.selectionitem: §c%1$s
+fm.selectionstop: §a================
+
+fm.nofaction: §cYou must not be unaffiliated
+fm.norank: §cYour rank is too low
+fm.noterritory: §cYou may only spawn mobs in your territory
+fm.nocapacity: §cYou have reached the limit of units
+fm.nomob: §cYou must specity a valid unit type
+fm.nopermissionmob: §cYou do not have permission to spawn this unit type
+fm.spawndisabled: §cSpawning %1$s has been disabled
+fm.powerusage: §aYou are now using %1$.2f/%2$.2f power
+fm.nopowerusage: |-
+  §cYou are already using %1$.2f/%2$.2f power
+  §cYou need %3$.2f more power
+fm.moneyusage: §aYou have paid %1$s and now have %2$s
+fm.moneyerror: "§cAn error occurred: %1$s"
+fm.nomoney: §cYou don't have enough currency
+fm.spawnsuccess: You have spawned a %1$s
+fm.spawnfail: §cYou have failed to spawn a %1$s
+fm.monstersdisabled: "§cYour faction has disabled monster spawning, set your faction's \"monsters\" flag to true"
+fm.refundmoney: You have been refunded %1$s and now have %2$s
+
+fm.colorformat: §cYou must specify a color in RRGGBB format
+fm.colorsuccess: You have set your color to %1$s
+
+fm.nocommand: "
+  §cYou must specify a valid command
+  Commands: gohome, follow, stop, patrolHere, wander, tpHome, tpHere"
+fm.command.noblock: §cYou must point to a block
+fm.command.noworld: §c%1$s is on a different world
+
+fm.command.home: §aYour units will return home
+fm.command.follow: §aYour units will follow you
+fm.command.stop: §aYour units will hold position
+fm.command.move: §aYour units will move ahead
+fm.command.patrol: §aYour units will patrol between their home and your position
+fm.command.wander: §aYour units will wander around
+fm.command.tphome: §aYour units have been moved home
+fm.command.tphere: §aYour units have been moved to your position
