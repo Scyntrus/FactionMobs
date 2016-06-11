@@ -155,10 +155,6 @@ public class FmCommand implements CommandExecutor {
                         player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
                         return true;
                     }
-                    if (FactionMobs.mobList.size() >= FactionMobs.spawnLimit) {
-                        player.sendMessage(ChatColor.RED + "There are too many faction mobs");
-                        return true;
-                    }
                     if (FactionMobs.mobsPerFaction > 0) {
                         if (Utils.countMobsInFaction(playerfaction) >= FactionMobs.mobsPerFaction) {
                             player.sendMessage(ChatColor.RED + "Your faction has too many faction mobs.");

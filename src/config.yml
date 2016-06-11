@@ -3,9 +3,9 @@
 # View the default config.yml (with full comments and explainations) at
 # https://github.com/Scyntrus/FactionMobs/blob/master/config.yml
 
-# Sets the maximum number of Faction Mobs that can spawn 
-# No monsters will naturally spawn if there are too many
-spawnLimit: 60
+# Set the maximum number of mobs a faction can spawn, regardless of power
+# (0 = no limit)
+mobsPerFaction: 0
 
 # Attack naturally spawning hostile mobs
 attackMobs: true
@@ -33,10 +33,6 @@ feedEnabled: true
 feedItem: 260
 # Amount of health restored
 feedAmount: 5
-
-# Set the maximum number of mobs a faction can spawn, regardless of power
-# (0 = no limit)
-mobsPerFaction: 0
 
 # Display the mob's faction tag above the mob (in yellow)
 displayMobFaction: true

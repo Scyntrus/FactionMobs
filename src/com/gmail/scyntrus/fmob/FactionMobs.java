@@ -41,7 +41,6 @@ public class FactionMobs extends JavaPlugin {
     public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
     public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
     public static long mobCount = 0;
-    public static int spawnLimit = 50;
     public static int mobsPerFaction = 0;
     public static boolean attackMobs = true;
     public static boolean noFriendlyFire = false;
@@ -96,7 +95,6 @@ public class FactionMobs extends JavaPlugin {
             return;
         }
 
-        FactionMobs.spawnLimit = config.getInt("spawnLimit", FactionMobs.spawnLimit);
         FactionMobs.mobsPerFaction = config.getInt("mobsPerFaction", FactionMobs.mobsPerFaction);
         FactionMobs.noFriendlyFire = config.getBoolean("noFriendlyFire", FactionMobs.noFriendlyFire);
         FactionMobs.noPlayerFriendlyFire = config.getBoolean("noPlayerFriendlyFire", FactionMobs.noPlayerFriendlyFire);
