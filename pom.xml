@@ -8,7 +8,7 @@
   <name>FactionMobs</name>
   <properties>
     <craftbukkit.version>1.10-R0.1</craftbukkit.version>
-    <factions.version>2.8.16</factions.version>
+    <factions.version>2.8.17</factions.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skipTests>true</skipTests>
   </properties>
