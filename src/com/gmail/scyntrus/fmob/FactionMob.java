@@ -8,6 +8,15 @@ import org.bukkit.Location;
 import com.gmail.scyntrus.ifactions.Faction;
 
 public interface FactionMob {
+    enum Command {
+        home,
+        poi,
+        wander,
+        phome,
+        ppoi,
+        path
+    }
+
     Faction getFaction();
     Location getSpawn();
     double getlocX();
@@ -21,8 +30,8 @@ public interface FactionMob {
     double getPoiX();
     double getPoiY();
     double getPoiZ();
-    void setOrder(String order);
-    String getOrder();
+    void setCommand(Command command);
+    Command getCommand();
     void setPoi(double x, double y, double z);
     EntityCreature getEntity();
     String getFactionName();
@@ -34,5 +43,4 @@ public interface FactionMob {
     void forceDie();
     void setTarget(EntityLiving target);
     EntityLiving findCloserTarget();
-    boolean isWandering();
 }

@@ -120,7 +120,7 @@ public class FmcCommand implements CommandExecutor {
                 }
                 try {
                     newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double.parseDouble(split[9]));
-                    newMob.setOrder("poi");
+                    newMob.setCommand(FactionMob.Command.poi);
                 } catch (Exception e) {
                     sender.sendMessage("Invalid move coordinates");
                     return false;
@@ -133,7 +133,7 @@ public class FmcCommand implements CommandExecutor {
                 }
                 try {
                     newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double.parseDouble(split[9]));
-                    newMob.setOrder("ppoi");
+                    newMob.setCommand(FactionMob.Command.ppoi);
                 } catch (Exception e) {
                     sender.sendMessage("Invalid patrol coordinates");
                     return false;
@@ -145,7 +145,7 @@ public class FmcCommand implements CommandExecutor {
                     return false;
                 }
                 try {
-                    newMob.setOrder("path");
+                    newMob.setCommand(FactionMob.Command.path);
                     newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double.parseDouble(split[9]));
                     Location spawnLoc = newMob.getSpawn();
                     spawnLoc.setX(Double.parseDouble(split[10]));
@@ -157,7 +157,7 @@ public class FmcCommand implements CommandExecutor {
                 }
                 return true;
             } else if (split[6].equalsIgnoreCase("wander")) {
-                newMob.setOrder("wander");
+                newMob.setCommand(FactionMob.Command.wander);
                 return true;
             }
         }

@@ -4,7 +4,7 @@ import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.PathHelpEntity;
-import com.gmail.scyntrus.fmob.PathfinderGoalFmobOrder;
+import com.gmail.scyntrus.fmob.PathfinderGoalFmobCommand;
 import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
@@ -58,10 +58,9 @@ public class Mage extends EntityWitch implements FactionMob {
     public static double range = 16;
     public static int drops = 0;
     private int retargetTime = 0;
-    private boolean wandering = false;
 
     public double poiX=0, poiY=0, poiZ=0;
-    public String order = "poi";
+    public Command command = Command.poi;
     
     private static final PathHelpEntity p = new PathHelpEntity(); 
 
@@ -99,7 +98,7 @@ public class Mage extends EntityWitch implements FactionMob {
         this.goalSelector.a(1, new PathfinderGoalFloat(this));
         this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, 1.0, 60, 12.0F));
         this.goalSelector.a(3, new PathfinderGoalMoveTowardsTarget(this, 1.0, (float) range));
-        this.goalSelector.a(4, new PathfinderGoalFmobOrder(this));
+        this.goalSelector.a(4, new PathfinderGoalFmobCommand(this));
         this.goalSelector.a(5, new PathfinderGoalRandomStroll(this, 1.0));
         this.goalSelector.a(6, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
         this.goalSelector.a(6, new PathfinderGoalRandomLookaround(this));
@@ -130,45 +129,58 @@ public class Mage extends EntityWitch implements FactionMob {
                     this.findCloserTarget();
                 }
             }
-            if (this.getGoalTarget() == null) {
-                if (this.order.equals("home") || this.order.equals("")) {
-                    this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), 1.0);
-                    this.order = "home";
-                    return;
-                } else if (this.order.equals("poi")) {
-                    this.getNavigation().a(p.set(this.poiX, this.poiY, this.poiZ), 1.0);
-                    return;
-                } else if (this.order.equals("wander")) {
-                    return;
-                } else if (this.order.equals("phome")) {
-                    this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), FactionMobs.mobPatrolSpeed);
-                    if (Utils.dist3D(this.locX,this.spawnLoc.getX(),this.locY,this.spawnLoc.getY(),this.locZ,this.spawnLoc.getZ()) < 1) {
-                        this.order = "ppoi";
+
+            if (--retargetTime < 0) {
+                retargetTime = FactionMobs.responseTime;
+                if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
+                    this.findTarget();
+                } else {
+                    double dist = Utils.dist3D(this.locX, this.getGoalTarget().locX, this.locY, this.getGoalTarget().locY, this.locZ, this.getGoalTarget().locZ);
+                    if (dist > range) {
+                        this.findTarget();
+                    } else if (dist > 4) {
+                        this.findCloserTarget();
                     }
-                    return;
-                } else if (this.order.equals("ppoi")) {
-                    this.getNavigation().a(p.set(poiX, poiY, poiZ), FactionMobs.mobPatrolSpeed);
-                    if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
-                        this.order = "phome";
+                }
+                if (this.getGoalTarget() == null) {
+                    if (this.command == Command.home) {
+                        this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), 1.0);
+                        return;
+                    } else if (this.command == Command.poi) {
+                        this.getNavigation().a(p.set(this.poiX, this.poiY, this.poiZ), 1.0);
+                        return;
+                    } else if (this.command == Command.wander) {
+                        return;
+                    } else if (this.command == Command.phome) {
+                        this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), FactionMobs.mobPatrolSpeed);
+                        if (Utils.dist3D(this.locX, this.spawnLoc.getX(), this.locY, this.spawnLoc.getY(), this.locZ, this.spawnLoc.getZ()) < 1) {
+                            this.command = Command.ppoi;
+                        }
+                        return;
+                    } else if (this.command == Command.ppoi) {
+                        this.getNavigation().a(p.set(poiX, poiY, poiZ), FactionMobs.mobPatrolSpeed);
+                        if (Utils.dist3D(this.locX, this.poiX, this.locY, this.poiY, this.locZ, this.poiZ) < 1) {
+                            this.command = Command.phome;
+                        }
+                        return;
+                    } else if (this.command == Command.path) {
+                        this.getNavigation().a(p.set(poiX, poiY, poiZ), 1.0);
+                        if (Utils.dist3D(this.locX, this.poiX, this.locY, this.poiY, this.locZ, this.poiZ) < 1) {
+                            this.command = Command.home;
+                        }
+                        return;
                     }
-                    return;
-                } else if (this.order.equals("path")) {
-                    this.getNavigation().a(p.set(poiX, poiY, poiZ), 1.0);
-                    if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
-                        this.order = "home";
-                    }
-                    return;
                 }
             }
+            return;
         }
-        return;
     }
 
     private void setSpawn(Location loc) {
         spawnLoc = new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
         this.setPosition(loc.getX(), loc.getY(), loc.getZ());
         this.setPoi(loc.getX(),loc.getY(),loc.getZ());
-        this.order = "home";
+        this.command = Command.home;
     }
 
     @Override
@@ -192,11 +204,6 @@ public class Mage extends EntityWitch implements FactionMob {
         if (e != null)
             this.setTarget(e);
         return null;
-    }
-
-    @Override
-    public boolean isWandering() {
-        return this.wandering;
     }
 
     @Override
@@ -370,9 +377,8 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void setOrder(String order) {
-        this.wandering = "wander".equals(order);
-        this.order = order;
+    public void setCommand(Command command) {
+        this.command = command;
     }
 
     @Override
@@ -383,8 +389,8 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public String getOrder() {
-        return this.order;
+    public Command getCommand() {
+        return this.command;
     }
 
     @Override

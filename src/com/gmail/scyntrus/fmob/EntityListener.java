@@ -132,7 +132,7 @@ public class EntityListener implements Listener {
                     plugin.playerSelections.get(player.getName()).add(fmob);
                     player.sendMessage(String.format("%sYou have selected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
                     fmob.setPoi(fmob.getlocX(), fmob.getlocY(), fmob.getlocZ());
-                    fmob.setOrder("poi");
+                    fmob.setCommand(FactionMob.Command.poi);
                 }
             }
             fmob.updateMob();

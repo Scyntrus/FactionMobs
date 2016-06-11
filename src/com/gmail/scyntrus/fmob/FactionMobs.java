@@ -338,13 +338,13 @@ public class FactionMobs extends JavaPlugin {
                             Double.parseDouble(mobData.get(10)),
                             Double.parseDouble(mobData.get(11)),
                             Double.parseDouble(mobData.get(12)));
-                    newMob.setOrder(mobData.get(13));
+                    newMob.setCommand(FactionMob.Command.valueOf(mobData.get(13)));
                 } else {
                     newMob.setPoi(
                             Double.parseDouble(mobData.get(6)),
                             Double.parseDouble(mobData.get(7)),
                             Double.parseDouble(mobData.get(8)));
-                    newMob.setOrder("poi");
+                    newMob.setCommand(FactionMob.Command.poi);
                 }
 
                 newMob.getEntity().world.addEntity((net.minecraft.server.v1_10_R1.Entity) newMob, SpawnReason.CUSTOM);
@@ -385,7 +385,7 @@ public class FactionMobs extends JavaPlugin {
             mobData.add(""+fmob.getPoiX()); //10
             mobData.add(""+fmob.getPoiY());
             mobData.add(""+fmob.getPoiZ());
-            mobData.add(fmob.getOrder()); //13
+            mobData.add(fmob.getCommand().toString()); //13
             save.add(mobData);
         }
         conf.set("data", save);

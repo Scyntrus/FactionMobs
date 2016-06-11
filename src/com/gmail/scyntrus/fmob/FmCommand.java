@@ -299,7 +299,7 @@ public class FmCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.GREEN + "Faction Mobs data saved");
                     System.out.println("Faction Mobs data saved via command");
                 }
-            } else if (split[0].equalsIgnoreCase("order")) {
+            } else if (split[0].equalsIgnoreCase("order") || split[0].equalsIgnoreCase("command")) {
                 if (!player.hasPermission("fmob.order")) {
                     player.sendMessage(ChatColor.RED + "You do not have permission");
                     return true;
@@ -337,7 +337,7 @@ public class FmCommand implements CommandExecutor {
                 if (split[1].equalsIgnoreCase("gohome") || split[1].equalsIgnoreCase("home")) {
                     plugin.mobLeader.remove(player.getName());
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-                        fmob.setOrder("home");
+                        fmob.setCommand(FactionMob.Command.home);
                         Location loc = fmob.getSpawn();
                         fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
                     }
@@ -354,7 +354,7 @@ public class FmCommand implements CommandExecutor {
                             double tmpH = Math.hypot(tmpX, tmpZ);
                             double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
                             fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
-                            fmob.setOrder("poi");
+                            fmob.setCommand(FactionMob.Command.poi);
                             count += 1;
                         }
                     }
@@ -363,7 +363,7 @@ public class FmCommand implements CommandExecutor {
                 } else if (split[1].equalsIgnoreCase("stop")) {
                     plugin.mobLeader.remove(player.getName());
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-                        fmob.setOrder("poi");
+                        fmob.setCommand(FactionMob.Command.poi);
                     }
                     player.sendMessage(ChatColor.GREEN + "You told your mobs to stop");
                     return true;
@@ -388,7 +388,7 @@ public class FmCommand implements CommandExecutor {
                             double tmpH = Math.hypot(tmpX, tmpZ);
                             double angle = Math.atan2(tmpZ, tmpX) + (playerLoc.getYaw() * Math.PI / 180.);
                             fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
-                            fmob.setOrder("poi");
+                            fmob.setCommand(FactionMob.Command.poi);
                             count += 1;
                         }
                     }
@@ -399,7 +399,7 @@ public class FmCommand implements CommandExecutor {
                     Location loc = player.getLocation();
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         if (fmob.getSpawn().getWorld().getName().equals(loc.getWorld().getName())) {
-                            fmob.setOrder("ppoi");
+                            fmob.setCommand(FactionMob.Command.ppoi);
                             fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
                         } else {
                             player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
@@ -410,7 +410,7 @@ public class FmCommand implements CommandExecutor {
                 } else if (split[1].equalsIgnoreCase("wander")) {
                     plugin.mobLeader.remove(player.getName());
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-                        fmob.setOrder("wander");
+                        fmob.setCommand(FactionMob.Command.wander);
                     }
                     player.sendMessage(ChatColor.GREEN + "Your mobs will now wander around");
                     return true;
@@ -419,7 +419,7 @@ public class FmCommand implements CommandExecutor {
                     Location loc = player.getLocation();
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         if (fmob.getSpawn().getWorld().equals(loc.getWorld())) {
-                            fmob.setOrder("home");
+                            fmob.setCommand(FactionMob.Command.home);
                             Location spawnLoc = fmob.getSpawn();
                             spawnLoc.setX(loc.getX());
                             spawnLoc.setY(loc.getY());
@@ -438,7 +438,7 @@ public class FmCommand implements CommandExecutor {
                         return true;
                     }
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-                        fmob.setOrder("home");
+                        fmob.setCommand(FactionMob.Command.home);
                         Location loc = fmob.getSpawn();
                         fmob.getEntity().setPosition(loc.getX(), loc.getY(), loc.getZ());
                         fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
@@ -463,7 +463,7 @@ public class FmCommand implements CommandExecutor {
                             tmpZ = loc.getZ() + tmpH*Math.sin(angle);
                             fmob.setPoi(tmpX, loc.getY(), tmpZ);
                             fmob.getEntity().setPosition(tmpX, loc.getY(), tmpZ);
-                            fmob.setOrder("poi");
+                            fmob.setCommand(FactionMob.Command.poi);
                             count++;
                         } else {
                             player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
