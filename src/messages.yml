@@ -12,6 +12,7 @@ interact.select: §aYou have selected this §c%1$s
 interact.deselect: §aYou have deselected this §c%1$s
 interact.noselect: §aYou have no mobs selected
 interact.heal: §aThis mob has been healed by §c%1$.2f
+interact.playerdeath: %1$s was killed by §c%2$s§r's §c%3$s
 
 fm.error: §cFaction Mobs was unable to load. Please inform your server admin.
 
@@ -38,7 +39,7 @@ fm.noselection: |-
   §cYou have not selected any units
   Select units by right-clicking them
 fm.nopermission: §cYou do not have permission
-fm.selection: §aYou have selected %1$d units
+fm.selectall: §aYou have selected %1$d units
 fm.selectionstart: "§a== Selection: =="
 fm.selectionitem: §c%1$s
 fm.selectionstop: §a================
@@ -69,7 +70,6 @@ fm.nocommand: "
   §cYou must specify a valid command
   Commands: gohome, follow, stop, patrolHere, wander, tpHome, tpHere"
 fm.command.noblock: §cYou must point to a block
-fm.command.noworld: §c%1$s is on a different world
 
 fm.command.home: §aYour units will return home
 fm.command.follow: §aYour units will follow you
@@ -77,5 +77,6 @@ fm.command.stop: §aYour units will hold position
 fm.command.move: §aYour units will move ahead
 fm.command.patrol: §aYour units will patrol between their home and your position
 fm.command.wander: §aYour units will wander around
+fm.command.sethome: §aYour units will set your position as home
 fm.command.tphome: §aYour units have been moved home
 fm.command.tphere: §aYour units have been moved to your position

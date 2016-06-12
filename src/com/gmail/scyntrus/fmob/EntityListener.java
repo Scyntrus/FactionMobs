@@ -7,7 +7,6 @@ import net.minecraft.server.v1_10_R1.EntityInsentient;
 import net.minecraft.server.v1_10_R1.EntityLiving;
 import net.minecraft.server.v1_10_R1.EntityWolf;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
@@ -36,8 +35,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.gmail.scyntrus.fmob.Messages.Message;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
+import org.bukkit.projectiles.ProjectileSource;
 
 public class EntityListener implements Listener {
 
@@ -113,9 +114,8 @@ public class EntityListener implements Listener {
                 return;
             }
             Player player = e.getPlayer();
-            player.sendMessage(String.format("%sThis %s%s %sbelongs to faction %s%s%s. HP: %s%.2f/%.2f",
-                    ChatColor.GREEN, ChatColor.RED, fmob.getTypeName(), ChatColor.GREEN, ChatColor.RED,
-                    fmob.getFactionName(), ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth(), fmob.getEntity().getMaxHealth()));
+            player.sendMessage(Messages.get(Message.INTERACT_INFO, fmob.getTypeName(), fmob.getFactionName(),
+                    fmob.getEntity().getHealth(), fmob.getEntity().getMaxHealth()));
             Faction playerFaction = FactionsManager.getPlayerFaction(player);
             if (player.hasPermission("fmob.order") && playerFaction != null && playerFaction.equals(fmob.getFaction())) {
                 if (!plugin.playerSelections.containsKey(player.getName())) {
@@ -123,14 +123,14 @@ public class EntityListener implements Listener {
                 }
                 if (plugin.playerSelections.get(player.getName()).contains(fmob)) {
                     plugin.playerSelections.get(player.getName()).remove(fmob);
-                    player.sendMessage(String.format("%sYou have deselected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.INTERACT_DESELECT, fmob.getTypeName()));
                     if (plugin.playerSelections.get(player.getName()).isEmpty()) {
                         plugin.playerSelections.remove(player.getName());
-                        player.sendMessage(String.format("%sYou have no mobs selected", ChatColor.GREEN));
+                        player.sendMessage(Messages.get(Message.INTERACT_NOSELECT));
                     }
                 } else {
                     plugin.playerSelections.get(player.getName()).add(fmob);
-                    player.sendMessage(String.format("%sYou have selected this %s%s", ChatColor.GREEN, ChatColor.RED, fmob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.INTERACT_SELECT, fmob.getTypeName()));
                     fmob.setPoi(fmob.getlocX(), fmob.getlocY(), fmob.getlocZ());
                     fmob.setCommand(FactionMob.Command.poi);
                 }
@@ -145,7 +145,7 @@ public class EntityListener implements Listener {
                     player.getEquipment().setItemInMainHand(itemMainHand);
                     float iHp = fmob.getEntity().getHealth();
                     fmob.getEntity().setHealth(fmob.getEntity().getHealth() + FactionMobs.feedAmount);
-                    player.sendMessage(String.format("%sThis mob has been healed by %s%.2f", ChatColor.GREEN, ChatColor.RED, fmob.getEntity().getHealth() - iHp));
+                    player.sendMessage(Messages.get(Message.INTERACT_HEAL, fmob.getEntity().getHealth() - iHp));
                 }
             }
         }
@@ -208,16 +208,16 @@ public class EntityListener implements Listener {
             if (Utils.FactionCheck(fmob.getEntity(), FactionsManager.getPlayerFaction(player)) >= 1) {
                 if (fmob.getFaction().equals(FactionsManager.getPlayerFaction(player))) {
                     if (FactionMobs.noPlayerFriendlyFire) {
-                        player.sendMessage(String.format("%sYou cannot hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+                        player.sendMessage(Messages.get(Message.INTERACT_NOHITFRIENDLY, fmob.getTypeName()));
                         e.setCancelled(true);
                         return;
                     }
-                    player.sendMessage(String.format("%sYou hit a friendly %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.INTERACT_HITFRIENDLY, fmob.getTypeName()));
                     // disable gaining mcMMO exp when hitting friendly mobs
                     fmob.getEntity().getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
                     return;
                 } else {
-                    player.sendMessage(String.format("%sYou cannot hit %s%s%s's %s%s", ChatColor.YELLOW, ChatColor.RED, fmob.getFactionName(), ChatColor.YELLOW, ChatColor.RED, fmob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.INTERACT_NOHITALLY, fmob.getFactionName(), fmob.getTypeName()));
                     e.setCancelled(true);
                     return;
                 }
@@ -251,21 +251,20 @@ public class EntityListener implements Listener {
         if (lastDamage instanceof EntityDamageByEntityEvent) {
             org.bukkit.entity.Entity entity = ((EntityDamageByEntityEvent) lastDamage).getDamager();
             if (entity != null) {
+                if (entity instanceof Projectile) {
+                    ProjectileSource source = ((Projectile) entity).getShooter();
+                    if (source instanceof LivingEntity) {
+                        entity = (LivingEntity) source;
+                    } else {
+                        return;
+                    }
+                }
                 if (((CraftEntity) entity).getHandle() instanceof FactionMob) {
                     FactionMob fmob = (FactionMob) ((CraftEntity) entity).getHandle();
                     if (fmob.getFaction() == null) {
                         return;
                     }
-                    e.setDeathMessage(e.getEntity().getDisplayName() + " was killed by " + ChatColor.RED + fmob.getFactionName() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
-                } else if (entity instanceof Projectile){
-                    Projectile arrow = (Projectile) entity;
-                    if (((CraftLivingEntity) arrow.getShooter()).getHandle() instanceof FactionMob) {
-                        FactionMob fmob = (FactionMob) ((CraftLivingEntity) arrow.getShooter()).getHandle();
-                        if (fmob.getFaction() == null) {
-                            return;
-                        }
-                        e.setDeathMessage(e.getEntity().getDisplayName() + " was shot by " + ChatColor.RED + fmob.getFactionName() + ChatColor.RESET + "'s " + ChatColor.RED + fmob.getTypeName());
-                    }
+                    e.setDeathMessage(Messages.get(Message.INTERACT_PLAYERDEATH,e.getEntity().getDisplayName(), fmob.getFactionName(), fmob.getTypeName()));
                 }
             }
         }
@@ -331,6 +330,7 @@ public class EntityListener implements Listener {
     @EventHandler(priority=EventPriority.MONITOR)
     public void onChunkLoad(ChunkLoadEvent e) {
         FactionMobs.scheduleChunkMobLoad = true;
+        // Continuously check for the running task, as other plugins may cancel tasks to reduce load
         if (!plugin.getServer().getScheduler().isCurrentlyRunning(FactionMobs.chunkMobLoadTask) &&
                 !plugin.getServer().getScheduler().isQueued(FactionMobs.chunkMobLoadTask)) {
             FactionMobs.chunkMobLoadTask = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new ChunkMobLoader(plugin), 4, 4);

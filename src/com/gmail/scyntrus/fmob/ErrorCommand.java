@@ -15,7 +15,7 @@ public class ErrorCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
-        sender.sendMessage(ChatColor.RED + "Faction Mobs was unable to load. Please inform your server admin.");
+        sender.sendMessage(Messages.get(Messages.Message.FM_ERROR));
         return true;
     }
 }

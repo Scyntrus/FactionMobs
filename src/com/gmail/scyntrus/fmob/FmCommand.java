@@ -46,86 +46,95 @@ public class FmCommand implements CommandExecutor {
                 player.sendMessage(Messages.get(Message.FM_HELP));
             } else if (split[0].equalsIgnoreCase("info")) {
                 if (!player.hasPermission("fmob.spawn")) {
-                    player.sendMessage(ChatColor.RED + "You do not have permission to spawn faction mobs.");
+                    player.sendMessage(Messages.get(Message.FM_INFO_NOSPAWN));
                 } else {
-                    player.sendMessage(ChatColor.GREEN + "You have permission to spawn faction mobs");
+                    player.sendMessage(Messages.get(Message.FM_INFO_SPAWN));
                 }
                 if (!player.hasPermission("fmob.order")) {
-                    player.sendMessage(ChatColor.RED + "You do not have permission to order faction mobs.");
+                    player.sendMessage(Messages.get(Message.FM_INFO_NOCOMMAND));
                 } else {
-                    player.sendMessage(ChatColor.GREEN + "You have permission to order faction mobs");
+                    player.sendMessage(Messages.get(Message.FM_INFO_COMMAND));
                 }
-                player.sendMessage(ChatColor.BLUE + "Archer:");
+                player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_ARCHER)));
                 if (!Archer.enabled) {
-                    player.sendMessage(ChatColor.RED + "disabled");
+                    player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(Archer.moneyCost));
-                    player.sendMessage("power: " + Archer.powerCost);
+                    if (plugin.vaultEnabled)
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(Archer.moneyCost)));
+                    player.sendMessage(Messages.get(Message.FM_INFO_POWER, Archer.powerCost));
                 }
-                player.sendMessage(ChatColor.BLUE + "Swordsman:");
+                player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_SWORDSMAN)));
                 if (!Swordsman.enabled) {
-                    player.sendMessage(ChatColor.RED + "disabled");
+                    player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(Swordsman.moneyCost));
-                    player.sendMessage("power: " + Swordsman.powerCost);
+                    if (plugin.vaultEnabled)
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(Swordsman.moneyCost)));
+                    player.sendMessage(Messages.get(Message.FM_INFO_POWER, Swordsman.powerCost));
                 }
-                player.sendMessage(ChatColor.BLUE + "Mage:");
+                player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_MAGE)));
                 if (!Mage.enabled) {
-                    player.sendMessage(ChatColor.RED + "disabled");
+                    player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(Mage.moneyCost));
-                    player.sendMessage("power: " + Mage.powerCost);
+                    if (plugin.vaultEnabled)
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(Mage.moneyCost)));
+                    player.sendMessage(Messages.get(Message.FM_INFO_POWER, Mage.powerCost));
                 }
-                player.sendMessage(ChatColor.BLUE + "Titan:");
+                player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_TITAN)));
                 if (!Titan.enabled) {
-                    player.sendMessage(ChatColor.RED + "disabled");
+                    player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(Titan.moneyCost));
-                    player.sendMessage("power: " + Titan.powerCost);
+                    if (plugin.vaultEnabled)
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(Titan.moneyCost)));
+                    player.sendMessage(Messages.get(Message.FM_INFO_POWER, Titan.powerCost));
                 }
-                player.sendMessage(ChatColor.BLUE + "SpiritBear:");
+                player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_SPIRITBEAR)));
                 if (!SpiritBear.enabled) {
-                    player.sendMessage(ChatColor.RED + "disabled");
+                    player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled) player.sendMessage("cost: " + plugin.econ.format(SpiritBear.moneyCost));
-                    player.sendMessage("power: " + SpiritBear.powerCost);
+                    if (plugin.vaultEnabled)
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(SpiritBear.moneyCost)));
+                    player.sendMessage(Messages.get(Message.FM_INFO_POWER, SpiritBear.powerCost));
                 }
             } else if (split[0].equalsIgnoreCase("deselect")) {
                 if (plugin.playerSelections.containsKey(player.getName())) {
                     plugin.playerSelections.get(player.getName()).clear();
                     plugin.playerSelections.remove(player.getName());
-                    player.sendMessage("Selection cleared");
+                    player.sendMessage(Messages.get(Message.FM_DESELECT));
                     return true;
                 }
-                player.sendMessage("You have not selected any mob");
+                player.sendMessage(Messages.get(Message.FM_NOSELECTION));
                 return true;
             } else if (split[0].equalsIgnoreCase("selectall")) {
                 if (!player.hasPermission("fmob.selectall")) {
-                    player.sendMessage(ChatColor.RED + "You do not have permission.");
+                    player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
                 }
+                List<FactionMob> selection;
                 if (plugin.playerSelections.containsKey(player.getName())) {
-                    plugin.playerSelections.get(player.getName()).clear();
+                    selection = plugin.playerSelections.get(player.getName());
+                    selection.clear();
                 } else {
-                    plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
+                    selection = new ArrayList<FactionMob>();
+                    plugin.playerSelections.put(player.getName(), selection);
                 }
                 for (FactionMob fmob : FactionMobs.mobList) {
                     Faction playerFaction = FactionsManager.getPlayerFaction(player);
-                    if (playerFaction != null && fmob.getFaction().getName().equals(playerFaction.getName())) {
-                        plugin.playerSelections.get(player.getName()).add(fmob);
+                    if (playerFaction != null && fmob.getFaction().equals(playerFaction)) {
+                        selection.add(fmob);
                     }
                 }
-                player.sendMessage(String.format("%sYou have selected %s mobs", ChatColor.GREEN, plugin.playerSelections.get(player.getName()).size()));
+                player.sendMessage(Messages.get(Message.FM_SELECTALL, selection.size()));
                 return true;
             } else if (split[0].equalsIgnoreCase("selection")) {
                 if (plugin.playerSelections.containsKey(player.getName())) {
-                    player.sendMessage(ChatColor.GREEN + "== Selection: ==");
+                    player.sendMessage(Messages.get(Message.FM_SELECTIONSTART));
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-                        if (fmob.getEntity().isAlive()) player.sendMessage(ChatColor.RED + fmob.getTypeName());
+                        if (fmob.getEntity().isAlive())
+                            player.sendMessage(Messages.get(Message.FM_SELECTIONITEM, fmob.getTypeName()));
                     }
-                    player.sendMessage(ChatColor.GREEN + "================");
+                    player.sendMessage(Messages.get(Message.FM_SELECTIONSTOP));
                     return true;
                 }
-                player.sendMessage("You have not selected any mob");
+                player.sendMessage(Messages.get(Message.FM_NOSELECTION));
                 return true;
             } else if (split[0].equalsIgnoreCase("spawn")) {
                 if ((!player.hasPermission("fmob.spawn")
@@ -133,19 +142,19 @@ public class FmCommand implements CommandExecutor {
                         && !player.hasPermission("fmob.spawn.mage")
                         && !player.hasPermission("fmob.spawn.swordsman")
                         && !player.hasPermission("fmob.spawn.titan"))) {
-                    player.sendMessage(ChatColor.RED + "You do not have permission.");
+                    player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
                     return true;
                 }
 
                 Location loc = player.getLocation();
                 Faction playerfaction = FactionsManager.getPlayerFaction(player);
                 if (playerfaction == null || playerfaction.isNone()) {
-                    player.sendMessage(ChatColor.RED + "You must be in a faction.");
+                    player.sendMessage(Messages.get(Message.FM_NOFACTION));
                     return true;
                 }
 
                 if (!FactionsManager.getPlayerRank(player).isAtLeast(FactionMobs.minRankToSpawn)) {
-                    player.sendMessage(ChatColor.RED + "Your rank is too low.");
+                    player.sendMessage(Messages.get(Message.FM_NORANK));
                     return true;
                 }
 
@@ -153,12 +162,12 @@ public class FmCommand implements CommandExecutor {
                     Faction areafaction = FactionsManager.getFactionAt(loc);
                     if (FactionMobs.onlySpawnInTerritory && FactionsManager.supportsLandOwnership() &&
                             (areafaction == null || !playerfaction.getName().equals(areafaction.getName()))) {
-                        player.sendMessage(ChatColor.RED + "You may only spawn mobs in your territory");
+                        player.sendMessage(Messages.get(Message.FM_NOTERRITORY));
                         return true;
                     }
                     if (FactionMobs.mobsPerFaction > 0) {
                         if (Utils.countMobsInFaction(playerfaction) >= FactionMobs.mobsPerFaction) {
-                            player.sendMessage(ChatColor.RED + "Your faction has too many faction mobs.");
+                            player.sendMessage(Messages.get(Message.FM_NOCAPACITY));
                             return true;
                         }
                     }
@@ -166,44 +175,44 @@ public class FmCommand implements CommandExecutor {
                 net.minecraft.server.v1_10_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
                 FactionMob newMob;
                 if (split.length == 1) {
-                    player.sendMessage(ChatColor.RED + "You must specify a mob");
+                    player.sendMessage(Messages.get(Message.FM_NOMOB));
                     return true;
                 } else if (split[1].equalsIgnoreCase("Archer") || split[1].equalsIgnoreCase("Ranger")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.archer")) {
-                        player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+                        player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
                     }
                     newMob = new Archer(player.getLocation(), playerfaction);
                 } else if (split[1].equalsIgnoreCase("Swordsman")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.swordsman")) {
-                        player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+                        player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
                     }
                     newMob = new Swordsman(player.getLocation(), playerfaction);
                 } else if (split[1].equalsIgnoreCase("Titan") || split[1].equalsIgnoreCase("Golem")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.titan")) {
-                        player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+                        player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
                     }
                     newMob = new Titan(player.getLocation(), playerfaction);
                 } else if (split[1].equalsIgnoreCase("Mage") || split[1].equalsIgnoreCase("Witch")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.mage")) {
-                        player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+                        player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
                     }
                     newMob = new Mage(player.getLocation(), playerfaction);
                 } else if (split[1].equalsIgnoreCase("SpiritBear") || split[1].equalsIgnoreCase("Bear")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.spiritbear")) {
-                        player.sendMessage(ChatColor.RED + "You do not have permission to spawn this mob.");
+                        player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
                     }
                     newMob = new SpiritBear(player.getLocation(), playerfaction);
                 } else {
-                    player.sendMessage(ChatColor.RED + "Unrecognized mob name");
+                    player.sendMessage(Messages.get(Message.FM_NOMOB));
                     return true;
                 }
                 if (!newMob.getEnabled()) {
-                    player.sendMessage(String.format("%sSpawning %s has been disabled", ChatColor.RED, newMob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.FM_SPAWNDISABLED));
                     newMob.forceDie();
                     return true;
                 }
@@ -212,12 +221,11 @@ public class FmCommand implements CommandExecutor {
                     if (newMob.getPowerCost() > 0) {
                         double factionPowerUsage = Utils.countMobPowerInFaction(playerfaction);
                         if (playerfaction.getPower() >= (factionPowerUsage + newMob.getPowerCost())) {
-                            player.sendMessage(String.format("%sYour faction is now using %.2f/%.2f power for faction mobs.",
-                                    ChatColor.GREEN, factionPowerUsage + newMob.getPowerCost(), playerfaction.getPower()));
+                            player.sendMessage(Messages.get(Message.FM_POWERUSAGE,
+                                    factionPowerUsage + newMob.getPowerCost(), playerfaction.getPower()));
                         } else {
-                            player.sendMessage(String.format("%sYour faction is using %.2f/%.2f power for faction mobs.",
-                                    ChatColor.RED, factionPowerUsage, playerfaction.getPower()));
-                            player.sendMessage(String.format("%sYou need %.2f more power.", ChatColor.RED, factionPowerUsage + newMob.getPowerCost() - playerfaction.getPower()));
+                            player.sendMessage(Messages.get(Message.FM_NOPOWERUSAGE, factionPowerUsage,
+                                    playerfaction.getPower(), factionPowerUsage + newMob.getPowerCost() - playerfaction.getPower()));
                             return true;
                         }
                     }
@@ -226,14 +234,15 @@ public class FmCommand implements CommandExecutor {
                         if (plugin.econ.has(player, newMob.getMoneyCost())) {
                             EconomyResponse r = plugin.econ.withdrawPlayer(player, newMob.getMoneyCost());
                             if(r.transactionSuccess()) {
-                                player.sendMessage(String.format("You paid %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
+                                player.sendMessage(Messages.get(Message.FM_MONEYUSAGE,
+                                        plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
                             } else {
-                                player.sendMessage(String.format("An error occured: %s", r.errorMessage));
+                                player.sendMessage(Messages.get(Message.FM_MONEYERROR, r.errorMessage));
                                 plugin.getLogger().severe(String.format("Unable to deduct money from %s", player.getName()));
                                 return true;
                             }
                         } else {
-                            player.sendMessage(ChatColor.RED + "You don't have enough money");
+                            player.sendMessage(Messages.get(Message.FM_NOMONEY));
                             return true;
                         }
                     }
@@ -241,20 +250,20 @@ public class FmCommand implements CommandExecutor {
 
                 if (world.addEntity((Entity) newMob, SpawnReason.CUSTOM)) {
                     FactionMobs.mobList.add(newMob);
-                    player.sendMessage(String.format("You have spawned a %s", newMob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.FM_SPAWNSUCCESS, newMob.getTypeName()));
                 } else {
                     newMob.forceDie();
-                    player.sendMessage(String.format("%sYou have failed to spawn a %s", ChatColor.RED, newMob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.FM_SPAWNFAIL, newMob.getTypeName()));
                     if (playerfaction.monstersNotAllowed()) {
-                        player.sendMessage(String.format("%sYour faction has disabled monster spawning, set your faction's \"monsters\" flag to true.", ChatColor.RED));
+                        player.sendMessage(Messages.get(Message.FM_MONSTERSDISABLED));
                     }
                     if (!player.hasPermission("fmob.bypass")) {
                         if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
                             EconomyResponse r = plugin.econ.depositPlayer(player, newMob.getMoneyCost());
                             if(r.transactionSuccess()) {
-                                player.sendMessage(String.format("You have been refunded %s and now have %s", plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
+                                player.sendMessage(Messages.get(Message.FM_REFUNDMONEY, plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
                             } else {
-                                player.sendMessage(String.format("An error occured: %s", r.errorMessage));
+                                player.sendMessage(Messages.get(Message.FM_MONEYERROR, r.errorMessage));
                                 plugin.getLogger().severe(String.format("Unable to refund money to %s", player.getName()));
                                 return true;
                             }
@@ -263,61 +272,62 @@ public class FmCommand implements CommandExecutor {
                 }
             } else if (split[0].equalsIgnoreCase("color")) {
                 if (!player.hasPermission("fmob.color")) {
-                    player.sendMessage(ChatColor.RED + "You do not have permission");
+                    player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
                     return true;
                 }
                 Faction playerfaction = FactionsManager.getPlayerFaction(player);
                 if (playerfaction == null || playerfaction.isNone()) {
-                    player.sendMessage(ChatColor.RED + "You must be in a faction");
+                    player.sendMessage(Messages.get(Message.FM_NOFACTION));
                     return true;
                 }
                 if (split.length == 1) {
-                    player.sendMessage(ChatColor.RED + "You must specify a color in RRGGBB format");
+                    player.sendMessage(Messages.get(Message.FM_COLORFORMAT));
                     return true;
                 } else {
                     try {
                         int myColor = Integer.parseInt(split[1], 16);
                         FactionMobs.factionColors.put(playerfaction.getName(), myColor);
-                        player.sendMessage(String.format("Set your faction color to %s", StringUtils.leftPad(Integer.toHexString(myColor), 6, "0")));
+                        player.sendMessage(Messages.get(Message.FM_COLORSUCCESS, StringUtils.leftPad(Integer.toHexString(myColor), 6, "0")));
                         plugin.updateList();
                     } catch (NumberFormatException e) {
-                        player.sendMessage(ChatColor.RED + "Invalid number");
+                        player.sendMessage(Messages.get(Message.FM_COLORFORMAT));
                         return true;
                     }
                 }
             } else if (split[0].equalsIgnoreCase("u")) {
                 if (player.isOp()) {
                     plugin.updateList();
+                    // Test command, not localized
                     player.sendMessage(ChatColor.GREEN + "Faction Mobs refreshed");
                 }
             } else if (split[0].equalsIgnoreCase("s")) {
                 if (player.isOp()) {
                     plugin.saveMobList();
+                    // Test command, not localized
                     player.sendMessage(ChatColor.GREEN + "Faction Mobs data saved");
                     System.out.println("Faction Mobs data saved via command");
                 }
             } else if (split[0].equalsIgnoreCase("order") || split[0].equalsIgnoreCase("command")) {
                 if (!player.hasPermission("fmob.order")) {
-                    player.sendMessage(ChatColor.RED + "You do not have permission");
+                    player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
                     return true;
                 }
                 if (split.length < 2) {
-                    player.sendMessage(ChatColor.RED + "You must specify an order");
-                    player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere");
-                    return true;
-                } else if (!plugin.playerSelections.containsKey(player.getName())) {
-                    player.sendMessage(ChatColor.RED + "No mobs selected");
-                    player.sendMessage(ChatColor.RED + "Before giving orders, you must select mobs by right-clicking them");
+                    player.sendMessage(Messages.get(Message.FM_NOCOMMAND));
                     return true;
                 } else {
                     Faction playerFaction = FactionsManager.getPlayerFaction(player);
                     if (playerFaction == null || playerFaction.isNone()) {
                         plugin.playerSelections.remove(player.getName());
-                        player.sendMessage(ChatColor.RED + "You must be in a faction");
+                        player.sendMessage(Messages.get(Message.FM_NOFACTION));
                         return true;
                     }
                     String factionName = playerFaction.getName();
                     List<FactionMob> selection = plugin.playerSelections.get(player.getName());
+                    if (selection == null) {
+                        player.sendMessage(Messages.get(Message.FM_NOSELECTION));
+                        return true;
+                    }
                     for (int i = selection.size()-1; i >= 0; i--) {
                         if (!selection.get(i).getEntity().isAlive()
                                 || !selection.get(i).getFactionName().equals(factionName)) {
@@ -325,20 +335,18 @@ public class FmCommand implements CommandExecutor {
                         }
                     }
                     if (selection.isEmpty()) {
-                        plugin.playerSelections.remove(player.getName());
-                        player.sendMessage(ChatColor.RED + "No mobs selected");
+                        player.sendMessage(Messages.get(Message.FM_NOSELECTION));
                         return true;
                     }
                 }
-
+                plugin.mobLeader.remove(player.getName());
                 if (split[1].equalsIgnoreCase("gohome") || split[1].equalsIgnoreCase("home")) {
-                    plugin.mobLeader.remove(player.getName());
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         fmob.setCommand(FactionMob.Command.home);
                         Location loc = fmob.getSpawn();
                         fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
                     }
-                    player.sendMessage(ChatColor.GREEN + "You sent your mobs home");
+                    player.sendMessage(Messages.get(Message.FM_COMMAND_HOME));
                     return true;
                 } else if (split[1].equalsIgnoreCase("follow")) {
                     plugin.mobLeader.put(player.getName(), true);
@@ -355,24 +363,22 @@ public class FmCommand implements CommandExecutor {
                             count += 1;
                         }
                     }
-                    player.sendMessage(ChatColor.GREEN + "Your mobs are now following you");
+                    player.sendMessage(Messages.get(Message.FM_COMMAND_FOLLOW));
                     return true;
                 } else if (split[1].equalsIgnoreCase("stop")) {
-                    plugin.mobLeader.remove(player.getName());
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         fmob.setCommand(FactionMob.Command.poi);
                     }
-                    player.sendMessage(ChatColor.GREEN + "You told your mobs to stop");
+                    player.sendMessage(Messages.get(Message.FM_COMMAND_STOP));
                     return true;
                 } else if (split[1].equalsIgnoreCase("moveToPoint") || split[1].equalsIgnoreCase("move") || split[1].equalsIgnoreCase("point")) {
                     if (!player.hasPermission("fmob.order.move")) {
-                        player.sendMessage(ChatColor.RED + "You do not have permission");
+                        player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
                         return true;
                     }
-                    plugin.mobLeader.remove(player.getName());
                     Block block = player.getTargetBlock((Set<Material>) null, 64);
                     if (block == null) {
-                        player.sendMessage(ChatColor.RED + "You must be pointing at a block");
+                        player.sendMessage(Messages.get(Message.FM_COMMAND_NOBLOCK));
                         return true;
                     }
                     Location loc = block.getLocation().add(0,1,0);
@@ -389,30 +395,25 @@ public class FmCommand implements CommandExecutor {
                             count += 1;
                         }
                     }
-                    player.sendMessage(ChatColor.GREEN + "You told your mobs to move where you're pointing");
+                    player.sendMessage(Messages.get(Message.FM_COMMAND_MOVE));
                     return true;
                 } else if (split[1].equalsIgnoreCase("patrolHere") || split[1].equalsIgnoreCase("patrol")) {
-                    plugin.mobLeader.remove(player.getName());
                     Location loc = player.getLocation();
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         if (fmob.getSpawn().getWorld().getName().equals(loc.getWorld().getName())) {
                             fmob.setCommand(FactionMob.Command.ppoi);
                             fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
-                        } else {
-                            player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
                         }
                     }
-                    player.sendMessage(ChatColor.GREEN + "Your mobs will now patrol from their home to here");
+                    player.sendMessage(Messages.get(Message.FM_COMMAND_PATROL));
                     return true;
                 } else if (split[1].equalsIgnoreCase("wander")) {
-                    plugin.mobLeader.remove(player.getName());
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         fmob.setCommand(FactionMob.Command.wander);
                     }
-                    player.sendMessage(ChatColor.GREEN + "Your mobs will now wander around");
+                    player.sendMessage(Messages.get(Message.FM_COMMAND_WANDER));
                     return true;
                 } else if (split[1].equalsIgnoreCase("setHome")) {
-                    plugin.mobLeader.put(player.getName(), true);
                     Location loc = player.getLocation();
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         if (fmob.getSpawn().getWorld().equals(loc.getWorld())) {
@@ -422,16 +423,13 @@ public class FmCommand implements CommandExecutor {
                             spawnLoc.setY(loc.getY());
                             spawnLoc.setZ(loc.getZ());
                             fmob.setPoi(spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ());
-                        } else {
-                            player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
                         }
                     }
-                    player.sendMessage(ChatColor.GREEN + "You set your position as your mob's new home");
+                    player.sendMessage(Messages.get(Message.FM_COMMAND_SETHOME));
                     return true;
                 } else if (split[1].equalsIgnoreCase("tpHome")) {
-                    plugin.mobLeader.remove(player.getName());
                     if (!player.hasPermission("fmob.order.tp")) {
-                        player.sendMessage(ChatColor.RED + "You do not have permission");
+                        player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
                         return true;
                     }
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
@@ -440,12 +438,11 @@ public class FmCommand implements CommandExecutor {
                         fmob.getEntity().setPosition(loc.getX(), loc.getY(), loc.getZ());
                         fmob.setPoi(loc.getX(), loc.getY(), loc.getZ());
                     }
-                    player.sendMessage(ChatColor.GREEN + "Your mobs are now back at their home");
+                    player.sendMessage(Messages.get(Message.FM_COMMAND_TPHOME));
                     return true;
                 } else if (split[1].equalsIgnoreCase("tpHere")) {
-                    plugin.mobLeader.put(player.getName(), true);
                     if (!player.hasPermission("fmob.order.tp")) {
-                        player.sendMessage(ChatColor.RED + "You do not have permission");
+                        player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
                         return true;
                     }
                     Location loc = player.getLocation();
@@ -462,23 +459,19 @@ public class FmCommand implements CommandExecutor {
                             fmob.getEntity().setPosition(tmpX, loc.getY(), tmpZ);
                             fmob.setCommand(FactionMob.Command.poi);
                             count++;
-                        } else {
-                            player.sendMessage(String.format("%s%s is on a different world", ChatColor.RED, fmob.getTypeName()));
                         }
                     }
-                    player.sendMessage("Your mobs are now with you");
+                    player.sendMessage(Messages.get(Message.FM_COMMAND_TPHERE));
                     return true;
                 } else if (split[1].equalsIgnoreCase("forgive")) {
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         fmob.clearAttackedBy();
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "Unrecognized order");
-                    player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere");
+                    player.sendMessage(Messages.get(Message.FM_NOCOMMAND));
                     return true;
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "Unrecognized command");
                 player.sendMessage(Messages.get(Message.FM_HELP));
                 return true;
             }
