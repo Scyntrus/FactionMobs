@@ -105,6 +105,7 @@ public class Mage extends EntityWitch implements FactionMob {
         this.goalSelector.a(6, new PathfinderGoalRandomLookaround(this));
         this.getBukkitEntity().setMetadata("CustomEntity", new FixedMetadataValue(FactionMobs.instance, true));
         this.getBukkitEntity().setMetadata("FactionMob", new FixedMetadataValue(FactionMobs.instance, true));
+        this.getBukkitEntity().setMetadata("kingdom+" + faction.getName(), new FixedMetadataValue(FactionMobs.instance, true));
     }
 
     @Override
