@@ -18,6 +18,7 @@ import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 
+// /fmc command is not localized, since it is not meant to be user facing
 public class FmcCommand implements CommandExecutor {
 
     FactionMobs plugin;
