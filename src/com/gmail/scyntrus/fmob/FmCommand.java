@@ -201,7 +201,7 @@ public class FmCommand implements CommandExecutor {
                         return true;
                     }
                     newMob = new Mage(player.getLocation(), playerfaction);
-                } else if (split[1].equalsIgnoreCase(SpiritBear.typeName) || split[1].equalsIgnoreCase("Bear")) {
+                } else if (split[1].equalsIgnoreCase(SpiritBear.typeName) || split[1].equalsIgnoreCase(SpiritBear.localizedName) || split[1].equalsIgnoreCase("Bear")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.spiritbear")) {
                         player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;

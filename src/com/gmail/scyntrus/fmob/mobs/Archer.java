@@ -266,7 +266,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
         if (faction.isNone()) this.forceDie();
         this.factionName = faction.getName();
         if (FactionMobs.displayMobFaction) {
-            this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
+            this.setCustomName(ChatColor.YELLOW + this.factionName + " " + localizedName);
             this.setCustomNameVisible(true);
         }
     }
