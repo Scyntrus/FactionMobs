@@ -46,6 +46,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 public class Mage extends EntityWitch implements FactionMob {
 
     public static final String typeName = "Mage";
+    public static String localizedName = typeName;
     public Location spawnLoc = null;
     public Faction faction = null;
     public String factionName = "";
@@ -204,6 +205,11 @@ public class Mage extends EntityWitch implements FactionMob {
         if (e != null)
             this.setTarget(e);
         return null;
+    }
+
+    @Override
+    public String getLocalizedName() {
+        return localizedName;
     }
 
     @Override

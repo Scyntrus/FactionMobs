@@ -40,6 +40,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 public class Titan extends EntityIronGolem implements FactionMob {
 
     public static final String typeName = "Titan";
+    public static String localizedName = typeName;
     public Location spawnLoc = null;
     public Faction faction = null;
     public String factionName = "";
@@ -189,6 +190,11 @@ public class Titan extends EntityIronGolem implements FactionMob {
         if (e != null)
             this.setTarget(e);
         return e;
+    }
+
+    @Override
+    public String getLocalizedName() {
+        return localizedName;
     }
 
     @Override

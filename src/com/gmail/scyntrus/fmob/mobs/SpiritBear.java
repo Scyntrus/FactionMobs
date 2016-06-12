@@ -39,6 +39,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 public class SpiritBear extends EntityPolarBear implements FactionMob {
 
     public static final String typeName = "SpiritBear";
+    public static String localizedName = typeName;
     public Location spawnLoc = null;
     public Faction faction = null;
     public String factionName = "";
@@ -199,6 +200,11 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     }
 
     @Override
+    public String getLocalizedName() {
+        return localizedName;
+    }
+
+    @Override
     public void findTarget() {
         this.setTarget(Utils.optimizedTargetSearch(this, range));
         return;
@@ -265,7 +271,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
         if (faction.isNone()) this.forceDie();
         this.factionName = faction.getName();
         if (FactionMobs.displayMobFaction) {
-            this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
+            this.setCustomName(ChatColor.YELLOW + this.factionName + " " + localizedName);
             this.setCustomNameVisible(true);
         }
     }

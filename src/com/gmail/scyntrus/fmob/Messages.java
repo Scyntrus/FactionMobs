@@ -1,5 +1,10 @@
 package com.gmail.scyntrus.fmob;
 
+import com.gmail.scyntrus.fmob.mobs.Archer;
+import com.gmail.scyntrus.fmob.mobs.Mage;
+import com.gmail.scyntrus.fmob.mobs.SpiritBear;
+import com.gmail.scyntrus.fmob.mobs.Swordsman;
+import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.google.common.base.Charsets;
 import java.io.File;
 import java.io.IOException;
@@ -110,6 +115,11 @@ public class Messages {
         } catch (IOException e) {
             ErrorManager.handleError(e);
         }
+        Archer.localizedName = get(Message.NAME_ARCHER);
+        Swordsman.localizedName = get(Message.NAME_SWORDSMAN);
+        Mage.localizedName = get(Message.NAME_MAGE);
+        Titan.localizedName = get(Message.NAME_TITAN);
+        SpiritBear.localizedName = get(Message.NAME_SPIRITBEAR);
         initialized = true;
     }
 

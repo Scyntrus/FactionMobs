@@ -129,7 +129,7 @@ public class FmCommand implements CommandExecutor {
                     player.sendMessage(Messages.get(Message.FM_SELECTIONSTART));
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         if (fmob.getEntity().isAlive())
-                            player.sendMessage(Messages.get(Message.FM_SELECTIONITEM, fmob.getTypeName()));
+                            player.sendMessage(Messages.get(Message.FM_SELECTIONITEM, fmob.getLocalizedName()));
                     }
                     player.sendMessage(Messages.get(Message.FM_SELECTIONSTOP));
                     return true;
@@ -177,31 +177,31 @@ public class FmCommand implements CommandExecutor {
                 if (split.length == 1) {
                     player.sendMessage(Messages.get(Message.FM_NOMOB));
                     return true;
-                } else if (split[1].equalsIgnoreCase("Archer") || split[1].equalsIgnoreCase("Ranger")) {
+                } else if (split[1].equalsIgnoreCase(Archer.typeName) || split[1].equalsIgnoreCase(Archer.localizedName) || split[1].equalsIgnoreCase("Ranger")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.archer")) {
                         player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
                     }
                     newMob = new Archer(player.getLocation(), playerfaction);
-                } else if (split[1].equalsIgnoreCase("Swordsman")) {
+                } else if (split[1].equalsIgnoreCase(Swordsman.typeName) || split[1].equalsIgnoreCase(Swordsman.localizedName)) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.swordsman")) {
                         player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
                     }
                     newMob = new Swordsman(player.getLocation(), playerfaction);
-                } else if (split[1].equalsIgnoreCase("Titan") || split[1].equalsIgnoreCase("Golem")) {
+                } else if (split[1].equalsIgnoreCase(Titan.typeName) || split[1].equalsIgnoreCase(Titan.localizedName) || split[1].equalsIgnoreCase("Golem")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.titan")) {
                         player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
                     }
                     newMob = new Titan(player.getLocation(), playerfaction);
-                } else if (split[1].equalsIgnoreCase("Mage") || split[1].equalsIgnoreCase("Witch")) {
+                } else if (split[1].equalsIgnoreCase(Mage.typeName) || split[1].equalsIgnoreCase(Mage.localizedName) || split[1].equalsIgnoreCase("Witch")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.mage")) {
                         player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
                     }
                     newMob = new Mage(player.getLocation(), playerfaction);
-                } else if (split[1].equalsIgnoreCase("SpiritBear") || split[1].equalsIgnoreCase("Bear")) {
+                } else if (split[1].equalsIgnoreCase(SpiritBear.typeName) || split[1].equalsIgnoreCase("Bear")) {
                     if (!player.hasPermission("fmob.spawn") && !player.hasPermission("fmob.spawn.spiritbear")) {
                         player.sendMessage(Messages.get(Message.FM_NOPERMISSIONMOB));
                         return true;
@@ -250,10 +250,10 @@ public class FmCommand implements CommandExecutor {
 
                 if (world.addEntity((Entity) newMob, SpawnReason.CUSTOM)) {
                     FactionMobs.mobList.add(newMob);
-                    player.sendMessage(Messages.get(Message.FM_SPAWNSUCCESS, newMob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.FM_SPAWNSUCCESS, newMob.getLocalizedName()));
                 } else {
                     newMob.forceDie();
-                    player.sendMessage(Messages.get(Message.FM_SPAWNFAIL, newMob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.FM_SPAWNFAIL, newMob.getLocalizedName()));
                     if (playerfaction.monstersNotAllowed()) {
                         player.sendMessage(Messages.get(Message.FM_MONSTERSDISABLED));
                     }

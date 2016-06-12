@@ -114,7 +114,7 @@ public class EntityListener implements Listener {
                 return;
             }
             Player player = e.getPlayer();
-            player.sendMessage(Messages.get(Message.INTERACT_INFO, fmob.getTypeName(), fmob.getFactionName(),
+            player.sendMessage(Messages.get(Message.INTERACT_INFO, fmob.getLocalizedName(), fmob.getFactionName(),
                     fmob.getEntity().getHealth(), fmob.getEntity().getMaxHealth()));
             Faction playerFaction = FactionsManager.getPlayerFaction(player);
             if (player.hasPermission("fmob.order") && playerFaction != null && playerFaction.equals(fmob.getFaction())) {
@@ -123,14 +123,14 @@ public class EntityListener implements Listener {
                 }
                 if (plugin.playerSelections.get(player.getName()).contains(fmob)) {
                     plugin.playerSelections.get(player.getName()).remove(fmob);
-                    player.sendMessage(Messages.get(Message.INTERACT_DESELECT, fmob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.INTERACT_DESELECT, fmob.getLocalizedName()));
                     if (plugin.playerSelections.get(player.getName()).isEmpty()) {
                         plugin.playerSelections.remove(player.getName());
                         player.sendMessage(Messages.get(Message.INTERACT_NOSELECT));
                     }
                 } else {
                     plugin.playerSelections.get(player.getName()).add(fmob);
-                    player.sendMessage(Messages.get(Message.INTERACT_SELECT, fmob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.INTERACT_SELECT, fmob.getLocalizedName()));
                     fmob.setPoi(fmob.getlocX(), fmob.getlocY(), fmob.getlocZ());
                     fmob.setCommand(FactionMob.Command.poi);
                 }
@@ -193,7 +193,8 @@ public class EntityListener implements Listener {
             if (Utils.FactionCheck(entity.getHandle(), fmob.getFaction()) < 1) {
                 if (fmob.getEntity().isAlive()) {
                     if (entity.getHandle() instanceof EntityInsentient) {
-                        ((EntityInsentient) entity.getHandle()).setGoalTarget(damager.getHandle(), EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true);
+                        ((EntityInsentient) entity.getHandle()).setGoalTarget(damager.getHandle(),
+                                EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true);
                     }
                     return;
                 }
@@ -208,16 +209,16 @@ public class EntityListener implements Listener {
             if (Utils.FactionCheck(fmob.getEntity(), FactionsManager.getPlayerFaction(player)) >= 1) {
                 if (fmob.getFaction().equals(FactionsManager.getPlayerFaction(player))) {
                     if (FactionMobs.noPlayerFriendlyFire) {
-                        player.sendMessage(Messages.get(Message.INTERACT_NOHITFRIENDLY, fmob.getTypeName()));
+                        player.sendMessage(Messages.get(Message.INTERACT_NOHITFRIENDLY, fmob.getLocalizedName()));
                         e.setCancelled(true);
                         return;
                     }
-                    player.sendMessage(Messages.get(Message.INTERACT_HITFRIENDLY, fmob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.INTERACT_HITFRIENDLY, fmob.getLocalizedName()));
                     // disable gaining mcMMO exp when hitting friendly mobs
                     fmob.getEntity().getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
                     return;
                 } else {
-                    player.sendMessage(Messages.get(Message.INTERACT_NOHITALLY, fmob.getFactionName(), fmob.getTypeName()));
+                    player.sendMessage(Messages.get(Message.INTERACT_NOHITALLY, fmob.getFactionName(), fmob.getLocalizedName()));
                     e.setCancelled(true);
                     return;
                 }
@@ -264,7 +265,8 @@ public class EntityListener implements Listener {
                     if (fmob.getFaction() == null) {
                         return;
                     }
-                    e.setDeathMessage(Messages.get(Message.INTERACT_PLAYERDEATH,e.getEntity().getDisplayName(), fmob.getFactionName(), fmob.getTypeName()));
+                    e.setDeathMessage(Messages.get(Message.INTERACT_PLAYERDEATH,e.getEntity().getDisplayName(),
+                            fmob.getFactionName(), fmob.getLocalizedName()));
                 }
             }
         }
@@ -310,7 +312,9 @@ public class EntityListener implements Listener {
                 if (Utils.FactionCheck(((CraftLivingEntity) entity).getHandle(), fmob.getFaction()) < 1) {
                     if (fmob.getEntity().isAlive()) {
                         if (((CraftLivingEntity) entity).getHandle() instanceof EntityInsentient) {
-                            ((EntityInsentient) ((CraftLivingEntity) entity).getHandle()).setGoalTarget(((CraftLivingEntity) e.getPotion().getShooter()).getHandle(), EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true);
+                            ((EntityInsentient) ((CraftLivingEntity) entity).getHandle()).setGoalTarget(
+                                    ((CraftLivingEntity) e.getPotion().getShooter()).getHandle(),
+                                    EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true);
                         }
                     }
                 } else if (FactionMobs.noFriendlyFire) {
