@@ -261,6 +261,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
             this.setCustomName(ChatColor.YELLOW + this.factionName + " " + localizedName);
             this.setCustomNameVisible(true);
         }
+        this.getBukkitEntity().setMetadata("faction", new FixedMetadataValue(FactionMobs.instance, this.factionName));
     }
 
     @Override
