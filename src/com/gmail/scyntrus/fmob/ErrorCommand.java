@@ -15,7 +15,7 @@ public class ErrorCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
-        sender.sendMessage(Messages.get(Messages.Message.FM_ERROR));
+        sender.sendMessage(Messages.get(Messages.Message.FM_ERROR, plugin.getName()));
         return true;
     }
 }

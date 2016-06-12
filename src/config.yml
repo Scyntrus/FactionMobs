@@ -17,13 +17,13 @@ noFriendlyFire: true
 # Players cannot damage mobs on allied teams regardless
 noPlayerFriendlyFire: true
 
-# Minimum rank required in order to spawn faction mobs, you can choose from 'RECRUIT', 'MEMBER' (NORMAL), 'OFFICER' (MODERATOR) and 'LEADER' (ADMIN).
+# Minimum rank required in order to spawn units, you can choose from 'RECRUIT', 'MEMBER' (NORMAL), 'OFFICER' (MODERATOR) and 'LEADER' (ADMIN).
 minRankToSpawn: MEMBER
 
 # Can only spawn mobs while on owned land
 onlySpawnInTerritory: true
 
-# Attacking a faction member or faction mob will agro their nearby faction mobs
+# Attacking a member or unit will agro their nearby allied units
 alertAllies: true
 
 # Enabling this option will allow players to heal their mobs for a set amount of health
