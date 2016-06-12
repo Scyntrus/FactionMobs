@@ -115,20 +115,20 @@ public class Messages {
         } catch (IOException e) {
             ErrorManager.handleError(e);
         }
+        initialized = true;
         Archer.localizedName = get(Message.NAME_ARCHER);
         Swordsman.localizedName = get(Message.NAME_SWORDSMAN);
         Mage.localizedName = get(Message.NAME_MAGE);
         Titan.localizedName = get(Message.NAME_TITAN);
         SpiritBear.localizedName = get(Message.NAME_SPIRITBEAR);
-        initialized = true;
     }
 
     public static String get(Message message, Object... args) {
+        String key = message.getKey();
         if (!initialized) {
-            ErrorManager.handleError("Messages library accessed before initialization.", new Exception());
+            ErrorManager.handleError("Messages library accessed before initialization: " + key, new Exception());
             return "";
         }
-        String key = message.getKey();
         String raw;
         if (cache.containsKey(key)) {
             raw = cache.get(key);

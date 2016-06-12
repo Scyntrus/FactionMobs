@@ -13,7 +13,7 @@ interact.select: §aYou have selected this §c%1$s
 interact.deselect: §aYou have deselected this §c%1$s
 interact.noselect: §aYou have no mobs selected
 interact.heal: §aThis mob has been healed by §c%1$.2f
-interact.playerdeath: %1$s was killed by §c%2$s§r's §c%3$s
+interact.playerdeath: "%1$s was killed by §c%2$s§r's §c%3$s"
 
 fm.error: §cFaction Mobs was unable to load. Please inform your server admin.
 
