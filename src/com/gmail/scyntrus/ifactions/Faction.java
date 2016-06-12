@@ -1,5 +1,7 @@
 package com.gmail.scyntrus.ifactions;
 
+import com.gmail.scyntrus.fmob.FactionMob;
+
 public abstract class Faction {
 
     public abstract int getRelationTo(Faction other);
@@ -11,4 +13,5 @@ public abstract class Faction {
     public boolean equals(Faction other) {
         return this.getName().equals(other.getName());
     }
+    public void processMob(FactionMob mob) { }
 }

@@ -1,6 +1,9 @@
 package com.gmail.scyntrus.ifactions.k;
 
+import com.gmail.scyntrus.fmob.FactionMob;
+import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.ifactions.Faction;
+import org.bukkit.metadata.FixedMetadataValue;
 
 class Kingdom extends Faction {
 
@@ -43,5 +46,10 @@ class Kingdom extends Faction {
     @Override
     public boolean monstersNotAllowed() {
         return false;
+    }
+
+    @Override
+    public void processMob(FactionMob mob) {
+        mob.getEntity().getBukkitEntity().setMetadata("kingdom+" + this.getName(), new FixedMetadataValue(FactionMobs.instance, true));
     }
 }
