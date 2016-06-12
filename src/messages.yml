@@ -17,15 +17,14 @@ interact.playerdeath: "%1$s was killed by §c%2$s§r's §c%3$s"
 
 fm.error: §cFaction Mobs was unable to load. Please inform your server admin.
 
-fm.help: "
+fm.help: |-
   /fm spawn [mob]
   Mobs: Archer, Swordsman, Titan, Mage
   /fm color [color]
   Color is in RRGGBB format
   /fm command [command]
   Commands: gohome, follow, stop, patrolHere, wander, tpHome, tpHere
-  Before giving commands, you must select mobs by right-clicking them"
-
+  Before giving commands, you must select mobs by right-clicking them
 fm.info.spawn: §aYou have permission to spawn all units
 fm.info.nospawn: §cYou do not have permission to spawn all units
 fm.info.command: §aYou have permission to command units
