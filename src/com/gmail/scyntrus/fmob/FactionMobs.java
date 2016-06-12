@@ -312,15 +312,18 @@ public class FactionMobs extends JavaPlugin {
                         Double.parseDouble(mobData.get(3)),
                         Double.parseDouble(mobData.get(4)),
                         Double.parseDouble(mobData.get(5)));
-                if (mobData.get(0).equalsIgnoreCase("Archer") || mobData.get(0).equalsIgnoreCase("Ranger")) {
+                if (mobData.get(0).equalsIgnoreCase(Archer.typeName) || mobData.get(0).equalsIgnoreCase("Ranger")) {
                     newMob = new Archer(spawnLoc, faction);
-                } else if (mobData.get(0).equalsIgnoreCase("Mage")) {
+                } else if (mobData.get(0).equalsIgnoreCase(Mage.typeName)) {
                     newMob = new Mage(spawnLoc, faction);
-                } else if (mobData.get(0).equalsIgnoreCase("Swordsman")) {
+                } else if (mobData.get(0).equalsIgnoreCase(Swordsman.typeName)) {
                     newMob = new Swordsman(spawnLoc, faction);
-                } else if (mobData.get(0).equalsIgnoreCase("Titan")) {
+                } else if (mobData.get(0).equalsIgnoreCase(Titan.typeName)) {
                     newMob = new Titan(spawnLoc, faction);
+                } else if (mobData.get(0).equalsIgnoreCase(SpiritBear.typeName)) {
+                    newMob = new SpiritBear(spawnLoc, faction);
                 } else {
+                    ErrorManager.handleError("Unrecognized typeName when loading data");
                     continue;
                 }
                 if (newMob.getFaction() == null || newMob.getFactionName() == null || newMob.getFaction().isNone()) {
