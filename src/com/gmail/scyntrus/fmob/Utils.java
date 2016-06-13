@@ -62,6 +62,8 @@ public class Utils {
             }
         } else if (entity instanceof EntityCreeper) {
             return 1;
+        } else if (faction.dontAttack(entity)) {
+            return 0;
         } else if (!FactionMobs.attackMobs) {
             return 0;
         } else if (entity instanceof EntityAnimal) {

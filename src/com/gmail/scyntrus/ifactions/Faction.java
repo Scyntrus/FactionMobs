@@ -1,6 +1,7 @@
 package com.gmail.scyntrus.ifactions;
 
 import com.gmail.scyntrus.fmob.FactionMob;
+import net.minecraft.server.v1_10_R1.Entity;
 
 public abstract class Faction {
 
@@ -14,4 +15,5 @@ public abstract class Faction {
         return this.getName().equals(other.getName());
     }
     public void processMob(FactionMob mob) { }
+    public boolean dontAttack(Entity entity) { return false; }
 }
