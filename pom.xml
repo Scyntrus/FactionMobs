@@ -61,20 +61,18 @@
   </build>
   <dependencies>
     <dependency>
+      <!-- https://www.spigotmc.org/wiki/buildtools/ -->
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
       <version>${craftbukkit.version}-SNAPSHOT</version>
-      <!-- https://tcpr.ca/downloads/bukkit -->
-      <systemPath>${basedir}/lib/bukkit-${craftbukkit.version}-SNAPSHOT-latest.jar</systemPath> 
-      <scope>system</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
+      <!-- https://www.spigotmc.org/wiki/buildtools/ -->
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
       <version>${craftbukkit.version}-SNAPSHOT</version>
-      <!-- https://tcpr.ca/downloads/craftbukkit -->
-      <systemPath>${basedir}/lib/craftbukkit-${craftbukkit.version}-SNAPSHOT-latest.jar</systemPath> 
-      <scope>system</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.massivecraft</groupId>
