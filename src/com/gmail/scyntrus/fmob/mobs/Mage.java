@@ -9,7 +9,7 @@ import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import java.util.LinkedHashSet;
+import java.util.Set;
 import net.minecraft.server.v1_10_R1.DamageSource;
 import net.minecraft.server.v1_10_R1.EntityCreature;
 import net.minecraft.server.v1_10_R1.EntityHuman;
@@ -86,10 +86,10 @@ public class Mage extends EntityWitch implements FactionMob {
         if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {
             try {
                 @SuppressWarnings("rawtypes")
-                LinkedHashSet tempSet1 = (LinkedHashSet) ReflectionManager.pathfinderGoalSelector_GoalSet.get(this.goalSelector);
+                Set tempSet1 = (Set) ReflectionManager.pathfinderGoalSelector_GoalSet.get(this.goalSelector);
                 tempSet1.clear();
                 @SuppressWarnings("rawtypes")
-                LinkedHashSet tempSet2 = (LinkedHashSet) ReflectionManager.pathfinderGoalSelector_GoalSet.get(this.targetSelector);
+                Set tempSet2 = (Set) ReflectionManager.pathfinderGoalSelector_GoalSet.get(this.targetSelector);
                 tempSet2.clear();
             } catch (Exception e) {
                 ErrorManager.handleError(e);
