@@ -38,7 +38,7 @@ public class FactionMobs extends JavaPlugin {
     public PluginManager pm = null;
     public static Set<FactionMob> mobList = new HashSet<FactionMob>();
     public static Map<String,Integer> factionColors = new HashMap<String,Integer>();
-    public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
+    public Set<String> mobLeader = new HashSet<String>();
     public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
     public static long mobCount = 0;
     public static int mobsPerFaction = 0;

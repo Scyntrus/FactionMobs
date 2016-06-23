@@ -345,7 +345,7 @@ public class FmCommand implements CommandExecutor {
                     player.sendMessage(Messages.get(Message.FM_COMMAND_HOME));
                     return true;
                 } else if (split[1].equalsIgnoreCase("follow")) {
-                    plugin.mobLeader.put(player.getName(), true);
+                    plugin.mobLeader.add(player.getName());
                     Location loc = player.getLocation();
                     int count = 0;
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {

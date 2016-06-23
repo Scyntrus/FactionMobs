@@ -285,7 +285,7 @@ public class EntityListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent e) {
-        if (plugin.mobLeader.containsKey(e.getPlayer().getName()) && plugin.playerSelections.containsKey(e.getPlayer().getName())) {
+        if (plugin.mobLeader.contains(e.getPlayer().getName()) && plugin.playerSelections.containsKey(e.getPlayer().getName())) {
             if (e.getFrom().distance(e.getTo()) < 0.00001) {
                 return;
             }
