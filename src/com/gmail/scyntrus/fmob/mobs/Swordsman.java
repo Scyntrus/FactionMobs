@@ -122,7 +122,6 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         if (helmet != null) {
             helmet.setData(0);
         }
-
         if (--retargetTime < 0) {
             retargetTime = FactionMobs.responseTime;
             if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
@@ -192,7 +191,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
                 this.attackedBy = null;
             }
         }
-        EntityLiving e = Utils.optimizedTargetSearch(this, 1.5);
+        EntityLiving e = Utils.optimizedTargetSearch(this, Utils.closeEnough);
         if (e != null)
             this.setTarget(e);
         return e;

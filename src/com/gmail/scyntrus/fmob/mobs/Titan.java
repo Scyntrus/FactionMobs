@@ -188,7 +188,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
                 this.attackedBy = null;
             }
         }
-        EntityLiving e = Utils.optimizedTargetSearch(this, 1.5);
+        EntityLiving e = Utils.optimizedTargetSearch(this, Utils.closeEnough);
         if (e != null)
             this.setTarget(e);
         return e;
@@ -492,5 +492,4 @@ public class Titan extends EntityIronGolem implements FactionMob {
         this.al = false; //TODO: Update name on version change (E: allow portal)
         super.m();
     }
-    
 }

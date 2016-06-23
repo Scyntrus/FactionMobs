@@ -181,7 +181,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
                 this.attackedBy = null;
             }
         }
-        EntityLiving e = Utils.optimizedTargetSearch(this, 1.5);
+        EntityLiving e = Utils.optimizedTargetSearch(this, Utils.closeEnough);
         if (e != null)
             this.setTarget(e);
         return e;

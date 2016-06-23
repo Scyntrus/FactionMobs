@@ -127,55 +127,41 @@ public class Mage extends EntityWitch implements FactionMob {
                 double dist = Utils.dist3D(this.locX, this.getGoalTarget().locX, this.locY, this.getGoalTarget().locY, this.locZ, this.getGoalTarget().locZ);
                 if (dist > range) {
                     this.findTarget();
-                } else if (dist > 5) {
+                } else if (dist > 4) {
                     this.findCloserTarget();
                 }
             }
-
-            if (--retargetTime < 0) {
-                retargetTime = FactionMobs.responseTime;
-                if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
-                    this.findTarget();
-                } else {
-                    double dist = Utils.dist3D(this.locX, this.getGoalTarget().locX, this.locY, this.getGoalTarget().locY, this.locZ, this.getGoalTarget().locZ);
-                    if (dist > range) {
-                        this.findTarget();
-                    } else if (dist > 4) {
-                        this.findCloserTarget();
+            if (this.getGoalTarget() == null) {
+                if (this.command == Command.home) {
+                    this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), 1.0);
+                    return;
+                } else if (this.command == Command.poi) {
+                    this.getNavigation().a(p.set(this.poiX, this.poiY, this.poiZ), 1.0);
+                    return;
+                } else if (this.command == Command.wander) {
+                    return;
+                } else if (this.command == Command.phome) {
+                    this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), FactionMobs.mobPatrolSpeed);
+                    if (Utils.dist3D(this.locX, this.spawnLoc.getX(), this.locY, this.spawnLoc.getY(), this.locZ, this.spawnLoc.getZ()) < 1) {
+                        this.command = Command.ppoi;
                     }
-                }
-                if (this.getGoalTarget() == null) {
-                    if (this.command == Command.home) {
-                        this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), 1.0);
-                        return;
-                    } else if (this.command == Command.poi) {
-                        this.getNavigation().a(p.set(this.poiX, this.poiY, this.poiZ), 1.0);
-                        return;
-                    } else if (this.command == Command.wander) {
-                        return;
-                    } else if (this.command == Command.phome) {
-                        this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), FactionMobs.mobPatrolSpeed);
-                        if (Utils.dist3D(this.locX, this.spawnLoc.getX(), this.locY, this.spawnLoc.getY(), this.locZ, this.spawnLoc.getZ()) < 1) {
-                            this.command = Command.ppoi;
-                        }
-                        return;
-                    } else if (this.command == Command.ppoi) {
-                        this.getNavigation().a(p.set(poiX, poiY, poiZ), FactionMobs.mobPatrolSpeed);
-                        if (Utils.dist3D(this.locX, this.poiX, this.locY, this.poiY, this.locZ, this.poiZ) < 1) {
-                            this.command = Command.phome;
-                        }
-                        return;
-                    } else if (this.command == Command.path) {
-                        this.getNavigation().a(p.set(poiX, poiY, poiZ), 1.0);
-                        if (Utils.dist3D(this.locX, this.poiX, this.locY, this.poiY, this.locZ, this.poiZ) < 1) {
-                            this.command = Command.home;
-                        }
-                        return;
+                    return;
+                } else if (this.command == Command.ppoi) {
+                    this.getNavigation().a(p.set(poiX, poiY, poiZ), FactionMobs.mobPatrolSpeed);
+                    if (Utils.dist3D(this.locX, this.poiX, this.locY, this.poiY, this.locZ, this.poiZ) < 1) {
+                        this.command = Command.phome;
                     }
+                    return;
+                } else if (this.command == Command.path) {
+                    this.getNavigation().a(p.set(poiX, poiY, poiZ), 1.0);
+                    if (Utils.dist3D(this.locX, this.poiX, this.locY, this.poiY, this.locZ, this.poiZ) < 1) {
+                        this.command = Command.home;
+                    }
+                    return;
                 }
             }
-            return;
         }
+        return;
     }
 
     private void setSpawn(Location loc) {
@@ -205,7 +191,7 @@ public class Mage extends EntityWitch implements FactionMob {
         EntityLiving e = Utils.optimizedTargetSearch(this, Utils.closeEnough);
         if (e != null)
             this.setTarget(e);
-        return null;
+        return e;
     }
 
     @Override
