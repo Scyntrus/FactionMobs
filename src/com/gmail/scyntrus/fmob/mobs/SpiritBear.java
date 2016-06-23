@@ -300,7 +300,6 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
         } else {
             this.findTarget();
         }
-        Utils.giveColorArmor(this);
     }
 
     @Override

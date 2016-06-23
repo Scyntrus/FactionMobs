@@ -75,7 +75,6 @@ public class Mage extends EntityWitch implements FactionMob {
         super(((CraftWorld) spawnLoc.getWorld()).getHandle());
         this.setSpawn(spawnLoc);
         this.setFaction(faction);
-        Utils.giveColorArmor(this);
         this.persistent = true;
         this.fireProof = false;
         this.canPickUpLoot = false;
@@ -322,7 +321,6 @@ public class Mage extends EntityWitch implements FactionMob {
         } else {
             this.findTarget();
         }
-        Utils.giveColorArmor(this);
     }
 
     @Override
