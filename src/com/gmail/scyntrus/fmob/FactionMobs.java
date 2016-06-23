@@ -288,7 +288,11 @@ public class FactionMobs extends JavaPlugin {
         if (file.exists()) {
             YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
             @SuppressWarnings("unchecked")
-            List<List<String>> save = (List<List<String>>) conf.getList("data", new ArrayList<List<String>>());
+            List<List<String>> save = (List<List<String>>) conf.getList("data", null);
+            if (save == null) {
+                ErrorManager.handleError("data.dat is empty");
+                return;
+            }
             for (List<String> mobData : save) {
                 FactionMob newMob;
                 if (mobData.size() < 10) {
@@ -369,12 +373,12 @@ public class FactionMobs extends JavaPlugin {
 
     public void saveMobList() {
         YamlConfiguration conf = new YamlConfiguration();
-        List<List<String>> save = new ArrayList<List<String>>();
+        List<List<String>> save = new ArrayList<List<String>>(mobList.size());
         for (FactionMob fmob : mobList) {
             if (fmob.getFaction() == null || fmob.getFaction().isNone()) {
                 continue;
             }
-            List<String> mobData = new ArrayList<String>();
+            List<String> mobData = new ArrayList<String>(13);
             mobData.add(fmob.getTypeName()); //0
             Location spawnLoc = fmob.getSpawn();
             mobData.add(spawnLoc.getWorld().getName()); //1
