@@ -190,7 +190,7 @@ public class FactionMobs extends JavaPlugin {
                 fileInputStream = new FileInputStream(colorFile);
                 ObjectInputStream oInputStream = new ObjectInputStream(fileInputStream);
                 @SuppressWarnings("unchecked")
-                HashMap<String, Integer> colorMap = (HashMap<String, Integer>) oInputStream.readObject();
+                Map<String, Integer> colorMap = (Map<String, Integer>) oInputStream.readObject();
                 FactionMobs.factionColors = colorMap;
                 oInputStream.close();
                 fileInputStream.close();
