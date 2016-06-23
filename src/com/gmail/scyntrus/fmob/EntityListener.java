@@ -1,12 +1,15 @@
 package com.gmail.scyntrus.fmob;
 
-import java.util.ArrayList;
-
+import com.gmail.scyntrus.fmob.Messages.Message;
+import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.FactionsManager;
+import java.util.LinkedList;
+import java.util.List;
 import net.minecraft.server.v1_10_R1.Entity;
 import net.minecraft.server.v1_10_R1.EntityInsentient;
 import net.minecraft.server.v1_10_R1.EntityLiving;
 import net.minecraft.server.v1_10_R1.EntityWolf;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
@@ -33,11 +36,6 @@ import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-
-import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.gmail.scyntrus.fmob.Messages.Message;
-import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.FactionsManager;
 import org.bukkit.projectiles.ProjectileSource;
 
 public class EntityListener implements Listener {
@@ -120,18 +118,21 @@ public class EntityListener implements Listener {
                     fmob.getEntity().getHealth(), fmob.getEntity().getMaxHealth()));
             Faction playerFaction = FactionsManager.getPlayerFaction(player);
             if (player.hasPermission("fmob.order") && playerFaction != null && playerFaction.equals(fmob.getFaction())) {
-                if (!plugin.playerSelections.containsKey(player.getName())) {
-                    plugin.playerSelections.put(player.getName(), new ArrayList<FactionMob>());
+                List<FactionMob> selection;
+                if (plugin.playerSelections.containsKey(player.getName())) {
+                    selection = plugin.playerSelections.get(player.getName());
+                } else {
+                    selection = new LinkedList<FactionMob>();
+                    plugin.playerSelections.put(player.getName(), selection);
                 }
-                if (plugin.playerSelections.get(player.getName()).contains(fmob)) {
-                    plugin.playerSelections.get(player.getName()).remove(fmob);
+                if (selection.contains(fmob)) {
+                    selection.remove(fmob);
                     player.sendMessage(Messages.get(Message.INTERACT_DESELECT, fmob.getLocalizedName()));
-                    if (plugin.playerSelections.get(player.getName()).isEmpty()) {
-                        plugin.playerSelections.remove(player.getName());
+                    if (selection.isEmpty()) {
                         player.sendMessage(Messages.get(Message.INTERACT_NOSELECT));
                     }
                 } else {
-                    plugin.playerSelections.get(player.getName()).add(fmob);
+                    selection.add(fmob);
                     player.sendMessage(Messages.get(Message.INTERACT_SELECT, fmob.getLocalizedName()));
                     fmob.setPoi(fmob.getlocX(), fmob.getlocY(), fmob.getlocZ());
                     fmob.setCommand(FactionMob.Command.poi);
@@ -278,7 +279,6 @@ public class EntityListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         if (plugin.playerSelections.containsKey(player.getName())) {
-            plugin.playerSelections.get(player.getName()).clear();
             plugin.playerSelections.remove(player.getName());
         }
     }

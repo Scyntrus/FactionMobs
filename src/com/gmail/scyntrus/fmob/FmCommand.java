@@ -1,13 +1,19 @@
 package com.gmail.scyntrus.fmob;
 
+import com.gmail.scyntrus.fmob.Messages.Message;
+import com.gmail.scyntrus.fmob.mobs.Archer;
+import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.SpiritBear;
-import java.util.ArrayList;
+import com.gmail.scyntrus.fmob.mobs.Swordsman;
+import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.FactionsManager;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.minecraft.server.v1_10_R1.Entity;
-
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,14 +25,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-
-import com.gmail.scyntrus.fmob.mobs.Archer;
-import com.gmail.scyntrus.fmob.mobs.Mage;
-import com.gmail.scyntrus.fmob.mobs.Swordsman;
-import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.gmail.scyntrus.fmob.Messages.Message;
-import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class FmCommand implements CommandExecutor {
 
@@ -98,7 +96,6 @@ public class FmCommand implements CommandExecutor {
             } else if (split[0].equalsIgnoreCase("deselect")) {
                 if (plugin.playerSelections.containsKey(player.getName())) {
                     plugin.playerSelections.get(player.getName()).clear();
-                    plugin.playerSelections.remove(player.getName());
                     player.sendMessage(Messages.get(Message.FM_DESELECT));
                     return true;
                 }
@@ -113,7 +110,7 @@ public class FmCommand implements CommandExecutor {
                     selection = plugin.playerSelections.get(player.getName());
                     selection.clear();
                 } else {
-                    selection = new ArrayList<FactionMob>();
+                    selection = new LinkedList<FactionMob>();
                     plugin.playerSelections.put(player.getName(), selection);
                 }
                 for (FactionMob fmob : FactionMobs.mobList) {
@@ -318,7 +315,6 @@ public class FmCommand implements CommandExecutor {
                 } else {
                     Faction playerFaction = FactionsManager.getPlayerFaction(player);
                     if (playerFaction == null || playerFaction.isNone()) {
-                        plugin.playerSelections.remove(player.getName());
                         player.sendMessage(Messages.get(Message.FM_NOFACTION));
                         return true;
                     }
@@ -328,10 +324,10 @@ public class FmCommand implements CommandExecutor {
                         player.sendMessage(Messages.get(Message.FM_NOSELECTION));
                         return true;
                     }
-                    for (int i = selection.size()-1; i >= 0; i--) {
-                        if (!selection.get(i).getEntity().isAlive()
-                                || !selection.get(i).getFactionName().equals(factionName)) {
-                            selection.remove(i);
+                    for (Iterator<FactionMob> it = selection.iterator(); it.hasNext();) {
+                        FactionMob fmob = it.next();
+                        if (!fmob.getEntity().isAlive() || !fmob.getFactionName().equals(factionName)) {
+                            it.remove();
                         }
                     }
                     if (selection.isEmpty()) {
@@ -360,7 +356,7 @@ public class FmCommand implements CommandExecutor {
                             double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
                             fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
                             fmob.setCommand(FactionMob.Command.poi);
-                            count += 1;
+                            count++;
                         }
                     }
                     player.sendMessage(Messages.get(Message.FM_COMMAND_FOLLOW));
