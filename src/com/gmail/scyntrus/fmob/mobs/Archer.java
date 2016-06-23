@@ -299,10 +299,13 @@ public class Archer extends EntitySkeleton implements FactionMob {
 
     @Override
     public void updateMob() {
-        this.setFaction(FactionsManager.getFactionByName(factionName));
+        this.setFaction(this.faction);
         if (this.faction == null || this.faction.isNone()) {
-            this.forceDie();
-            return;
+            this.setFaction(FactionsManager.getFactionByName(factionName));
+            if (this.faction == null || this.faction.isNone()) {
+                this.forceDie();
+                return;
+            }
         }
         if (this.target != null && this.target.isAlive()) {
             this.setGoalTarget(this.target);
@@ -411,9 +414,6 @@ public class Archer extends EntitySkeleton implements FactionMob {
             this.setSlot(EnumItemSlot.LEGS, null);
             this.setSlot(EnumItemSlot.MAINHAND, null);
             this.setSlot(EnumItemSlot.OFFHAND, null);
-            if (FactionMobs.mobList.contains(this)) {
-                FactionMobs.mobList.remove(this);
-            }
         }
     }
 

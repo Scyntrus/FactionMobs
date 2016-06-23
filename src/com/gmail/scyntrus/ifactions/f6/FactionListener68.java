@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.ifactions.f6;
 
+import java.util.Iterator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -46,9 +47,11 @@ public class FactionListener68 implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onFactionDisband(com.massivecraft.factions.event.FactionDisbandEvent e) {
         String factionName = e.getFaction().getTag();
-        for (int i = FactionMobs.mobList.size()-1; i >= 0; i--) {
-            if (FactionMobs.mobList.get(i).getFactionName().equals(factionName)) {
-                FactionMobs.mobList.get(i).forceDie();
+        for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext();) {
+            FactionMob mob = it.next();
+            if (mob.getFactionName().equals(factionName)) {
+                mob.forceDie();
+                it.remove();
             }
         }
     }

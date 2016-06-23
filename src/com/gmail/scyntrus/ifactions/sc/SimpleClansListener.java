@@ -1,5 +1,7 @@
 package com.gmail.scyntrus.ifactions.sc;
 
+import com.gmail.scyntrus.fmob.FactionMob;
+import java.util.Iterator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,9 +13,11 @@ public class SimpleClansListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onFactionDisband(net.sacredlabyrinth.phaed.simpleclans.events.DisbandClanEvent e) {
         String factionName = e.getClan().getName();
-        for (int i = FactionMobs.mobList.size()-1; i >= 0; i--) {
-            if (FactionMobs.mobList.get(i).getFactionName().equals(factionName)) {
-                FactionMobs.mobList.get(i).forceDie();
+        for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext();) {
+            FactionMob mob = it.next();
+            if (mob.getFactionName().equals(factionName)) {
+                mob.forceDie();
+                it.remove();
             }
         }
     }

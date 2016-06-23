@@ -110,7 +110,9 @@ public class EntityListener implements Listener {
         }
         if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
             FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
-            if (fmob.getFaction() == null) {
+            fmob.updateMob();
+            if(!fmob.getEntity().isAlive()) {
+                FactionMobs.mobList.remove(fmob);
                 return;
             }
             Player player = e.getPlayer();
@@ -135,7 +137,6 @@ public class EntityListener implements Listener {
                     fmob.setCommand(FactionMob.Command.poi);
                 }
             }
-            fmob.updateMob();
             if (FactionMobs.feedEnabled) {
                 @SuppressWarnings("deprecation")
                 Material mat = Material.getMaterial(FactionMobs.feedItem);
@@ -156,6 +157,7 @@ public class EntityListener implements Listener {
         if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob) {
             FactionMob fmob = (FactionMob) ((CraftEntity) e.getEntity()).getHandle();
             fmob.forceDie();
+            FactionMobs.mobList.remove(fmob);
             e.getDrops().clear();
             @SuppressWarnings("deprecation")
             ItemStack item = new ItemStack(fmob.getDrops());

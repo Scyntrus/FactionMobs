@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.ifactions.t;
 
+import java.util.Iterator;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,9 +36,11 @@ public class TownyListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTownDelete(DeleteTownEvent e) {
         String townName = e.getTownName();
-        for (int i = FactionMobs.mobList.size()-1; i >= 0; i--) {
-            if (FactionMobs.mobList.get(i).getFactionName().equals(townName)) {
-                FactionMobs.mobList.get(i).forceDie();
+        for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext();) {
+            FactionMob mob = it.next();
+            if (mob.getFactionName().equals(townName)) {
+                mob.forceDie();
+                it.remove();
             }
         }
     }

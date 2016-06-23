@@ -1,6 +1,13 @@
 package com.gmail.scyntrus.fmob;
 
+import com.gmail.scyntrus.fmob.mobs.Archer;
+import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.SpiritBear;
+import com.gmail.scyntrus.fmob.mobs.Swordsman;
+import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.FactionsManager;
+import com.gmail.scyntrus.ifactions.Rank;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,12 +16,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
+import java.util.Set;
 import net.milkbowl.vault.economy.Economy;
-
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,18 +33,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import org.mcstats.Metrics.Graph;
 
-import com.gmail.scyntrus.fmob.mobs.Archer;
-import com.gmail.scyntrus.fmob.mobs.Mage;
-import com.gmail.scyntrus.fmob.mobs.Swordsman;
-import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.FactionsManager;
-import com.gmail.scyntrus.ifactions.Rank;
-
 public class FactionMobs extends JavaPlugin {
 
     public PluginManager pm = null;
-    public static List<FactionMob> mobList = new ArrayList<FactionMob>();
+    public static Set<FactionMob> mobList = new HashSet<FactionMob>();
     public static Map<String,Integer> factionColors = new HashMap<String,Integer>();
     public Map<String,Boolean> mobLeader = new HashMap<String,Boolean>();
     public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
@@ -275,9 +275,10 @@ public class FactionMobs extends JavaPlugin {
     @Override
     public void onDisable() {
         this.saveMobList();
-        for (int i = mobList.size() - 1; i >= 0; --i) {
-            mobList.get(i).forceDie();
+        for (FactionMob fmob : mobList) {
+            fmob.forceDie();
         }
+        mobList.clear();
         ErrorManager.closeErrorStream();
     }
 
@@ -414,8 +415,11 @@ public class FactionMobs extends JavaPlugin {
     }
 
     public void updateList() {
-        for (int i = mobList.size()-1; i >= 0; i--) {
-            mobList.get(i).updateMob();
+        for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext();) {
+            FactionMob mob = it.next();
+            mob.updateMob();
+            if (!mob.getEntity().isAlive())
+                it.remove();
         }
     }
 
