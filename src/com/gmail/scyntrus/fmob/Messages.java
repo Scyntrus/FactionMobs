@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -91,7 +91,7 @@ public class Messages {
 
     private static YamlConfiguration yml;
     private static boolean initialized = false;
-    private static Map<String, String> cache = new HashMap<String, String>();
+    private static Map<Message, String> cache = new EnumMap<Message, String>(Message.class);
 
     public static void init(Plugin plugin) {
         if (initialized)
@@ -130,11 +130,11 @@ public class Messages {
             return "";
         }
         String raw;
-        if (cache.containsKey(key)) {
-            raw = cache.get(key);
+        if (cache.containsKey(message)) {
+            raw = cache.get(message);
         }  else {
             raw = yml.getString(key);
-            cache.put(key, raw);
+            cache.put(message, raw);
         }
         if (raw == null) {
             ErrorManager.handleError("Message with no data.", new Exception());
