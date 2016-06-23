@@ -3,6 +3,7 @@ package com.gmail.scyntrus.fmob.mobs;
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
+import com.gmail.scyntrus.fmob.Messages;
 import com.gmail.scyntrus.fmob.PathHelpEntity;
 import com.gmail.scyntrus.fmob.PathfinderGoalFmobCommand;
 import com.gmail.scyntrus.fmob.ReflectionManager;
@@ -258,7 +259,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
         if (faction.isNone()) this.forceDie();
         this.factionName = faction.getName();
         if (FactionMobs.displayMobFaction) {
-            this.setCustomName(ChatColor.YELLOW + this.factionName + " " + localizedName);
+            this.setCustomName(Messages.get(Messages.Message.NAMETAG, factionName, localizedName));
             this.setCustomNameVisible(true);
         }
         this.getBukkitEntity().setMetadata("faction", new FixedMetadataValue(FactionMobs.instance, this.factionName));
