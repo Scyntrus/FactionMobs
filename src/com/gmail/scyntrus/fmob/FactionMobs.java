@@ -76,6 +76,7 @@ public class FactionMobs extends JavaPlugin {
         this.saveConfig();
         FactionMobs.silentErrors = config.getBoolean("silentErrors", FactionMobs.silentErrors);
         ErrorManager.initErrorStream();
+        Messages.init(this);
 
         try {
             VersionManager.checkVersion();
@@ -221,8 +222,6 @@ public class FactionMobs extends JavaPlugin {
         } else {
             System.out.println("[FactionMobs] Vault not detected.");
         }
-
-        Messages.init(this);
 
         runMetrics(); // using mcstats.org metrics
 
