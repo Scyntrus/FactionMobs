@@ -31,7 +31,6 @@ import net.minecraft.server.v1_10_R1.PathfinderGoalMoveTowardsTarget;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomStroll;
 import net.minecraft.server.v1_10_R1.World;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
@@ -72,7 +71,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
         this.persistent = true;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
-        this.P = 1.5F; // TODO: Update name on version change (E: jump height)
+        this.P = 1.5F; // TODO: Update name on version change (E: stepHeight)
         this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {
@@ -110,7 +109,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     }
 
     @Override
-    public void n() { //TODO: Update name on version change (E: entity tick)
+    public void n() { //TODO: Update name on version change (E: onLivingUpdate)
         super.n();
         if (--retargetTime < 0) {
             retargetTime = FactionMobs.responseTime;
@@ -414,17 +413,17 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     }
 
     @Override
-    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
+    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTAtomically)
         return false;
     }
 
     @Override
-    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
+    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTOptional)
         return false;
     }
 
     @Override
-    public void f(NBTTagCompound nbttagcompound) {
+    public void f(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: readFromNBT)
         this.die();
     }
 
@@ -462,11 +461,11 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     }
 
     @Override
-    public void m() { //TODO: Update name on version change (E: tick)
+    public void m() { //TODO: Update name on version change (E: onUpdate)
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.al = false; //TODO: Update name on version change (E: allow portal)
+        this.al = false; //TODO: Update name on version change (E: inPortal)
         super.m();
     }
 

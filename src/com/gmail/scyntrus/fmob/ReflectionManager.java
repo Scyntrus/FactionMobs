@@ -26,10 +26,10 @@ public class ReflectionManager {
             Field fieldF;
             Field fieldG;
             try {
-                fieldC = EntityTypes.class.getDeclaredField("c"); //TODO: Update name on version change (map 1)
-                fieldD = EntityTypes.class.getDeclaredField("d"); //TODO: Update name on version change (map 2)
-                fieldF = EntityTypes.class.getDeclaredField("f"); //TODO: Update name on version change (map 4)
-                fieldG = EntityTypes.class.getDeclaredField("g"); //TODO: Update name on version change (map 5)
+                fieldC = EntityTypes.class.getDeclaredField("c"); //TODO: Update name on version change (map 1: NAME_TO_CLASS)
+                fieldD = EntityTypes.class.getDeclaredField("d"); //TODO: Update name on version change (map 2: CLASS_TO_NAME)
+                fieldF = EntityTypes.class.getDeclaredField("f"); //TODO: Update name on version change (map 4: CLASS_TO_ID)
+                fieldG = EntityTypes.class.getDeclaredField("g"); //TODO: Update name on version change (map 5: NAME_TO_ID)
             } catch (Exception e1) {
                 try {
                     fieldC = EntityTypes.class.getDeclaredField("field_75625_b");
@@ -66,7 +66,7 @@ public class ReflectionManager {
             }
         }
         try {
-            pathfinderGoalSelector_GoalSet = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change (goal set)
+            pathfinderGoalSelector_GoalSet = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change (goal set: taskEntries)
             pathfinderGoalSelector_GoalSet.setAccessible(true);
             good_PathfinderGoalSelector_GoalSet = true;
         } catch (Exception e1) {

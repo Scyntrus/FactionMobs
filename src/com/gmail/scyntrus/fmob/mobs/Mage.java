@@ -38,7 +38,6 @@ import net.minecraft.server.v1_10_R1.PotionUtil;
 import net.minecraft.server.v1_10_R1.Potions;
 import net.minecraft.server.v1_10_R1.SoundEffects;
 import net.minecraft.server.v1_10_R1.World;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
@@ -79,7 +78,7 @@ public class Mage extends EntityWitch implements FactionMob {
         this.fireProof = false;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
-        this.P = 1.5F; // TODO: Update name on version change (E: jump height)
+        this.P = 1.5F; // TODO: Update name on version change (E: stepHeight)
         this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a(new ItemStack(Items.POTION), Potions.x)); //TODO: Update name on version change (E: harming potion)
         this.retargetTime = FactionMobs.random.nextInt(40);
 
@@ -117,7 +116,7 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void n() { //TODO: Update name on version change (E: entity tick)
+    public void n() { //TODO: Update name on version change (E: onLivingUpdate)
         super.n();
         if (--retargetTime < 0) {
             retargetTime = FactionMobs.responseTime;
@@ -421,17 +420,17 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
+    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTAtomically)
         return false;
     }
 
     @Override
-    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
+    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTOptional)
         return false;
     }
 
     @Override
-    public void f(NBTTagCompound nbttagcompound) {
+    public void f(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: readFromNBT)
         this.die();
     }
 
@@ -469,17 +468,17 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void m() { //TODO: Update name on version change (E: tick)
+    public void m() { //TODO: Update name on version change (E: onUpdate)
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.al = false; //TODO: Update name on version change (E: allow portal)
+        this.al = false; //TODO: Update name on version change (E: inPortal)
         super.m();
     }
 
     @Override
-    public void a(EntityLiving paramEntityLiving, float paramFloat) {  //TODO: Update name on version change (E: throw potion)
-        if(!this.o()) { //TODO: Update name on version change (E: throw potion cooldown)
+    public void a(EntityLiving paramEntityLiving, float paramFloat) {  //TODO: Update name on version change (E: attackEntityWithRangedAttack)
+        if(!this.o()) { //TODO: Update name on version change (E: isDrinkingPotion)
             double d1 = paramEntityLiving.locY + paramEntityLiving.getHeadHeight() - 1.100000023841858D;
             double d2 = paramEntityLiving.locX + paramEntityLiving.motX - this.locX;
             double d3 = d1 - this.locY;
@@ -501,16 +500,16 @@ public class Mage extends EntityWitch implements FactionMob {
             }
 
             this.setSlot(EnumItemSlot.MAINHAND,
-                    PotionUtil.a(new ItemStack(Items.POTION), localPotionRegistry)); //TODO: Update name on version change (E: potion data)
+                    PotionUtil.a(new ItemStack(Items.POTION), localPotionRegistry)); //TODO: Update name on version change (E: addPotionToItemStack)
 
             EntityPotion localEntityPotion = new EntityPotion(this.world, this,
-                    PotionUtil.a(new ItemStack(Items.SPLASH_POTION), localPotionRegistry)); //TODO: Update name on version change (E: potion data)
+                    PotionUtil.a(new ItemStack(Items.SPLASH_POTION), localPotionRegistry)); //TODO: Update name on version change (E: addPotionToItemStack)
             localEntityPotion.pitch -= -20.0F;
             localEntityPotion.shoot(d2, d3 + f * 0.2F, d4, 0.75F, 8.0F);
-            this.world.a( // TODO: Update name on version change (E: play sound effect)
+            this.world.a( // TODO: Update name on version change (E: playSound)
                     null, this.locX, this.locY, this.locZ,
                     SoundEffects.gT, // TODO: Update name on version change (E: entity.witch.throw sound)
-                    bC(), // TODO: Update name on version change (E: SoundCategory.HOSTILE)
+                    bC(), // TODO: Update name on version change (E: getSoundCategory SoundCategory.HOSTILE)
                     1.0F, 0.8F + this.random.nextFloat() * 0.4F);
 
             this.world.addEntity(localEntityPotion);

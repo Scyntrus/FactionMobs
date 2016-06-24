@@ -32,7 +32,6 @@ import net.minecraft.server.v1_10_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomStroll;
 import net.minecraft.server.v1_10_R1.SoundEffects;
 import net.minecraft.server.v1_10_R1.World;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
@@ -74,7 +73,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
         this.fireProof = false;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
-        this.P = 1.5F; // TODO: Update name on version change (E: jump height)
+        this.P = 1.5F; // TODO: Update name on version change (E: stepHeight)
         this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {
@@ -113,7 +112,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void n() { //TODO: Update name on version change (E: entity tick)
+    public void n() { //TODO: Update name on version change (E: onLivingUpdate)
         super.n();
         if (this.inWater) {
             this.motY += .1;
@@ -421,33 +420,33 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public boolean B(Entity entity) { //TODO: Update name on version change (E: EntityIronGolem attack)
+    public boolean B(Entity entity) { //TODO: Update name on version change (E: EntityIronGolem attackEntityAsMob)
         if (damage>0) {
             this.world.broadcastEntityEffect(this, (byte)4);
             boolean flag = entity.damageEntity(DamageSource.mobAttack(this), (float) damage);
             if (flag) {
                 entity.motY += 0.4D;
             }
-            a( //TODO: Update name on version change (E: play SoundEffect)
+            a( //TODO: Update name on version change (E: playSound)
                     SoundEffects.cM, 1.0F, 1.0F); //TODO: Update name on version change (E: entity.irongolem.attack sound)
             return flag;
         } else {
-            return super.B(entity); //TODO: Update name on version change (E: EntityIronGolem attack)
+            return super.B(entity); //TODO: Update name on version change (E: EntityIronGolem attackEntityAsMob)
         }
     }
 
     @Override
-    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
+    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTAtomically)
         return false;
     }
 
     @Override
-    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
+    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTOptional)
         return false;
     }
 
     @Override
-    public void f(NBTTagCompound nbttagcompound) {
+    public void f(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: readFromNBT)
         this.die();
     }
 
@@ -485,11 +484,11 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void m() { //TODO: Update name on version change (E: tick)
+    public void m() { //TODO: Update name on version change (E: onUpdate)
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.al = false; //TODO: Update name on version change (E: allow portal)
+        this.al = false; //TODO: Update name on version change (E: inPortal)
         super.m();
     }
 }

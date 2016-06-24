@@ -31,7 +31,6 @@ import net.minecraft.server.v1_10_R1.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_10_R1.PathfinderGoalRandomStroll;
 import net.minecraft.server.v1_10_R1.World;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
@@ -74,7 +73,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
         this.fireProof = false;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
-        this.P = 1.5F; // TODO: Update name on version change (E: jump height)
+        this.P = 1.5F; // TODO: Update name on version change (E: stepHeight)
         this.setSlot(EnumItemSlot.MAINHAND, new ItemStack(Items.BOW));
         this.retargetTime = FactionMobs.random.nextInt(40);
 
@@ -113,7 +112,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public void n() { //TODO: Update name on version change (E: entity tick)
+    public void n() { //TODO: Update name on version change (E: onLivingUpdate)
         int tmpFire = this.fireTicks;
         super.n();
         this.fireTicks = tmpFire;
@@ -424,7 +423,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public void a(EntityLiving entityliving, float f) { //TODO: Update name on version change (E: arrow attack)
+    public void a(EntityLiving entityliving, float f) { //TODO: Update name on version change (E: attackEntityWithRangedAttack)
         if (damage>0) {
             super.a(entityliving, (float) damage/2F);
         } else {
@@ -433,17 +432,17 @@ public class Archer extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
+    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTAtomically)
         return false;
     }
 
     @Override
-    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: save data check)
+    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTOptional)
         return false;
     }
 
     @Override
-    public void f(NBTTagCompound nbttagcompound) {
+    public void f(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: readFromNBT)
         this.die();
     }
 
@@ -481,11 +480,11 @@ public class Archer extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public void m() { //TODO: Update name on version change (E: tick)
+    public void m() { //TODO: Update name on version change (E: onUpdate)
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.al = false; //TODO: Update name on version change (E: allow portal)
+        this.al = false; //TODO: Update name on version change (E: inPortal)
         super.m();
     }
 }
