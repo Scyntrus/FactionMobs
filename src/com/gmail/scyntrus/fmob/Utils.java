@@ -56,7 +56,7 @@ public class Utils {
                     return 0;
                 }
             } else if (wolf.isAngry()) {
-                return -1;
+                return FactionMobs.attackMobs ? -1 : 0;
             } else {
                 return 0;
             }
