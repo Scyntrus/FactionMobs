@@ -9,6 +9,7 @@ import java.util.List;
 import net.minecraft.server.v1_10_R1.Entity;
 import net.minecraft.server.v1_10_R1.EntityInsentient;
 import net.minecraft.server.v1_10_R1.EntityLiving;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
 import net.minecraft.server.v1_10_R1.EntityWolf;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -309,16 +310,32 @@ public class EntityListener implements Listener {
         if (e.getPotion().getShooter() == null) return;
         if (((CraftEntity) e.getPotion().getShooter()).getHandle() instanceof FactionMob) {
             FactionMob fmob = (FactionMob) ((CraftEntity) e.getPotion().getShooter()).getHandle();
+            Faction faction = fmob.getFaction();
             for (LivingEntity entity : e.getAffectedEntities()) {
-                if (Utils.FactionCheck(((CraftLivingEntity) entity).getHandle(), fmob.getFaction()) < 1) {
+                EntityLiving nmsEntity = ((CraftLivingEntity) entity).getHandle();
+                if (FactionMobs.noFriendlyFire) {
+                    Faction otherFaction = null;
+                    if (entity instanceof Player) {
+                        otherFaction = FactionsManager.getPlayerFaction((Player) entity);
+                    } else if (nmsEntity instanceof FactionMob) {
+                        otherFaction = ((FactionMob) nmsEntity).getFaction();
+                    }
+                    if (otherFaction != null) {
+                        if (otherFaction.equals(faction)) {
+                            e.setIntensity(entity, -1);
+                            continue;
+                        }
+                    }
+                }
+                if (Utils.FactionCheck(nmsEntity, fmob.getFaction()) < 1) {
                     if (fmob.getEntity().isAlive()) {
-                        if (((CraftLivingEntity) entity).getHandle() instanceof EntityInsentient) {
-                            ((EntityInsentient) ((CraftLivingEntity) entity).getHandle()).setGoalTarget(
-                                    ((CraftLivingEntity) e.getPotion().getShooter()).getHandle(),
+                        if (nmsEntity instanceof EntityInsentient) {
+                            ((EntityInsentient) nmsEntity).setGoalTarget(
+                                    fmob.getEntity(),
                                     EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true);
                         }
                     }
-                } else if (FactionMobs.noFriendlyFire) {
+                } else {
                     e.setIntensity(entity, -1);
                 }
             }
