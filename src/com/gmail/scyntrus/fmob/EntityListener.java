@@ -277,10 +277,9 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        Player player = e.getPlayer();
-        if (plugin.playerSelections.containsKey(player.getName())) {
-            plugin.playerSelections.remove(player.getName());
-        }
+        String playerName = e.getPlayer().getName();
+        plugin.playerSelections.remove(playerName);
+        plugin.mobLeader.remove(playerName);
     }
 
     @EventHandler(ignoreCancelled = true)
