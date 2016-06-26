@@ -27,7 +27,7 @@ public class Towny implements Factions {
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("com.palmergames.bukkit.towny.Towny")) {
             log.append("FOUND com.palmergames.bukkit.towny.Towny\n");
-            System.out.println("["+pluginName+"] Towny detected. Towny support is experimental.");
+            System.out.println("["+pluginName+"] Towny detected.");
             new Towny(plugin);
         }
         return instance;
