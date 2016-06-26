@@ -42,7 +42,7 @@ public class SimpleClansConnector implements Factions {
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("net.sacredlabyrinth.phaed.simpleclans.SimpleClans")) {
             log.append("FOUND net.sacredlabyrinth.phaed.simpleclans.SimpleClans\n");
-            System.out.println("["+pluginName+"] SimpleClans detected. SimpleClans support is highly experimental.");
+            System.out.println("["+pluginName+"] SimpleClans detected.");
             new SimpleClansConnector(plugin);
         }
         return instance;
