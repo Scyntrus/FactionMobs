@@ -27,7 +27,7 @@ public class KingdomsConnector implements Factions {
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("org.kingdoms.constants.kingdom.Kingdom")) {
             log.append("FOUND org.kingdoms.constants.kingdom.Kingdom\n");
-            System.out.println("["+pluginName+"] Kingdoms detected. Kingdoms support is highly experimental.");
+            System.out.println("["+pluginName+"] Kingdoms detected.");
             new KingdomsConnector(plugin);
         }
         return instance;
