@@ -17,7 +17,7 @@ interact.noselect: §aYou have no mobs selected
 interact.heal: §aThis mob has been healed by §c%1$.2f
 interact.playerdeath: "%1$s was killed by §c%2$s§r's §c%3$s"
 
-fm.error: §c%1$s was unable to load. Please inform your server admin.
+fm.error: §c%1$s was unable to load. The installed version was not compatible with the server version or Factions version. Please inform your server admin.
 
 fm.help: |-
   /fm spawn [mob]
