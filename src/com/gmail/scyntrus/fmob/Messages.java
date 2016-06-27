@@ -117,11 +117,6 @@ public class Messages {
             ErrorManager.handleError(e);
         }
         initialized = true;
-        Archer.localizedName = get(Message.NAME_ARCHER);
-        Swordsman.localizedName = get(Message.NAME_SWORDSMAN);
-        Mage.localizedName = get(Message.NAME_MAGE);
-        Titan.localizedName = get(Message.NAME_TITAN);
-        SpiritBear.localizedName = get(Message.NAME_SPIRITBEAR);
     }
 
     public static String get(Message message, Object... args) {

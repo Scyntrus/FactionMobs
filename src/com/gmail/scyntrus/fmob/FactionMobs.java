@@ -156,6 +156,12 @@ public class FactionMobs extends JavaPlugin {
         Titan.drops = config.getInt("Titan.drops", 0);
         SpiritBear.drops = config.getInt("SpiritBear.drops", 0);
 
+        Archer.localizedName = Messages.get(Messages.Message.NAME_ARCHER);
+        Swordsman.localizedName = Messages.get(Messages.Message.NAME_SWORDSMAN);
+        Mage.localizedName = Messages.get(Messages.Message.NAME_MAGE);
+        Titan.localizedName = Messages.get(Messages.Message.NAME_TITAN);
+        SpiritBear.localizedName = Messages.get(Messages.Message.NAME_SPIRITBEAR);
+
         this.pm = this.getServer().getPluginManager();
         if (!ReflectionManager.init()) {
             this.getLogger().severe("[Fatal Error] Unable to access native code.");
