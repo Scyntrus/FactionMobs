@@ -336,6 +336,11 @@ public class FactionMobs extends JavaPlugin {
                     ErrorManager.handleError("Unrecognized typeName when loading data");
                     continue;
                 }
+                if (!newMob.getEnabled()) {
+                    System.out.println("Disabled Faction mob found and removed. Did you change the config?");
+                    backup = true;
+                    continue;
+                }
                 if (newMob.getFaction() == null || newMob.getFactionName() == null || newMob.getFaction().isNone()) {
                     System.out.println("Factionless Faction Mob found and removed. Did something happen to Factions?");
                     backup = true;
