@@ -74,7 +74,7 @@ public class FactionMobs extends JavaPlugin {
         FileConfiguration config = this.getConfig();
         config.options().copyDefaults(true);
         this.saveConfig();
-        FactionMobs.silentErrors = config.getBoolean("silentErrors", FactionMobs.silentErrors);
+        FactionMobs.silentErrors = config.getBoolean("silentErrors");
         ErrorManager.initErrorStream();
         Messages.init(this);
 
@@ -96,65 +96,65 @@ public class FactionMobs extends JavaPlugin {
             return;
         }
 
-        FactionMobs.mobsPerFaction = config.getInt("mobsPerFaction", FactionMobs.mobsPerFaction);
-        FactionMobs.noFriendlyFire = config.getBoolean("noFriendlyFire", FactionMobs.noFriendlyFire);
-        FactionMobs.noPlayerFriendlyFire = config.getBoolean("noPlayerFriendlyFire", FactionMobs.noPlayerFriendlyFire);
-        FactionMobs.alertAllies = config.getBoolean("alertAllies", FactionMobs.alertAllies);
-        FactionMobs.displayMobFaction = config.getBoolean("displayMobFaction", FactionMobs.displayMobFaction);
-        FactionMobs.attackMobs = config.getBoolean("attackMobs", FactionMobs.attackMobs);
-        FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed", FactionMobs.mobSpeed);
-        FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed", FactionMobs.mobPatrolSpeed);
+        FactionMobs.mobsPerFaction = config.getInt("mobsPerFaction");
+        FactionMobs.noFriendlyFire = config.getBoolean("noFriendlyFire");
+        FactionMobs.noPlayerFriendlyFire = config.getBoolean("noPlayerFriendlyFire");
+        FactionMobs.alertAllies = config.getBoolean("alertAllies");
+        FactionMobs.displayMobFaction = config.getBoolean("displayMobFaction");
+        FactionMobs.attackMobs = config.getBoolean("attackMobs");
+        FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed");
+        FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed");
         FactionMobs.mobPatrolSpeed = FactionMobs.mobPatrolSpeed / FactionMobs.mobSpeed;
-        FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange", FactionMobs.mobNavRange);
-        FactionMobs.feedEnabled = config.getBoolean("feedEnabled", FactionMobs.feedEnabled);
-        FactionMobs.feedItem = config.getInt("feedItem", FactionMobs.feedItem);
-        FactionMobs.feedAmount = (float) config.getDouble("feedAmount", FactionMobs.feedAmount);
-        FactionMobs.minRankToSpawnStr = config.getString("mustBeAtleast", FactionMobs.minRankToSpawnStr);
+        FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange");
+        FactionMobs.feedEnabled = config.getBoolean("feedEnabled");
+        FactionMobs.feedItem = config.getInt("feedItem");
+        FactionMobs.feedAmount = (float) config.getDouble("feedAmount");
+        FactionMobs.minRankToSpawnStr = config.getString("mustBeAtleast");
         FactionMobs.minRankToSpawn = Rank.getByName(FactionMobs.minRankToSpawnStr);
-        FactionMobs.onlySpawnInTerritory = config.getBoolean("onlySpawnInTerritory", FactionMobs.onlySpawnInTerritory);
+        FactionMobs.onlySpawnInTerritory = config.getBoolean("onlySpawnInTerritory");
 
-        Archer.maxHp = (float) config.getDouble("Archer.maxHp", Archer.maxHp);
+        Archer.maxHp = (float) config.getDouble("Archer.maxHp");
         if (Archer.maxHp<1) Archer.maxHp = 1;
-        Mage.maxHp = (float) config.getDouble("Mage.hp", Mage.maxHp);
+        Mage.maxHp = (float) config.getDouble("Mage.hp");
         if (Mage.maxHp<1) Mage.maxHp = 1;
-        Swordsman.maxHp = (float) config.getDouble("Swordsman.maxHp", Swordsman.maxHp);
+        Swordsman.maxHp = (float) config.getDouble("Swordsman.maxHp");
         if (Swordsman.maxHp<1) Swordsman.maxHp = 1;
-        Titan.maxHp = (float) config.getDouble("Titan.maxHp", Titan.maxHp);
+        Titan.maxHp = (float) config.getDouble("Titan.maxHp");
         if (Titan.maxHp<1) Titan.maxHp = 1;
-        SpiritBear.maxHp = (float) config.getDouble("SpiritBear.maxHp", SpiritBear.maxHp);
+        SpiritBear.maxHp = (float) config.getDouble("SpiritBear.maxHp");
         if (SpiritBear.maxHp<1) SpiritBear.maxHp = 1;
 
-        Archer.damage = config.getDouble("Archer.damage", Archer.damage);
+        Archer.damage = config.getDouble("Archer.damage");
         if (Archer.damage<0) Archer.damage = 0;
-        Swordsman.damage = config.getDouble("Swordsman.damage", Swordsman.damage);
+        Swordsman.damage = config.getDouble("Swordsman.damage");
         if (Swordsman.damage<0) Swordsman.damage = 0;
-        Titan.damage = config.getDouble("Titan.damage", Titan.damage);
+        Titan.damage = config.getDouble("Titan.damage");
         if (Titan.damage<0) Titan.damage = 0;
-        SpiritBear.damage = config.getDouble("SpiritBear.damage", SpiritBear.damage);
+        SpiritBear.damage = config.getDouble("SpiritBear.damage");
         if (SpiritBear.damage<0) SpiritBear.damage = 0;
 
-        Archer.enabled = config.getBoolean("Archer.enabled", Archer.enabled);
-        Mage.enabled = config.getBoolean("Mage.enabled", Mage.enabled);
-        Swordsman.enabled = config.getBoolean("Swordsman.enabled", Swordsman.enabled);
-        Titan.enabled = config.getBoolean("Titan.enabled", Titan.enabled);
-        SpiritBear.enabled = config.getBoolean("SpiritBear.enabled", SpiritBear.enabled);
+        Archer.enabled = config.getBoolean("Archer.enabled");
+        Mage.enabled = config.getBoolean("Mage.enabled");
+        Swordsman.enabled = config.getBoolean("Swordsman.enabled");
+        Titan.enabled = config.getBoolean("Titan.enabled");
+        SpiritBear.enabled = config.getBoolean("SpiritBear.enabled");
 
-        Archer.powerCost = config.getDouble("Archer.powerCost", Archer.powerCost);
-        Archer.moneyCost = config.getDouble("Archer.moneyCost", Archer.moneyCost);
-        Mage.powerCost = config.getDouble("Mage.powerCost", Mage.powerCost);
-        Mage.moneyCost = config.getDouble("Mage.moneyCost", Mage.moneyCost);
-        Swordsman.powerCost = config.getDouble("Swordsman.powerCost", Swordsman.powerCost);
-        Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost", Swordsman.moneyCost);
-        Titan.powerCost = config.getDouble("Titan.powerCost", Titan.powerCost);
-        Titan.moneyCost = config.getDouble("Titan.moneyCost", Titan.moneyCost);
-        SpiritBear.powerCost = config.getDouble("SpiritBear.powerCost", SpiritBear.powerCost);
-        SpiritBear.moneyCost = config.getDouble("SpiritBear.moneyCost", SpiritBear.moneyCost);
+        Archer.powerCost = config.getDouble("Archer.powerCost");
+        Archer.moneyCost = config.getDouble("Archer.moneyCost");
+        Mage.powerCost = config.getDouble("Mage.powerCost");
+        Mage.moneyCost = config.getDouble("Mage.moneyCost");
+        Swordsman.powerCost = config.getDouble("Swordsman.powerCost");
+        Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost");
+        Titan.powerCost = config.getDouble("Titan.powerCost");
+        Titan.moneyCost = config.getDouble("Titan.moneyCost");
+        SpiritBear.powerCost = config.getDouble("SpiritBear.powerCost");
+        SpiritBear.moneyCost = config.getDouble("SpiritBear.moneyCost");
 
-        Archer.drops = config.getInt("Archer.drops", 0);
-        Mage.drops = config.getInt("Mage.drops", 0);
-        Swordsman.drops = config.getInt("Swordsman.drops", 0);
-        Titan.drops = config.getInt("Titan.drops", 0);
-        SpiritBear.drops = config.getInt("SpiritBear.drops", 0);
+        Archer.drops = config.getInt("Archer.drops");
+        Mage.drops = config.getInt("Mage.drops");
+        Swordsman.drops = config.getInt("Swordsman.drops");
+        Titan.drops = config.getInt("Titan.drops");
+        SpiritBear.drops = config.getInt("SpiritBear.drops");
 
         Archer.localizedName = Messages.get(Messages.Message.NAME_ARCHER);
         Swordsman.localizedName = Messages.get(Messages.Message.NAME_SWORDSMAN);
@@ -183,7 +183,7 @@ public class FactionMobs extends JavaPlugin {
         }
 
         this.getCommand("fm").setExecutor(new FmCommand(this));
-        if (config.getBoolean("fmcEnabled", false)) {
+        if (config.getBoolean("fmcEnabled")) {
             this.getCommand("fmc").setExecutor(new FmcCommand(this));
         }
 
@@ -206,8 +206,8 @@ public class FactionMobs extends JavaPlugin {
             }
         }
 
-        if (config.getBoolean("autoSave", false)) {
-            this.saveInterval = config.getLong("saveInterval", this.saveInterval);
+        if (config.getBoolean("autoSave")) {
+            this.saveInterval = config.getLong("saveInterval");
             if (this.saveInterval > 0) {
                 this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoSaver(this), this.saveInterval, this.saveInterval);
                 System.out.println("[FactionMobs] Auto-Save enabled.");
