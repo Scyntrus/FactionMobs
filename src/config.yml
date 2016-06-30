@@ -90,13 +90,13 @@ Titan.powerCost: 11.0
 Titan.moneyCost: 0.0
 Titan.drops: 0
 
-spiritbear.enabled: true
-spiritbear.maxHp: 30
+SpiritBear.enabled: true
+SpiritBear.maxHp: 30
 # Normal damage is 6.0
-spiritbear.damage: 0.0
-spiritbear.powerCost: 7.0
-spiritbear.moneyCost: 0.0
-spiritbear.drops: 0
+SpiritBear.damage: 0.0
+SpiritBear.powerCost: 7.0
+SpiritBear.moneyCost: 0.0
+SpiritBear.drops: 0
 
 # === Auto-Save Options ===
 
