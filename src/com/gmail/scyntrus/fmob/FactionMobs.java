@@ -109,7 +109,7 @@ public class FactionMobs extends JavaPlugin {
         FactionMobs.feedEnabled = config.getBoolean("feedEnabled");
         FactionMobs.feedItem = config.getInt("feedItem");
         FactionMobs.feedAmount = (float) config.getDouble("feedAmount");
-        FactionMobs.minRankToSpawnStr = config.getString("mustBeAtleast");
+        FactionMobs.minRankToSpawnStr = config.getString("minRankToSpawn");
         FactionMobs.minRankToSpawn = Rank.getByName(FactionMobs.minRankToSpawnStr);
         FactionMobs.onlySpawnInTerritory = config.getBoolean("onlySpawnInTerritory");
 
