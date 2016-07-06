@@ -198,6 +198,12 @@ public class FactionMobs extends JavaPlugin {
                 ObjectInputStream oInputStream = new ObjectInputStream(fileInputStream);
                 @SuppressWarnings("unchecked")
                 Map<String, Integer> colorMap = (Map<String, Integer>) oInputStream.readObject();
+                for (Iterator<Map.Entry<String, Integer>> it = colorMap.entrySet().iterator(); it.hasNext();) {
+                    Map.Entry<String, Integer> pair = it.next();
+                    if (pair.getValue() > 16777215 || pair.getValue() < 0) {
+                        it.remove();
+                    }
+                }
                 FactionMobs.factionColors = colorMap;
                 oInputStream.close();
                 fileInputStream.close();
