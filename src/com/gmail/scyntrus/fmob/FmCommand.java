@@ -284,7 +284,7 @@ public class FmCommand implements CommandExecutor {
                     try {
                         int myColor = Integer.parseInt(split[1], 16);
                         if (myColor > 16777215 || myColor < 0) {
-                            player.sendMessage(ChatColor.RED + "Invalid number");
+                            player.sendMessage(Messages.get(Message.FM_COLORFORMAT));
                             return true;
                         }
                         FactionMobs.factionColors.put(playerfaction.getName(), myColor);
