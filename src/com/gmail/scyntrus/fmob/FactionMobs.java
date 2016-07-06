@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -181,6 +182,12 @@ public class FactionMobs extends JavaPlugin {
                 @SuppressWarnings("unchecked")
                 HashMap<String, Integer> colorMap = (HashMap<String, Integer>) oInputStream.readObject();
                 FactionMobs.factionColors = colorMap;
+                for (Iterator it = FactionMobs.factionColors.entrySet().iterator(); it.hasNext();) {
+                    Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) it.next();
+                    if (pair.getValue() > 16777215 || pair.getValue() < 0) {
+                        it.remove();
+                    }
+                }
                 oInputStream.close();
                 fileInputStream.close();
             } catch (Exception e) {
