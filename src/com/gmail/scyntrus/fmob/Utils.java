@@ -255,7 +255,7 @@ public class Utils {
         int k = MathHelper.floor((z - range) / 16.0D);
         int l = MathHelper.floor((z + range) / 16.0D);
         int starty = MathHelper.floor(y / 16.0D);
-        int disty = Math.max(MathHelper.floor(y + range / 16.0D) - starty, starty - MathHelper.floor(y - range / 16.0D));
+        int disty = Math.max(MathHelper.floor((y + range) / 16.0D) - starty, starty - MathHelper.floor((y - range) / 16.0D));
         int startx = MathHelper.floor(x / 16.0D);
         int startz = MathHelper.floor(z / 16.0D);
         double range2 = range * range;
@@ -324,8 +324,8 @@ public class Utils {
         int j = MathHelper.floor((x + range) / 16.0D);
         int k = MathHelper.floor((z - range) / 16.0D);
         int l = MathHelper.floor((z + range) / 16.0D);
-        int y1 = MathHelper.clamp(MathHelper.floor(y - range / 16.0D), 0, 15);
-        int y2 = MathHelper.clamp(MathHelper.floor(y + range / 16.0D), 0, 15);
+        int y1 = MathHelper.clamp(MathHelper.floor((y - range) / 16.0D), 0, 15);
+        int y2 = MathHelper.clamp(MathHelper.floor((y + range) / 16.0D), 0, 15);
         double range2 = range * range;
         
         WorldServer world = ((CraftWorld) loc.getWorld()).getHandle();
