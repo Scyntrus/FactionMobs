@@ -61,7 +61,7 @@ public class EntityListener implements Listener {
             }
             if (e.getTarget() != null && ((CraftEntity) e.getTarget()).getHandle() instanceof EntityLiving) {
                 EntityLiving target = (EntityLiving) ((CraftEntity) e.getTarget()).getHandle();
-                if (Utils.FactionCheck(target, fmob.getFaction()) == -1) {
+                if (Utils.FactionCheck(target, fmob.getFaction(), fmob.getAttackAll()) == -1) {
                     fmob.setTarget(target);
                     return;
                 }
@@ -82,7 +82,7 @@ public class EntityListener implements Listener {
                                     fmob.getEntity().getGoalTarget().equals(wolf.getOwner())) {
                                 return;
                             }
-                            switch (Utils.FactionCheck(wolf.getOwner(), fmob.getFaction())) {
+                            switch (Utils.FactionCheck(wolf.getOwner(), fmob.getFaction(), fmob.getAttackAll())) {
                                 case 1:
                                 case 0:
                                     e.setCancelled(true);
@@ -194,7 +194,7 @@ public class EntityListener implements Listener {
 
         if (damager.getHandle() instanceof FactionMob) {
             FactionMob fmob = (FactionMob) damager.getHandle();
-            if (Utils.FactionCheck(entity.getHandle(), fmob.getFaction()) < 1) {
+            if (Utils.FactionCheck(entity.getHandle(), fmob.getFaction(), true) < 1) {
                 if (fmob.getEntity().isAlive()) {
                     if (entity.getHandle() instanceof EntityInsentient) {
                         ((EntityInsentient) entity.getHandle()).setGoalTarget(damager.getHandle(),
@@ -210,7 +210,7 @@ public class EntityListener implements Listener {
                 && (entity.getHandle() instanceof FactionMob)) {
             FactionMob fmob = (FactionMob) entity.getHandle();
             Player player = (Player) damager;
-            if (Utils.FactionCheck(fmob.getEntity(), FactionsManager.getPlayerFaction(player)) >= 1) {
+            if (Utils.FactionCheck(fmob.getEntity(), FactionsManager.getPlayerFaction(player), false) >= 1) {
                 if (fmob.getFaction().equals(FactionsManager.getPlayerFaction(player))) {
                     if (FactionMobs.noPlayerFriendlyFire) {
                         player.sendMessage(Messages.get(Message.INTERACT_NOHITFRIENDLY, fmob.getLocalizedName()));
@@ -327,7 +327,7 @@ public class EntityListener implements Listener {
                         }
                     }
                 }
-                if (Utils.FactionCheck(nmsEntity, fmob.getFaction()) < 1) {
+                if (Utils.FactionCheck(nmsEntity, fmob.getFaction(), true) < 1) {
                     if (fmob.getEntity().isAlive()) {
                         if (nmsEntity instanceof EntityInsentient) {
                             ((EntityInsentient) nmsEntity).setGoalTarget(
