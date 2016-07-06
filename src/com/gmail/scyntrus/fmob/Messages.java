@@ -25,6 +25,7 @@ public class Messages {
         NAME_TITAN("name.titan"),
         NAME_SPIRITBEAR("name.spiritbear"),
         NAMETAG("nametag"),
+        NAMETAG_RED("nametag_red"),
         INTERACT_NOHITFRIENDLY("interact.nohitfriendly"),
         INTERACT_HITFRIENDLY("interact.hitfriendly"),
         INTERACT_NOHITALLY("interact.nohitally"),

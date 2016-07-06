@@ -267,11 +267,8 @@ public class Archer extends EntitySkeleton implements FactionMob {
         this.faction = faction;
         if (faction.isNone()) this.forceDie();
         this.factionName = faction.getName();
-        if (FactionMobs.displayMobFaction) {
-            this.setCustomName(Messages.get(Messages.Message.NAMETAG, factionName, localizedName));
-            this.setCustomNameVisible(true);
-        }
         this.getBukkitEntity().setMetadata("faction", new FixedMetadataValue(FactionMobs.instance, this.factionName));
+        this.updateNameTag();
     }
 
     @Override
@@ -492,10 +489,23 @@ public class Archer extends EntitySkeleton implements FactionMob {
     @Override
     public void toggleAttackAll() {
         this.attackAll = !this.attackAll;
+        this.updateNameTag();
     }
 
     @Override
     public boolean getAttackAll() {
         return this.attackAll;
+    }
+
+    @Override
+    public void updateNameTag() {
+        if (FactionMobs.displayMobFaction) {
+            if (this.attackAll) {
+                this.setCustomName(Messages.get(Messages.Message.NAMETAG_RED, factionName, localizedName));
+            } else {
+                this.setCustomName(Messages.get(Messages.Message.NAMETAG, factionName, localizedName));
+            }
+            this.setCustomNameVisible(true);
+        }
     }
 }

@@ -46,4 +46,5 @@ public interface FactionMob {
     String getLocalizedName();
     void toggleAttackAll();
     boolean getAttackAll();
+    void updateNameTag();
 }

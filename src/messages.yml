@@ -6,6 +6,7 @@ name.titan: Titan
 name.spiritbear: SpiritBear
 
 nametag: §e%1$s %2$s
+nametag_red: §c%1$s %2$s
 
 interact.nohitfriendly: §eYou cannot hit a friendly §c%1$s
 interact.hitfriendly: §eYou hit a friendly §c%1$s
