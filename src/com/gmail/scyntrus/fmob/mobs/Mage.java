@@ -488,9 +488,9 @@ public class Mage extends EntityWitch implements FactionMob {
     public void updateNameTag() {
         if (FactionMobs.displayMobFaction) {
             if (this.attackAll) {
-                this.setCustomName(String.format(ChatColor.YELLOW + "%s %s", factionName, typeName));
-            } else {
                 this.setCustomName(String.format(ChatColor.RED + "%s %s", factionName, typeName));
+            } else {
+                this.setCustomName(String.format(ChatColor.YELLOW + "%s %s", factionName, typeName));
             }
             this.setCustomNameVisible(true);
         }
