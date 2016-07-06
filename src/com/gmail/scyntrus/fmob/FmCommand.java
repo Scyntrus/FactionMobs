@@ -303,7 +303,7 @@ public class FmCommand implements CommandExecutor {
                 }
                 if (split.length < 2) {
                     player.sendMessage(ChatColor.RED + "You must specify an order");
-                    player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere");
+                    player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere, attackAll");
                     return true;
                 } else if (!plugin.playerSelections.containsKey(player.getName())) {
                     player.sendMessage(ChatColor.RED + "No mobs selected");
