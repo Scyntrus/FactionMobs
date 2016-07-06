@@ -8,7 +8,7 @@
   <name>FactionMobs</name>
   <properties>
     <craftbukkit.version>1.9.4-R0.1</craftbukkit.version>
-    <factions.version>2.8.13</factions.version>
+    <factions.version>2.8.17</factions.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skipTests>true</skipTests>
   </properties>
@@ -63,17 +63,13 @@
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
       <version>${craftbukkit.version}-SNAPSHOT</version>
-      <!-- https://tcpr.ca/downloads/bukkit -->
-      <systemPath>${basedir}/lib/bukkit-${craftbukkit.version}-SNAPSHOT-latest.jar</systemPath> 
-      <scope>system</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
       <version>${craftbukkit.version}-SNAPSHOT</version>
-      <!-- https://tcpr.ca/downloads/craftbukkit -->
-      <systemPath>${basedir}/lib/craftbukkit-${craftbukkit.version}-SNAPSHOT-latest.jar</systemPath> 
-      <scope>system</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.massivecraft</groupId>
