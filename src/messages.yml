@@ -26,7 +26,7 @@ fm.help: |-
   /fm color [color]
   Color is in RRGGBB format
   /fm command [command]
-  Commands: gohome, follow, stop, patrolHere, wander, tpHome, tpHere
+  Commands: gohome, follow, stop, patrolHere, wander, tpHome, tpHere, attackAll
   Before giving commands, you must select mobs by right-clicking them
 fm.info.spawn: §aYou have permission to spawn all units
 fm.info.nospawn: §cYou do not have permission to spawn all units
