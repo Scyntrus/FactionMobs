@@ -227,6 +227,19 @@ public class EntityListener implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR)
+    public void onEntityDamageByEntity2(EntityDamageByEntityEvent e) {
+        if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob
+                && e.getEntity().hasMetadata("NPC")) {
+            e.getEntity().removeMetadata("NPC", plugin);
+        }
+
+        if (!(e.getDamager() instanceof CraftLivingEntity))
+            return;
+        CraftEntity entity = (CraftEntity) e.getEntity();
+        CraftLivingEntity damager = (CraftLivingEntity) e.getDamager();
 
         if (!FactionMobs.alertAllies || damager.isDead()) {
             return;
@@ -237,14 +250,6 @@ public class EntityListener implements Listener {
         } else if (entity instanceof Player) {
             Faction faction = FactionsManager.getPlayerFaction((Player) entity);
             Utils.optimizedAoeAgro(faction, entity.getLocation(), FactionMobs.agroRange, damager.getHandle());
-        }
-    }
-
-    @EventHandler(priority=EventPriority.MONITOR)
-    public void onEntityDamageByEntity2(EntityDamageByEntityEvent e) {
-        if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob
-                && e.getEntity().hasMetadata("NPC")) {
-            e.getEntity().removeMetadata("NPC", plugin);
         }
     }
 
