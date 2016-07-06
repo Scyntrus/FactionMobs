@@ -54,6 +54,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
     public static double damage = 0;
     public static int drops = 0;
     private int retargetTime = 0;
+    private boolean attackAll = false;
 
     public double poiX=0, poiY=0, poiZ=0;
     public Command command = Command.poi;
@@ -178,7 +179,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         if (this.attackedBy != null) {
             if (this.attackedBy.isAlive()
                     && this.attackedBy.world.getWorldData().getName().equals(this.world.getWorldData().getName())
-                    && Utils.FactionCheck(this.attackedBy, this.faction) < 1) {
+                    && Utils.FactionCheck(this.attackedBy, this.faction, this.attackAll) < 1) {
                 double dist = Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ);
                 if (dist < 16) {
                     this.setTarget(this.attackedBy);
@@ -220,7 +221,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         } else {
             return true;
         }
-        switch (Utils.FactionCheck(damager, this.faction)) {
+        switch (Utils.FactionCheck(damager, this.faction, this.attackAll)) {
             case 1:
                 this.findTarget();
                 if (damager instanceof EntityPlayer) {
@@ -478,5 +479,15 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         }
         this.al = false; //TODO: Update name on version change (E: inPortal)
         super.m();
+    }
+
+    @Override
+    public void toggleAttackAll() {
+        this.attackAll = !this.attackAll;
+    }
+
+    @Override
+    public boolean getAttackAll() {
+        return this.attackAll;
     }
 }

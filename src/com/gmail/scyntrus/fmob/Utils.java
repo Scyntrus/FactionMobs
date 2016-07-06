@@ -31,7 +31,7 @@ import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class Utils {
-    public static int FactionCheck(EntityLiving entity, Faction faction) {
+    public static int FactionCheck(EntityLiving entity, Faction faction, boolean attackAll) {
         if (entity == null || faction == null || faction.isNone()) {
             return 0;
         }
@@ -40,18 +40,20 @@ public class Utils {
         if (entity instanceof EntityPlayer) {
             Player player = ((EntityPlayer)entity).getBukkitEntity();
             if (player.getGameMode() == GameMode.CREATIVE) return 1;
-            return FactionsManager.getPlayerFaction(player).getRelationTo(faction);
+            int res = FactionsManager.getPlayerFaction(player).getRelationTo(faction);
+            return attackAll && res == 0 ? -1 : res;
         } else if (entity instanceof FactionMob) {
             FactionMob fmob = (FactionMob) entity;
             if (fmob.getFaction() == null) {
                 return 0;
             }
-            return fmob.getFaction().getRelationTo(faction);
+            int res = fmob.getFaction().getRelationTo(faction);
+            return attackAll && res == 0 ? -1 : res;
         } else if (entity instanceof EntityWolf) {
             EntityWolf wolf = (EntityWolf) entity;
             if (wolf.isTamed()) {
                 if (wolf.getOwner() != null) {
-                    return FactionCheck(wolf.getOwner(), faction);
+                    return FactionCheck(wolf.getOwner(), faction, attackAll);
                 } else {
                     return 0;
                 }
@@ -192,10 +194,10 @@ public class Utils {
     }
     
     public static final double closeEnough = 2.25;
-    private static double optimizedEntitySearchSlice(Faction faction, EntityLiving entity, EntityHolder result, Collection<Entity> slice, double x, double y, double z, double range2) {
+    private static double optimizedEntitySearchSlice(Faction faction, EntityLiving entity, EntityHolder result, Collection<Entity> slice, double x, double y, double z, double range2, boolean attackAll) {
         for (Entity entity1 : slice) {
             if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                if (Utils.FactionCheck((EntityLiving) entity1, faction, attackAll) == -1) {
                     double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
                             + (entity1.locY - y) * (entity1.locY - y)
                             + (entity1.locZ - z) * (entity1.locZ - z);
@@ -211,25 +213,25 @@ public class Utils {
         return range2;
     }
 
-    private static double optimizedEntitySearchChunk(Faction faction, EntityLiving entity, EntityHolder result, Chunk chunk, int starty, int disty, double x, double y, double z, double range2) {
+    private static double optimizedEntitySearchChunk(Faction faction, EntityLiving entity, EntityHolder result, Chunk chunk, int starty, int disty, double x, double y, double z, double range2, boolean attackAll) {
         try {
             @SuppressWarnings("unchecked")
             Collection<Entity>[] entitySlices = (Collection<Entity>[]) ReflectionManager.chunk_EntitySlices.get(chunk);
 
             if (!entitySlices[starty].isEmpty()) {
-                range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty], x, y, z, range2);
+                range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty], x, y, z, range2, attackAll);
                 if (range2 == 0)
                     return 0;
             }
             
             for (int dy = 1; dy <= disty; dy++) {
                 if (starty-dy > 0 && !entitySlices[starty-dy].isEmpty()) {
-                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty-dy], x, y, z, range2);
+                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty-dy], x, y, z, range2, attackAll);
                     if (range2 == 0)
                         return 0;
                 }
                 if (starty+dy < entitySlices.length-1 && !entitySlices[starty+dy].isEmpty()) {
-                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty+dy], x, y, z, range2);
+                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty+dy], x, y, z, range2, attackAll);
                     if (range2 == 0)
                         return 0;
                 }
@@ -264,8 +266,9 @@ public class Utils {
         Faction faction = mob.getFaction();
         EntityLiving entity = mob.getEntity();
         EntityHolder result = new EntityHolder();
+        boolean attackAll = mob.getAttackAll();
 
-        range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(startx, startz), starty, disty, x, y, z, range2);
+        range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(startx, startz), starty, disty, x, y, z, range2, attackAll);
         if (range2 == 0) {
             return result.val;
         }
@@ -275,7 +278,7 @@ public class Utils {
                 if (i1 == startx && j1 == startz)
                     continue;
                 if (world.getChunkProviderServer().isLoaded(i1, j1)) {
-                    range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2);
+                    range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2, attackAll);
                     if (range2 == 0) {
                         return result.val;
                     }
@@ -297,7 +300,7 @@ public class Utils {
                         if (entity1.isAlive() && entity1 instanceof FactionMob) {
                             FactionMob fmob = (FactionMob) entity1;
                             Faction otherFaction = fmob.getFaction();
-                            if (faction.getRelationTo(otherFaction) == 1 && Utils.FactionCheck(damager, otherFaction) < 1
+                            if (faction.getRelationTo(otherFaction) == 1 && Utils.FactionCheck(damager, otherFaction, true) < 1
                                     && (entity1.locX - x) * (entity1.locX - x) + (entity1.locY - y) * (entity1.locY - y)
                                     + (entity1.locZ - z) * (entity1.locZ - z) < range2) {
                                 fmob.softAgro(damager);

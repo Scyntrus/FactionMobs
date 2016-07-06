@@ -463,6 +463,14 @@ public class FmCommand implements CommandExecutor {
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         fmob.clearAttackedBy();
                     }
+                } else if (split[1].equalsIgnoreCase("attackall")) {
+                    if (!player.hasPermission("fmob.order.attackall")) {
+                        player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
+                        return true;
+                    }
+                    for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+                        fmob.toggleAttackAll();
+                    }
                 } else {
                     player.sendMessage(Messages.get(Message.FM_NOCOMMAND));
                     return true;

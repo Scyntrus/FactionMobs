@@ -44,4 +44,6 @@ public interface FactionMob {
     void setTarget(EntityLiving target);
     EntityLiving findCloserTarget();
     String getLocalizedName();
+    void toggleAttackAll();
+    boolean getAttackAll();
 }
