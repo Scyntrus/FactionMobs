@@ -33,7 +33,7 @@ import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 
 public class Utils {
-    public static int FactionCheck(EntityLiving entity, Faction faction) {
+    public static int FactionCheck(EntityLiving entity, Faction faction, boolean attackAll) {
         if (entity == null || faction == null || faction.isNone()) {
             return 0;
         }
@@ -42,18 +42,20 @@ public class Utils {
         if (entity instanceof EntityPlayer) {
             Player player = ((EntityPlayer)entity).getBukkitEntity();
             if (player.getGameMode() == GameMode.CREATIVE) return 1;
-            return FactionsManager.getPlayerFaction(player).getRelationTo(faction);
+            int res = FactionsManager.getPlayerFaction(player).getRelationTo(faction);
+            return attackAll && res == 0 ? -1 : res;
         } else if (entity instanceof FactionMob) {
             FactionMob fmob = (FactionMob) entity;
             if (fmob.getFaction() == null) {
                 return 0;
             }
-            return fmob.getFaction().getRelationTo(faction);
+            int res = fmob.getFaction().getRelationTo(faction);
+            return attackAll && res == 0 ? -1 : res;
         } else if (entity instanceof EntityWolf) {
             EntityWolf wolf = (EntityWolf) entity;
             if (wolf.isTamed()) {
                 if (wolf.getOwner() != null) {
-                    return FactionCheck(wolf.getOwner(), faction);
+                    return FactionCheck(wolf.getOwner(), faction, attackAll);
                 } else {
                     return 0;
                 }
@@ -184,7 +186,7 @@ public class Utils {
     }
     
     public static final double closeEnough = 2;
-    private static Pair<Double, EntityLiving> optimizedEntitySearchChunk(FactionMob mob, Chunk chunk, int starty, int disty, double x, double y, double z, double range2) {
+    private static Pair<Double, EntityLiving> optimizedEntitySearchChunk(FactionMob mob, Chunk chunk, int starty, int disty, double x, double y, double z, double range2, boolean attackAll) {
 
         EntityLiving found = null;
         Faction faction = mob.getFaction();
@@ -199,7 +201,7 @@ public class Utils {
                 while (iterator.hasNext()) {
                     Entity entity1 = (Entity) iterator.next();
                     if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                        if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                        if (Utils.FactionCheck((EntityLiving) entity1, faction, attackAll) == -1) {
                             double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
                                     + (entity1.locY - y) * (entity1.locY - y)
                                     + (entity1.locZ - z) * (entity1.locZ - z);
@@ -221,7 +223,7 @@ public class Utils {
                     while (iterator.hasNext()) {
                         Entity entity1 = (Entity) iterator.next();
                         if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                            if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                            if (Utils.FactionCheck((EntityLiving) entity1, faction, attackAll) == -1) {
                                 double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
                                         + (entity1.locY - y) * (entity1.locY - y)
                                         + (entity1.locZ - z) * (entity1.locZ - z);
@@ -241,7 +243,7 @@ public class Utils {
                     while (iterator.hasNext()) {
                         Entity entity1 = (Entity) iterator.next();
                         if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                            if (Utils.FactionCheck((EntityLiving) entity1, faction) == -1) {
+                            if (Utils.FactionCheck((EntityLiving) entity1, faction, attackAll) == -1) {
                                 double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
                                         + (entity1.locY - y) * (entity1.locY - y)
                                         + (entity1.locZ - z) * (entity1.locZ - z);
@@ -280,13 +282,15 @@ public class Utils {
         int startz = MathHelper.floor(z / 16.0D);
         double range2 = range * range;
         starty = MathHelper.clamp(starty, 0, 15);
+
+        boolean attackAll = mob.getAttackAll();
         
         WorldServer world = (WorldServer) mob.getEntity().getWorld();
         EntityLiving found = null;
         
         Pair<Double, EntityLiving> pair;
         
-        pair = optimizedEntitySearchChunk(mob, world.getChunkAt(startx, startz), starty, disty, x, y, z, range2);
+        pair = optimizedEntitySearchChunk(mob, world.getChunkAt(startx, startz), starty, disty, x, y, z, range2, attackAll);
         if (pair != null) {
             range2 = pair.getKey();
             found = pair.getValue();
@@ -299,7 +303,7 @@ public class Utils {
                 if (i1 == startx && j1 == startz)
                     continue;
                 if (world.getChunkProviderServer().isLoaded(i1, j1)) {
-                    pair = optimizedEntitySearchChunk(mob, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2);
+                    pair = optimizedEntitySearchChunk(mob, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2, attackAll);
                     if (pair != null) {
                         range2 = pair.getKey();
                         found = pair.getValue();
@@ -327,7 +331,7 @@ public class Utils {
                         if (entity1.isAlive() && entity1 instanceof FactionMob) {
                             FactionMob fmob = (FactionMob) entity1;
                             Faction otherFaction = fmob.getFaction();
-                            if (faction.getRelationTo(otherFaction) == 1 && Utils.FactionCheck(damager, otherFaction) < 1
+                            if (faction.getRelationTo(otherFaction) == 1 && Utils.FactionCheck(damager, otherFaction, true) < 1
                                     && (entity1.locX - x) * (entity1.locX - x) + (entity1.locY - y) * (entity1.locY - y)
                                     + (entity1.locZ - z) * (entity1.locZ - z) < range2) {
                                 fmob.softAgro(damager);

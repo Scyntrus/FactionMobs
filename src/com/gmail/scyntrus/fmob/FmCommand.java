@@ -468,6 +468,14 @@ public class FmCommand implements CommandExecutor {
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         fmob.clearAttackedBy();
                     }
+                } else if (split[1].equalsIgnoreCase("attackall")) {
+                    if (!player.hasPermission("fmob.order.attackall")) {
+                        player.sendMessage(ChatColor.RED + "You do not have permission.");
+                        return true;
+                    }
+                    for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
+                        fmob.toggleAttackAll();
+                    }
                 } else {
                     player.sendMessage(ChatColor.RED + "Unrecognized order");
                     player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere");

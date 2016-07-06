@@ -56,6 +56,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
     public static int drops = 0;
     private int retargetTime = 0;
     private double moveSpeed;
+    private boolean attackAll = false;
 
     public double poiX=0, poiY=0, poiZ=0;
     public String order = "poi";
@@ -180,7 +181,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
         if (this.attackedBy != null) {
             if (this.attackedBy.isAlive()
                     && this.attackedBy.world.getWorldData().getName().equals(this.world.getWorldData().getName())
-                    && Utils.FactionCheck(this.attackedBy, this.faction) < 1) {
+                    && Utils.FactionCheck(this.attackedBy, this.faction, this.attackAll) < 1) {
                 double dist = Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ);
                 if (dist < 16) {
                     this.setTarget(this.attackedBy);
@@ -217,7 +218,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
         } else {
             return out;
         }
-        switch (Utils.FactionCheck(damager, this.faction)) {
+        switch (Utils.FactionCheck(damager, this.faction, this.attackAll)) {
             case 1:
                 this.findTarget();
                 if (damager instanceof EntityPlayer) {
@@ -264,10 +265,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
         this.faction = faction;
         if (faction.isNone()) this.forceDie();
         this.factionName = faction.getName();
-        if (FactionMobs.displayMobFaction) {
-            this.setCustomName(ChatColor.YELLOW + this.factionName + " " + typeName);
-            this.setCustomNameVisible(true);
-        }
+        this.updateNameTag();
     }
 
     @Override
@@ -483,5 +481,28 @@ public class Archer extends EntitySkeleton implements FactionMob {
         }
         this.ak = false; //TODO: Update name on version change (E: allow portal)
         super.m();
+    }
+
+    @Override
+    public void toggleAttackAll() {
+        this.attackAll = !this.attackAll;
+        this.updateNameTag();
+    }
+
+    @Override
+    public boolean getAttackAll() {
+        return this.attackAll;
+    }
+
+    @Override
+    public void updateNameTag() {
+        if (FactionMobs.displayMobFaction) {
+            if (this.attackAll) {
+                this.setCustomName(String.format(ChatColor.YELLOW + "%s %s", factionName, typeName));
+            } else {
+                this.setCustomName(String.format(ChatColor.RED + "%s %s", factionName, typeName));
+            }
+            this.setCustomNameVisible(true);
+        }
     }
 }

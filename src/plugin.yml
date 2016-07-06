@@ -40,6 +40,9 @@ permissions:
     fmob.order.tp:
         description: Allows you to use /fm order [tpHome|tpHere]
         default: op
+    fmob.order.attackall:
+        description: Allows you to use /fm order attackall
+        default: true
     fmob.bypass:
         description: Allows you to spawn mobs without restriction
         default: false

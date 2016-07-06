@@ -334,6 +334,12 @@ public class FactionMobs extends JavaPlugin {
                     newMob.setOrder("poi");
                 }
 
+                if (mobData.size() >= 14) {
+                    if ("1".equals(mobData.get(14))) {
+                        newMob.toggleAttackAll();
+                    }
+                }
+
                 newMob.getEntity().world.addEntity((net.minecraft.server.v1_9_R2.Entity) newMob, SpawnReason.CUSTOM);
                 mobList.add(newMob);
                 newMob.getEntity().dead = false;
@@ -373,6 +379,7 @@ public class FactionMobs extends JavaPlugin {
             mobData.add(""+fmob.getPoiY());
             mobData.add(""+fmob.getPoiZ());
             mobData.add(fmob.getOrder()); //13
+            mobData.add(fmob.getAttackAll() ? "1" : "0"); //14
             save.add(mobData);
         }
         conf.set("data", save);
