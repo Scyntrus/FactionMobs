@@ -242,10 +242,10 @@ public class EntityListener implements Listener {
         }
         if (entity.getHandle() instanceof FactionMob) {
             Faction faction = ((FactionMob) entity.getHandle()).getFaction();
-            Utils.optimizedAoeAgro(faction, entity.getLocation(), 8, damager.getHandle());
+            Utils.optimizedAoeAgro(faction, entity.getLocation(), 16, damager.getHandle());
         } else if (entity instanceof Player) {
             Faction faction = FactionsManager.getPlayerFaction((Player) entity);
-            Utils.optimizedAoeAgro(faction, entity.getLocation(), 8, damager.getHandle());
+            Utils.optimizedAoeAgro(faction, entity.getLocation(), 16, damager.getHandle());
         }
     }
 
