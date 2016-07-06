@@ -478,7 +478,7 @@ public class FmCommand implements CommandExecutor {
                     }
                 } else {
                     player.sendMessage(ChatColor.RED + "Unrecognized order");
-                    player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere");
+                    player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere, attackAll");
                     return true;
                 }
             } else {
