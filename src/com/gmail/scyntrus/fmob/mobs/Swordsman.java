@@ -479,8 +479,8 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public void toggleAttackAll() {
-        this.attackAll = !this.attackAll;
+    public void setAttackAll(boolean value) {
+        this.attackAll = value;
         this.updateNameTag();
     }
 

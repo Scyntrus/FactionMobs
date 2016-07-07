@@ -466,6 +466,7 @@ public class FmCommand implements CommandExecutor {
                 } else if (split[1].equalsIgnoreCase("forgive")) {
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         fmob.clearAttackedBy();
+                        fmob.setAttackAll(false);
                     }
                 } else if (split[1].equalsIgnoreCase("attackall")) {
                     if (!player.hasPermission("fmob.order.attackall")) {
@@ -473,7 +474,7 @@ public class FmCommand implements CommandExecutor {
                         return true;
                     }
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-                        fmob.toggleAttackAll();
+                        fmob.setAttackAll(true);
                     }
                 } else {
                     player.sendMessage(Messages.get(Message.FM_NOCOMMAND));
