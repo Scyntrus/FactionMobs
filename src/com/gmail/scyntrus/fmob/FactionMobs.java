@@ -343,7 +343,7 @@ public class FactionMobs extends JavaPlugin {
 
                 if (mobData.size() >= 14) {
                     if ("1".equals(mobData.get(14))) {
-                        newMob.toggleAttackAll();
+                        newMob.setAttackAll(true);
                     }
                 }
 

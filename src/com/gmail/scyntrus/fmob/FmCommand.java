@@ -303,7 +303,7 @@ public class FmCommand implements CommandExecutor {
                 }
                 if (split.length < 2) {
                     player.sendMessage(ChatColor.RED + "You must specify an order");
-                    player.sendMessage("Orders: gohome, follow, stop, patrolHere, wander, setHome, tpHome, tpHere, attackAll");
+                    player.sendMessage("Orders: gohome, follow, stop, patrolHere, moveToPoint, wander, setHome, tpHome, tpHere, attackAll");
                     return true;
                 } else if (!plugin.playerSelections.containsKey(player.getName())) {
                     player.sendMessage(ChatColor.RED + "No mobs selected");
@@ -471,6 +471,7 @@ public class FmCommand implements CommandExecutor {
                 } else if (split[1].equalsIgnoreCase("forgive")) {
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         fmob.clearAttackedBy();
+                        fmob.setAttackAll(false);
                     }
                 } else if (split[1].equalsIgnoreCase("attackall")) {
                     if (!player.hasPermission("fmob.order.attackall")) {
@@ -478,7 +479,7 @@ public class FmCommand implements CommandExecutor {
                         return true;
                     }
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-                        fmob.toggleAttackAll();
+                        fmob.setAttackAll(true);
                     }
                 } else {
                     player.sendMessage(ChatColor.RED + "Unrecognized order");

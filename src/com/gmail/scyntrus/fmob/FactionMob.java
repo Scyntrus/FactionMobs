@@ -34,7 +34,7 @@ public interface FactionMob {
     public void forceDie();
     public void setTarget(EntityLiving target);
     public EntityLiving findCloserTarget();
-    void toggleAttackAll();
+    void setAttackAll(boolean value);
     boolean getAttackAll();
     void updateNameTag();
 }
