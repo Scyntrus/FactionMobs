@@ -125,9 +125,9 @@
     <dependency>
       <groupId>org.kingdoms</groupId>
       <artifactId>Kingdoms</artifactId>
-      <version>8.3</version>
+      <version>9.2.1</version>
       <!-- https://www.spigotmc.org/resources/kingdoms-battle-for-land-might-and-glory-1-8-x-1-9.11833/ -->
-      <systemPath>${basedir}/lib/Kingdoms-8.3.jar</systemPath>
+      <systemPath>${basedir}/lib/Kingdoms-9.2.1.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
