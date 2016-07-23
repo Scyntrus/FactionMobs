@@ -1,5 +1,7 @@
 Information can be found at  
-http://dev.bukkit.org/server-mods/faction-mobs/  
+http://dev.bukkit.org/server-mods/faction-mobs/
+or
+https://www.spigotmc.org/resources/faction-mobs.15803/
 
 This code requires the following libraries:  
 	Bukkit/CraftBukkit (installed by BuildTools) - https://www.spigotmc.org/wiki/buildtools/  

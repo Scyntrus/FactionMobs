@@ -70,13 +70,13 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         super(((CraftWorld) spawnLoc.getWorld()).getHandle());
         this.setSpawn(spawnLoc);
         this.setFaction(faction);
-        Utils.giveColorArmor(this);
         this.persistent = true;
         this.fireProof = false;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
         this.P = 1.5F; // TODO: Update name on version change (E: stepHeight)
         this.setSlot(EnumItemSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+        Utils.giveColorArmor(this);
         this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {

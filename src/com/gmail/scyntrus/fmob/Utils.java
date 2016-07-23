@@ -87,8 +87,8 @@ public class Utils {
         int color = -1;
         if (entity.getFaction() == null) {
             return;
-        } else if (FactionMobs.factionColors.containsKey(entity.getFaction().getName())) {
-            color = FactionMobs.factionColors.get(entity.getFaction().getName());
+        } else if (FactionMobs.factionColors.containsKey(entity.getFactionName())) {
+            color = FactionMobs.factionColors.get(entity.getFactionName());
         } else {
             FactionMobs.factionColors.put(entity.getFaction().getName(), 10511680);
         }
