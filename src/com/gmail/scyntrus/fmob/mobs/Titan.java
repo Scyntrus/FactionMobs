@@ -105,7 +105,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
     @Override
     protected void initAttributes() {
         super.initAttributes();
-        getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(range);
+        getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(FactionMobs.mobNavRange);
         getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(FactionMobs.mobSpeed);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
         getAttributeMap().b(GenericAttributes.ATTACK_DAMAGE);
