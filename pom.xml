@@ -126,8 +126,16 @@
       <groupId>org.kingdoms</groupId>
       <artifactId>Kingdoms</artifactId>
       <version>9.2.3</version>
-      <!-- https://www.spigotmc.org/resources/kingdoms-battle-for-land-might-and-glory-1-8-x-1-9.11833/ -->
+      <!-- https://www.spigotmc.org/resources/11833/ -->
       <systemPath>${basedir}/lib/Kingdoms-9.2.3.jar</systemPath>
+      <scope>system</scope>
+    </dependency>
+    <dependency>
+      <groupId>us.forseth11</groupId>
+      <artifactId>Feudal</artifactId>
+      <version>1.1.11</version>
+      <!-- https://www.spigotmc.org/resources/22873/ -->
+      <systemPath>${basedir}/lib/Feudal-1.1.11.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>

@@ -37,7 +37,8 @@ public class FactionsManager {
         "com.gmail.scyntrus.ifactions.f6u.Factions6U",
         "com.gmail.scyntrus.ifactions.t.Towny",
         "com.gmail.scyntrus.ifactions.sc.SimpleClansConnector",
-        "com.gmail.scyntrus.ifactions.k.KingdomsConnector"
+        "com.gmail.scyntrus.ifactions.k.KingdomsConnector",
+        "com.gmail.scyntrus.ifactions.feudal.FeudalConnector"
     };
 
     public static boolean init(Plugin plugin) {

@@ -12,7 +12,8 @@ This code depends on the following team plugins:
 	MCore (required for Factions) - http://dev.bukkit.org/server-mods/mcore/  
 	Towny - http://palmergames.com/towny/  
 	SimpleClans - http://dev.bukkit.org/bukkit-plugins/simpleclans/  
-	Kingdoms - https://www.spigotmc.org/resources/11833/  
+	Kingdoms - https://www.spigotmc.org/resources/11833/
+	Feudal - https://www.spigotmc.org/resources/22873/
 
 If you are compiling for yourself, you can delete the unused packages under "com.gmail.scyntrus.ifactions"  
 The corresponding team plugin dependencies can be removed from the pom.xml  
