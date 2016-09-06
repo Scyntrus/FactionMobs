@@ -494,9 +494,11 @@ public class Mage extends EntityWitch implements FactionMob {
                 this.setCustomName(Messages.get(Messages.Message.NAMETAG, factionName, localizedName));
             }
             this.setCustomNameVisible(true);
-            if (FactionMobs.disguiseEnabled) {
-                com.gmail.scyntrus.fmob.DisguiseConnector.disguise(this);
-            }
+        } else {
+            this.setCustomName(localizedName);
+        }
+        if (FactionMobs.disguiseEnabled) {
+            com.gmail.scyntrus.fmob.DisguiseConnector.disguise(this);
         }
     }
 

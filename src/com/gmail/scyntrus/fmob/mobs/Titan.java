@@ -510,6 +510,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
                 this.setCustomName(Messages.get(Messages.Message.NAMETAG, factionName, localizedName));
             }
             this.setCustomNameVisible(true);
+        } else {
+            this.setCustomName(localizedName);
         }
     }
 }

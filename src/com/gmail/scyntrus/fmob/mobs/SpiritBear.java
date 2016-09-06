@@ -487,6 +487,8 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
                 this.setCustomName(Messages.get(Messages.Message.NAMETAG, factionName, localizedName));
             }
             this.setCustomNameVisible(true);
+        } else {
+            this.setCustomName(localizedName);
         }
     }
 
