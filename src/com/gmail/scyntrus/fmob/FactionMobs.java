@@ -66,6 +66,7 @@ public class FactionMobs extends JavaPlugin {
     public static final Random random = new Random();
     public static final int responseTime = 20;
     public static double agroRange = 16;
+    public static boolean disguiseEnabled = false;
 
     @Override
     public void onEnable() {
@@ -233,6 +234,11 @@ public class FactionMobs extends JavaPlugin {
             System.out.println("[FactionMobs] Vault detected.");
         } else {
             System.out.println("[FactionMobs] Vault not detected.");
+        }
+
+        if (getServer().getPluginManager().getPlugin("LibsDisguises") != null) {
+            disguiseEnabled = true;
+            System.out.println("[FactionMobs] LibsDisguises detected. Units will have player models.");
         }
 
         runMetrics(); // using mcstats.org metrics
