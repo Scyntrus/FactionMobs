@@ -133,9 +133,9 @@
     <dependency>
       <groupId>us.forseth11</groupId>
       <artifactId>Feudal</artifactId>
-      <version>1.1.11</version>
+      <version>1.2.1</version>
       <!-- https://www.spigotmc.org/resources/22873/ -->
-      <systemPath>${basedir}/lib/Feudal-1.1.11.jar</systemPath>
+      <systemPath>${basedir}/lib/Feudal-1.2.1.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
