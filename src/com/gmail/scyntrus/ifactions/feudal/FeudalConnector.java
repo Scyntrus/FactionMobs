@@ -20,6 +20,10 @@ public class FeudalConnector implements Factions {
     private FeudalConnector(Plugin plugin) {
         instance = this;
         plugin.getServer().getPluginManager().registerEvents(new FeudalListener(plugin), plugin);
+        if (FactionsManager.classExists("me.forseth11.Turrets.TurretAttackMobEvent")) {
+            System.out.println("["+plugin.getName()+"] Turrets detected.");
+            plugin.getServer().getPluginManager().registerEvents(new TurretsListener(plugin), plugin);
+        }
     }
 
     public static Factions get(Plugin plugin, StringBuilder log) {
