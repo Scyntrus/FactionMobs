@@ -27,7 +27,7 @@ public class TurretsListener implements Listener {
             if (user != null) {
                 Kingdom k = user.getCurrentKingdom();
                 if (k != null) {
-                    if (((FactionMob) e.getTarget()).getFactionName().equals(k.getName())) {
+                    if (new FeudalKingdom(k).getRelationTo(((FactionMob) e.getTarget()).getFaction()) > 0) {
                         e.setCancelled(true);
                     }
                 }
