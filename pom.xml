@@ -133,17 +133,17 @@
     <dependency>
       <groupId>us.forseth11</groupId>
       <artifactId>Feudal</artifactId>
-      <version>1.2.1</version>
+      <version>1.2.2</version>
       <!-- https://www.spigotmc.org/resources/22873/ -->
-      <systemPath>${basedir}/lib/Feudal-1.2.1.jar</systemPath>
+      <systemPath>${basedir}/lib/Feudal-1.2.2.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
       <groupId>us.forseth11</groupId>
       <artifactId>Turrets</artifactId>
-      <version>2.1.5</version>
+      <version>2.1.6</version>
       <!-- https://www.spigotmc.org/resources/8283/ -->
-      <systemPath>${basedir}/lib/Turrets-2.1.5.jar</systemPath>
+      <systemPath>${basedir}/lib/Turrets-2.1.6.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>

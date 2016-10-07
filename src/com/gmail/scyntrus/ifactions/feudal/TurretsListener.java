@@ -2,6 +2,7 @@ package com.gmail.scyntrus.ifactions.feudal;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import me.forseth11.Turrets.TurretAttackMobEvent;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftLivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -22,12 +23,12 @@ public class TurretsListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerCommand(TurretAttackMobEvent e) {
-        if (e.getTarget() instanceof FactionMob) {
+        if (((CraftLivingEntity) e.getTarget()).getHandle() instanceof FactionMob) {
             User user = Feudal.getUser(e.getTurret().getOwnerUUID());
             if (user != null) {
                 Kingdom k = user.getCurrentKingdom();
                 if (k != null) {
-                    if (new FeudalKingdom(k).getRelationTo(((FactionMob) e.getTarget()).getFaction()) > 0) {
+                    if (new FeudalKingdom(k).getRelationTo(((FactionMob) ((CraftLivingEntity) e.getTarget()).getHandle()).getFaction()) > 0) {
                         e.setCancelled(true);
                     }
                 }
