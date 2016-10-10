@@ -26,7 +26,7 @@ public class TurretsListener implements Listener {
         if (((CraftLivingEntity) e.getTarget()).getHandle() instanceof FactionMob) {
             User user = Feudal.getUser(e.getTurret().getOwnerUUID());
             if (user != null) {
-                Kingdom k = user.getCurrentKingdom();
+                Kingdom k = Feudal.getKingdom(user.getKingdomUUID());
                 if (k != null) {
                     if (new FeudalKingdom(k).getRelationTo(((FactionMob) ((CraftLivingEntity) e.getTarget()).getHandle()).getFaction()) > 0) {
                         e.setCancelled(true);
