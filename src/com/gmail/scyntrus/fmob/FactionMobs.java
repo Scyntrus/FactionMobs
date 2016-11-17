@@ -248,7 +248,7 @@ public class FactionMobs extends JavaPlugin {
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
     }
 
-    private void addEntityType(Class<? extends net.minecraft.server.v1_10_R1.Entity> paramClass, String paramString, int paramInt) {
+    private void addEntityType(Class<? extends net.minecraft.server.v1_11_R1.Entity> paramClass, String paramString, int paramInt) {
         ReflectionManager.mapC.put(paramString, paramClass);
         ReflectionManager.mapD.put(paramClass, paramString);
         ReflectionManager.mapF.put(paramClass, Integer.valueOf(paramInt));
@@ -383,7 +383,7 @@ public class FactionMobs extends JavaPlugin {
                     }
                 }
 
-                newMob.getEntity().world.addEntity((net.minecraft.server.v1_10_R1.Entity) newMob, SpawnReason.CUSTOM);
+                newMob.getEntity().world.addEntity((net.minecraft.server.v1_11_R1.Entity) newMob, SpawnReason.CUSTOM);
                 mobList.add(newMob);
                 newMob.getEntity().dead = false;
             }

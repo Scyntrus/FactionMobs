@@ -6,7 +6,7 @@ import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.entity.Entity;
 
 public class DisguiseConnector {
-    public static void disguise(net.minecraft.server.v1_10_R1.Entity entity) {
+    public static void disguise(net.minecraft.server.v1_11_R1.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
         if (disguise != null && disguise instanceof PlayerDisguise) {
