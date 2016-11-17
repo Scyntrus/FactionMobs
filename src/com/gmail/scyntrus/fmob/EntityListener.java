@@ -160,9 +160,11 @@ public class EntityListener implements Listener {
             fmob.forceDie();
             FactionMobs.mobList.remove(fmob);
             e.getDrops().clear();
-            @SuppressWarnings("deprecation")
-            ItemStack item = new ItemStack(fmob.getDrops());
-            e.getDrops().add(item);
+            if (fmob.getDrops() != 0) {
+                @SuppressWarnings("deprecation")
+                ItemStack item = new ItemStack(fmob.getDrops());
+                e.getDrops().add(item);
+            }
         }
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
             @Override

@@ -406,12 +406,12 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
         if (this.getHealth() <= 0) {
             super.die();
             this.setHealth(0);
-            this.setSlot(EnumItemSlot.CHEST, null);
-            this.setSlot(EnumItemSlot.FEET, null);
-            this.setSlot(EnumItemSlot.HEAD, null);
-            this.setSlot(EnumItemSlot.LEGS, null);
-            this.setSlot(EnumItemSlot.MAINHAND, null);
-            this.setSlot(EnumItemSlot.OFFHAND, null);
+            this.setSlot(EnumItemSlot.CHEST, ItemStack.a);
+            this.setSlot(EnumItemSlot.FEET, ItemStack.a);
+            this.setSlot(EnumItemSlot.HEAD, ItemStack.a);
+            this.setSlot(EnumItemSlot.LEGS, ItemStack.a);
+            this.setSlot(EnumItemSlot.MAINHAND, ItemStack.a);
+            this.setSlot(EnumItemSlot.OFFHAND, ItemStack.a);
         }
     }
 

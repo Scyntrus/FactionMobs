@@ -22,6 +22,7 @@ import net.minecraft.server.v1_11_R1.EntityProjectile;
 import net.minecraft.server.v1_11_R1.EnumItemSlot;
 import net.minecraft.server.v1_11_R1.EnumMonsterType;
 import net.minecraft.server.v1_11_R1.GenericAttributes;
+import net.minecraft.server.v1_11_R1.ItemStack;
 import net.minecraft.server.v1_11_R1.MathHelper;
 import net.minecraft.server.v1_11_R1.NBTTagCompound;
 import net.minecraft.server.v1_11_R1.PathfinderGoalFloat;
@@ -402,12 +403,12 @@ public class Titan extends EntityIronGolem implements FactionMob {
         if (this.getHealth() <= 0) {
             super.die();
             this.setHealth(0);
-            this.setSlot(EnumItemSlot.CHEST, null);
-            this.setSlot(EnumItemSlot.FEET, null);
-            this.setSlot(EnumItemSlot.HEAD, null);
-            this.setSlot(EnumItemSlot.LEGS, null);
-            this.setSlot(EnumItemSlot.MAINHAND, null);
-            this.setSlot(EnumItemSlot.OFFHAND, null);
+            this.setSlot(EnumItemSlot.CHEST, ItemStack.a);
+            this.setSlot(EnumItemSlot.FEET, ItemStack.a);
+            this.setSlot(EnumItemSlot.HEAD, ItemStack.a);
+            this.setSlot(EnumItemSlot.LEGS, ItemStack.a);
+            this.setSlot(EnumItemSlot.MAINHAND, ItemStack.a);
+            this.setSlot(EnumItemSlot.OFFHAND, ItemStack.a);
         }
     }
 
