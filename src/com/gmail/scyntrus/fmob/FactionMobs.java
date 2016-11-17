@@ -249,10 +249,7 @@ public class FactionMobs extends JavaPlugin {
     }
 
     private void addEntityType(Class<? extends net.minecraft.server.v1_11_R1.Entity> paramClass, String paramString, int paramInt) {
-        ReflectionManager.mapC.put(paramString, paramClass);
-        ReflectionManager.mapD.put(paramClass, paramString);
-        ReflectionManager.mapF.put(paramClass, Integer.valueOf(paramInt));
-        ReflectionManager.mapG.put(paramString, Integer.valueOf(paramInt));
+        CustomEntityRegistry.instance().addCustomEntity(paramInt, paramString, paramClass);
     }
 
     private void runMetrics() {
