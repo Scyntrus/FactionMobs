@@ -1,5 +1,4 @@
 package com.gmail.scyntrus.fmob;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import java.lang.reflect.Field;
@@ -11,67 +10,74 @@ import net.minecraft.server.v1_11_R1.Entity;
 import net.minecraft.server.v1_11_R1.EntityTypes;
 import net.minecraft.server.v1_11_R1.MinecraftKey;
 
-public class CustomEntityRegistry extends RegistryMaterials<MinecraftKey, Class<? extends Entity>> {
-    protected final BiMap<MinecraftKey, Class<? extends Entity>> customEntities = HashBiMap.create();
-    protected final BiMap<Class<? extends Entity>, MinecraftKey> customEntityClasses = customEntities.inverse();
-    protected final Map<Class<? extends Entity>, Integer> customEntityIds = new HashMap<Class<? extends Entity>, Integer>();
+public class CustomEntityRegistry extends RegistryMaterials {
 
-    private RegistryMaterials<MinecraftKey, Class<? extends Entity>> wrapped;
+    private static CustomEntityRegistry instance = null;
 
-    private static boolean initialized = false;
-    private static CustomEntityRegistry singleton = null;
+    private final BiMap<MinecraftKey, Class<? extends Entity>> customEntities = HashBiMap.create();
+    private final BiMap<Class<? extends Entity>, MinecraftKey> customEntityClasses = customEntities.inverse();
+    private final Map<Class<? extends Entity>, Integer> customEntityIds = new HashMap<Class<? extends Entity>, Integer>();
 
-    public static boolean init() {
-        if (initialized) {
-            return true;
+    private final RegistryMaterials wrapped;
+
+    private CustomEntityRegistry(RegistryMaterials<MinecraftKey, Class<? extends Entity>> original) {
+        this.wrapped = original;
+    }
+
+    public static CustomEntityRegistry getInstance() {
+        if (instance != null) {
+            return instance;
         }
 
-        if (singleton == null) {
-            singleton = new CustomEntityRegistry(EntityTypes.b);
-        }
+        instance = new CustomEntityRegistry(EntityTypes.b);
 
         try {
-            Field entityTypes_RegistryMaterials = EntityTypes.class.getDeclaredField("b"); //TODO: Update name on version change (RegistryMaterials)
-            entityTypes_RegistryMaterials.setAccessible(true);
+            //TODO: Update name on version change (RegistryMaterials)
+            Field registryMaterialsField = EntityTypes.class.getDeclaredField("b");
+            registryMaterialsField.setAccessible(true);
 
             Field modifiersField = Field.class.getDeclaredField("modifiers");
             modifiersField.setAccessible(true);
-            modifiersField.setInt(entityTypes_RegistryMaterials, entityTypes_RegistryMaterials.getModifiers() & ~Modifier.FINAL);
+            modifiersField.setInt(registryMaterialsField, registryMaterialsField.getModifiers() & ~Modifier.FINAL);
 
-            entityTypes_RegistryMaterials.set(null, singleton);
-            initialized = true;
-            return true;
-        } catch (Exception e1) {
-            ErrorManager.handleError("Failed to reflect entity registration object.");
-            ErrorManager.handleError(e1);
-            return false;
+            registryMaterialsField.set(null, instance);
+        } catch (Exception e) {
+            instance = null;
+
+            throw new RuntimeException("Unable to override the old entity RegistryMaterials", e);
         }
+
+        return instance;
     }
 
-    public static CustomEntityRegistry instance() {
-        return singleton;
+    public static void addCustomEntity(int entityId, String entityName, Class<? extends Entity> entityClass) {
+        CustomEntityRegistry instance = getInstance();
+
+        if(instance == null) {
+            throw new IllegalStateException("Unable to obtain the CustomEntityRegistry instance");
+        }
+
+        instance.putCustomEntity(entityId, entityName, entityClass);
     }
 
-    private CustomEntityRegistry(RegistryMaterials<MinecraftKey, Class<? extends Entity>> original) {
-        wrapped = original;
-    }
+    public void putCustomEntity(int entityId, String entityName, Class<? extends Entity> entityClass) {
+        MinecraftKey minecraftKey = new MinecraftKey(entityName);
 
-    public void addCustomEntity(int entityId, String entityName, Class<? extends Entity> entityClass) {
-        MinecraftKey localMinecraftKey = new MinecraftKey(entityName);
-        customEntities.put(localMinecraftKey, entityClass);
-        customEntityIds.put(entityClass, entityId);
+        this.customEntities.put(minecraftKey, entityClass);
+        this.customEntityIds.put(entityClass, entityId);
     }
 
     @Override
-    public Class<? extends Entity> get(MinecraftKey key) {
+    public Class<? extends Entity> get(Object key) {
         if (customEntities.containsKey(key)) {
             return customEntities.get(key);
         }
-        return wrapped.get(key);
+
+        return (Class<? extends Entity>) wrapped.get(key);
     }
 
     @Override
-    public int a(Class<? extends Entity> key) { //TODO: Update name on version change (getId)
+    public int a(Object key) { //TODO: Update name on version change (getId)
         if (customEntityIds.containsKey(key)) {
             return customEntityIds.get(key);
         }
@@ -79,10 +85,11 @@ public class CustomEntityRegistry extends RegistryMaterials<MinecraftKey, Class<
     }
 
     @Override
-    public MinecraftKey b(Class<? extends Entity> value) { //TODO: Update name on version change (getKey)
+    public MinecraftKey b(Object value) { //TODO: Update name on version change (getKey)
         if (customEntityClasses.containsKey(value)) {
             return customEntityClasses.get(value);
         }
-        return wrapped.b(value);
+
+        return (MinecraftKey) wrapped.b(value);
     }
 }

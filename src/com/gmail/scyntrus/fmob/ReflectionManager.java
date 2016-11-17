@@ -16,7 +16,11 @@ public class ReflectionManager {
     public static boolean good_PathfinderGoalSelector_GoalSet = false;
 
     public static boolean init() {
-        if (!CustomEntityRegistry.init()) {
+        try {
+            CustomEntityRegistry.getInstance();
+            chunk_EntitySlices = Chunk.class.getDeclaredField("entitySlices");
+        } catch (Exception e1) {
+            ErrorManager.handleError(e1);
             return false;
         }
         try {
@@ -33,12 +37,6 @@ public class ReflectionManager {
                 ErrorManager.handleError(e1);
                 ErrorManager.handleError(e2);
             }
-        }
-        try {
-            chunk_EntitySlices = Chunk.class.getDeclaredField("entitySlices");
-        } catch (Exception e1) {
-            ErrorManager.handleError(e1);
-            return false;
         }
         return true;
     }
