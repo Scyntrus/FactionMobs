@@ -17,13 +17,6 @@ public class ReflectionManager {
 
     public static boolean init() {
         try {
-            CustomEntityRegistry.getInstance();
-            chunk_EntitySlices = Chunk.class.getDeclaredField("entitySlices");
-        } catch (Exception e1) {
-            ErrorManager.handleError(e1);
-            return false;
-        }
-        try {
             pathfinderGoalSelector_GoalSet = PathfinderGoalSelector.class.getDeclaredField("b"); //TODO: Update name on version change (goal set: taskEntries)
             pathfinderGoalSelector_GoalSet.setAccessible(true);
             good_PathfinderGoalSelector_GoalSet = true;

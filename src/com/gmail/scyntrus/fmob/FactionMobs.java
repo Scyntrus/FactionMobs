@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import net.milkbowl.vault.economy.Economy;
+import net.minecraft.server.v1_11_R1.EntityTypes;
+import net.minecraft.server.v1_11_R1.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -248,8 +250,8 @@ public class FactionMobs extends JavaPlugin {
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
     }
 
-    private void addEntityType(Class<? extends net.minecraft.server.v1_11_R1.Entity> paramClass, String paramString, int paramInt) {
-        CustomEntityRegistry.addCustomEntity(paramInt, paramString, paramClass);
+    private void addEntityType(Class<? extends net.minecraft.server.v1_11_R1.Entity> entityClass, String entityName, int entityId) {
+        EntityTypes.b.a(entityId, new MinecraftKey(entityName), entityClass); // TODO: Update name on version change (RegistryMaterials.add)
     }
 
     private void runMetrics() {
