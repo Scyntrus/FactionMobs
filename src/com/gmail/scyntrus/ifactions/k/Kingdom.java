@@ -41,7 +41,7 @@ class Kingdom extends Faction {
     @Override
     public double getPower() {
         if (k == null) return 0;
-        return k.getMight() + k.getLand(); // Power will be might + land
+        return k.getMight(); // Power will be might
     }
 
     @Override
