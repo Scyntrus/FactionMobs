@@ -25,10 +25,9 @@ public class TownyListener implements Listener {
                 FactionMobs.factionColors.containsKey(oldName) ?
                         FactionMobs.factionColors.remove(oldName) :
                             10511680);
-        Faction town = FactionsManager.getFactionFromNativeObject(nativeTown);
         for (FactionMob fmob : FactionMobs.mobList) {
             if (fmob.getFactionName().equals(oldName)) {
-                fmob.setFaction(FactionsManager.getFactionFromNativeObject(town));
+                fmob.updateMob();
             }
         }
     }
