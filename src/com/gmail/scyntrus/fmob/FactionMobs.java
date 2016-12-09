@@ -118,7 +118,7 @@ public class FactionMobs extends JavaPlugin {
 
         Archer.maxHp = (float) config.getDouble("Archer.maxHp");
         if (Archer.maxHp<1) Archer.maxHp = 1;
-        Mage.maxHp = (float) config.getDouble("Mage.hp");
+        Mage.maxHp = (float) config.getDouble("Mage.maxHp");
         if (Mage.maxHp<1) Mage.maxHp = 1;
         Swordsman.maxHp = (float) config.getDouble("Swordsman.maxHp");
         if (Swordsman.maxHp<1) Swordsman.maxHp = 1;
