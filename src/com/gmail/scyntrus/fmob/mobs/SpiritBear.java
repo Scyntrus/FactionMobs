@@ -491,6 +491,9 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
         } else {
             this.setCustomName(localizedName);
         }
+        if (FactionMobs.disguiseEnabled) {
+            com.gmail.scyntrus.fmob.DisguiseConnector.disguiseAsPolarBear(this);
+        }
     }
 
     @Override

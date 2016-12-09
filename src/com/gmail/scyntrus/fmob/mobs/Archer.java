@@ -510,7 +510,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
             this.setCustomName(localizedName);
         }
         if (FactionMobs.disguiseEnabled) {
-            com.gmail.scyntrus.fmob.DisguiseConnector.disguise(this);
+            com.gmail.scyntrus.fmob.DisguiseConnector.disguiseAsPlayer(this);
         }
     }
 }

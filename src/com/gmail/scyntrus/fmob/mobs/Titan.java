@@ -514,5 +514,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
         } else {
             this.setCustomName(localizedName);
         }
+        if (FactionMobs.disguiseEnabled) {
+            com.gmail.scyntrus.fmob.DisguiseConnector.disguiseAsIronGolem(this);
+        }
     }
 }
