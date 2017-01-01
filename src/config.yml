@@ -37,6 +37,9 @@ feedAmount: 5
 # Display the mob's faction tag above the mob (in yellow)
 displayMobFaction: true
 
+# If Lib's Disguises is used, set this to the player name for the skin to use
+disguiseSkin:
+
 # Set the normal movement speed of the mobs (Recommend between .3 and .5, default .3)
 mobSpeed: .3
 

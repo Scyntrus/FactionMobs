@@ -69,6 +69,7 @@ public class FactionMobs extends JavaPlugin {
     public static final int responseTime = 20;
     public static double agroRange = 16;
     public static boolean disguiseEnabled = false;
+    public static String playerSkin = null;
 
     @Override
     public void onEnable() {
@@ -241,6 +242,7 @@ public class FactionMobs extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("LibsDisguises") != null) {
             disguiseEnabled = true;
             System.out.println("[FactionMobs] LibsDisguises detected. Units will have player models.");
+            FactionMobs.playerSkin = config.getString("disguiseSkin", "").trim();
         }
 
         runMetrics(); // using mcstats.org metrics

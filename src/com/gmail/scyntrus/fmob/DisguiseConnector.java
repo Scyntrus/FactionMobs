@@ -14,7 +14,11 @@ public class DisguiseConnector {
         if (disguise != null && disguise instanceof PlayerDisguise) {
             if (((PlayerDisguise) disguise).getName().equals(entity.getCustomName())) return;
         }
-        disguise = new PlayerDisguise(entity.getCustomName(), null);
+        if (FactionMobs.playerSkin != null && !FactionMobs.playerSkin.equals("")) {
+            disguise = new PlayerDisguise(entity.getCustomName(), FactionMobs.playerSkin);
+        } else {
+            disguise = new PlayerDisguise(entity.getCustomName(), null);
+        }
         DisguiseAPI.disguiseToAll(bukkitEntity, disguise);
     }
     public static void disguiseAsPolarBear(net.minecraft.server.v1_11_R1.Entity entity) {
