@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.gmail.scyntrus</groupId>
   <artifactId>FactionMobs</artifactId>
-  <version>3.1.9</version>
+  <version>3.2.0</version>
   <packaging>jar</packaging>
   <name>FactionMobs</name>
   <properties>
@@ -125,25 +125,25 @@
     <dependency>
       <groupId>org.kingdoms</groupId>
       <artifactId>Kingdoms</artifactId>
-      <version>12.9.2</version>
+      <version>13.0.6</version>
       <!-- https://www.spigotmc.org/resources/11833/ -->
-      <systemPath>${basedir}/lib/Kingdoms-12.9.7.jar</systemPath>
+      <systemPath>${basedir}/lib/Kingdoms-13.0.6.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
       <groupId>us.forseth11</groupId>
       <artifactId>Feudal</artifactId>
-      <version>1.4.0</version>
+      <version>1.5.3</version>
       <!-- https://www.spigotmc.org/resources/22873/ -->
-      <systemPath>${basedir}/lib/Feudal-1.4.4.jar</systemPath>
+      <systemPath>${basedir}/lib/Feudal-1.5.3.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
       <groupId>us.forseth11</groupId>
       <artifactId>Turrets</artifactId>
-      <version>2.1.6</version>
+      <version>3.2.0</version>
       <!-- https://www.spigotmc.org/resources/8283/ -->
-      <systemPath>${basedir}/lib/Turrets-2.1.8.jar</systemPath>
+      <systemPath>${basedir}/lib/Turrets-3.2.0.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
@@ -155,12 +155,12 @@
     <dependency>
       <groupId>com.comphenix.protocol</groupId>
       <artifactId>ProtocolLib-API</artifactId>
-      <version>4.2.0-SNAPSHOT</version>
+      <version>4.2.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>LibsDisguises</groupId>
       <artifactId>LibsDisguises</artifactId>
-      <version>9.2.2</version>
+      <version>9.2.4</version>
     </dependency>
   </dependencies>
 
@@ -171,12 +171,12 @@
     </repository>
     <repository>
       <id>dmulloy2-repo</id>
-      <!-- com.comphenix.protocol -->
+      <!-- http://repo.dmulloy2.net/content/groups/public/com/comphenix/protocol/ProtocolLib-API/ -->
       <url>http://repo.dmulloy2.net/content/groups/public/</url>
     </repository>
     <repository>
       <id>md_5-public</id>
-      <!-- LibsDisguises -->
+      <!-- http://repo.md-5.net/content/groups/public/LibsDisguises/LibsDisguises/ -->
       <url>http://repo.md-5.net/content/groups/public/</url>
     </repository>
   </repositories>
