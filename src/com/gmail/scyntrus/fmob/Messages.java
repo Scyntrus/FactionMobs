@@ -80,7 +80,10 @@ public class Messages {
         FM_COMMAND_WANDER("fm.command.wander"),
         FM_COMMAND_SETHOME("fm.command.sethome"),
         FM_COMMAND_TPHOME("fm.command.tphome"),
-        FM_COMMAND_TPHERE("fm.command.tphere");
+        FM_COMMAND_TPHERE("fm.command.tphere"),
+        FM_GROUP_USAGE("fm.group.usage"),
+        FM_GROUP_LOAD("fm.group.load"),
+        FM_GROUP_SAVE("fm.group.save");
 
         private final String key;
         Message(String key) {

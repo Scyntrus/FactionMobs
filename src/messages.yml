@@ -83,3 +83,11 @@ fm.command.wander: §aYour units will wander around
 fm.command.sethome: §aYour units will set your position as home
 fm.command.tphome: §aYour units have been moved home
 fm.command.tphere: §aYour units have been moved to your position
+
+fm.group.usage: "
+  Invalid format for /fm group command. Usage:
+  /fm group NUMBER
+  /fm group set NUMBER
+  where NUMBER is 1 to 5"
+fm.group.load: §aGroup %1d selected.
+fm.group.save: §aGroup %1d saved.

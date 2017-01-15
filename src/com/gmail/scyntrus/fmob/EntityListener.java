@@ -118,13 +118,7 @@ public class EntityListener implements Listener {
                     fmob.getEntity().getHealth(), fmob.getEntity().getMaxHealth()));
             Faction playerFaction = FactionsManager.getPlayerFaction(player);
             if (player.hasPermission("fmob.order") && playerFaction != null && playerFaction.equals(fmob.getFaction())) {
-                List<FactionMob> selection;
-                if (plugin.playerSelections.containsKey(player.getName())) {
-                    selection = plugin.playerSelections.get(player.getName());
-                } else {
-                    selection = new LinkedList<FactionMob>();
-                    plugin.playerSelections.put(player.getName(), selection);
-                }
+                List<FactionMob> selection = plugin.getPlayerSelection(player);
                 if (selection.contains(fmob)) {
                     selection.remove(fmob);
                     player.sendMessage(Messages.get(Message.INTERACT_DESELECT, fmob.getLocalizedName()));
@@ -285,7 +279,8 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         String playerName = e.getPlayer().getName();
-        plugin.playerSelections.remove(playerName);
+        plugin.removePlayerSelection(e.getPlayer());
+        plugin.removePlayerSelection(e.getPlayer());
         plugin.mobLeader.remove(playerName);
     }
 

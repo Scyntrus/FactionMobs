@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -28,6 +29,7 @@ import net.minecraft.server.v1_11_R1.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -42,6 +44,7 @@ public class FactionMobs extends JavaPlugin {
     public static Map<String,Integer> factionColors = new HashMap<String,Integer>();
     public Set<String> mobLeader = new HashSet<String>();
     public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
+    public Map<String,List<FactionMob>[]> playerGroups = new HashMap<>();
     public static long mobCount = 0;
     public static int mobsPerFaction = 0;
     public static boolean attackMobs = true;
@@ -455,6 +458,34 @@ public class FactionMobs extends JavaPlugin {
             if (!mob.getEntity().isAlive())
                 it.remove();
         }
+    }
+
+    public List<FactionMob>[] getPlayerGroups(Player player) {
+        if (player == null) return null;
+        String playername = player.getName();
+        if (!playerGroups.containsKey(playername)) {
+            playerGroups.put(playername, new List[5]);
+        }
+        return playerGroups.get(playername);
+    }
+
+    public void removePlayerGroups(Player player) {
+        if (player == null) return;
+        playerGroups.remove(player.getName());
+    }
+
+    public List<FactionMob> getPlayerSelection(Player player) {
+        if (player == null) return null;
+        String playername = player.getName();
+        if (!playerSelections.containsKey(playername)) {
+            playerSelections.put(playername, new LinkedList<FactionMob>());
+        }
+        return playerSelections.get(playername);
+    }
+
+    public void removePlayerSelection(Player player) {
+        if (player == null) return;
+        playerSelections.remove(player.getName());
     }
 
     public static final String signature_Author = "Scyntrus";

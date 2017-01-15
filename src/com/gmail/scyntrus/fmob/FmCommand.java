@@ -8,6 +8,7 @@ import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,14 +106,8 @@ public class FmCommand implements CommandExecutor {
                 if (!player.hasPermission("fmob.selectall")) {
                     player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
                 }
-                List<FactionMob> selection;
-                if (plugin.playerSelections.containsKey(player.getName())) {
-                    selection = plugin.playerSelections.get(player.getName());
-                    selection.clear();
-                } else {
-                    selection = new LinkedList<FactionMob>();
-                    plugin.playerSelections.put(player.getName(), selection);
-                }
+                List<FactionMob> selection = plugin.getPlayerSelection(player);
+                selection.clear();
                 for (FactionMob fmob : FactionMobs.mobList) {
                     Faction playerFaction = FactionsManager.getPlayerFaction(player);
                     if (playerFaction != null && fmob.getFaction().equals(playerFaction)) {
@@ -479,6 +474,52 @@ public class FmCommand implements CommandExecutor {
                 } else {
                     player.sendMessage(Messages.get(Message.FM_NOCOMMAND));
                     return true;
+                }
+            } else if (split[0].equalsIgnoreCase("group")) {
+                if (split.length < 2) {
+                    player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
+                    return true;
+                }
+                if (split[1].equalsIgnoreCase("set") || split[1].equalsIgnoreCase("save")) {
+                    if (split.length < 3) {
+                        player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
+                        return true;
+                    }
+                    try {
+                        int index = Integer.parseInt(split[2]) - 1;
+                        if (index < 0 || index >= 5) {
+                            player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
+                            return true;
+                        }
+                        List<FactionMob> playerSelection = plugin.getPlayerSelection(player);
+                        if (playerSelection.isEmpty()) {
+                            player.sendMessage(Messages.get(Message.FM_NOSELECTION));
+                            return true;
+                        }
+                        List<FactionMob>[] playerGroups = plugin.getPlayerGroups(player);
+                        playerGroups[index] = new ArrayList<>(playerSelection);
+                        player.sendMessage(Messages.get(Message.FM_GROUP_SAVE, index));
+                    } catch (NumberFormatException e) {
+                        player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
+                        return true;
+                    }
+                } else {
+                    try {
+                        int index = Integer.parseInt(split[1]) - 1;
+                        if (index < 0 || index >= 5) {
+                            player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
+                            return true;
+                        }
+                        List<FactionMob> playerSelection = plugin.getPlayerSelection(player);
+                        playerSelection.clear();
+                        List<FactionMob>[] playerGroups = plugin.getPlayerGroups(player);
+                        if (playerGroups[index] == null) return true;
+                        playerSelection.addAll(playerGroups[index]);
+                        player.sendMessage(Messages.get(Message.FM_GROUP_LOAD, index));
+                    } catch (NumberFormatException e) {
+                        player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
+                        return true;
+                    }
                 }
             } else {
                 player.sendMessage(Messages.get(Message.FM_HELP));
