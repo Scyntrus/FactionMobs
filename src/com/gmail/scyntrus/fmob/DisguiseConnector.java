@@ -8,6 +8,11 @@ import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.entity.Entity;
 
 public class DisguiseConnector {
+    public static void initPlayerDisguise() {
+        if (FactionMobs.playerSkin != null && !FactionMobs.playerSkin.equals("")) {
+            new PlayerDisguise("", FactionMobs.playerSkin);
+        }
+    }
     public static void disguiseAsPlayer(net.minecraft.server.v1_11_R1.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);

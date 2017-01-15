@@ -246,6 +246,7 @@ public class FactionMobs extends JavaPlugin {
             disguiseEnabled = true;
             System.out.println("[FactionMobs] LibsDisguises detected. Units will have player models.");
             FactionMobs.playerSkin = config.getString("disguiseSkin", "").trim();
+            DisguiseConnector.initPlayerDisguise();
         }
 
         runMetrics(); // using mcstats.org metrics
