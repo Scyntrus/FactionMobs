@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
+import com.gmail.scyntrus.fmob.mobs.SpiritBear;
 import net.minecraft.server.v1_11_R1.Entity;
 
 import org.bukkit.Location;
@@ -93,6 +94,8 @@ public class FmcCommand implements CommandExecutor {
             newMob = new Titan(loc, faction);
         } else if (split[0].equalsIgnoreCase("Mage") || split[0].equalsIgnoreCase("Witch")) {
             newMob = new Mage(loc, faction);
+        } else if (split[0].equalsIgnoreCase("SpiritBear") || split[0].equalsIgnoreCase("Bear")) {
+            newMob = new SpiritBear(loc, faction);
         } else {
             sender.sendMessage("Unrecognized mob name");
             return true;
