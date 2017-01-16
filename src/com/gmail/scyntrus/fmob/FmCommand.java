@@ -498,7 +498,7 @@ public class FmCommand implements CommandExecutor {
                         }
                         List<FactionMob>[] playerGroups = plugin.getPlayerGroups(player);
                         playerGroups[index] = new ArrayList<>(playerSelection);
-                        player.sendMessage(Messages.get(Message.FM_GROUP_SAVE, index));
+                        player.sendMessage(Messages.get(Message.FM_GROUP_SAVE, index+1));
                     } catch (NumberFormatException e) {
                         player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
                         return true;
@@ -515,7 +515,7 @@ public class FmCommand implements CommandExecutor {
                         List<FactionMob>[] playerGroups = plugin.getPlayerGroups(player);
                         if (playerGroups[index] == null) return true;
                         playerSelection.addAll(playerGroups[index]);
-                        player.sendMessage(Messages.get(Message.FM_GROUP_LOAD, index));
+                        player.sendMessage(Messages.get(Message.FM_GROUP_LOAD, index+1));
                     } catch (NumberFormatException e) {
                         player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
                         return true;
