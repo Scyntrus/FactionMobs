@@ -84,6 +84,8 @@ public class Utils {
     }
 
     public static void giveColorArmor(FactionMob entity) {
+        if (!FactionMobs.equipArmor)
+            return;
         int color = -1;
         if (entity.getFaction() == null) {
             return;

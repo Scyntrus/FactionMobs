@@ -37,6 +37,9 @@ feedAmount: 5
 # Display the mob's faction tag above the mob (in yellow)
 displayMobFaction: true
 
+# Equip mobs with leather armor
+equipArmor: true
+
 # If Lib's Disguises is used, set this to the player name for the skin to use
 disguiseSkin:
 

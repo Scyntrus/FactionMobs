@@ -51,6 +51,7 @@ public class FactionMobs extends JavaPlugin {
     public static boolean noFriendlyFire = false;
     public static boolean noPlayerFriendlyFire = false;
     public static boolean displayMobFaction = true;
+    public static boolean equipArmor = true;
     public static boolean alertAllies = true;
     private long saveInterval = 6000;
     public Economy econ = null;
@@ -108,6 +109,7 @@ public class FactionMobs extends JavaPlugin {
         FactionMobs.noPlayerFriendlyFire = config.getBoolean("noPlayerFriendlyFire");
         FactionMobs.alertAllies = config.getBoolean("alertAllies");
         FactionMobs.displayMobFaction = config.getBoolean("displayMobFaction");
+        FactionMobs.equipArmor = config.getBoolean("equipArmor");
         FactionMobs.attackMobs = config.getBoolean("attackMobs");
         FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed");
         FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed");
