@@ -22,7 +22,7 @@ fm.error: §c%1$s was unable to load. The installed version was not compatible w
 
 fm.help: |-
   /fm spawn [mob]
-  Mobs: Archer, Swordsman, Titan, Mage
+  Mobs: Archer, Swordsman, Titan, Mage, Spiritbear
   /fm color [color]
   Color is in RRGGBB format
   /fm command [command]
