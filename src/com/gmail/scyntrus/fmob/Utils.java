@@ -39,7 +39,7 @@ public class Utils {
             return 0;
         if (entity instanceof EntityPlayer) {
             Player player = ((EntityPlayer)entity).getBukkitEntity();
-            if (player.getGameMode() == GameMode.CREATIVE) return 1;
+            if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) return 1;
             int res = FactionsManager.getPlayerFaction(player).getRelationTo(faction);
             return attackAll && res == 0 ? -1 : res;
         } else if (entity instanceof FactionMob) {
