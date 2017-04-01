@@ -221,14 +221,6 @@ public class FactionMobs extends JavaPlugin {
             }
         }
 
-        if (config.getBoolean("autoSave")) {
-            this.saveInterval = config.getLong("saveInterval");
-            if (this.saveInterval > 0) {
-                this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoSaver(this), this.saveInterval, this.saveInterval);
-                System.out.println("[FactionMobs] Auto-Save enabled.");
-            }
-        }
-
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
             RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
             if (rsp != null) {

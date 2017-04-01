@@ -103,13 +103,3 @@ SpiritBear.damage: 0.0
 SpiritBear.powerCost: 7.0
 SpiritBear.moneyCost: 0.0
 SpiritBear.drops: 0
-
-# === Auto-Save Options ===
-
-# Enable periodic saving in case of server crash
-autoSave: false
-
-# Server ticks between each save (20 Ticks = 1 Second)
-# This should be set the same as autosave in your bukkit.yml file
-# or the same as any world auto-save plugin you are using.
-saveInterval: 6000

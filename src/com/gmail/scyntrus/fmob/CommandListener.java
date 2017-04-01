@@ -5,6 +5,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.event.world.WorldSaveEvent;
 
 public class CommandListener implements Listener {
 
@@ -28,9 +29,6 @@ public class CommandListener implements Listener {
                 }
             }, 0L);
         }
-        if (e.getPlayer().isOp() && e.getMessage().toLowerCase().startsWith("save-all")) {
-            plugin.saveMobList();
-        }
         if (e.getMessage().toLowerCase().contains("kill") || e.getMessage().toLowerCase().contains("butcher")) {
             checkDeath();
         }
@@ -38,9 +36,6 @@ public class CommandListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onServerCommand(ServerCommandEvent e) {
-        if (e.getCommand().toLowerCase().startsWith("save-all")) {
-            plugin.saveMobList();
-        }
         if (e.getCommand().toLowerCase().contains("kill") || e.getCommand().toLowerCase().contains("butcher")) {
             checkDeath();
         }
@@ -48,5 +43,16 @@ public class CommandListener implements Listener {
 
     public void checkDeath() {
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DeadChecker(plugin), 1);
+    }
+
+    long lastSave = 0;
+
+    @EventHandler
+    public void onWorldSave(WorldSaveEvent e) {
+        long now = System.currentTimeMillis();
+        if (now - lastSave > 30000) {
+            lastSave = now;
+            plugin.saveMobList();
+        }
     }
 }
