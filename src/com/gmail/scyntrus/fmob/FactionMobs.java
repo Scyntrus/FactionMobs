@@ -34,8 +34,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.Metrics;
-import org.mcstats.Metrics.Graph;
 
 public class FactionMobs extends JavaPlugin {
 
@@ -243,8 +241,6 @@ public class FactionMobs extends JavaPlugin {
             DisguiseConnector.initPlayerDisguise();
         }
 
-        runMetrics(); // using mcstats.org metrics
-
         this.loadMobList();
 
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
@@ -252,40 +248,6 @@ public class FactionMobs extends JavaPlugin {
 
     private void addEntityType(Class<? extends net.minecraft.server.v1_11_R1.Entity> entityClass, String entityName, int entityId) {
         EntityTypes.b.a(entityId, new MinecraftKey(entityName), entityClass); // TODO: Update name on version change (RegistryMaterials.add)
-    }
-
-    private void runMetrics() {
-        try {
-            String factionsVersion = FactionsManager.getVersionString();
-            String factionMobsVersion = this.getDescription().getVersion();
-            Metrics metrics = new Metrics(this);
-
-            Graph versionGraph = metrics.createGraph("Factions Version");
-
-            versionGraph.addPlotter(new Metrics.Plotter(factionsVersion) {
-
-                @Override
-                public int getValue() {
-                    return 1;
-                }
-
-            });
-
-            Graph versionComboGraph = metrics.createGraph("Version Combination");
-
-            versionComboGraph.addPlotter(new Metrics.Plotter(factionMobsVersion+":"+factionsVersion) {
-
-                @Override
-                public int getValue() {
-                    return 1;
-                }
-
-            });
-
-            metrics.start();
-        } catch (Exception e) {
-            ErrorManager.handleError("Metrics failed to start", e);
-        }
     }
 
     @Override
