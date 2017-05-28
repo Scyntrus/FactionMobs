@@ -50,7 +50,7 @@ public class Factions6 implements Factions {
             fPlayersGet = FactionsManager.tryGetMethod(com.massivecraft.factions.FPlayers.class, "get", OfflinePlayer.class);
             if (fPlayersGet != null) {
                 log.append("FOUND com.massivecraft.factions.FPlayers.get(OfflinePlayer)\n");
-                System.out.println("["+pluginName+"] Factions 1.6-U detected");
+                System.out.println("["+pluginName+"] Factions 1.6-U(old) detected");
                 new Factions6(plugin);
             } else {
                 fPlayersGet = FactionsManager.tryGetMethod(com.massivecraft.factions.FPlayers.class, "get", Player.class);

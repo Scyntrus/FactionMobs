@@ -46,7 +46,7 @@ public class FactionListener68 implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onFactionDisband(com.massivecraft.factions.event.FactionDisbandEvent e) {
-        String factionName = e.getFaction().getTag();
+        String factionName = FactionsManager.getFactionFromNativeObject(e.getFaction()).getName();
         for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext();) {
             FactionMob mob = it.next();
             if (mob.getFactionName().equals(factionName)) {
