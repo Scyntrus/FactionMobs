@@ -1,7 +1,7 @@
 package com.gmail.scyntrus.ifactions;
 
 import com.gmail.scyntrus.fmob.FactionMob;
-import net.minecraft.server.v1_11_R1.Entity;
+import net.minecraft.server.v1_12_R1.Entity;
 
 public abstract class Faction {
 

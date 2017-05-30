@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_11_R1.EntityTypes;
-import net.minecraft.server.v1_11_R1.MinecraftKey;
+import net.minecraft.server.v1_12_R1.EntityTypes;
+import net.minecraft.server.v1_12_R1.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -246,7 +246,7 @@ public class FactionMobs extends JavaPlugin {
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
     }
 
-    private void addEntityType(Class<? extends net.minecraft.server.v1_11_R1.Entity> entityClass, String entityName, int entityId) {
+    private void addEntityType(Class<? extends net.minecraft.server.v1_12_R1.Entity> entityClass, String entityName, int entityId) {
         EntityTypes.b.a(entityId, new MinecraftKey(entityName), entityClass); // TODO: Update name on version change (RegistryMaterials.add)
     }
 
@@ -344,7 +344,7 @@ public class FactionMobs extends JavaPlugin {
                     }
                 }
 
-                newMob.getEntity().world.addEntity((net.minecraft.server.v1_11_R1.Entity) newMob, SpawnReason.CUSTOM);
+                newMob.getEntity().world.addEntity((net.minecraft.server.v1_12_R1.Entity) newMob, SpawnReason.CUSTOM);
                 mobList.add(newMob);
                 newMob.getEntity().dead = false;
             }

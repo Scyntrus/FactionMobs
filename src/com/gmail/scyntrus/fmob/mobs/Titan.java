@@ -11,30 +11,30 @@ import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import java.util.Set;
-import net.minecraft.server.v1_11_R1.DamageSource;
-import net.minecraft.server.v1_11_R1.Entity;
-import net.minecraft.server.v1_11_R1.EntityCreature;
-import net.minecraft.server.v1_11_R1.EntityHuman;
-import net.minecraft.server.v1_11_R1.EntityIronGolem;
-import net.minecraft.server.v1_11_R1.EntityLiving;
-import net.minecraft.server.v1_11_R1.EntityPlayer;
-import net.minecraft.server.v1_11_R1.EntityProjectile;
-import net.minecraft.server.v1_11_R1.EnumItemSlot;
-import net.minecraft.server.v1_11_R1.EnumMonsterType;
-import net.minecraft.server.v1_11_R1.GenericAttributes;
-import net.minecraft.server.v1_11_R1.ItemStack;
-import net.minecraft.server.v1_11_R1.MathHelper;
-import net.minecraft.server.v1_11_R1.NBTTagCompound;
-import net.minecraft.server.v1_11_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_11_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_11_R1.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_11_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_11_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_11_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_11_R1.SoundEffects;
-import net.minecraft.server.v1_11_R1.World;
+import net.minecraft.server.v1_12_R1.DamageSource;
+import net.minecraft.server.v1_12_R1.Entity;
+import net.minecraft.server.v1_12_R1.EntityCreature;
+import net.minecraft.server.v1_12_R1.EntityHuman;
+import net.minecraft.server.v1_12_R1.EntityIronGolem;
+import net.minecraft.server.v1_12_R1.EntityLiving;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.EntityProjectile;
+import net.minecraft.server.v1_12_R1.EnumItemSlot;
+import net.minecraft.server.v1_12_R1.EnumMonsterType;
+import net.minecraft.server.v1_12_R1.GenericAttributes;
+import net.minecraft.server.v1_12_R1.ItemStack;
+import net.minecraft.server.v1_12_R1.MathHelper;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.PathfinderGoalFloat;
+import net.minecraft.server.v1_12_R1.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_12_R1.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_12_R1.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_12_R1.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_12_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_12_R1.SoundEffects;
+import net.minecraft.server.v1_12_R1.World;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -75,7 +75,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
         this.fireProof = false;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
-        this.P = 1.5F; // TODO: Update name on version change (E: stepHeight)
+        this.P = 1.5F; // TODO: Update name on version change (E: Entity.stepHeight)
         this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {
@@ -114,7 +114,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void n() { //TODO: Update name on version change (E: onLivingUpdate)
+    public void n() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
         super.n();
         if (this.inWater) {
             this.motY += .1;
@@ -419,7 +419,7 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public boolean B(Entity entity) { //TODO: Update name on version change (E: EntityIronGolem attackEntityAsMob)
+    public boolean B(Entity entity) { //TODO: Update name on version change (E: EntityIronGolem.attackEntityAsMob)
         if (damage>0) {
             this.world.broadcastEntityEffect(this, (byte)4);
             boolean flag = entity.damageEntity(DamageSource.mobAttack(this), (float) damage);
@@ -427,25 +427,25 @@ public class Titan extends EntityIronGolem implements FactionMob {
                 entity.motY += 0.4D;
             }
             a( //TODO: Update name on version change (E: playSound)
-                    SoundEffects.cW, 1.0F, 1.0F); //TODO: Update name on version change (E: entity.irongolem.attack sound)
+                    SoundEffects.dj, 1.0F, 1.0F); //TODO: Update name on version change (E: entity.irongolem.attack sound)
             return flag;
         } else {
-            return super.B(entity); //TODO: Update name on version change (E: EntityIronGolem attackEntityAsMob)
+            return super.B(entity); //TODO: Update name on version change (E: EntityIronGolem.attackEntityAsMob)
         }
     }
 
     @Override
-    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTAtomically)
+    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: Entity.writeToNBTAtomically)
         return false;
     }
 
     @Override
-    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: writeToNBTOptional)
+    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: Entity.writeToNBTOptional)
         return false;
     }
 
     @Override
-    public void f(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: readFromNBT)
+    public void f(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: Entity.readFromNBT)
         this.die();
     }
 
@@ -483,12 +483,12 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void A_() { //TODO: Update name on version change (E: onUpdate)
+    public void B_() { //TODO: Update name on version change (E: EntityLiving.onUpdate)
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.ak = false; //TODO: Update name on version change (E: inPortal)
-        super.A_();
+        this.ak = false; //TODO: Update name on version change (E: Entity.inPortal)
+        super.B_();
     }
 
     @Override
