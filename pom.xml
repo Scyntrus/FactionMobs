@@ -7,8 +7,8 @@
   <packaging>jar</packaging>
   <name>FactionMobs</name>
   <properties>
-    <craftbukkit.version>1.12-pre5</craftbukkit.version>
-    <factions.version>2.10.0</factions.version>
+    <craftbukkit.version>1.12-R0.1</craftbukkit.version>
+    <factions.version>2.11.0</factions.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skipTests>true</skipTests>
   </properties>
@@ -94,7 +94,7 @@
       <groupId>com.massivecraft</groupId>
       <artifactId>Factions1.6</artifactId>
       <version>1.6.9.5</version>
-      <!-- http://dev.bukkit.org/bukkit-plugins/factions/files/52/ -->
+      <!-- https://dev.bukkit.org/projects/factions/files/696572 -->
       <systemPath>${basedir}/lib/Factions-1.6.9.5.jar</systemPath>
       <scope>system</scope>
     </dependency>
@@ -102,48 +102,48 @@
       <groupId>com.massivecraft</groupId>
       <artifactId>Factions1.8</artifactId>
       <version>1.8.2</version>
-      <!-- http://dev.bukkit.org/bukkit-plugins/factions/files/53/ -->
+      <!-- https://dev.bukkit.org/projects/factions/files/696578 -->
       <systemPath>${basedir}/lib/Factions-1.8.2.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
       <groupId>com.palmergames</groupId>
       <artifactId>Towny</artifactId>
-      <version>0.91.1.0</version>
+      <version>0.91.4.0</version>
       <!-- http://palmergames.com/towny/ -->
-      <systemPath>${basedir}/lib/Towny-0.91.1.0.jar</systemPath>
+      <systemPath>${basedir}/lib/Towny-0.91.4.0.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
       <groupId>net.sacredlabyrinth</groupId>
       <artifactId>SimpleClans</artifactId>
-      <version>2.6.1</version>
+      <version>2.6.3</version>
       <!-- http://104.236.246.108:8080/job/SimpleClans/ -->
-      <systemPath>${basedir}/lib/SimpleClans-2.6.1.jar</systemPath>
+      <systemPath>${basedir}/lib/SimpleClans-2.6.3.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
       <groupId>org.kingdoms</groupId>
       <artifactId>Kingdoms</artifactId>
-      <version>13.2.4</version>
+      <version>13.2.27</version>
       <!-- https://www.spigotmc.org/resources/11833/ -->
-      <systemPath>${basedir}/lib/Kingdoms-13.2.4.jar</systemPath>
+      <systemPath>${basedir}/lib/Kingdoms-13.2.27.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
       <groupId>us.forseth11</groupId>
       <artifactId>Feudal</artifactId>
-      <version>1.5.3</version>
+      <version>1.6.4</version>
       <!-- https://www.spigotmc.org/resources/22873/ -->
-      <systemPath>${basedir}/lib/Feudal-1.5.3.jar</systemPath>
+      <systemPath>${basedir}/lib/Feudal-1.6.4.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
       <groupId>us.forseth11</groupId>
       <artifactId>Turrets</artifactId>
-      <version>2.2.2</version>
+      <version>2.2.4</version>
       <!-- https://www.spigotmc.org/resources/8283/ -->
-      <systemPath>${basedir}/lib/Turrets-2.2.2.jar</systemPath>
+      <systemPath>${basedir}/lib/Turrets-2.2.4.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
@@ -155,12 +155,12 @@
     <dependency>
       <groupId>com.comphenix.protocol</groupId>
       <artifactId>ProtocolLib-API</artifactId>
-      <version>4.2.1-SNAPSHOT</version>
+      <version>4.3.0</version>
     </dependency>
     <dependency>
       <groupId>LibsDisguises</groupId>
       <artifactId>LibsDisguises</artifactId>
-      <version>9.3.0-SNAPSHOT</version>
+      <version>9.4.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
@@ -172,8 +172,8 @@
     </repository>
     <repository>
       <id>dmulloy2-repo</id>
-      <!-- http://repo.dmulloy2.net/content/groups/public/com/comphenix/protocol/ProtocolLib-API/ -->
-      <url>http://repo.dmulloy2.net/content/groups/public/</url>
+      <!-- http://repo.dmulloy2.net/nexus/#browse/browse/components:releases -->
+      <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
     </repository>
     <repository>
       <id>md_5-public</id>
