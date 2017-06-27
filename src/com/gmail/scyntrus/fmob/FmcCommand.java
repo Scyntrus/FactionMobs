@@ -64,12 +64,13 @@ public class FmcCommand implements CommandExecutor {
             if (factionName.equalsIgnoreCase("%land%")) {
                 faction = FactionsManager.getFactionAt(blockLoc);
             } else if (factionName.equalsIgnoreCase("%near%")) {
-                double minDist = 16;
+                double minDist = 256;
                 Player pNear = null;
                 for (Player p : blockLoc.getWorld().getPlayers()) {
-                    if (p.getLocation().distanceSquared(blockLoc) < minDist) {
+                    double dist = p.getLocation().distanceSquared(blockLoc);
+                    if (dist < minDist) {
                         pNear = p;
-                        minDist = p.getLocation().distanceSquared(blockLoc);
+                        minDist = dist;
                     }
                 }
                 if (pNear == null) return true;
@@ -77,6 +78,20 @@ public class FmcCommand implements CommandExecutor {
             } else {
                 faction = FactionsManager.getFactionByName(factionName);
             }
+        } else if (factionName.equalsIgnoreCase("%landspawn%")) {
+            faction = FactionsManager.getFactionAt(loc);
+        } else if (factionName.equalsIgnoreCase("%nearspawn%")) {
+            double minDist = 256;
+            Player pNear = null;
+            for (Player p : loc.getWorld().getPlayers()) {
+                double dist = p.getLocation().distanceSquared(loc);
+                if (dist < minDist) {
+                    pNear = p;
+                    minDist = dist;
+                }
+            }
+            if (pNear == null) return true;
+            faction = FactionsManager.getPlayerFaction(pNear);
         } else {
             faction = FactionsManager.getFactionByName(factionName);
         }
