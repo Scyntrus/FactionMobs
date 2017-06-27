@@ -33,7 +33,7 @@ class SimpleClan extends Faction {
     @Override
     public String getName() {
         if (clan == null) return "";
-        return clan.getName();
+        return clan.getTag();
     }
 
     @Override
