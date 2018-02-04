@@ -19,3 +19,5 @@ If you are compiling for yourself, you can delete the unused packages under "com
 The corresponding team plugin dependencies can be removed from the pom.xml  
 
 By default, the pom file is configured to look for these jars in the lib folder  
+
+Build with Maven  

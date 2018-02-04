@@ -166,3 +166,4 @@ lib/*
 #IntelliJ
 *.iml
 .idea/
+/dependency-reduced-pom.xml

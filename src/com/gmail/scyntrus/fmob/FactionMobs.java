@@ -23,9 +23,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.Callable;
+
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_12_R1.EntityTypes;
 import net.minecraft.server.v1_12_R1.MinecraftKey;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -244,6 +247,14 @@ public class FactionMobs extends JavaPlugin {
         this.loadMobList();
 
         chunkMobLoadTask = this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new ChunkMobLoader(this), 4, 4);
+
+        Metrics metrics = new Metrics(this);
+        metrics.addCustomChart(new Metrics.SimplePie("team_plugin", new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return FactionsManager.getVersionString();
+            }
+        }));
     }
 
     private void addEntityType(Class<? extends net.minecraft.server.v1_12_R1.Entity> entityClass, String entityName, int entityId) {
