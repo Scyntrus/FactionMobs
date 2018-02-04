@@ -46,7 +46,6 @@ public class FactionMobs extends JavaPlugin {
     public Set<String> mobLeader = new HashSet<String>();
     public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
     public Map<String,List<FactionMob>[]> playerGroups = new HashMap<>();
-    public static long mobCount = 0;
     public static int mobsPerFaction = 0;
     public static boolean attackMobs = true;
     public static boolean noFriendlyFire = false;
@@ -54,7 +53,6 @@ public class FactionMobs extends JavaPlugin {
     public static boolean displayMobFaction = true;
     public static boolean equipArmor = true;
     public static boolean alertAllies = true;
-    private long saveInterval = 6000;
     public Economy econ = null;
     public Boolean vaultEnabled = false;
     public static double mobSpeed = .3;
