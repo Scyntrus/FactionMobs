@@ -4,10 +4,9 @@ import com.gmail.scyntrus.fmob.Messages.Message;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import java.util.LinkedList;
-import java.util.List;
 import net.minecraft.server.v1_12_R1.Entity;
 import net.minecraft.server.v1_12_R1.EntityInsentient;
+import net.minecraft.server.v1_12_R1.EntityIronGolem;
 import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.EntityWolf;
 import org.bukkit.Location;
@@ -38,6 +37,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 
+import java.util.List;
+
 public class EntityListener implements Listener {
 
     FactionMobs plugin;
@@ -67,7 +68,7 @@ public class EntityListener implements Listener {
             }
             fmob.findTarget();
             return;
-        } else if (entity != null && entity instanceof EntityWolf) {
+        } else if (entity instanceof EntityWolf) {
             if (e.getTarget() != null) {
                 Entity target = ((CraftEntity) e.getTarget()).getHandle();
                 if (target instanceof FactionMob) {
@@ -94,6 +95,13 @@ public class EntityListener implements Listener {
                             return;
                         }
                     }
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+        } else if (entity instanceof EntityIronGolem) {
+            if (e.getTarget() != null && ((CraftEntity) e.getTarget()).getHandle() instanceof FactionMob) {
+                if (e.getReason() == EntityTargetEvent.TargetReason.CLOSEST_ENTITY) {
                     e.setCancelled(true);
                     return;
                 }
