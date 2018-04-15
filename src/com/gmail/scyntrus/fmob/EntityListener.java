@@ -52,7 +52,7 @@ public class EntityListener implements Listener {
         if (e.getEntity() instanceof CraftExperienceOrb)
             return;
         Entity entity = ((CraftEntity) e.getEntity()).getHandle();
-        if (entity != null && entity instanceof FactionMob) {
+        if (entity instanceof FactionMob) {
             e.setCancelled(true);
             FactionMob fmob = (FactionMob) entity;
             if (fmob instanceof Titan) {

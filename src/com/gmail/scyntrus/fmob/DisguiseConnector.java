@@ -16,7 +16,7 @@ public class DisguiseConnector {
     public static void disguiseAsPlayer(net.minecraft.server.v1_12_R1.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
-        if (disguise != null && disguise instanceof PlayerDisguise) {
+        if (disguise instanceof PlayerDisguise) {
             if (((PlayerDisguise) disguise).getName().equals(entity.getCustomName())) return;
         }
         if (FactionMobs.playerSkin != null && !FactionMobs.playerSkin.equals("")) {
