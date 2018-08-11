@@ -165,5 +165,6 @@ lib/*
 
 #IntelliJ
 *.iml
-.idea/
+.idea/*
+!.idea/runConfigurations/
 /dependency-reduced-pom.xml
