@@ -35,7 +35,7 @@ public class Utils {
         if (entity == null || faction == null || faction.isNone()) {
             return 0;
         }
-        if (entity.getBukkitEntity().hasMetadata("MyPet"))
+        if (FactionMobs.checkMyPet && entity.getBukkitEntity().hasMetadata("MyPet"))
             return 0;
         if (entity instanceof EntityPlayer) {
             Player player = ((EntityPlayer)entity).getBukkitEntity();
@@ -199,11 +199,11 @@ public class Utils {
     private static double optimizedEntitySearchSlice(Faction faction, EntityLiving entity, EntityHolder result, Collection<Entity> slice, double x, double y, double z, double range2, boolean attackAll) {
         for (Entity entity1 : slice) {
             if (entity1.isAlive() && entity1 instanceof EntityLiving) {
-                if (Utils.FactionCheck((EntityLiving) entity1, faction, attackAll) == -1) {
-                    double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
-                            + (entity1.locY - y) * (entity1.locY - y)
-                            + (entity1.locZ - z) * (entity1.locZ - z);
-                    if (tempRange2 < range2 && entity.hasLineOfSight(entity1)) {
+                double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
+                        + (entity1.locY - y) * (entity1.locY - y)
+                        + (entity1.locZ - z) * (entity1.locZ - z);
+                if (tempRange2 < range2 && Utils.FactionCheck((EntityLiving) entity1, faction, attackAll) == -1) {
+                    if (entity.hasLineOfSight(entity1)) {
                         range2 = tempRange2;
                         result.val = (EntityLiving) entity1;
                         if (range2 < closeEnough)

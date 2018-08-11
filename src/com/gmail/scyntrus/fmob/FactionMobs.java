@@ -73,6 +73,7 @@ public class FactionMobs extends JavaPlugin {
     public static double agroRange = 16;
     public static boolean disguiseEnabled = false;
     public static String playerSkin = null;
+    public static boolean checkMyPet = false;
 
     @Override
     public void onEnable() {
@@ -241,6 +242,7 @@ public class FactionMobs extends JavaPlugin {
             FactionMobs.playerSkin = config.getString("disguiseSkin", "").trim();
             DisguiseConnector.initPlayerDisguise();
         }
+        if (getServer().getPluginManager().getPlugin("MyPet") != null) checkMyPet = true;
 
         this.loadMobList();
 
