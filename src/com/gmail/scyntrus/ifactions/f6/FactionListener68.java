@@ -1,6 +1,9 @@
 package com.gmail.scyntrus.ifactions.f6;
 
 import java.util.Iterator;
+
+import com.massivecraft.factions.event.FactionDisbandEvent;
+import com.massivecraft.factions.event.FactionRenameEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -13,7 +16,7 @@ import com.gmail.scyntrus.ifactions.FactionsManager;
 public class FactionListener68 implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onFactionRename(com.massivecraft.factions.event.FactionRenameEvent e) {
+    public void onFactionRename(FactionRenameEvent e) {
         String oldName = e.getOldFactionTag();
         String newName = e.getFactionTag();
         FactionMobs.factionColors.put(newName,
@@ -45,7 +48,7 @@ public class FactionListener68 implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onFactionDisband(com.massivecraft.factions.event.FactionDisbandEvent e) {
+    public void onFactionDisband(FactionDisbandEvent e) {
         String factionName = FactionsManager.getFactionFromNativeObject(e.getFaction()).getName();
         for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext();) {
             FactionMob mob = it.next();

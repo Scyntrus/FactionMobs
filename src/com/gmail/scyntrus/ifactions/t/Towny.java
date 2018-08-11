@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.ifactions.t;
 
+import com.palmergames.bukkit.towny.object.Resident;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -57,7 +58,8 @@ public class Towny implements Factions {
     @Override
     public Faction getPlayerFaction(Player player) {
         try {
-            return new Town(TownyUniverse.getDataSource().getResident(player.getName()).getTown());
+            Resident resident = TownyUniverse.getDataSource().getResident(player.getName());
+            return resident != null ? new Town(resident.getTown()) : null;
         } catch (Exception ignored) {
         }
         return null;
@@ -71,10 +73,11 @@ public class Towny implements Factions {
     @Override
     public Rank getPlayerRank(Player player) {
         try {
-            if (TownyUniverse.getDataSource().getResident(player.getName()).isMayor())
-                return Rank.LEADER;
-            else
-                return Rank.MEMBER;
+            Resident resident = TownyUniverse.getDataSource().getResident(player.getName());
+            if (resident == null) return Rank.UNKNOWN;
+            if (!resident.hasTown()) return Rank.UNKNOWN;
+            if (resident.isMayor()) return Rank.LEADER;
+            return Rank.MEMBER;
         } catch (Exception e) {
             ErrorManager.handleError(e);
         }

@@ -75,8 +75,9 @@ public class FeudalConnector implements Factions {
     public Rank getPlayerRank(Player player) {
         String uuid = player.getUniqueId().toString();
         User u = Feudal.getUser(uuid);
-        if (u == null) return Rank.RECRUIT;
+        if (u == null) return Rank.UNKNOWN;
         Kingdom k = Feudal.getKingdom(u.getKingdomUUID());
+        if (k == null) return Rank.UNKNOWN;
         us.forseth11.feudal.kingdoms.Rank rank = k.getRank(uuid);
         switch (rank) {
             case LEADER:

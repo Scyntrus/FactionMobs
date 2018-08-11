@@ -1,5 +1,10 @@
 package com.gmail.scyntrus.ifactions.f2;
 
+import com.massivecraft.factions.Rel;
+import com.massivecraft.factions.entity.BoardColl;
+import com.massivecraft.factions.entity.FactionColl;
+import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -19,9 +24,7 @@ public class Factions2 implements Factions{
     }
 
     public static Factions get(Plugin plugin, StringBuilder log) {
-        if (instance != null) {
-            return instance;
-        }
+        if (instance != null) return instance;
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("com.massivecraft.factions.Rel")) {
             log.append("FOUND com.massivecraft.factions.Rel\n");
@@ -33,17 +36,18 @@ public class Factions2 implements Factions{
 
     @Override
     public Faction getFactionAt(Location loc) {
-        return new Faction2(com.massivecraft.factions.entity.BoardColl.get().getFactionAt(com.massivecraft.massivecore.ps.PS.valueOf(loc)));
+        return new Faction2(BoardColl.get().getFactionAt(PS.valueOf(loc)));
     }
 
     @Override
     public Faction getFactionByName(String name) {
-        return new Faction2(com.massivecraft.factions.entity.FactionColl.get().getByName(name));
+        return new Faction2(FactionColl.get().getByName(name));
     }
 
     @Override
     public Faction getPlayerFaction(Player player) {
-        return new Faction2(com.massivecraft.factions.entity.MPlayer.get(player).getFaction());
+        MPlayer mPlayer = MPlayer.get(player);
+        return mPlayer != null ? new Faction2(MPlayer.get(player).getFaction()) : null;
     }
 
     @Override
@@ -53,7 +57,9 @@ public class Factions2 implements Factions{
 
     @Override
     public Rank getPlayerRank(Player player) {
-        com.massivecraft.factions.Rel rel = com.massivecraft.factions.entity.MPlayer.get(player).getRole();
+        MPlayer mPlayer = MPlayer.get(player);
+        if (mPlayer == null) return Rank.UNKNOWN;
+        Rel rel = mPlayer.getRole();
         return Rank.getByName(rel.name());
     }
     

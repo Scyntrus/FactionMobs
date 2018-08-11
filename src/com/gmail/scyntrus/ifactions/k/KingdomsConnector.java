@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.kingdoms.constants.land.SimpleChunkLocation;
+import org.kingdoms.constants.player.KingdomPlayer;
 import org.kingdoms.manager.game.GameManagement;
 
 import com.gmail.scyntrus.ifactions.Faction;
@@ -47,7 +48,9 @@ public class KingdomsConnector implements Factions {
 
     @Override
     public Faction getPlayerFaction(Player player) {
-        Object nativeObject = GameManagement.getPlayerManager().getSession(player).getKingdom();
+        KingdomPlayer kPlayer = GameManagement.getPlayerManager().getSession(player);
+        if (kPlayer == null) return null;
+        Object nativeObject = kPlayer.getKingdom();
         return nativeObject != null ? new Kingdom(nativeObject) : null;
     }
 
@@ -58,16 +61,19 @@ public class KingdomsConnector implements Factions {
 
     @Override
     public Rank getPlayerRank(Player player) {
-        org.kingdoms.constants.Rank rank = GameManagement.getPlayerManager().getSession(player).getRank();
+        KingdomPlayer kPlayer = GameManagement.getPlayerManager().getSession(player);
+        if (kPlayer == null) return null;
+        org.kingdoms.constants.Rank rank = kPlayer.getRank();
         switch (rank) {
             case KING:
                 return Rank.LEADER;
             case MODS:
+            case GENERALS:
                 return Rank.OFFICER;
             case ALL:
                 return Rank.MEMBER;
             default:
-                return Rank.MEMBER;
+                return Rank.UNKNOWN;
         }
     }
     

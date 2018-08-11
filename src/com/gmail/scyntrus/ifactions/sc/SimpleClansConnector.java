@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.ifactions.sc;
 
+import net.sacredlabyrinth.phaed.simpleclans.ClanPlayer;
 import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
 
 import org.bukkit.Location;
@@ -61,7 +62,9 @@ public class SimpleClansConnector implements Factions {
 
     @Override
     public Faction getPlayerFaction(Player player) {
-        Object nativeObject = SCInstance.getClanManager().getClanPlayer(player).getClan();
+        ClanPlayer cPlayer = SCInstance.getClanManager().getClanPlayer(player);
+        if (cPlayer == null) return null;
+        Object nativeObject = cPlayer.getClan();
         return nativeObject != null ? new SimpleClan(nativeObject) : null;
     }
 
@@ -72,8 +75,10 @@ public class SimpleClansConnector implements Factions {
 
     @Override
     public Rank getPlayerRank(Player player) {
-        if (SCInstance.getClanManager().getClanPlayer(player).isLeader())
-            return Rank.LEADER;
+        ClanPlayer cPlayer = SCInstance.getClanManager().getClanPlayer(player);
+        if (cPlayer == null) return null;
+        if (cPlayer.getClan() == null) return Rank.UNKNOWN;
+        if (cPlayer.isLeader()) return Rank.LEADER;
         return Rank.MEMBER;
     }
     

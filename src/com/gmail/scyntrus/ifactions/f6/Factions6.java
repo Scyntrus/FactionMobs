@@ -82,7 +82,8 @@ public class Factions6 implements Factions {
     @Override
     public Faction getPlayerFaction(Player player) {
         try {
-            return new Faction6(((FPlayer) fPlayersGet.invoke(FPlayers.i, player)).getFaction());
+            FPlayer fPlayer = (FPlayer) fPlayersGet.invoke(FPlayers.i, player);
+            return fPlayer != null ? new Faction6(fPlayer.getFaction()) : null;
         } catch (Exception e) {
             ErrorManager.handleError(e);
         }
@@ -97,12 +98,14 @@ public class Factions6 implements Factions {
     @Override
     public Rank getPlayerRank(Player player) {
         try {
-            Role role6 = ((FPlayer) fPlayersGet.invoke(FPlayers.i, player)).getRole();
+            FPlayer fPlayer = (FPlayer) fPlayersGet.invoke(FPlayers.i, player);
+            if (fPlayer == null) return Rank.UNKNOWN;
+            Role role6 = fPlayer.getRole();
             return Rank.getByName(role6.name());
         } catch (Exception e) {
             ErrorManager.handleError(e);
         }
-        return Rank.MEMBER;
+        return Rank.UNKNOWN;
     }
     
     @Override

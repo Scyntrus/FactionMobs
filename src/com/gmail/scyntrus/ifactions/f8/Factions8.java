@@ -75,7 +75,8 @@ public class Factions8 implements Factions {
 
     @Override
     public Faction getPlayerFaction(Player player) {
-        return new Faction8(FPlayers.i.get(player).getFaction());
+        FPlayer fPlayer = FPlayers.i.get(player);
+        return fPlayer != null ? new Faction8(FPlayers.i.get(player).getFaction()) : null;
     }
 
     @Override
@@ -86,12 +87,14 @@ public class Factions8 implements Factions {
     @Override
     public Rank getPlayerRank(Player player) {
         try {
-            Rel role6 = (Rel) fPlayerGetRoleMethod.invoke(FPlayers.i.get(player));
+            FPlayer fPlayer = FPlayers.i.get(player);
+            if (fPlayer == null) return Rank.UNKNOWN;
+            Rel role6 = (Rel) fPlayerGetRoleMethod.invoke(fPlayer);
             return Rank.getByName(role6.name());
         } catch (Exception e) {
             ErrorManager.handleError(e);
         }
-        return Rank.MEMBER;
+        return Rank.UNKNOWN;
     }
     
     @Override

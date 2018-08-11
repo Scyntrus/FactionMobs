@@ -5,7 +5,8 @@ public enum Rank {
     LEADER(5),
     OFFICER(4),
     MEMBER(3),
-    RECRUIT(2);
+    RECRUIT(2),
+    UNKNOWN(0);
 
     private int rankVal;
 
