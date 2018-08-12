@@ -4,16 +4,15 @@ import com.gmail.scyntrus.fmob.Messages.Message;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import net.minecraft.server.v1_12_R1.Entity;
-import net.minecraft.server.v1_12_R1.EntityInsentient;
-import net.minecraft.server.v1_12_R1.EntityIronGolem;
-import net.minecraft.server.v1_12_R1.EntityLiving;
-import net.minecraft.server.v1_12_R1.EntityWolf;
+import net.minecraft.server.v1_13_R1.Entity;
+import net.minecraft.server.v1_13_R1.EntityInsentient;
+import net.minecraft.server.v1_13_R1.EntityIronGolem;
+import net.minecraft.server.v1_13_R1.EntityLiving;
+import net.minecraft.server.v1_13_R1.EntityWolf;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftExperienceOrb;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftExperienceOrb;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -139,9 +138,8 @@ public class EntityListener implements Listener {
             }
             if (FactionMobs.feedEnabled) {
                 @SuppressWarnings("deprecation")
-                Material mat = Material.getMaterial(FactionMobs.feedItem);
                 ItemStack itemMainHand = player.getEquipment().getItemInMainHand();
-                if (itemMainHand.getType() == mat) {
+                if (itemMainHand.getType() == FactionMobs.feedItem) {
                     itemMainHand.setAmount(itemMainHand.getAmount() - 1);
                     player.getEquipment().setItemInMainHand(itemMainHand);
                     float iHp = fmob.getEntity().getHealth();
@@ -159,7 +157,7 @@ public class EntityListener implements Listener {
             fmob.forceDie();
             FactionMobs.mobList.remove(fmob);
             e.getDrops().clear();
-            if (fmob.getDrops() != 0) {
+            if (fmob.getDrops() != null) {
                 @SuppressWarnings("deprecation")
                 ItemStack item = new ItemStack(fmob.getDrops());
                 e.getDrops().add(item);

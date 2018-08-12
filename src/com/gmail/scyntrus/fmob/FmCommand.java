@@ -9,7 +9,7 @@ import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.minecraft.server.v1_12_R1.Entity;
+import net.minecraft.server.v1_13_R1.Entity;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -17,12 +17,11 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class FmCommand implements CommandExecutor {
@@ -162,7 +161,7 @@ public class FmCommand implements CommandExecutor {
                         }
                     }
                 }
-                net.minecraft.server.v1_12_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
+                net.minecraft.server.v1_13_R1.World world = ((CraftWorld)player.getWorld()).getHandle();
                 FactionMob newMob;
                 if (split.length == 1) {
                     player.sendMessage(Messages.get(Message.FM_NOMOB));

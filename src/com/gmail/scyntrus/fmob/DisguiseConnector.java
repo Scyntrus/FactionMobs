@@ -13,20 +13,20 @@ public class DisguiseConnector {
             new PlayerDisguise("", FactionMobs.playerSkin);
         }
     }
-    public static void disguiseAsPlayer(net.minecraft.server.v1_12_R1.Entity entity) {
+    public static void disguiseAsPlayer(net.minecraft.server.v1_13_R1.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
         if (disguise instanceof PlayerDisguise) {
             if (((PlayerDisguise) disguise).getName().equals(entity.getCustomName())) return;
         }
         if (FactionMobs.playerSkin != null && !FactionMobs.playerSkin.equals("")) {
-            disguise = new PlayerDisguise(entity.getCustomName(), FactionMobs.playerSkin);
+            disguise = new PlayerDisguise(entity.getCustomName().getString(), FactionMobs.playerSkin);
         } else {
-            disguise = new PlayerDisguise(entity.getCustomName(), null);
+            disguise = new PlayerDisguise(entity.getCustomName().getString(), null);
         }
         DisguiseAPI.disguiseToAll(bukkitEntity, disguise);
     }
-    public static void disguiseAsPolarBear(net.minecraft.server.v1_12_R1.Entity entity) {
+    public static void disguiseAsPolarBear(net.minecraft.server.v1_13_R1.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
         if (disguise != null && disguise.getType() == DisguiseType.POLAR_BEAR) {
@@ -35,7 +35,7 @@ public class DisguiseConnector {
         disguise = new MobDisguise(DisguiseType.POLAR_BEAR);
         DisguiseAPI.disguiseToAll(bukkitEntity, disguise);
     }
-    public static void disguiseAsIronGolem(net.minecraft.server.v1_12_R1.Entity entity) {
+    public static void disguiseAsIronGolem(net.minecraft.server.v1_13_R1.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
         if (disguise != null && disguise.getType() == DisguiseType.IRON_GOLEM) {

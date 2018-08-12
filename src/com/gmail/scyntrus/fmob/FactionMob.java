@@ -1,9 +1,10 @@
 package com.gmail.scyntrus.fmob;
 
 import com.gmail.scyntrus.ifactions.Faction;
-import net.minecraft.server.v1_12_R1.EntityCreature;
-import net.minecraft.server.v1_12_R1.EntityLiving;
+import net.minecraft.server.v1_13_R1.EntityCreature;
+import net.minecraft.server.v1_13_R1.EntityLiving;
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 public interface FactionMob {
     enum Command {
@@ -34,7 +35,7 @@ public interface FactionMob {
     EntityCreature getEntity();
     String getFactionName();
     void clearAttackedBy();
-    int getDrops();
+    Material getDrops();
     boolean softAgro(EntityLiving entity);
     void findTarget();
     void setFaction(Faction faction);

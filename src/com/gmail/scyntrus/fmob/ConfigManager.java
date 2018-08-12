@@ -1,5 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.lang.reflect.Field;
@@ -21,6 +22,13 @@ public class ConfigManager {
         GET_TYPE_FUNCTIONS.put(double.class, (c, p, d) -> c.getDouble(p, (double) d));
         GET_TYPE_FUNCTIONS.put(Float.class, (c, p, d) -> (float) c.getDouble(p, (Double) d));
         GET_TYPE_FUNCTIONS.put(float.class, (c, p, d) -> (float) c.getDouble(p, (float) d));
+        GET_TYPE_FUNCTIONS.put(Material.class, (c, p, d) -> {
+            String name = c.getString(p, "").trim();
+            if (!name.isEmpty()) {
+                return Material.matchMaterial(name);
+            }
+            return d;
+        });
     }
 
     private FileConfiguration config;

@@ -1,13 +1,13 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_12_R1.AxisAlignedBB;
-import net.minecraft.server.v1_12_R1.Entity;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_13_R1.AxisAlignedBB;
+import net.minecraft.server.v1_13_R1.Entity;
+import net.minecraft.server.v1_13_R1.NBTTagCompound;
 
 public class PathHelpEntity extends Entity {
     
     public PathHelpEntity() {
-        super(null);
+        super(null,null);
     }
     
     public PathHelpEntity set(double x, double y, double z) {
@@ -31,7 +31,7 @@ public class PathHelpEntity extends Entity {
     }
 
     @Override
-    protected void i() {
+    protected void x_() {
     }
 
 }

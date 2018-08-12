@@ -11,29 +11,32 @@ import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import net.minecraft.server.v1_12_R1.DamageSource;
-import net.minecraft.server.v1_12_R1.EntityAgeable;
-import net.minecraft.server.v1_12_R1.EntityCreature;
-import net.minecraft.server.v1_12_R1.EntityHuman;
-import net.minecraft.server.v1_12_R1.EntityLiving;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.EntityPolarBear;
-import net.minecraft.server.v1_12_R1.EntityProjectile;
-import net.minecraft.server.v1_12_R1.EnumItemSlot;
-import net.minecraft.server.v1_12_R1.EnumMonsterType;
-import net.minecraft.server.v1_12_R1.GenericAttributes;
-import net.minecraft.server.v1_12_R1.ItemStack;
-import net.minecraft.server.v1_12_R1.MathHelper;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_12_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_12_R1.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_12_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_12_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_12_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_12_R1.World;
+import net.minecraft.server.v1_13_R1.DamageSource;
+import net.minecraft.server.v1_13_R1.EntityAgeable;
+import net.minecraft.server.v1_13_R1.EntityCreature;
+import net.minecraft.server.v1_13_R1.EntityHuman;
+import net.minecraft.server.v1_13_R1.EntityLiving;
+import net.minecraft.server.v1_13_R1.EntityPlayer;
+import net.minecraft.server.v1_13_R1.EntityPolarBear;
+import net.minecraft.server.v1_13_R1.EntityProjectile;
+import net.minecraft.server.v1_13_R1.EnumItemSlot;
+import net.minecraft.server.v1_13_R1.EnumMonsterType;
+import net.minecraft.server.v1_13_R1.GenericAttributes;
+import net.minecraft.server.v1_13_R1.IWorldReader;
+import net.minecraft.server.v1_13_R1.ItemStack;
+import net.minecraft.server.v1_13_R1.MathHelper;
+import net.minecraft.server.v1_13_R1.NBTTagCompound;
+import net.minecraft.server.v1_13_R1.PathfinderGoalFloat;
+import net.minecraft.server.v1_13_R1.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_13_R1.PathfinderGoalMeleeAttack;
+import net.minecraft.server.v1_13_R1.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_13_R1.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_13_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_13_R1.World;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_13_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R1.util.CraftChatMessage;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -56,7 +59,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     @Option(key="SpiritBear.damage", min = 0)
     public static double damage = 0;
     @Option(key="SpiritBear.drops")
-    public static int drops = 0;
+    public static Material drops = null;
 
     public Faction faction = null;
     public String factionName = "";
@@ -83,7 +86,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
         this.persistent = true;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
-        this.P = 1.5F; // TODO: Update name on version change (E: Entity.stepHeight)
+        this.Q = 1.5F; // TODO: Update name on version change (E: Entity.stepHeight)
         this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {
@@ -121,8 +124,8 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     }
 
     @Override
-    public void n() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
-        super.n();
+    public void k() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
+        super.k();
         if (--retargetTime < 0) {
             retargetTime = FactionMobs.responseTime;
             if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
@@ -240,7 +243,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     }
 
     @Override
-    public boolean canSpawn() {
+    public boolean a(IWorldReader iworldreader) { //TODO: Update name on version change (E: EntityInsentient.canSpawn)
         return true;
     }
 
@@ -443,7 +446,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     }
 
     @Override
-    public int getDrops() {
+    public Material getDrops() {
         return drops;
     }
 
@@ -463,12 +466,12 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     }
 
     @Override
-    public void B_() { //TODO: Update name on version change (E: EntityLiving.onUpdate)
+    public void tick() {
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.ak = false; //TODO: Update name on version change (E: Entity.inPortal)
-        super.B_();
+        this.an = false; //TODO: Update name on version change (E: Entity.inPortal)
+        super.tick();
     }
 
     @Override
@@ -486,13 +489,14 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     public void updateNameTag() {
         if (FactionMobs.displayMobFaction) {
             if (this.attackAll) {
-                this.setCustomName(Messages.get(Messages.Message.NAMETAG_RED, factionName, localizedName));
+                this.setCustomName(CraftChatMessage.fromStringOrNull(
+                        Messages.get(Messages.Message.NAMETAG_RED, factionName, localizedName)));
             } else {
-                this.setCustomName(Messages.get(Messages.Message.NAMETAG, factionName, localizedName));
+                this.setCustomName(CraftChatMessage.fromStringOrNull(Messages.get(Messages.Message.NAMETAG, factionName, localizedName)));
             }
             this.setCustomNameVisible(true);
         } else {
-            this.setCustomName(localizedName);
+            this.setCustomName(CraftChatMessage.fromStringOrNull(localizedName));
         }
         if (FactionMobs.disguiseEnabled) {
             com.gmail.scyntrus.fmob.DisguiseConnector.disguiseAsPolarBear(this);

@@ -29,8 +29,8 @@ alertAllies: true
 # Enabling this option will allow players to heal their mobs for a set amount of health
 # by right clicking them with an apple
 feedEnabled: true
-# Id of item used to feed, default 260 (apple)
-feedItem: 260
+# Id of item used to feed, default APPLE (As of 1.13 this is now a name, not id)
+feedItem: APPLE
 # Amount of health restored
 feedAmount: 5
 
@@ -70,8 +70,8 @@ Archer.damage: 0.0
 Archer.powerCost: 4.0
 # Money spent upon spawning this mob, requires Vault
 Archer.moneyCost: 0.0
-# Experimental, you can specify 1 item for this mob to drop. (Item ID)
-Archer.drops: 0
+# Item this mob drops on death (Item name)
+Archer.drops:
 
 Mage.enabled: true
 Mage.maxHp: 20
@@ -86,7 +86,7 @@ Swordsman.maxHp: 20
 Swordsman.damage: 0.0
 Swordsman.powerCost: 5.0
 Swordsman.moneyCost: 0.0
-Swordsman.drops: 0
+Swordsman.drops:
 
 Titan.enabled: true
 Titan.maxHp: 40
@@ -94,7 +94,7 @@ Titan.maxHp: 40
 Titan.damage: 0.0
 Titan.powerCost: 11.0
 Titan.moneyCost: 0.0
-Titan.drops: 0
+Titan.drops:
 
 SpiritBear.enabled: true
 SpiritBear.maxHp: 30
@@ -102,4 +102,4 @@ SpiritBear.maxHp: 30
 SpiritBear.damage: 0.0
 SpiritBear.powerCost: 7.0
 SpiritBear.moneyCost: 0.0
-SpiritBear.drops: 0
+SpiritBear.drops:

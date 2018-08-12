@@ -11,36 +11,40 @@ import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import net.minecraft.server.v1_12_R1.DamageSource;
-import net.minecraft.server.v1_12_R1.EntityCreature;
-import net.minecraft.server.v1_12_R1.EntityHuman;
-import net.minecraft.server.v1_12_R1.EntityLiving;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.EntityPotion;
-import net.minecraft.server.v1_12_R1.EntityProjectile;
-import net.minecraft.server.v1_12_R1.EntityWitch;
-import net.minecraft.server.v1_12_R1.EnumItemSlot;
-import net.minecraft.server.v1_12_R1.EnumMonsterType;
-import net.minecraft.server.v1_12_R1.GenericAttributes;
-import net.minecraft.server.v1_12_R1.ItemStack;
-import net.minecraft.server.v1_12_R1.Items;
-import net.minecraft.server.v1_12_R1.MathHelper;
-import net.minecraft.server.v1_12_R1.MobEffects;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.PathfinderGoalArrowAttack;
-import net.minecraft.server.v1_12_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_12_R1.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_12_R1.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_12_R1.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_12_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_12_R1.PotionRegistry;
-import net.minecraft.server.v1_12_R1.PotionUtil;
-import net.minecraft.server.v1_12_R1.Potions;
-import net.minecraft.server.v1_12_R1.SoundCategory;
-import net.minecraft.server.v1_12_R1.SoundEffects;
-import net.minecraft.server.v1_12_R1.World;
+import net.minecraft.server.v1_13_R1.DamageSource;
+import net.minecraft.server.v1_13_R1.EntityCreature;
+import net.minecraft.server.v1_13_R1.EntityHuman;
+import net.minecraft.server.v1_13_R1.EntityLiving;
+import net.minecraft.server.v1_13_R1.EntityPlayer;
+import net.minecraft.server.v1_13_R1.EntityPotion;
+import net.minecraft.server.v1_13_R1.EntityProjectile;
+import net.minecraft.server.v1_13_R1.EntityWitch;
+import net.minecraft.server.v1_13_R1.EnumItemSlot;
+import net.minecraft.server.v1_13_R1.EnumMonsterType;
+import net.minecraft.server.v1_13_R1.GenericAttributes;
+import net.minecraft.server.v1_13_R1.IWorldReader;
+import net.minecraft.server.v1_13_R1.ItemStack;
+import net.minecraft.server.v1_13_R1.Items;
+import net.minecraft.server.v1_13_R1.MathHelper;
+import net.minecraft.server.v1_13_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.MobEffects;
+import net.minecraft.server.v1_13_R1.NBTTagCompound;
+import net.minecraft.server.v1_13_R1.PathfinderGoalArrowAttack;
+import net.minecraft.server.v1_13_R1.PathfinderGoalFloat;
+import net.minecraft.server.v1_13_R1.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_13_R1.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_13_R1.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_13_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_13_R1.PotionRegistry;
+import net.minecraft.server.v1_13_R1.PotionUtil;
+import net.minecraft.server.v1_13_R1.Potions;
+import net.minecraft.server.v1_13_R1.SoundCategory;
+import net.minecraft.server.v1_13_R1.SoundEffects;
+import net.minecraft.server.v1_13_R1.World;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_13_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R1.util.CraftChatMessage;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -50,6 +54,13 @@ public class Mage extends EntityWitch implements FactionMob {
 
     public static final String typeName = "Mage";
     public static String localizedName = typeName;
+
+    private static final PathHelpEntity p = new PathHelpEntity();
+    private static final PotionRegistry HARMING_POTION = PotionRegistry.a.get(new MinecraftKey("harming"));
+    private static final PotionRegistry SLOWNESS_POTION = PotionRegistry.a.get(new MinecraftKey("slowness"));
+    private static final PotionRegistry POISON_POTION = PotionRegistry.a.get(new MinecraftKey("poison"));
+    private static final PotionRegistry WEAKNESS_POTION = PotionRegistry.a.get(new MinecraftKey("weakness"));
+    private static final PotionRegistry HEALING_POTION = PotionRegistry.a.get(new MinecraftKey("healing"));
 
     public static final double range = 16;
     @Option(key="Mage.maxHp", min = 1)
@@ -61,7 +72,7 @@ public class Mage extends EntityWitch implements FactionMob {
     @Option(key="Mage.moneyCost", min = 0)
     public static double moneyCost = 0;
     @Option(key="Mage.drops")
-    public static int drops = 0;
+    public static Material drops = null;
 
     public Faction faction = null;
     public String factionName = "";
@@ -73,8 +84,6 @@ public class Mage extends EntityWitch implements FactionMob {
     private int retargetTime = 0;
     public double poiX=0, poiY=0, poiZ=0;
     public Command command = Command.poi;
-    
-    private static final PathHelpEntity p = new PathHelpEntity(); 
 
     public Mage(World world) {
         super(world);
@@ -89,8 +98,8 @@ public class Mage extends EntityWitch implements FactionMob {
         this.fireProof = false;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
-        this.P = 1.5F; // TODO: Update name on version change (E: Entity.stepHeight)
-        this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a(new ItemStack(Items.POTION), Potions.x)); //TODO: Update name on version change (E: harming potion)
+        this.Q = 1.5F; // TODO: Update name on version change (E: Entity.stepHeight)
+        this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a(new ItemStack(Items.POTION), HARMING_POTION));
         this.retargetTime = FactionMobs.random.nextInt(40);
 
         if (ReflectionManager.good_PathfinderGoalSelector_GoalSet) {
@@ -127,8 +136,8 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void n() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
-        super.n();
+    public void k() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
+        super.k();
         if (--retargetTime < 0) {
             retargetTime = FactionMobs.responseTime;
             if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
@@ -246,7 +255,7 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public boolean canSpawn() {
+    public boolean a(IWorldReader iworldreader) { //TODO: Update name on version change (E: EntityInsentient.canSpawn)
         return true;
     }
 
@@ -449,7 +458,7 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public int getDrops() {
+    public Material getDrops() {
         return drops;
     }
 
@@ -469,12 +478,12 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void B_() { //TODO: Update name on version change (E: EntityLiving.onUpdate)
+    public void tick() {
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.ak = false; //TODO: Update name on version change (E: Entity.inPortal)
-        super.B_();
+        this.an = false; //TODO: Update name on version change (E: Entity.inPortal)
+        super.tick();
     }
 
     @Override
@@ -492,13 +501,14 @@ public class Mage extends EntityWitch implements FactionMob {
     public void updateNameTag() {
         if (FactionMobs.displayMobFaction) {
             if (this.attackAll) {
-                this.setCustomName(Messages.get(Messages.Message.NAMETAG_RED, factionName, localizedName));
+                this.setCustomName(CraftChatMessage.fromStringOrNull(
+                        Messages.get(Messages.Message.NAMETAG_RED, factionName, localizedName)));
             } else {
-                this.setCustomName(Messages.get(Messages.Message.NAMETAG, factionName, localizedName));
+                this.setCustomName(CraftChatMessage.fromStringOrNull(Messages.get(Messages.Message.NAMETAG, factionName, localizedName)));
             }
             this.setCustomNameVisible(true);
         } else {
-            this.setCustomName(localizedName);
+            this.setCustomName(CraftChatMessage.fromStringOrNull(localizedName));
         }
         if (FactionMobs.disguiseEnabled) {
             com.gmail.scyntrus.fmob.DisguiseConnector.disguiseAsPlayer(this);
@@ -507,7 +517,7 @@ public class Mage extends EntityWitch implements FactionMob {
 
     @Override
     public void a(EntityLiving paramEntityLiving, float paramFloat) {  //TODO: Update name on version change (E: EntityWitch.attackEntityWithRangedAttack)
-        if(p()) { //TODO: Update name on version change (E: EntityWitch.isDrinkingPotion)
+        if(l()) { //TODO: Update name on version change (E: EntityWitch.isDrinkingPotion)
             return;
         }
 
@@ -517,18 +527,18 @@ public class Mage extends EntityWitch implements FactionMob {
         double d4 = paramEntityLiving.locZ + paramEntityLiving.motZ - this.locZ;
         float f = MathHelper.sqrt(d2 * d2 + d4 * d4);
 
-        PotionRegistry localPotionRegistry = Potions.x; //TODO: Update name on version change (E: harming potion)
+        PotionRegistry localPotionRegistry = HARMING_POTION;
         if ((f >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.SLOWER_MOVEMENT)))
-            localPotionRegistry = Potions.r; //TODO: Update name on version change (E: slowness potion)
+            localPotionRegistry = SLOWNESS_POTION;
         else if ((paramEntityLiving.getHealth() >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.POISON))
                 && (paramEntityLiving.getMonsterType() != EnumMonsterType.UNDEAD)
                 && (paramEntityLiving.getMonsterType() != EnumMonsterType.ARTHROPOD))
-            localPotionRegistry = Potions.z; //TODO: Update name on version change (E: poison potion)
+            localPotionRegistry = POISON_POTION;
         else if ((f <= 3.0F) && (!paramEntityLiving.hasEffect(MobEffects.WEAKNESS)) && (this.random.nextFloat() < 0.25F)) {
-            localPotionRegistry = Potions.I; //TODO: Update name on version change (E: weakness potion)
+            localPotionRegistry = WEAKNESS_POTION;
         }
         else if (paramEntityLiving.getMonsterType() == EnumMonsterType.UNDEAD) {
-            localPotionRegistry = Potions.v; //TODO: Update name on version change (E: healing potion)
+            localPotionRegistry = HEALING_POTION;
         }
 
         this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a( //TODO: Update name on version change (E: addPotionToItemStack)
@@ -540,7 +550,7 @@ public class Mage extends EntityWitch implements FactionMob {
         localEntityPotion.shoot(d2, d3 + f * 0.2F, d4, 0.75F, 8.0F);
         this.world.a( // TODO: Update name on version change (E: World.playSound)
                 null, this.locX, this.locY, this.locZ,
-                SoundEffects.iy, // TODO: Update name on version change (E: entity.witch.throw sound)
+                SoundEffects.ENTITY_WITCH_THROW,
                 SoundCategory.HOSTILE,
                 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
 

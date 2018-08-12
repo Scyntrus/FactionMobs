@@ -2,7 +2,7 @@ package com.gmail.scyntrus.ifactions.feudal;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import me.forseth11.Turrets.TurretAttackMobEvent;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftLivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

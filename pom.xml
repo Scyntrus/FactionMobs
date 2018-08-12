@@ -7,7 +7,7 @@
   <packaging>jar</packaging>
   <name>FactionMobs</name>
   <properties>
-    <craftbukkit.version>1.12.2-R0.1</craftbukkit.version>
+    <craftbukkit.version>1.13-R0.1</craftbukkit.version>
     <factions.version>2.14.0</factions.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skipTests>true</skipTests>

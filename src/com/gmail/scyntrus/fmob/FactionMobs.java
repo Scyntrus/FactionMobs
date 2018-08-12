@@ -8,10 +8,13 @@ import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
-import net.minecraft.server.v1_12_R1.EntityTypes;
-import net.minecraft.server.v1_12_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.EntityPositionTypes;
+import net.minecraft.server.v1_13_R1.EntityTypes;
+import net.minecraft.server.v1_13_R1.HeightMap.Type;
+import net.minecraft.server.v1_13_R1.World;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -25,6 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +40,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 public class FactionMobs extends JavaPlugin {
 
@@ -65,7 +71,7 @@ public class FactionMobs extends JavaPlugin {
     @Option(key="feedEnabled")
     public static boolean feedEnabled = true;
     @Option(key="feedItem")
-    public static int feedItem = 260;
+    public static Material feedItem = Material.APPLE;
     @Option(key="feedAmount")
     public static float feedAmount = 5;
     @Option(key="silentErrors")
@@ -128,6 +134,10 @@ public class FactionMobs extends JavaPlugin {
         configManager.populateOptions(this);
         FactionMobs.mobPatrolSpeed = FactionMobs.mobPatrolSpeed * FactionMobs.mobSpeed;
         FactionMobs.minRankToSpawn = Rank.getByName(FactionMobs.minRankToSpawnStr);
+        if (FactionMobs.feedEnabled && FactionMobs.feedItem == null) {
+            ErrorManager.handleError("Invalid feed item name.");
+            FactionMobs.feedEnabled = false;
+        }
 
         configManager.populateOptions(Archer.class);
         configManager.populateOptions(Mage.class);
@@ -148,12 +158,13 @@ public class FactionMobs extends JavaPlugin {
             this.getCommand("fmc").setExecutor(new ErrorCommand(this));
             return;
         }
+
         try {
-            addEntityType(Archer.class, Archer.typeName, 51);
-            addEntityType(Swordsman.class, Swordsman.typeName, 51);
-            addEntityType(Mage.class, Mage.typeName, 66);
-            addEntityType(Titan.class, Titan.typeName, 99);
-            addEntityType(SpiritBear.class, SpiritBear.typeName, 102);
+            addEntityType(Archer.class, Archer::new, "Archer");
+            addEntityType(Swordsman.class, Swordsman::new, "Swordsman");
+            addEntityType(Mage.class, Mage::new, "Mage");
+            addEntityType(Titan.class, Titan::new, "Titan");
+            addEntityType(SpiritBear.class, SpiritBear::new, "SpiritBear");
         } catch (Exception e) {
             this.getLogger().severe("[Fatal Error] Unable to register mobs");
             this.getCommand("fm").setExecutor(new ErrorCommand(this));
@@ -220,8 +231,9 @@ public class FactionMobs extends JavaPlugin {
         }));
     }
 
-    private void addEntityType(Class<? extends net.minecraft.server.v1_12_R1.Entity> entityClass, String entityName, int entityId) {
-        EntityTypes.b.a(entityId, new MinecraftKey(entityName), entityClass); // TODO: Update name on version change (RegistryMaterials.add)
+    private <T extends net.minecraft.server.v1_13_R1.Entity> void addEntityType(Class<T> entityClass, Function<? super World, ? extends T> ctor, String entityName) throws InvocationTargetException, IllegalAccessException {
+        EntityTypes<T> tempEntityType = EntityTypes.a("fallen_crusader", EntityTypes.a.a(entityClass, ctor).b());
+        ReflectionManager.entityPositionTypes_a.invoke(null, tempEntityType, EntityPositionTypes.Surface.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES);
     }
 
     @Override
@@ -318,7 +330,7 @@ public class FactionMobs extends JavaPlugin {
                     }
                 }
 
-                newMob.getEntity().world.addEntity((net.minecraft.server.v1_12_R1.Entity) newMob, SpawnReason.CUSTOM);
+                newMob.getEntity().world.addEntity((net.minecraft.server.v1_13_R1.Entity) newMob, SpawnReason.CUSTOM);
                 mobList.add(newMob);
                 newMob.getEntity().dead = false;
             }
