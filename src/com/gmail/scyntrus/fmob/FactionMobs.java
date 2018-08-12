@@ -38,12 +38,10 @@ import java.util.concurrent.Callable;
 
 public class FactionMobs extends JavaPlugin {
 
-    public PluginManager pm = null;
-    public static Set<FactionMob> mobList = new HashSet<FactionMob>();
-    public static Map<String,Integer> factionColors = new HashMap<String,Integer>();
-    public Set<String> mobLeader = new HashSet<String>();
-    public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
-    public Map<String,List<FactionMob>[]> playerGroups = new HashMap<>();
+    public static FactionMobs instance;
+    public static final Random random = new Random();
+
+    public static final int responseTime = 20;
     @Option(key="mobsPerFaction")
     public static int mobsPerFaction = 0;
     @Option(key="attackMobs")
@@ -58,19 +56,15 @@ public class FactionMobs extends JavaPlugin {
     public static boolean equipArmor = true;
     @Option(key="alertAllies")
     public static boolean alertAllies = true;
-    public EconomyManager ec = null;
-    public Boolean vaultEnabled = false;
     @Option(key="mobSpeed")
     public static double mobSpeed = .3;
     @Option(key="mobPatrolSpeed")
     public static double mobPatrolSpeed = .175;
     @Option(key="mobNavRange")
     public static double mobNavRange = 64;
-    public static FactionMobs instance;
-    public static boolean scheduleChunkMobLoad = false;
-    public static int chunkMobLoadTask = -1;
     @Option(key="feedEnabled")
     public static boolean feedEnabled = true;
+    @Option(key="feedItem")
     public static int feedItem = 260;
     @Option(key="feedAmount")
     public static float feedAmount = 5;
@@ -81,15 +75,25 @@ public class FactionMobs extends JavaPlugin {
     public static Rank minRankToSpawn;
     @Option(key="onlySpawnInTerritory")
     public static boolean onlySpawnInTerritory = true;
-    public static final Random random = new Random();
-    public static final int responseTime = 20;
     @Option(key="agroRange")
     public static double agroRange = 16;
     @Option(key="disguiseEnabled")
     public static boolean disguiseEnabled = false;
     @Option(key="playerSkin")
     public static String playerSkin = null;
+
+    public static Set<FactionMob> mobList = new HashSet<>();
+    public static Map<String,Integer> factionColors = new HashMap<>();
+    public static Set<String> mobLeader = new HashSet<>();
+    public static Map<String,List<FactionMob>> playerSelections = new HashMap<>();
+    public static Map<String,List<FactionMob>[]> playerGroups = new HashMap<>();
+
+    public static PluginManager pm = null;
+    public static EconomyManager ec = null;
+    public static boolean vaultEnabled = false;
     public static boolean checkMyPet = false;
+    public static boolean scheduleChunkMobLoad = false;
+    public static int chunkMobLoadTask = -1;
 
     @Override
     public void onEnable() {

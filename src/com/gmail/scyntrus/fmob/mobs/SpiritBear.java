@@ -43,11 +43,8 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
 
     public static final String typeName = "SpiritBear";
     public static String localizedName = typeName;
-    public Location spawnLoc = null;
-    public Faction faction = null;
-    public String factionName = "";
-    public EntityLiving attackedBy = null;
-    public EntityLiving target = null;
+
+    public static final double range = 16;
     @Option(key="SpiritBear.maxHp", min = 1)
     public static float maxHp = 30;
     @Option(key="SpiritBear.enabled")
@@ -56,14 +53,19 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     public static double powerCost = 0;
     @Option(key="SpiritBear.moneyCost", min = 0)
     public static double moneyCost = 0;
-    public static final double range = 16;
     @Option(key="SpiritBear.damage", min = 0)
     public static double damage = 0;
     @Option(key="SpiritBear.drops")
     public static int drops = 0;
-    private int retargetTime = 0;
+
+    public Faction faction = null;
+    public String factionName = "";
+    public Location spawnLoc = null;
     private boolean attackAll = false;
 
+    public EntityLiving attackedBy = null;
+    public EntityLiving target = null;
+    private int retargetTime = 0;
     public double poiX=0, poiY=0, poiZ=0;
     public Command command = Command.poi;
 

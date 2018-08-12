@@ -50,11 +50,8 @@ public class Mage extends EntityWitch implements FactionMob {
 
     public static final String typeName = "Mage";
     public static String localizedName = typeName;
-    public Location spawnLoc = null;
-    public Faction faction = null;
-    public String factionName = "";
-    public EntityLiving attackedBy = null;
-    public EntityLiving target = null;
+
+    public static final double range = 16;
     @Option(key="Mage.maxHp", min = 1)
     public static float maxHp = 20;
     @Option(key="Mage.enabled")
@@ -63,12 +60,17 @@ public class Mage extends EntityWitch implements FactionMob {
     public static double powerCost = 0;
     @Option(key="Mage.moneyCost", min = 0)
     public static double moneyCost = 0;
-    public static final double range = 16;
     @Option(key="Mage.drops")
     public static int drops = 0;
-    private int retargetTime = 0;
+
+    public Faction faction = null;
+    public String factionName = "";
+    public Location spawnLoc = null;
     private boolean attackAll = false;
 
+    public EntityLiving attackedBy = null;
+    public EntityLiving target = null;
+    private int retargetTime = 0;
     public double poiX=0, poiY=0, poiZ=0;
     public Command command = Command.poi;
     

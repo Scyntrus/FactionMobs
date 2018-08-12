@@ -43,11 +43,8 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 
     public static final String typeName = "Swordsman";
     public static String localizedName = typeName;
-    public Location spawnLoc = null;
-    public Faction faction = null;
-    public String factionName = "";
-    public EntityLiving attackedBy = null;
-    public EntityLiving target = null;
+
+    public static final double range = 16;
     @Option(key="Swordsman.maxHp", min = 1)
     public static float maxHp = 20;
     @Option(key="Swordsman.enabled")
@@ -56,14 +53,19 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
     public static double powerCost = 0;
     @Option(key="Swordsman.moneyCost", min = 0)
     public static double moneyCost = 0;
-    public static final double range = 16;
     @Option(key="Swordsman.damage", min = 0)
     public static double damage = 0;
     @Option(key="Swordsman.drops")
     public static int drops = 0;
-    private int retargetTime = 0;
+
+    public Faction faction = null;
+    public String factionName = "";
+    public Location spawnLoc = null;
     private boolean attackAll = false;
 
+    public EntityLiving attackedBy = null;
+    public EntityLiving target = null;
+    private int retargetTime = 0;
     public double poiX=0, poiY=0, poiZ=0;
     public Command command = Command.poi;
     
