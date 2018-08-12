@@ -8,6 +8,17 @@ import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
+import net.minecraft.server.v1_12_R1.EntityTypes;
+import net.minecraft.server.v1_12_R1.MinecraftKey;
+import org.bstats.bukkit.Metrics;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,19 +36,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_12_R1.EntityTypes;
-import net.minecraft.server.v1_12_R1.MinecraftKey;
-import org.bstats.bukkit.Metrics;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
-
 public class FactionMobs extends JavaPlugin {
 
     public PluginManager pm = null;
@@ -46,32 +44,50 @@ public class FactionMobs extends JavaPlugin {
     public Set<String> mobLeader = new HashSet<String>();
     public Map<String,List<FactionMob>> playerSelections = new HashMap<String,List<FactionMob>>();
     public Map<String,List<FactionMob>[]> playerGroups = new HashMap<>();
+    @Option(key="mobsPerFaction")
     public static int mobsPerFaction = 0;
+    @Option(key="attackMobs")
     public static boolean attackMobs = true;
+    @Option(key="noFriendlyFire")
     public static boolean noFriendlyFire = false;
+    @Option(key="noPlayerFriendlyFire")
     public static boolean noPlayerFriendlyFire = false;
+    @Option(key="displayMobFaction")
     public static boolean displayMobFaction = true;
+    @Option(key="equipArmor")
     public static boolean equipArmor = true;
+    @Option(key="alertAllies")
     public static boolean alertAllies = true;
-    public Economy econ = null;
+    public EconomyManager ec = null;
     public Boolean vaultEnabled = false;
+    @Option(key="mobSpeed")
     public static double mobSpeed = .3;
+    @Option(key="mobPatrolSpeed")
     public static double mobPatrolSpeed = .175;
+    @Option(key="mobNavRange")
     public static double mobNavRange = 64;
     public static FactionMobs instance;
     public static boolean scheduleChunkMobLoad = false;
     public static int chunkMobLoadTask = -1;
+    @Option(key="feedEnabled")
     public static boolean feedEnabled = true;
     public static int feedItem = 260;
+    @Option(key="feedAmount")
     public static float feedAmount = 5;
+    @Option(key="silentErrors")
     public static boolean silentErrors = true;
+    @Option(key="minRankToSpawnStr")
     private static String minRankToSpawnStr = "MEMBER";
     public static Rank minRankToSpawn;
+    @Option(key="onlySpawnInTerritory")
     public static boolean onlySpawnInTerritory = true;
     public static final Random random = new Random();
     public static final int responseTime = 20;
+    @Option(key="agroRange")
     public static double agroRange = 16;
+    @Option(key="disguiseEnabled")
     public static boolean disguiseEnabled = false;
+    @Option(key="playerSkin")
     public static String playerSkin = null;
     public static boolean checkMyPet = false;
 
@@ -104,66 +120,16 @@ public class FactionMobs extends JavaPlugin {
             return;
         }
 
-        FactionMobs.mobsPerFaction = config.getInt("mobsPerFaction");
-        FactionMobs.noFriendlyFire = config.getBoolean("noFriendlyFire");
-        FactionMobs.noPlayerFriendlyFire = config.getBoolean("noPlayerFriendlyFire");
-        FactionMobs.alertAllies = config.getBoolean("alertAllies");
-        FactionMobs.displayMobFaction = config.getBoolean("displayMobFaction");
-        FactionMobs.equipArmor = config.getBoolean("equipArmor");
-        FactionMobs.attackMobs = config.getBoolean("attackMobs");
-        FactionMobs.mobSpeed = (float) config.getDouble("mobSpeed");
-        FactionMobs.mobPatrolSpeed = (float) config.getDouble("mobPatrolSpeed");
-        FactionMobs.mobPatrolSpeed = FactionMobs.mobPatrolSpeed / FactionMobs.mobSpeed;
-        FactionMobs.mobNavRange = (float) config.getDouble("mobNavRange");
-        FactionMobs.feedEnabled = config.getBoolean("feedEnabled");
-        FactionMobs.feedItem = config.getInt("feedItem");
-        FactionMobs.feedAmount = (float) config.getDouble("feedAmount");
-        FactionMobs.minRankToSpawnStr = config.getString("minRankToSpawn");
+        ConfigManager configManager = new ConfigManager(config);
+        configManager.populateOptions(this);
+        FactionMobs.mobPatrolSpeed = FactionMobs.mobPatrolSpeed * FactionMobs.mobSpeed;
         FactionMobs.minRankToSpawn = Rank.getByName(FactionMobs.minRankToSpawnStr);
-        FactionMobs.onlySpawnInTerritory = config.getBoolean("onlySpawnInTerritory");
 
-        Archer.maxHp = (float) config.getDouble("Archer.maxHp");
-        if (Archer.maxHp<1) Archer.maxHp = 1;
-        Mage.maxHp = (float) config.getDouble("Mage.maxHp");
-        if (Mage.maxHp<1) Mage.maxHp = 1;
-        Swordsman.maxHp = (float) config.getDouble("Swordsman.maxHp");
-        if (Swordsman.maxHp<1) Swordsman.maxHp = 1;
-        Titan.maxHp = (float) config.getDouble("Titan.maxHp");
-        if (Titan.maxHp<1) Titan.maxHp = 1;
-        SpiritBear.maxHp = (float) config.getDouble("SpiritBear.maxHp");
-        if (SpiritBear.maxHp<1) SpiritBear.maxHp = 1;
-
-        Archer.damage = config.getDouble("Archer.damage");
-        if (Archer.damage<0) Archer.damage = 0;
-        Swordsman.damage = config.getDouble("Swordsman.damage");
-        if (Swordsman.damage<0) Swordsman.damage = 0;
-        Titan.damage = config.getDouble("Titan.damage");
-        if (Titan.damage<0) Titan.damage = 0;
-        SpiritBear.damage = config.getDouble("SpiritBear.damage");
-        if (SpiritBear.damage<0) SpiritBear.damage = 0;
-
-        Archer.enabled = config.getBoolean("Archer.enabled");
-        Mage.enabled = config.getBoolean("Mage.enabled");
-        Swordsman.enabled = config.getBoolean("Swordsman.enabled");
-        Titan.enabled = config.getBoolean("Titan.enabled");
-        SpiritBear.enabled = config.getBoolean("SpiritBear.enabled");
-
-        Archer.powerCost = config.getDouble("Archer.powerCost");
-        Archer.moneyCost = config.getDouble("Archer.moneyCost");
-        Mage.powerCost = config.getDouble("Mage.powerCost");
-        Mage.moneyCost = config.getDouble("Mage.moneyCost");
-        Swordsman.powerCost = config.getDouble("Swordsman.powerCost");
-        Swordsman.moneyCost = config.getDouble("Swordsman.moneyCost");
-        Titan.powerCost = config.getDouble("Titan.powerCost");
-        Titan.moneyCost = config.getDouble("Titan.moneyCost");
-        SpiritBear.powerCost = config.getDouble("SpiritBear.powerCost");
-        SpiritBear.moneyCost = config.getDouble("SpiritBear.moneyCost");
-
-        Archer.drops = config.getInt("Archer.drops");
-        Mage.drops = config.getInt("Mage.drops");
-        Swordsman.drops = config.getInt("Swordsman.drops");
-        Titan.drops = config.getInt("Titan.drops");
-        SpiritBear.drops = config.getInt("SpiritBear.drops");
+        configManager.populateOptions(Archer.class);
+        configManager.populateOptions(Mage.class);
+        configManager.populateOptions(SpiritBear.class);
+        configManager.populateOptions(Swordsman.class);
+        configManager.populateOptions(Titan.class);
 
         Archer.localizedName = Messages.get(Messages.Message.NAME_ARCHER);
         Swordsman.localizedName = Messages.get(Messages.Message.NAME_SWORDSMAN);
@@ -221,16 +187,9 @@ public class FactionMobs extends JavaPlugin {
             }
         }
 
-        if (getServer().getPluginManager().getPlugin("Vault") != null) {
-            RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-            if (rsp != null) {
-                econ = rsp.getProvider();
-                if (econ != null) {
-                    vaultEnabled = true;
-                }
-            }
-        }
-        if (vaultEnabled) {
+        this.ec = EconomyManager.get(getServer());
+        if (this.ec != null) {
+            vaultEnabled = true;
             System.out.println("[FactionMobs] Vault detected.");
         } else {
             System.out.println("[FactionMobs] Vault not detected.");

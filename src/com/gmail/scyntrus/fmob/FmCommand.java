@@ -8,17 +8,11 @@ import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.minecraft.server.v1_12_R1.Entity;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +20,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class FmCommand implements CommandExecutor {
 
@@ -59,7 +57,7 @@ public class FmCommand implements CommandExecutor {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
                     if (plugin.vaultEnabled)
-                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(Archer.moneyCost)));
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(Archer.moneyCost)));
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, Archer.powerCost));
                 }
                 player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_SWORDSMAN)));
@@ -67,7 +65,7 @@ public class FmCommand implements CommandExecutor {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
                     if (plugin.vaultEnabled)
-                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(Swordsman.moneyCost)));
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(Swordsman.moneyCost)));
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, Swordsman.powerCost));
                 }
                 player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_MAGE)));
@@ -75,7 +73,7 @@ public class FmCommand implements CommandExecutor {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
                     if (plugin.vaultEnabled)
-                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(Mage.moneyCost)));
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(Mage.moneyCost)));
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, Mage.powerCost));
                 }
                 player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_TITAN)));
@@ -83,7 +81,7 @@ public class FmCommand implements CommandExecutor {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
                     if (plugin.vaultEnabled)
-                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(Titan.moneyCost)));
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(Titan.moneyCost)));
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, Titan.powerCost));
                 }
                 player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_SPIRITBEAR)));
@@ -91,7 +89,7 @@ public class FmCommand implements CommandExecutor {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
                     if (plugin.vaultEnabled)
-                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.econ.format(SpiritBear.moneyCost)));
+                        player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(SpiritBear.moneyCost)));
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, SpiritBear.powerCost));
                 }
             } else if (split[0].equalsIgnoreCase("deselect")) {
@@ -223,11 +221,11 @@ public class FmCommand implements CommandExecutor {
                     }
 
                     if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
-                        if (plugin.econ.has(player, newMob.getMoneyCost())) {
-                            EconomyResponse r = plugin.econ.withdrawPlayer(player, newMob.getMoneyCost());
+                        if (plugin.ec.on.has(player, newMob.getMoneyCost())) {
+                            EconomyResponse r = plugin.ec.on.withdrawPlayer(player, newMob.getMoneyCost());
                             if(r.transactionSuccess()) {
                                 player.sendMessage(Messages.get(Message.FM_MONEYUSAGE,
-                                        plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
+                                        plugin.ec.on.format(r.amount), plugin.ec.on.format(r.balance)));
                             } else {
                                 player.sendMessage(Messages.get(Message.FM_MONEYERROR, r.errorMessage));
                                 plugin.getLogger().severe(String.format("Unable to deduct money from %s", player.getName()));
@@ -251,9 +249,9 @@ public class FmCommand implements CommandExecutor {
                     }
                     if (!player.hasPermission("fmob.bypass")) {
                         if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
-                            EconomyResponse r = plugin.econ.depositPlayer(player, newMob.getMoneyCost());
+                            EconomyResponse r = plugin.ec.on.depositPlayer(player, newMob.getMoneyCost());
                             if(r.transactionSuccess()) {
-                                player.sendMessage(Messages.get(Message.FM_REFUNDMONEY, plugin.econ.format(r.amount), plugin.econ.format(r.balance)));
+                                player.sendMessage(Messages.get(Message.FM_REFUNDMONEY, plugin.ec.on.format(r.amount), plugin.ec.on.format(r.balance)));
                             } else {
                                 player.sendMessage(Messages.get(Message.FM_MONEYERROR, r.errorMessage));
                                 plugin.getLogger().severe(String.format("Unable to refund money to %s", player.getName()));
@@ -371,7 +369,7 @@ public class FmCommand implements CommandExecutor {
                         player.sendMessage(Messages.get(Message.FM_NOPERMISSION));
                         return true;
                     }
-                    Block block = player.getTargetBlock((Set<Material>) null, 64);
+                    Block block = player.getTargetBlock(null, 64);
                     if (block == null) {
                         player.sendMessage(Messages.get(Message.FM_COMMAND_NOBLOCK));
                         return true;

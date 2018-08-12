@@ -1,5 +1,9 @@
 package com.gmail.scyntrus.ifactions.f2;
 
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
+import com.gmail.scyntrus.ifactions.Rank;
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.FactionColl;
@@ -8,11 +12,6 @@ import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.Factions;
-import com.gmail.scyntrus.ifactions.FactionsManager;
-import com.gmail.scyntrus.ifactions.Rank;
 
 public class Factions2 implements Factions{
 

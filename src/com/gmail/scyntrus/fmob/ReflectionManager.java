@@ -1,13 +1,9 @@
 package com.gmail.scyntrus.fmob;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Map;
-
 import net.minecraft.server.v1_12_R1.Chunk;
-import net.minecraft.server.v1_12_R1.Entity;
-import net.minecraft.server.v1_12_R1.EntityTypes;
 import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
+
+import java.lang.reflect.Field;
 
 public class ReflectionManager {
     public static Field pathfinderGoalSelector_GoalSet = null;

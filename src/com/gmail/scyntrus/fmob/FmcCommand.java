@@ -1,8 +1,13 @@
 package com.gmail.scyntrus.fmob;
 
+import com.gmail.scyntrus.fmob.mobs.Archer;
+import com.gmail.scyntrus.fmob.mobs.Mage;
 import com.gmail.scyntrus.fmob.mobs.SpiritBear;
+import com.gmail.scyntrus.fmob.mobs.Swordsman;
+import com.gmail.scyntrus.fmob.mobs.Titan;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 import net.minecraft.server.v1_12_R1.Entity;
-
 import org.bukkit.Location;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
@@ -11,13 +16,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-
-import com.gmail.scyntrus.fmob.mobs.Archer;
-import com.gmail.scyntrus.fmob.mobs.Mage;
-import com.gmail.scyntrus.fmob.mobs.Swordsman;
-import com.gmail.scyntrus.fmob.mobs.Titan;
-import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.FactionsManager;
 
 // /fmc command is not localized, since it is not meant to be user facing
 public class FmcCommand implements CommandExecutor {

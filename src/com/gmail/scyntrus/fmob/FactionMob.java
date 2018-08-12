@@ -1,11 +1,9 @@
 package com.gmail.scyntrus.fmob;
 
+import com.gmail.scyntrus.ifactions.Faction;
 import net.minecraft.server.v1_12_R1.EntityCreature;
 import net.minecraft.server.v1_12_R1.EntityLiving;
-
 import org.bukkit.Location;
-
-import com.gmail.scyntrus.ifactions.Faction;
 
 public interface FactionMob {
     enum Command {

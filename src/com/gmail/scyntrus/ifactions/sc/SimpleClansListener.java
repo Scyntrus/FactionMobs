@@ -1,12 +1,12 @@
 package com.gmail.scyntrus.ifactions.sc;
 
 import com.gmail.scyntrus.fmob.FactionMob;
-import java.util.Iterator;
+import com.gmail.scyntrus.fmob.FactionMobs;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import com.gmail.scyntrus.fmob.FactionMobs;
+import java.util.Iterator;
 
 public class SimpleClansListener implements Listener {
 

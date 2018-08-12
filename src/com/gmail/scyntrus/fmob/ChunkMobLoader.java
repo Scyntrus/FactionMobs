@@ -1,7 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
 import net.minecraft.server.v1_12_R1.WorldServer;
-
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 public class ChunkMobLoader implements Runnable {

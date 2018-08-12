@@ -4,14 +4,15 @@ import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
-import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import us.forseth11.feudal.core.Feudal;
-import us.forseth11.feudal.kingdoms.Land;
 import us.forseth11.feudal.kingdoms.Kingdom;
+import us.forseth11.feudal.kingdoms.Land;
 import us.forseth11.feudal.user.User;
+
+import java.util.ArrayList;
 
 public class FeudalConnector implements Factions {
 

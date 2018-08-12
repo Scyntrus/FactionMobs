@@ -1,16 +1,15 @@
 package com.gmail.scyntrus.ifactions.k;
 
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
+import com.gmail.scyntrus.ifactions.Rank;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.kingdoms.constants.land.SimpleChunkLocation;
 import org.kingdoms.constants.player.KingdomPlayer;
 import org.kingdoms.manager.game.GameManagement;
-
-import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.Factions;
-import com.gmail.scyntrus.ifactions.FactionsManager;
-import com.gmail.scyntrus.ifactions.Rank;
 
 public class KingdomsConnector implements Factions {
 

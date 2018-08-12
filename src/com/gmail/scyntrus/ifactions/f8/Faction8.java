@@ -1,11 +1,11 @@
 package com.gmail.scyntrus.ifactions.f8;
 
-import java.lang.reflect.Method;
-
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.massivecraft.factions.struct.FFlag;
 import com.massivecraft.factions.struct.Rel;
+
+import java.lang.reflect.Method;
 
 class Faction8 extends Faction {
 

@@ -2,15 +2,13 @@ package com.gmail.scyntrus.ifactions.feudal;
 
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
-import java.util.HashSet;
-import java.util.Iterator;
 import us.forseth11.feudal.core.Feudal;
 import us.forseth11.feudal.kingdoms.Kingdom;
 
-public class FeudalChecker implements Runnable {
+import java.util.HashSet;
+import java.util.Iterator;
 
-    public FeudalChecker() {
-    }
+public class FeudalChecker implements Runnable {
 
     @Override
     public void run() {

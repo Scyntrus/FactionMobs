@@ -4,13 +4,13 @@ import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.fmob.Messages;
+import com.gmail.scyntrus.fmob.Option;
 import com.gmail.scyntrus.fmob.PathHelpEntity;
 import com.gmail.scyntrus.fmob.PathfinderGoalFmobCommand;
 import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import java.util.Set;
 import net.minecraft.server.v1_12_R1.DamageSource;
 import net.minecraft.server.v1_12_R1.EntityCreature;
 import net.minecraft.server.v1_12_R1.EntityHuman;
@@ -44,6 +44,8 @@ import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.Set;
+
 public class Mage extends EntityWitch implements FactionMob {
 
     public static final String typeName = "Mage";
@@ -53,11 +55,16 @@ public class Mage extends EntityWitch implements FactionMob {
     public String factionName = "";
     public EntityLiving attackedBy = null;
     public EntityLiving target = null;
+    @Option(key="Mage.maxHp", min = 1)
     public static float maxHp = 20;
+    @Option(key="Mage.enabled")
     public static Boolean enabled = true;
+    @Option(key="Mage.powerCost", min = 0)
     public static double powerCost = 0;
+    @Option(key="Mage.moneyCost", min = 0)
     public static double moneyCost = 0;
-    public static double range = 16;
+    public static final double range = 16;
+    @Option(key="Mage.drops")
     public static int drops = 0;
     private int retargetTime = 0;
     private boolean attackAll = false;

@@ -1,8 +1,11 @@
 package com.gmail.scyntrus.ifactions.f6u;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
+import com.gmail.scyntrus.fmob.ErrorManager;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.Factions;
+import com.gmail.scyntrus.ifactions.FactionsManager;
+import com.gmail.scyntrus.ifactions.Rank;
+import com.gmail.scyntrus.ifactions.f6.FactionListener68;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.FPlayers;
@@ -13,12 +16,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.gmail.scyntrus.fmob.ErrorManager;
-import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.Factions;
-import com.gmail.scyntrus.ifactions.FactionsManager;
-import com.gmail.scyntrus.ifactions.Rank;
-import com.gmail.scyntrus.ifactions.f6.FactionListener68;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class Factions6U implements Factions {
 

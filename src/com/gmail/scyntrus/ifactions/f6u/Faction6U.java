@@ -1,10 +1,10 @@
 package com.gmail.scyntrus.ifactions.f6u;
 
-import java.lang.reflect.Method;
-
 import com.gmail.scyntrus.fmob.ErrorManager;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.massivecraft.factions.struct.Relation;
+
+import java.lang.reflect.Method;
 
 class Faction6U extends Faction {
 

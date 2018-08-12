@@ -1,12 +1,11 @@
 package com.gmail.scyntrus.ifactions;
 
-import java.lang.reflect.Method;
-
+import com.gmail.scyntrus.fmob.ErrorManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.gmail.scyntrus.fmob.ErrorManager;
+import java.lang.reflect.Method;
 
 public class FactionsManager {
 

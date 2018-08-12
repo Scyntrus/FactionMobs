@@ -1,17 +1,16 @@
 package com.gmail.scyntrus.ifactions.f6;
 
-import java.util.Iterator;
-
+import com.gmail.scyntrus.fmob.FactionMob;
+import com.gmail.scyntrus.fmob.FactionMobs;
+import com.gmail.scyntrus.ifactions.Faction;
+import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.massivecraft.factions.event.FactionDisbandEvent;
 import com.massivecraft.factions.event.FactionRenameEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import com.gmail.scyntrus.fmob.FactionMob;
-import com.gmail.scyntrus.fmob.FactionMobs;
-import com.gmail.scyntrus.ifactions.Faction;
-import com.gmail.scyntrus.ifactions.FactionsManager;
+import java.util.Iterator;
 
 public class FactionListener68 implements Listener {
 

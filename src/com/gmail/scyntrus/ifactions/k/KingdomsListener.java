@@ -1,12 +1,12 @@
 package com.gmail.scyntrus.ifactions.k;
 
 import com.gmail.scyntrus.fmob.FactionMob;
-import java.util.Iterator;
+import com.gmail.scyntrus.fmob.FactionMobs;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import com.gmail.scyntrus.fmob.FactionMobs;
+import java.util.Iterator;
 
 public class KingdomsListener implements Listener {
 
