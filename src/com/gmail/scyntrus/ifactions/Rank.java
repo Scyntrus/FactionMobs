@@ -20,12 +20,14 @@ public enum Rank {
 
     public static Rank getByName(String name) {
         name = name.toUpperCase();
-        if (name.equals("NORMAL"))
-            name = "MEMBER";
-        else if (name.equals("MODERATOR"))
-            name = "OFFICER";
-        else if (name.equals("ADMIN"))
-            name = "LEADER";
+        switch (name) {
+            case "NORMAL":
+                return Rank.MEMBER;
+            case "MODERATOR":
+                return Rank.OFFICER;
+            case "ADMIN":
+                return Rank.LEADER;
+        }
         try {
             return Rank.valueOf(name);
         } catch (IllegalArgumentException  e) {

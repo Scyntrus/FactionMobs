@@ -321,12 +321,7 @@ public class FmCommand implements CommandExecutor {
                         player.sendMessage(Messages.get(Message.FM_NOSELECTION));
                         return true;
                     }
-                    for (Iterator<FactionMob> it = selection.iterator(); it.hasNext();) {
-                        FactionMob fmob = it.next();
-                        if (!fmob.getEntity().isAlive() || !fmob.getFactionName().equals(factionName)) {
-                            it.remove();
-                        }
-                    }
+                    selection.removeIf(fmob -> !fmob.getEntity().isAlive() || !fmob.getFactionName().equals(factionName));
                     if (selection.isEmpty()) {
                         player.sendMessage(Messages.get(Message.FM_NOSELECTION));
                         return true;

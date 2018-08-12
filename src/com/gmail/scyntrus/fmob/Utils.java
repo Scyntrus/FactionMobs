@@ -123,7 +123,6 @@ public class Utils {
         entity.getEntity().setSlot(EnumItemSlot.LEGS, itemStacks[1]);
         entity.getEntity().setSlot(EnumItemSlot.CHEST, itemStacks[2]);
         entity.getEntity().setSlot(EnumItemSlot.HEAD, itemStacks[3]);
-        return;
     }
 
     public FactionMob mobCreate() { // not implemented yet

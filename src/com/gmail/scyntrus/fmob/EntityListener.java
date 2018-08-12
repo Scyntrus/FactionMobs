@@ -67,7 +67,6 @@ public class EntityListener implements Listener {
                 }
             }
             fmob.findTarget();
-            return;
         } else if (entity instanceof EntityWolf) {
             if (e.getTarget() != null) {
                 Entity target = ((CraftEntity) e.getTarget()).getHandle();
@@ -96,14 +95,12 @@ public class EntityListener implements Listener {
                         }
                     }
                     e.setCancelled(true);
-                    return;
                 }
             }
         } else if (entity instanceof EntityIronGolem) {
             if (e.getTarget() != null && ((CraftEntity) e.getTarget()).getHandle() instanceof FactionMob) {
                 if (e.getReason() == EntityTargetEvent.TargetReason.CLOSEST_ENTITY) {
                     e.setCancelled(true);
-                    return;
                 }
             }
         }
@@ -168,12 +165,7 @@ public class EntityListener implements Listener {
                 e.getDrops().add(item);
             }
         }
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-            @Override
-            public void run() {
-                plugin.updateList();
-            }
-        }, 1L);
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.updateList(), 1L);
     }
 
     @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
@@ -203,11 +195,9 @@ public class EntityListener implements Listener {
                         ((EntityInsentient) entity.getHandle()).setGoalTarget(damager.getHandle(),
                                 EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true);
                     }
-                    return;
                 }
             } else if (FactionMobs.noFriendlyFire) {
                 e.setCancelled(true);
-                return;
             }
         } else if ((damager instanceof Player)
                 && (entity.getHandle() instanceof FactionMob)) {
@@ -223,11 +213,9 @@ public class EntityListener implements Listener {
                     player.sendMessage(Messages.get(Message.INTERACT_HITFRIENDLY, fmob.getLocalizedName()));
                     // disable gaining mcMMO exp when hitting friendly mobs
                     fmob.getEntity().getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
-                    return;
                 } else {
                     player.sendMessage(Messages.get(Message.INTERACT_NOHITALLY, fmob.getFactionName(), fmob.getLocalizedName()));
                     e.setCancelled(true);
-                    return;
                 }
             }
         }

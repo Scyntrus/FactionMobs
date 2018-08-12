@@ -92,7 +92,7 @@ public class Messages {
 
     private static YamlConfiguration yml;
     private static boolean initialized = false;
-    private static Map<Message, String> cache = new EnumMap<Message, String>(Message.class);
+    private static Map<Message, String> cache = new EnumMap<>(Message.class);
 
     public static void init(Plugin plugin) {
         if (initialized)

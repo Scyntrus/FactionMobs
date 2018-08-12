@@ -379,12 +379,10 @@ public class FactionMobs extends JavaPlugin {
     }
 
     public void updateList() {
-        for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext();) {
-            FactionMob mob = it.next();
-            mob.updateMob();
-            if (!mob.getEntity().isAlive())
-                it.remove();
-        }
+        FactionMobs.mobList.removeIf(fmob -> {
+            fmob.updateMob();
+            return !fmob.getEntity().isAlive();
+        });
     }
 
     public List<FactionMob>[] getPlayerGroups(Player player) {

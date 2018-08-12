@@ -22,12 +22,7 @@ public class CommandListener implements Listener {
                 || e.getMessage().toLowerCase().contains("f disband")
                 || e.getMessage().toLowerCase().contains("butcher")
                 ) {
-            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                @Override
-                public void run() {
-                    plugin.updateList();
-                }
-            }, 0L);
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, plugin::updateList, 0L);
         }
         if (e.getMessage().toLowerCase().contains("kill") || e.getMessage().toLowerCase().contains("butcher")) {
             checkDeath();

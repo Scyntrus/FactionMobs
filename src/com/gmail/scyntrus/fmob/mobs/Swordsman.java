@@ -145,34 +145,28 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
             if (this.getGoalTarget() == null) {
                 if (this.command == Command.home) {
                     this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), 1.0);
-                    return;
                 } else if (this.command == Command.poi) {
                     this.getNavigation().a(p.set(this.poiX, this.poiY, this.poiZ), 1.0);
-                    return;
                 } else if (this.command == Command.wander) {
-                    return;
+                    // intentionally empty
                 } else if (this.command == Command.phome) {
                     this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), FactionMobs.mobPatrolSpeed);
                     if (Utils.dist3D(this.locX,this.spawnLoc.getX(),this.locY,this.spawnLoc.getY(),this.locZ,this.spawnLoc.getZ()) < 1) {
                         this.command = Command.ppoi;
                     }
-                    return;
                 } else if (this.command == Command.ppoi) {
                     this.getNavigation().a(p.set(poiX, poiY, poiZ), FactionMobs.mobPatrolSpeed);
                     if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
                         this.command = Command.phome;
                     }
-                    return;
                 } else if (this.command == Command.path) {
                     this.getNavigation().a(p.set(poiX, poiY, poiZ), 1.0);
                     if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
                         this.command = Command.home;
                     }
-                    return;
                 }
             }
         }
-        return;
     }
 
     private void setSpawn(Location loc) {
@@ -213,7 +207,6 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
     @Override
     public void findTarget() {
         this.setTarget(Utils.optimizedTargetSearch(this, range));
-        return;
     }
 
     @Override
@@ -474,7 +467,7 @@ public class Swordsman extends EntitySkeleton implements FactionMob {
 
     @Override
     public void setHealth(float f) {
-        this.datawatcher.set(HEALTH, Float.valueOf(MathHelper.a(f, 0.0F, maxHp)));
+        this.datawatcher.set(HEALTH, MathHelper.a(f, 0.0F, maxHp));
     }
 
     @Override

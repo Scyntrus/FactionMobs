@@ -12,7 +12,7 @@ public class FeudalChecker implements Runnable {
 
     @Override
     public void run() {
-        HashSet<String> names = new HashSet<String>();
+        HashSet<String> names = new HashSet<>();
         for (Kingdom k : Feudal.getKingdoms()) {
             names.add(k.getName());
         }
