@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.gmail.scyntrus</groupId>
   <artifactId>FactionMobs</artifactId>
-  <version>3.2.8</version>
+  <version>3.2.9</version>
   <packaging>jar</packaging>
   <name>FactionMobs</name>
   <properties>
-    <craftbukkit.version>1.13-R0.1</craftbukkit.version>
+    <craftbukkit.version>1.13.2-R0.1</craftbukkit.version>
     <factions.version>2.14.0</factions.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skipTests>true</skipTests>
@@ -138,7 +138,7 @@
       <artifactId>Towny</artifactId>
       <version>LATEST</version>
       <!-- http://palmergames.com/towny/ -->
-      <systemPath>${basedir}/lib/Towny-0.92.0.0.jar</systemPath>
+      <systemPath>${basedir}/lib/Towny-0.93.0.0.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
@@ -176,13 +176,13 @@
     <dependency>
       <groupId>net.milkbowl.vault</groupId>
       <artifactId>VaultAPI</artifactId>
-      <version>1.6</version>
+      <version>1.7</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.comphenix.protocol</groupId>
       <artifactId>ProtocolLib-API</artifactId>
-      <version>4.3.0</version>
+      <version>4.4.0</version>
     </dependency>
     <dependency>
       <groupId>LibsDisguises</groupId>

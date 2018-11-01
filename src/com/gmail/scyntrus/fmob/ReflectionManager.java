@@ -1,10 +1,10 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_13_R1.Chunk;
-import net.minecraft.server.v1_13_R1.EntityPositionTypes;
-import net.minecraft.server.v1_13_R1.EntityTypes;
-import net.minecraft.server.v1_13_R1.HeightMap;
-import net.minecraft.server.v1_13_R1.PathfinderGoalSelector;
+import net.minecraft.server.v1_13_R2.Chunk;
+import net.minecraft.server.v1_13_R2.EntityPositionTypes;
+import net.minecraft.server.v1_13_R2.EntityTypes;
+import net.minecraft.server.v1_13_R2.HeightMap;
+import net.minecraft.server.v1_13_R2.PathfinderGoalSelector;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

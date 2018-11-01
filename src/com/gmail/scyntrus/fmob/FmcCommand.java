@@ -7,13 +7,13 @@ import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import net.minecraft.server.v1_13_R1.Entity;
+import net.minecraft.server.v1_13_R2.Entity;
 import org.bukkit.Location;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_13_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
@@ -45,7 +45,7 @@ public class FmcCommand implements CommandExecutor {
             sender.sendMessage("World not found");
             return false;
         }
-        net.minecraft.server.v1_13_R1.World world = ((CraftWorld)craftWorld).getHandle();
+        net.minecraft.server.v1_13_R2.World world = ((CraftWorld)craftWorld).getHandle();
 
         Location loc;
         try {

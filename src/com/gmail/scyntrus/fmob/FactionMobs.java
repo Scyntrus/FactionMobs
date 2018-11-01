@@ -8,10 +8,10 @@ import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
-import net.minecraft.server.v1_13_R1.EntityPositionTypes;
-import net.minecraft.server.v1_13_R1.EntityTypes;
-import net.minecraft.server.v1_13_R1.HeightMap.Type;
-import net.minecraft.server.v1_13_R1.World;
+import net.minecraft.server.v1_13_R2.EntityPositionTypes;
+import net.minecraft.server.v1_13_R2.EntityTypes;
+import net.minecraft.server.v1_13_R2.HeightMap.Type;
+import net.minecraft.server.v1_13_R2.World;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -231,7 +231,7 @@ public class FactionMobs extends JavaPlugin {
         }));
     }
 
-    private <T extends net.minecraft.server.v1_13_R1.Entity> void addEntityType(Class<T> entityClass, Function<? super World, ? extends T> ctor, String entityName) throws InvocationTargetException, IllegalAccessException {
+    private <T extends net.minecraft.server.v1_13_R2.Entity> void addEntityType(Class<T> entityClass, Function<? super World, ? extends T> ctor, String entityName) throws InvocationTargetException, IllegalAccessException {
         EntityTypes<T> tempEntityType = EntityTypes.a("fallen_crusader", EntityTypes.a.a(entityClass, ctor).b());
         ReflectionManager.entityPositionTypes_a.invoke(null, tempEntityType, EntityPositionTypes.Surface.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES);
     }
@@ -330,7 +330,7 @@ public class FactionMobs extends JavaPlugin {
                     }
                 }
 
-                newMob.getEntity().world.addEntity((net.minecraft.server.v1_13_R1.Entity) newMob, SpawnReason.CUSTOM);
+                newMob.getEntity().world.addEntity((net.minecraft.server.v1_13_R2.Entity) newMob, SpawnReason.CUSTOM);
                 mobList.add(newMob);
                 newMob.getEntity().dead = false;
             }
