@@ -127,8 +127,8 @@ public class Titan extends EntityIronGolem implements FactionMob {
     }
 
     @Override
-    public void k() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
-        super.k();
+    public void movementTick() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
+        super.movementTick();
         if (this.inWater) {
             this.motY += .1;
         }

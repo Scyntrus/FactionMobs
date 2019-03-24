@@ -137,8 +137,8 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void k() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
-        super.k();
+    public void movementTick() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
+        super.movementTick();
         if (--retargetTime < 0) {
             retargetTime = FactionMobs.responseTime;
             if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {

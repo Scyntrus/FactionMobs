@@ -126,9 +126,9 @@ public class Archer extends EntitySkeleton implements FactionMob {
     }
 
     @Override
-    public void k() { //TODO: Update name on version change (E: EntityLiving.onLivingUpdate)
+    public void movementTick() {
         int tmpFire = this.fireTicks;
-        super.k();
+        super.movementTick();
         this.fireTicks = tmpFire;
         ItemStack helmet = this.getEquipment(EnumItemSlot.HEAD);
         if (helmet != null) {

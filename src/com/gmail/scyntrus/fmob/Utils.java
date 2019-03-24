@@ -287,7 +287,7 @@ public class Utils {
                 if (i1 == startx && j1 == startz) {
                     continue;
                 }
-                if (world.getChunkProviderServer().isLoaded(i1, j1)) {
+                if (world.getChunkProvider().isLoaded(i1, j1)) {
                     range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2, attackAll);
                     if (range2 == 0) {
                         return result.val;
@@ -343,7 +343,7 @@ public class Utils {
 
         for (int i1 = i; i1 <= j; i1++) {
             for (int j1 = k; j1 <= l; j1++) {
-                if (world.getChunkProviderServer().isLoaded(i1, j1)) {
+                if (world.getChunkProvider().isLoaded(i1, j1)) {
                     optimizedEntityAgroChunk(faction, world.getChunkAt(i1, j1), x, y, z, range2, y1, y2, damager);
                 }
             }
