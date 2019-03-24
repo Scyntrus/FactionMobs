@@ -47,17 +47,17 @@ public class Archer extends EntitySkeleton implements FactionMob {
     public static String localizedName = typeName;
 
     public static final double range = 16;
-    @Option(key="Archer.maxHp", min = 1)
+    @Option(key = "Archer.maxHp", min = 1)
     public static float maxHp = 20;
-    @Option(key="Archer.enabled")
+    @Option(key = "Archer.enabled")
     public static Boolean enabled = true;
-    @Option(key="Archer.powerCost", min = 0)
+    @Option(key = "Archer.powerCost", min = 0)
     public static double powerCost = 0;
-    @Option(key="Archer.moneyCost", min = 0)
+    @Option(key = "Archer.moneyCost", min = 0)
     public static double moneyCost = 0;
-    @Option(key="Archer.damage", min = 0)
+    @Option(key = "Archer.damage", min = 0)
     public static double damage = 0;
-    @Option(key="Archer.drops")
+    @Option(key = "Archer.drops")
     public static Material drops = null;
 
     public Faction faction = null;
@@ -68,10 +68,10 @@ public class Archer extends EntitySkeleton implements FactionMob {
     public EntityLiving attackedBy = null;
     public EntityLiving target = null;
     private int retargetTime = 0;
-    public double poiX=0, poiY=0, poiZ=0;
+    public double poiX = 0, poiY = 0, poiZ = 0;
     public Command command = Command.poi;
-    
-    private static final PathHelpEntity p = new PathHelpEntity(); 
+
+    private static final PathHelpEntity p = new PathHelpEntity();
 
     public Archer(World world) {
         super(world);
@@ -155,17 +155,17 @@ public class Archer extends EntitySkeleton implements FactionMob {
                     // intentionally empty
                 } else if (this.command == Command.phome) {
                     this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), FactionMobs.mobPatrolSpeed);
-                    if (Utils.dist3D(this.locX,this.spawnLoc.getX(),this.locY,this.spawnLoc.getY(),this.locZ,this.spawnLoc.getZ()) < 1) {
+                    if (Utils.dist3D(this.locX, this.spawnLoc.getX(), this.locY, this.spawnLoc.getY(), this.locZ, this.spawnLoc.getZ()) < 1) {
                         this.command = Command.ppoi;
                     }
                 } else if (this.command == Command.ppoi) {
                     this.getNavigation().a(p.set(poiX, poiY, poiZ), FactionMobs.mobPatrolSpeed);
-                    if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
+                    if (Utils.dist3D(this.locX, this.poiX, this.locY, this.poiY, this.locZ, this.poiZ) < 1) {
                         this.command = Command.phome;
                     }
                 } else if (this.command == Command.path) {
                     this.getNavigation().a(p.set(poiX, poiY, poiZ), 1.0);
-                    if (Utils.dist3D(this.locX,this.poiX,this.locY,this.poiY,this.locZ,this.poiZ) < 1) {
+                    if (Utils.dist3D(this.locX, this.poiX, this.locY, this.poiY, this.locZ, this.poiZ) < 1) {
                         this.command = Command.home;
                     }
                 }
@@ -176,7 +176,7 @@ public class Archer extends EntitySkeleton implements FactionMob {
     private void setSpawn(Location loc) {
         spawnLoc = new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
         this.setPosition(loc.getX(), loc.getY(), loc.getZ());
-        this.setPoi(loc.getX(),loc.getY(),loc.getZ());
+        this.setPoi(loc.getX(), loc.getY(), loc.getZ());
         this.command = Command.home;
     }
 
@@ -198,8 +198,9 @@ public class Archer extends EntitySkeleton implements FactionMob {
             }
         }
         EntityLiving e = Utils.optimizedTargetSearch(this, Utils.closeEnough);
-        if (e != null)
+        if (e != null) {
             this.setTarget(e);
+        }
         return e;
     }
 
@@ -216,8 +217,9 @@ public class Archer extends EntitySkeleton implements FactionMob {
     @Override
     public boolean damageEntity(DamageSource damagesource, float i) {
         boolean out = super.damageEntity(damagesource, i);
-        if (!out)
+        if (!out) {
             return false;
+        }
         EntityLiving damager;
         if (damagesource.getEntity() instanceof EntityLiving) {
             damager = (EntityLiving) damagesource.getEntity();
@@ -428,8 +430,8 @@ public class Archer extends EntitySkeleton implements FactionMob {
 
     @Override
     public void a(EntityLiving entityliving, float f) { //TODO: Update name on version change (E: EntitySkeletonAbstract.attackEntityWithRangedAttack)
-        if (damage>0) {
-            super.a(entityliving, (float) damage/2F);
+        if (damage > 0) {
+            super.a(entityliving, (float) damage / 2F);
         } else {
             super.a(entityliving, f);
         }

@@ -31,7 +31,7 @@ public class Factions6U implements Factions {
     private Method boardGetFactionAt;
 
     private static Factions6U instance;
-    
+
     private Factions6U(Plugin plugin) {
         instance = this;
         try {
@@ -68,7 +68,7 @@ public class Factions6U implements Factions {
             fPlayersGet = FactionsManager.tryGetMethod(FPlayers.class, "getByOfflinePlayer", OfflinePlayer.class);
             if (fPlayersGet != null) {
                 log.append("FOUND com.massivecraft.factions.FPlayers.getByOfflinePlayer(OfflinePlayer)\n");
-                System.out.println("["+pluginName+"] Factions 1.6-U detected.");
+                System.out.println("[" + pluginName + "] Factions 1.6-U detected.");
                 new Factions6U(plugin);
             }
         }
@@ -125,7 +125,7 @@ public class Factions6U implements Factions {
         }
         return Rank.UNKNOWN;
     }
-    
+
     @Override
     public boolean supportsLandOwnership() {
         return true;

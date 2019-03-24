@@ -1,7 +1,7 @@
 package com.gmail.scyntrus.ifactions.feudal;
 
 import com.gmail.scyntrus.ifactions.Faction;
-import us.forseth11.feudal.core.Feudal;
+import de.browniecodez.feudal.main.Main;
 import us.forseth11.feudal.kingdoms.Challenge;
 import us.forseth11.feudal.kingdoms.Kingdom;
 
@@ -21,8 +21,8 @@ class FeudalKingdom extends Faction {
     public int getRelationTo(Faction other) {
         if (k == null || isNone()) return 0;
         if (this.getName().equals(other.getName())) return 1;
-        if (k.isEnemied(((FeudalKingdom)other).k)) return -1;
-        for (Challenge c : Feudal.getChallenges()) {
+        if (k.isEnemied(((FeudalKingdom) other).k)) return -1;
+        for (Challenge c : Main.getChallenges()) {
             if (c.isFighting()) {
                 if (c.getAttacker().equals(k)) {
                     if (c.getDefender().getName().equals(other.getName())) return -1;
@@ -31,7 +31,7 @@ class FeudalKingdom extends Faction {
                 }
             }
         }
-        if (k.isAllied(((FeudalKingdom)other).k)) return 1;
+        if (k.isAllied(((FeudalKingdom) other).k)) return 1;
         return 0;
     }
 

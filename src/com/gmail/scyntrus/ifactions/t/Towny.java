@@ -14,7 +14,7 @@ import org.bukkit.plugin.Plugin;
 public class Towny implements Factions {
 
     private static Towny instance;
-    
+
     private Towny(Plugin plugin) {
         instance = this;
         plugin.getServer().getPluginManager().registerEvents(new TownyListener(), plugin);
@@ -27,7 +27,7 @@ public class Towny implements Factions {
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("com.palmergames.bukkit.towny.Towny")) {
             log.append("FOUND com.palmergames.bukkit.towny.Towny\n");
-            System.out.println("["+pluginName+"] Towny detected.");
+            System.out.println("[" + pluginName + "] Towny detected.");
             new Towny(plugin);
         }
         return instance;
@@ -37,8 +37,9 @@ public class Towny implements Factions {
     public Faction getFactionAt(Location loc) {
         try {
             String townName = TownyUniverse.getTownName(loc);
-            if (townName == null)
+            if (townName == null) {
                 return null;
+            }
             return new Town(TownyUniverse.getDataSource().getTown(townName));
         } catch (Exception ignored) {
         }
@@ -82,7 +83,7 @@ public class Towny implements Factions {
         }
         return Rank.MEMBER;
     }
-    
+
     @Override
     public boolean supportsLandOwnership() {
         return true;

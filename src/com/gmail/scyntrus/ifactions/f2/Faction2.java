@@ -9,11 +9,11 @@ class Faction2 extends Faction {
 
     public com.massivecraft.factions.entity.Faction faction;
 
-    public Faction2 (com.massivecraft.factions.entity.Faction faction) {
+    public Faction2(com.massivecraft.factions.entity.Faction faction) {
         this.faction = faction;
     }
 
-    public Faction2 (Object faction) {
+    public Faction2(Object faction) {
         this.faction = (com.massivecraft.factions.entity.Faction) faction;
     }
 
@@ -21,12 +21,12 @@ class Faction2 extends Faction {
     public int getRelationTo(Faction other) {
         if (faction == null || isNone()) return 0;
         try {
-            Rel rel = faction.getRelationTo(((Faction2)other).faction);
+            Rel rel = faction.getRelationTo(((Faction2) other).faction);
             if (rel.equals(Rel.ENEMY)) {
                 return -1;
             } else if (rel.equals(Rel.NEUTRAL)) {
                 return 0;
-            } else if (rel.equals(Rel.ALLY) || rel.equals(Rel.MEMBER)) {
+            } else if (rel.equals(Rel.ALLY) || rel.equals(Rel.TRUCE) || rel.equals(Rel.FACTION)) {
                 return 1;
             }
         } catch (Exception e) {

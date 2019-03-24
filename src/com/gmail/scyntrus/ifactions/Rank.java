@@ -30,7 +30,7 @@ public enum Rank {
         }
         try {
             return Rank.valueOf(name);
-        } catch (IllegalArgumentException  e) {
+        } catch (IllegalArgumentException e) {
             return Rank.MEMBER;
         }
     }

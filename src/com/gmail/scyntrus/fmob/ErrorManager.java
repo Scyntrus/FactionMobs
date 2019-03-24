@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ErrorManager {
-    
+
     private static PrintWriter errorStream;
 
     public static void handleError(String message, Exception e) {
@@ -32,9 +32,11 @@ public class ErrorManager {
 
     public static DateFormat dateFormat = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss] ");
     private static final char colorChar = Character.toChars(167)[0];
+
     public static void handleError(String message) {
-        if (message == null)
+        if (message == null) {
             return;
+        }
         FactionMobs.instance.getServer().getConsoleSender().sendMessage(colorChar + "c[FactionMobs] " + message);
         if (errorStream != null) {
             errorStream.print(dateFormat.format(new Date()));
@@ -44,8 +46,9 @@ public class ErrorManager {
     }
 
     public static void handleError(Throwable e) {
-        if (e == null)
+        if (e == null) {
             return;
+        }
         if (!FactionMobs.silentErrors) {
             e.printStackTrace();
         }
@@ -57,8 +60,9 @@ public class ErrorManager {
     }
 
     public static void closeErrorStream() {
-        if (errorStream != null)
+        if (errorStream != null) {
             errorStream.close();
+        }
         errorStream = null;
     }
 }

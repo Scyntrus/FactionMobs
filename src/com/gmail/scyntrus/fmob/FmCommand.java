@@ -55,40 +55,45 @@ public class FmCommand implements CommandExecutor {
                 if (!Archer.enabled) {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled)
+                    if (plugin.vaultEnabled) {
                         player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(Archer.moneyCost)));
+                    }
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, Archer.powerCost));
                 }
                 player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_SWORDSMAN)));
                 if (!Swordsman.enabled) {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled)
+                    if (plugin.vaultEnabled) {
                         player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(Swordsman.moneyCost)));
+                    }
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, Swordsman.powerCost));
                 }
                 player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_MAGE)));
                 if (!Mage.enabled) {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled)
+                    if (plugin.vaultEnabled) {
                         player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(Mage.moneyCost)));
+                    }
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, Mage.powerCost));
                 }
                 player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_TITAN)));
                 if (!Titan.enabled) {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled)
+                    if (plugin.vaultEnabled) {
                         player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(Titan.moneyCost)));
+                    }
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, Titan.powerCost));
                 }
                 player.sendMessage(Messages.get(Message.FM_INFO_MOB, Messages.get(Message.NAME_SPIRITBEAR)));
                 if (!SpiritBear.enabled) {
                     player.sendMessage(Messages.get(Message.FM_INFO_DISABLED));
                 } else {
-                    if (plugin.vaultEnabled)
+                    if (plugin.vaultEnabled) {
                         player.sendMessage(Messages.get(Message.FM_INFO_COST, plugin.ec.on.format(SpiritBear.moneyCost)));
+                    }
                     player.sendMessage(Messages.get(Message.FM_INFO_POWER, SpiritBear.powerCost));
                 }
             } else if (split[0].equalsIgnoreCase("deselect")) {
@@ -117,8 +122,9 @@ public class FmCommand implements CommandExecutor {
                 if (plugin.playerSelections.containsKey(player.getName())) {
                     player.sendMessage(Messages.get(Message.FM_SELECTIONSTART));
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
-                        if (fmob.getEntity().isAlive())
+                        if (fmob.getEntity().isAlive()) {
                             player.sendMessage(Messages.get(Message.FM_SELECTIONITEM, fmob.getLocalizedName()));
+                        }
                     }
                     player.sendMessage(Messages.get(Message.FM_SELECTIONSTOP));
                     return true;
@@ -161,7 +167,7 @@ public class FmCommand implements CommandExecutor {
                         }
                     }
                 }
-                net.minecraft.server.v1_13_R2.World world = ((CraftWorld)player.getWorld()).getHandle();
+                net.minecraft.server.v1_13_R2.World world = ((CraftWorld) player.getWorld()).getHandle();
                 FactionMob newMob;
                 if (split.length == 1) {
                     player.sendMessage(Messages.get(Message.FM_NOMOB));
@@ -222,7 +228,7 @@ public class FmCommand implements CommandExecutor {
                     if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
                         if (plugin.ec.on.has(player, newMob.getMoneyCost())) {
                             EconomyResponse r = plugin.ec.on.withdrawPlayer(player, newMob.getMoneyCost());
-                            if(r.transactionSuccess()) {
+                            if (r.transactionSuccess()) {
                                 player.sendMessage(Messages.get(Message.FM_MONEYUSAGE,
                                         plugin.ec.on.format(r.amount), plugin.ec.on.format(r.balance)));
                             } else {
@@ -249,7 +255,7 @@ public class FmCommand implements CommandExecutor {
                     if (!player.hasPermission("fmob.bypass")) {
                         if (plugin.vaultEnabled && newMob.getMoneyCost() > 0) {
                             EconomyResponse r = plugin.ec.on.depositPlayer(player, newMob.getMoneyCost());
-                            if(r.transactionSuccess()) {
+                            if (r.transactionSuccess()) {
                                 player.sendMessage(Messages.get(Message.FM_REFUNDMONEY, plugin.ec.on.format(r.amount), plugin.ec.on.format(r.balance)));
                             } else {
                                 player.sendMessage(Messages.get(Message.FM_MONEYERROR, r.errorMessage));
@@ -341,11 +347,11 @@ public class FmCommand implements CommandExecutor {
                     int count = 0;
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         if (fmob.getSpawn().getWorld().getName().equals(loc.getWorld().getName())) {
-                            double tmpX = (1.5-(count%4))*1.5;
-                            double tmpZ = ((-1.) - Math.floor(count / 4.))*1.5;
+                            double tmpX = (1.5 - (count % 4)) * 1.5;
+                            double tmpZ = ((-1.) - Math.floor(count / 4.)) * 1.5;
                             double tmpH = Math.hypot(tmpX, tmpZ);
                             double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
-                            fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
+                            fmob.setPoi(loc.getX() + tmpH * Math.cos(angle), loc.getY(), loc.getZ() + tmpH * Math.sin(angle));
                             fmob.setCommand(FactionMob.Command.poi);
                             count++;
                         }
@@ -368,16 +374,16 @@ public class FmCommand implements CommandExecutor {
                         player.sendMessage(Messages.get(Message.FM_COMMAND_NOBLOCK));
                         return true;
                     }
-                    Location loc = block.getLocation().add(0,1,0);
+                    Location loc = block.getLocation().add(0, 1, 0);
                     Location playerLoc = player.getLocation();
                     int count = 0;
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         if (fmob.getSpawn().getWorld().getName().equals(playerLoc.getWorld().getName())) {
-                            double tmpX = (1.5-(count%4))*1.5;
-                            double tmpZ = ((-1.) - Math.floor(count / 4.))*1.5;
+                            double tmpX = (1.5 - (count % 4)) * 1.5;
+                            double tmpZ = ((-1.) - Math.floor(count / 4.)) * 1.5;
                             double tmpH = Math.hypot(tmpX, tmpZ);
                             double angle = Math.atan2(tmpZ, tmpX) + (playerLoc.getYaw() * Math.PI / 180.);
-                            fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
+                            fmob.setPoi(loc.getX() + tmpH * Math.cos(angle), loc.getY(), loc.getZ() + tmpH * Math.sin(angle));
                             fmob.setCommand(FactionMob.Command.poi);
                             count += 1;
                         }
@@ -436,12 +442,12 @@ public class FmCommand implements CommandExecutor {
                     int count = 0;
                     for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                         if (fmob.getSpawn().getWorld().equals(loc.getWorld())) {
-                            double tmpX = (1.5-(count%4))*1.5;
-                            double tmpZ = ((-1.) - Math.floor(count / 4.))*1.5;
+                            double tmpX = (1.5 - (count % 4)) * 1.5;
+                            double tmpZ = ((-1.) - Math.floor(count / 4.)) * 1.5;
                             double tmpH = Math.hypot(tmpX, tmpZ);
                             double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
-                            tmpX = loc.getX() + tmpH*Math.cos(angle);
-                            tmpZ = loc.getZ() + tmpH*Math.sin(angle);
+                            tmpX = loc.getX() + tmpH * Math.cos(angle);
+                            tmpZ = loc.getZ() + tmpH * Math.sin(angle);
                             fmob.setPoi(tmpX, loc.getY(), tmpZ);
                             fmob.getEntity().setPosition(tmpX, loc.getY(), tmpZ);
                             fmob.setCommand(FactionMob.Command.poi);
@@ -490,7 +496,7 @@ public class FmCommand implements CommandExecutor {
                         }
                         List<FactionMob>[] playerGroups = plugin.getPlayerGroups(player);
                         playerGroups[index] = new ArrayList<>(playerSelection);
-                        player.sendMessage(Messages.get(Message.FM_GROUP_SAVE, index+1));
+                        player.sendMessage(Messages.get(Message.FM_GROUP_SAVE, index + 1));
                     } catch (NumberFormatException e) {
                         player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
                         return true;
@@ -507,7 +513,7 @@ public class FmCommand implements CommandExecutor {
                         List<FactionMob>[] playerGroups = plugin.getPlayerGroups(player);
                         if (playerGroups[index] == null) return true;
                         playerSelection.addAll(playerGroups[index]);
-                        player.sendMessage(Messages.get(Message.FM_GROUP_LOAD, index+1));
+                        player.sendMessage(Messages.get(Message.FM_GROUP_LOAD, index + 1));
                     } catch (NumberFormatException e) {
                         player.sendMessage(Messages.get(Message.FM_GROUP_USAGE));
                         return true;

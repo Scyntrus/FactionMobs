@@ -17,7 +17,7 @@ public class ChunkMobLoader implements Runnable {
             FactionMobs.scheduleChunkMobLoad = false;
             for (FactionMob fmob : FactionMobs.mobList) {
                 if (!((WorldServer) fmob.getEntity().world).getTracker().trackedEntities.b(fmob.getEntity().getId())) {
-                    try	{
+                    try {
                         fmob.getEntity().world.addEntity(fmob.getEntity(), SpawnReason.CUSTOM);
                     } catch (Exception e) {
                         //if (!FactionMobs.silentErrors) e.printStackTrace();

@@ -21,7 +21,7 @@ public class FactionListener68 implements Listener {
         FactionMobs.factionColors.put(newName,
                 FactionMobs.factionColors.containsKey(oldName) ?
                         FactionMobs.factionColors.remove(oldName) :
-                            10511680);
+                        10511680);
         FactionMobs.instance.getServer().getScheduler().runTaskLater(FactionMobs.instance, new Runnable() {
 
             String oldName;
@@ -43,13 +43,13 @@ public class FactionListener68 implements Listener {
                     }
                 }
             }
-        }.init(oldName,  newName), 0);
+        }.init(oldName, newName), 0);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onFactionDisband(FactionDisbandEvent e) {
         String factionName = FactionsManager.getFactionFromNativeObject(e.getFaction()).getName();
-        for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext();) {
+        for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext(); ) {
             FactionMob mob = it.next();
             if (mob.getFactionName().equals(factionName)) {
                 mob.forceDie();

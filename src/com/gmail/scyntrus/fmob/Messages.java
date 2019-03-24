@@ -82,9 +82,11 @@ public class Messages {
         FM_GROUP_SAVE("fm.group.save");
 
         private final String key;
+
         Message(String key) {
             this.key = key;
         }
+
         public String getKey() {
             return key;
         }
@@ -95,8 +97,9 @@ public class Messages {
     private static Map<Message, String> cache = new EnumMap<>(Message.class);
 
     public static void init(Plugin plugin) {
-        if (initialized)
+        if (initialized) {
             return;
+        }
         yml = new YamlConfiguration();
         File file = new File(plugin.getDataFolder(), "messages.yml");
         if (file.isFile()) {
@@ -107,7 +110,7 @@ public class Messages {
             }
         }
         InputStream res = Messages.class.getResourceAsStream("/messages.yml");
-        if(res != null) {
+        if (res != null) {
             yml.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(res, Charsets.UTF_8)));
         }
         yml.options().copyDefaults(true);
@@ -128,7 +131,7 @@ public class Messages {
         String raw;
         if (cache.containsKey(message)) {
             raw = cache.get(message);
-        }  else {
+        } else {
             raw = yml.getString(key);
             cache.put(message, raw);
         }

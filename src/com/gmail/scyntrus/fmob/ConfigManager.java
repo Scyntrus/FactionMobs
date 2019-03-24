@@ -11,7 +11,9 @@ public class ConfigManager {
     private interface ConfigFunction {
         Object get(FileConfiguration config, String path, Object defaultValue);
     }
+
     private static final HashMap<Class<?>, ConfigFunction> GET_TYPE_FUNCTIONS = new HashMap<>();
+
     static {
         GET_TYPE_FUNCTIONS.put(Integer.class, (c, p, d) -> c.getInt(p, (Integer) d));
         GET_TYPE_FUNCTIONS.put(int.class, (c, p, d) -> c.getInt(p, (int) d));
@@ -32,6 +34,7 @@ public class ConfigManager {
     }
 
     private FileConfiguration config;
+
     public ConfigManager(FileConfiguration config) {
         this.config = config;
     }

@@ -7,14 +7,14 @@ import com.gmail.scyntrus.ifactions.Rank;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.kingdoms.constants.land.SimpleChunkLocation;
-import org.kingdoms.constants.player.KingdomPlayer;
-import org.kingdoms.manager.game.GameManagement;
+import com.songoda.kingdoms.constants.land.SimpleChunkLocation;
+import com.songoda.kingdoms.constants.player.KingdomPlayer;
+import com.songoda.kingdoms.manager.game.GameManagement;
 
 public class KingdomsConnector implements Factions {
 
     private static KingdomsConnector instance;
-    
+
     private KingdomsConnector(Plugin plugin) {
         instance = this;
         plugin.getServer().getPluginManager().registerEvents(new KingdomsListener(), plugin);
@@ -25,9 +25,9 @@ public class KingdomsConnector implements Factions {
             return instance;
         }
         String pluginName = plugin.getName();
-        if (FactionsManager.classExists("org.kingdoms.constants.kingdom.Kingdom")) {
-            log.append("FOUND org.kingdoms.constants.kingdom.Kingdom\n");
-            System.out.println("["+pluginName+"] Kingdoms detected.");
+        if (FactionsManager.classExists("com.songoda.kingdoms.constants.kingdom.Kingdom")) {
+            log.append("FOUND com.songoda.kingdoms.constants.kingdom.Kingdom\n");
+            System.out.println("[" + pluginName + "] Kingdoms detected.");
             new KingdomsConnector(plugin);
         }
         return instance;
@@ -62,7 +62,7 @@ public class KingdomsConnector implements Factions {
     public Rank getPlayerRank(Player player) {
         KingdomPlayer kPlayer = GameManagement.getPlayerManager().getSession(player);
         if (kPlayer == null) return null;
-        org.kingdoms.constants.Rank rank = kPlayer.getRank();
+        com.songoda.kingdoms.constants.Rank rank = kPlayer.getRank();
         switch (rank) {
             case KING:
                 return Rank.LEADER;
@@ -75,7 +75,7 @@ public class KingdomsConnector implements Factions {
                 return Rank.UNKNOWN;
         }
     }
-    
+
     @Override
     public boolean supportsLandOwnership() {
         return true;

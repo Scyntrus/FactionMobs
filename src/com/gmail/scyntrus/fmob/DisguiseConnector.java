@@ -13,6 +13,7 @@ public class DisguiseConnector {
             new PlayerDisguise("", FactionMobs.playerSkin);
         }
     }
+
     public static void disguiseAsPlayer(net.minecraft.server.v1_13_R2.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
@@ -26,6 +27,7 @@ public class DisguiseConnector {
         }
         DisguiseAPI.disguiseToAll(bukkitEntity, disguise);
     }
+
     public static void disguiseAsPolarBear(net.minecraft.server.v1_13_R2.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
@@ -35,6 +37,7 @@ public class DisguiseConnector {
         disguise = new MobDisguise(DisguiseType.POLAR_BEAR);
         DisguiseAPI.disguiseToAll(bukkitEntity, disguise);
     }
+
     public static void disguiseAsIronGolem(net.minecraft.server.v1_13_R2.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);

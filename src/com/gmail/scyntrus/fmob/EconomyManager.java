@@ -7,6 +7,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 // Can't reflect FactionMobs.class if import doesn't exist, so move Vault here.
 public class EconomyManager {
     public final Economy on;
+
     private EconomyManager(Economy econ) {
         this.on = econ;
     }

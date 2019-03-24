@@ -9,11 +9,11 @@ class Town extends Faction {
 
     public com.palmergames.bukkit.towny.object.Town town;
 
-    public Town (com.palmergames.bukkit.towny.object.Town faction) {
+    public Town(com.palmergames.bukkit.towny.object.Town faction) {
         this.town = faction;
     }
 
-    public Town (Object faction) {
+    public Town(Object faction) {
         this.town = (com.palmergames.bukkit.towny.object.Town) faction;
     }
 
@@ -29,7 +29,7 @@ class Town extends Faction {
             return 0;
         }
         if (nation == null) return 0;
-        Town otherTown = (Town)other;
+        Town otherTown = (Town) other;
         if (!otherTown.town.hasNation()) return 0;
         if (nation.hasTown(otherTown.town)) return 1;
         Nation otherNation;

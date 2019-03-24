@@ -8,7 +8,7 @@
   <name>FactionMobs</name>
   <properties>
     <craftbukkit.version>1.13.2-R0.1</craftbukkit.version>
-    <factions.version>2.14.0</factions.version>
+    <factions.version>3.1.5</factions.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skipTests>true</skipTests>
   </properties>
@@ -105,7 +105,7 @@
       <groupId>com.massivecraft</groupId>
       <artifactId>Factions</artifactId>
       <version>${factions.version}</version>
-      <!-- https://dev.bukkit.org/projects/factions/files -->
+      <!-- https://www.spigotmc.org/resources/factions3-for-1-13.63602/history -->
       <systemPath>${basedir}/lib/Factions-${factions.version}.jar</systemPath>
       <scope>system</scope>
     </dependency>
@@ -113,7 +113,7 @@
       <groupId>com.massivecraft</groupId>
       <artifactId>MassiveCore</artifactId>
       <version>${factions.version}</version>
-      <!-- https://dev.bukkit.org/projects/mcore/files -->
+      <!-- https://www.spigotmc.org/resources/factions3-for-1-13.63602/history -->
       <systemPath>${basedir}/lib/MassiveCore-${factions.version}.jar</systemPath>
       <scope>system</scope>
     </dependency>
@@ -154,7 +154,7 @@
       <artifactId>Kingdoms</artifactId>
       <version>LATEST</version>
       <!-- https://www.spigotmc.org/resources/11833/ -->
-      <systemPath>${basedir}/lib/Kingdoms-v14.2.18.jar</systemPath>
+      <systemPath>${basedir}/lib/FabledKingdoms-1.2.9.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
@@ -162,7 +162,7 @@
       <artifactId>Feudal</artifactId>
       <version>LATEST</version>
       <!-- https://www.spigotmc.org/resources/22873/ -->
-      <systemPath>${basedir}/lib/Feudal-1.13.4.jar</systemPath>
+      <systemPath>${basedir}/lib/Feudal-1.14.1.jar</systemPath>
       <scope>system</scope>
     </dependency>
     <dependency>
@@ -187,7 +187,7 @@
     <dependency>
       <groupId>LibsDisguises</groupId>
       <artifactId>LibsDisguises</artifactId>
-      <version>9.6.0-SNAPSHOT</version>
+      <version>9.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.bstats</groupId>

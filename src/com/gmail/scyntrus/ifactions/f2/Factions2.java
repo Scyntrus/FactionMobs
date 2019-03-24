@@ -13,10 +13,12 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class Factions2 implements Factions{
+import java.util.ArrayList;
+
+public class Factions2 implements Factions {
 
     private static Factions2 instance = null;
-    
+
     private Factions2(Plugin plugin) {
         instance = this;
         plugin.getServer().getPluginManager().registerEvents(new FactionListener2(), plugin);
@@ -27,7 +29,7 @@ public class Factions2 implements Factions{
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("com.massivecraft.factions.Rel")) {
             log.append("FOUND com.massivecraft.factions.Rel\n");
-            System.out.println("["+pluginName+"] Factions 2 detected");
+            System.out.println("[" + pluginName + "] Factions 2 detected");
             new Factions2(plugin);
         }
         return instance;
@@ -58,10 +60,19 @@ public class Factions2 implements Factions{
     public Rank getPlayerRank(Player player) {
         MPlayer mPlayer = MPlayer.get(player);
         if (mPlayer == null) return Rank.UNKNOWN;
-        Rel rel = mPlayer.getRole();
-        return Rank.getByName(rel.name());
+        com.massivecraft.factions.entity.Rank rank = mPlayer.getRank();
+        // Priority values are based on default ranks
+        if (rank.getPriority() >= 400) {
+            return Rank.LEADER;
+        } else if (rank.getPriority() >= 300) {
+            return Rank.OFFICER;
+        } else if (rank.getPriority() >= 200) {
+            return Rank.MEMBER;
+        } else {
+            return Rank.RECRUIT;
+        }
     }
-    
+
     @Override
     public boolean supportsLandOwnership() {
         return true;

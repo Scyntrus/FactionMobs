@@ -7,11 +7,11 @@ class SimpleClan extends Faction {
 
     public Clan clan;
 
-    public SimpleClan (Clan faction) {
+    public SimpleClan(Clan faction) {
         this.clan = faction;
     }
 
-    public SimpleClan (Object faction) {
+    public SimpleClan(Object faction) {
         this.clan = (Clan) faction;
     }
 

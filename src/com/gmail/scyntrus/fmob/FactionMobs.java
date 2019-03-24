@@ -48,51 +48,51 @@ public class FactionMobs extends JavaPlugin {
     public static final Random random = new Random();
 
     public static final int responseTime = 20;
-    @Option(key="mobsPerFaction")
+    @Option(key = "mobsPerFaction")
     public static int mobsPerFaction = 0;
-    @Option(key="attackMobs")
+    @Option(key = "attackMobs")
     public static boolean attackMobs = true;
-    @Option(key="noFriendlyFire")
+    @Option(key = "noFriendlyFire")
     public static boolean noFriendlyFire = false;
-    @Option(key="noPlayerFriendlyFire")
+    @Option(key = "noPlayerFriendlyFire")
     public static boolean noPlayerFriendlyFire = false;
-    @Option(key="displayMobFaction")
+    @Option(key = "displayMobFaction")
     public static boolean displayMobFaction = true;
-    @Option(key="equipArmor")
+    @Option(key = "equipArmor")
     public static boolean equipArmor = true;
-    @Option(key="alertAllies")
+    @Option(key = "alertAllies")
     public static boolean alertAllies = true;
-    @Option(key="mobSpeed")
+    @Option(key = "mobSpeed")
     public static double mobSpeed = .3;
-    @Option(key="mobPatrolSpeed")
+    @Option(key = "mobPatrolSpeed")
     public static double mobPatrolSpeed = .175;
-    @Option(key="mobNavRange")
+    @Option(key = "mobNavRange")
     public static double mobNavRange = 64;
-    @Option(key="feedEnabled")
+    @Option(key = "feedEnabled")
     public static boolean feedEnabled = true;
-    @Option(key="feedItem")
+    @Option(key = "feedItem")
     public static Material feedItem = Material.APPLE;
-    @Option(key="feedAmount")
+    @Option(key = "feedAmount")
     public static float feedAmount = 5;
-    @Option(key="silentErrors")
+    @Option(key = "silentErrors")
     public static boolean silentErrors = true;
-    @Option(key="minRankToSpawnStr")
+    @Option(key = "minRankToSpawnStr")
     private static String minRankToSpawnStr = "MEMBER";
     public static Rank minRankToSpawn;
-    @Option(key="onlySpawnInTerritory")
+    @Option(key = "onlySpawnInTerritory")
     public static boolean onlySpawnInTerritory = true;
-    @Option(key="agroRange")
+    @Option(key = "agroRange")
     public static double agroRange = 16;
-    @Option(key="disguiseEnabled")
+    @Option(key = "disguiseEnabled")
     public static boolean disguiseEnabled = false;
-    @Option(key="playerSkin")
+    @Option(key = "playerSkin")
     public static String playerSkin = null;
 
     public static Set<FactionMob> mobList = new HashSet<>();
-    public static Map<String,Integer> factionColors = new HashMap<>();
+    public static Map<String, Integer> factionColors = new HashMap<>();
     public static Set<String> mobLeader = new HashSet<>();
-    public static Map<String,List<FactionMob>> playerSelections = new HashMap<>();
-    public static Map<String,List<FactionMob>[]> playerGroups = new HashMap<>();
+    public static Map<String, List<FactionMob>> playerSelections = new HashMap<>();
+    public static Map<String, List<FactionMob>[]> playerGroups = new HashMap<>();
 
     public static PluginManager pm = null;
     public static EconomyManager ec = null;
@@ -181,14 +181,14 @@ public class FactionMobs extends JavaPlugin {
         this.pm.registerEvents(new CommandListener(this), this);
 
         File colorFile = new File(getDataFolder(), "colors.dat");
-        if (colorFile.exists()){
+        if (colorFile.exists()) {
             FileInputStream fileInputStream;
             try {
                 fileInputStream = new FileInputStream(colorFile);
                 ObjectInputStream oInputStream = new ObjectInputStream(fileInputStream);
                 @SuppressWarnings("unchecked")
                 Map<String, Integer> colorMap = (Map<String, Integer>) oInputStream.readObject();
-                for (Iterator<Map.Entry<String, Integer>> it = colorMap.entrySet().iterator(); it.hasNext();) {
+                for (Iterator<Map.Entry<String, Integer>> it = colorMap.entrySet().iterator(); it.hasNext(); ) {
                     Map.Entry<String, Integer> pair = it.next();
                     if (pair.getValue() > 16777215 || pair.getValue() < 0) {
                         it.remove();
@@ -358,16 +358,16 @@ public class FactionMobs extends JavaPlugin {
             Location spawnLoc = fmob.getSpawn();
             mobData.add(spawnLoc.getWorld().getName()); //1
             mobData.add(fmob.getFactionName()); //2
-            mobData.add(""+spawnLoc.getX()); //3
-            mobData.add(""+spawnLoc.getY());
-            mobData.add(""+spawnLoc.getZ());
-            mobData.add(""+fmob.getlocX()); //6
-            mobData.add(""+fmob.getlocY());
-            mobData.add(""+fmob.getlocZ());
-            mobData.add(""+fmob.getEntity().getHealth()); //9
-            mobData.add(""+fmob.getPoiX()); //10
-            mobData.add(""+fmob.getPoiY());
-            mobData.add(""+fmob.getPoiZ());
+            mobData.add("" + spawnLoc.getX()); //3
+            mobData.add("" + spawnLoc.getY());
+            mobData.add("" + spawnLoc.getZ());
+            mobData.add("" + fmob.getlocX()); //6
+            mobData.add("" + fmob.getlocY());
+            mobData.add("" + fmob.getlocZ());
+            mobData.add("" + fmob.getEntity().getHealth()); //9
+            mobData.add("" + fmob.getPoiX()); //10
+            mobData.add("" + fmob.getPoiY());
+            mobData.add("" + fmob.getPoiZ());
             mobData.add(fmob.getCommand().toString()); //13
             mobData.add(fmob.getAttackAll() ? "1" : "0"); //14
             save.add(mobData);

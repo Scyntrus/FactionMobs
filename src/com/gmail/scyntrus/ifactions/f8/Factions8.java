@@ -27,7 +27,7 @@ public class Factions8 implements Factions {
     private Method fPlayerGetRoleMethod;
 
     private static Factions8 instance = null;
-    
+
     private Factions8(Plugin plugin) {
         try {
             Field factionsInstanceField = com.massivecraft.factions.Factions.class.getDeclaredField("i");
@@ -43,7 +43,7 @@ public class Factions8 implements Factions {
         }
         plugin.getServer().getPluginManager().registerEvents(new FactionListener68(), plugin);
     }
-    
+
     public static Factions get(Plugin plugin, StringBuilder log) {
         if (instance != null) {
             return instance;
@@ -51,10 +51,10 @@ public class Factions8 implements Factions {
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("com.massivecraft.factions.struct.Rel")) {
             log.append("FOUND com.massivecraft.factions.struct.Rel\n");
-            System.out.println("["+pluginName+"] Factions 1.8 detected. It is recommended you update to Factions 2.");
+            System.out.println("[" + pluginName + "] Factions 1.8 detected. It is recommended you update to Factions 2.");
             instance = new Factions8(plugin);
         }
-        return instance;   
+        return instance;
     }
 
     @Override
@@ -95,7 +95,7 @@ public class Factions8 implements Factions {
         }
         return Rank.UNKNOWN;
     }
-    
+
     @Override
     public boolean supportsLandOwnership() {
         return true;

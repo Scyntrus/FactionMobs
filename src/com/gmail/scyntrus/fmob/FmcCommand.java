@@ -41,11 +41,11 @@ public class FmcCommand implements CommandExecutor {
         }
 
         org.bukkit.World craftWorld = plugin.getServer().getWorld(split[2]);
-        if (craftWorld==null) {
+        if (craftWorld == null) {
             sender.sendMessage("World not found");
             return false;
         }
-        net.minecraft.server.v1_13_R2.World world = ((CraftWorld)craftWorld).getHandle();
+        net.minecraft.server.v1_13_R2.World world = ((CraftWorld) craftWorld).getHandle();
 
         Location loc;
         try {

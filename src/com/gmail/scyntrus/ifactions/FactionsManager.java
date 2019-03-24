@@ -28,7 +28,7 @@ public class FactionsManager {
             return false;
         }
     }
-    
+
     public static String[] factionsModules = {
             "com.gmail.scyntrus.ifactions.f2.Factions2",
             "com.gmail.scyntrus.ifactions.f6u.Factions6U",
@@ -46,7 +46,7 @@ public class FactionsManager {
 
         StringBuilder log = new StringBuilder();
         log.append("\nSTART FactionMobs getFactionsVersion\n");
-        
+
         for (String f : factionsModules) {
             try {
                 @SuppressWarnings("unchecked")
@@ -58,20 +58,21 @@ public class FactionsManager {
             } catch (Exception e) {
                 ErrorManager.handleError(e);
             }
-            if (instance != null)
+            if (instance != null) {
                 break;
+            }
         }
-        
+
         if (instance != null) {
             initialized = true;
             return true;
         } else {
             ErrorManager.handleError(log.toString());
-            ErrorManager.handleError("No compatible version of Factions detected. "+pluginName+" will not be enabled.");
+            ErrorManager.handleError("No compatible version of Factions detected. " + pluginName + " will not be enabled.");
             return false;
         }
     }
-    
+
     public static String getVersionString() {
         if (instance == null) {
             return "INVALID";
@@ -129,9 +130,9 @@ public class FactionsManager {
         }
         return Rank.MEMBER;
     }
-    
+
     public static boolean supportsLandOwnership() {
         return instance.supportsLandOwnership();
     }
-    
+
 }

@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 public @interface Option {
     String key();
+
     long min() default Long.MIN_VALUE;
 }

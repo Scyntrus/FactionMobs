@@ -22,7 +22,7 @@ public class TownyListener implements Listener {
         FactionMobs.factionColors.put(nativeTown.getName(),
                 FactionMobs.factionColors.containsKey(oldName) ?
                         FactionMobs.factionColors.remove(oldName) :
-                            10511680);
+                        10511680);
         for (FactionMob fmob : FactionMobs.mobList) {
             if (fmob.getFactionName().equals(oldName)) {
                 fmob.updateMob();
@@ -33,7 +33,7 @@ public class TownyListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTownDelete(DeleteTownEvent e) {
         String townName = e.getTownName();
-        for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext();) {
+        for (Iterator<FactionMob> it = FactionMobs.mobList.iterator(); it.hasNext(); ) {
             FactionMob mob = it.next();
             if (mob.getFactionName().equals(townName)) {
                 mob.forceDie();

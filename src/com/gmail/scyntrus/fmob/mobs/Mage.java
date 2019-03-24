@@ -64,15 +64,15 @@ public class Mage extends EntityWitch implements FactionMob {
     private static final PotionRegistry HEALING_POTION = IRegistry.POTION.get(new MinecraftKey("healing"));
 
     public static final double range = 16;
-    @Option(key="Mage.maxHp", min = 1)
+    @Option(key = "Mage.maxHp", min = 1)
     public static float maxHp = 20;
-    @Option(key="Mage.enabled")
+    @Option(key = "Mage.enabled")
     public static Boolean enabled = true;
-    @Option(key="Mage.powerCost", min = 0)
+    @Option(key = "Mage.powerCost", min = 0)
     public static double powerCost = 0;
-    @Option(key="Mage.moneyCost", min = 0)
+    @Option(key = "Mage.moneyCost", min = 0)
     public static double moneyCost = 0;
-    @Option(key="Mage.drops")
+    @Option(key = "Mage.drops")
     public static Material drops = null;
 
     public Faction faction = null;
@@ -83,7 +83,7 @@ public class Mage extends EntityWitch implements FactionMob {
     public EntityLiving attackedBy = null;
     public EntityLiving target = null;
     private int retargetTime = 0;
-    public double poiX=0, poiY=0, poiZ=0;
+    public double poiX = 0, poiY = 0, poiZ = 0;
     public Command command = Command.poi;
 
     public Mage(World world) {
@@ -181,7 +181,7 @@ public class Mage extends EntityWitch implements FactionMob {
     private void setSpawn(Location loc) {
         spawnLoc = new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
         this.setPosition(loc.getX(), loc.getY(), loc.getZ());
-        this.setPoi(loc.getX(),loc.getY(),loc.getZ());
+        this.setPoi(loc.getX(), loc.getY(), loc.getZ());
         this.command = Command.home;
     }
 
@@ -203,8 +203,9 @@ public class Mage extends EntityWitch implements FactionMob {
             }
         }
         EntityLiving e = Utils.optimizedTargetSearch(this, Utils.closeEnough);
-        if (e != null)
+        if (e != null) {
             this.setTarget(e);
+        }
         return e;
     }
 
@@ -221,8 +222,9 @@ public class Mage extends EntityWitch implements FactionMob {
     @Override
     public boolean damageEntity(DamageSource damagesource, float i) {
         boolean out = super.damageEntity(damagesource, i);
-        if (!out)
+        if (!out) {
             return false;
+        }
         EntityLiving damager;
         if (damagesource.getEntity() instanceof EntityLiving) {
             damager = (EntityLiving) damagesource.getEntity();
@@ -518,7 +520,7 @@ public class Mage extends EntityWitch implements FactionMob {
 
     @Override
     public void a(EntityLiving paramEntityLiving, float paramFloat) {  //TODO: Update name on version change (E: EntityWitch.attackEntityWithRangedAttack)
-        if(l()) { //TODO: Update name on version change (E: EntityWitch.isDrinkingPotion)
+        if (l()) { //TODO: Update name on version change (E: EntityWitch.isDrinkingPotion)
             return;
         }
 
@@ -529,16 +531,15 @@ public class Mage extends EntityWitch implements FactionMob {
         float f = MathHelper.sqrt(d2 * d2 + d4 * d4);
 
         PotionRegistry localPotionRegistry = HARMING_POTION;
-        if ((f >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.SLOWER_MOVEMENT)))
+        if ((f >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.SLOWER_MOVEMENT))) {
             localPotionRegistry = SLOWNESS_POTION;
-        else if ((paramEntityLiving.getHealth() >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.POISON))
+        } else if ((paramEntityLiving.getHealth() >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.POISON))
                 && (paramEntityLiving.getMonsterType() != EnumMonsterType.UNDEAD)
-                && (paramEntityLiving.getMonsterType() != EnumMonsterType.ARTHROPOD))
+                && (paramEntityLiving.getMonsterType() != EnumMonsterType.ARTHROPOD)) {
             localPotionRegistry = POISON_POTION;
-        else if ((f <= 3.0F) && (!paramEntityLiving.hasEffect(MobEffects.WEAKNESS)) && (this.random.nextFloat() < 0.25F)) {
+        } else if ((f <= 3.0F) && (!paramEntityLiving.hasEffect(MobEffects.WEAKNESS)) && (this.random.nextFloat() < 0.25F)) {
             localPotionRegistry = WEAKNESS_POTION;
-        }
-        else if (paramEntityLiving.getMonsterType() == EnumMonsterType.UNDEAD) {
+        } else if (paramEntityLiving.getMonsterType() == EnumMonsterType.UNDEAD) {
             localPotionRegistry = HEALING_POTION;
         }
 

@@ -8,11 +8,11 @@ class Faction6 extends Faction {
 
     public com.massivecraft.factions.Faction faction;
 
-    public Faction6 (com.massivecraft.factions.Faction faction) {
+    public Faction6(com.massivecraft.factions.Faction faction) {
         this.faction = faction;
     }
 
-    public Faction6 (Object faction) {
+    public Faction6(Object faction) {
         this((com.massivecraft.factions.Faction) faction);
     }
 
@@ -20,7 +20,7 @@ class Faction6 extends Faction {
     public int getRelationTo(Faction other) {
         if (faction == null || isNone()) return 0;
         try {
-            Relation rel = faction.getRelationTo(((Faction6)other).faction);
+            Relation rel = faction.getRelationTo(((Faction6) other).faction);
             if (rel.equals(Relation.ENEMY)) {
                 return -1;
             } else if (rel.equals(Relation.NEUTRAL)) {

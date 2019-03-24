@@ -48,17 +48,17 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     public static String localizedName = typeName;
 
     public static final double range = 16;
-    @Option(key="SpiritBear.maxHp", min = 1)
+    @Option(key = "SpiritBear.maxHp", min = 1)
     public static float maxHp = 30;
-    @Option(key="SpiritBear.enabled")
+    @Option(key = "SpiritBear.enabled")
     public static Boolean enabled = true;
-    @Option(key="SpiritBear.powerCost", min = 0)
+    @Option(key = "SpiritBear.powerCost", min = 0)
     public static double powerCost = 0;
-    @Option(key="SpiritBear.moneyCost", min = 0)
+    @Option(key = "SpiritBear.moneyCost", min = 0)
     public static double moneyCost = 0;
-    @Option(key="SpiritBear.damage", min = 0)
+    @Option(key = "SpiritBear.damage", min = 0)
     public static double damage = 0;
-    @Option(key="SpiritBear.drops")
+    @Option(key = "SpiritBear.drops")
     public static Material drops = null;
 
     public Faction faction = null;
@@ -69,7 +69,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     public EntityLiving attackedBy = null;
     public EntityLiving target = null;
     private int retargetTime = 0;
-    public double poiX=0, poiY=0, poiZ=0;
+    public double poiX = 0, poiY = 0, poiZ = 0;
     public Command command = Command.poi;
 
     private static final PathHelpEntity p = new PathHelpEntity();
@@ -168,7 +168,7 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     private void setSpawn(Location loc) {
         spawnLoc = new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
         this.setPosition(loc.getX(), loc.getY(), loc.getZ());
-        this.setPoi(loc.getX(),loc.getY(),loc.getZ());
+        this.setPoi(loc.getX(), loc.getY(), loc.getZ());
         this.command = Command.home;
     }
 
@@ -190,8 +190,9 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
             }
         }
         EntityLiving e = Utils.optimizedTargetSearch(this, Utils.closeEnough);
-        if (e != null)
+        if (e != null) {
             this.setTarget(e);
+        }
         return e;
     }
 
@@ -208,8 +209,9 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     @Override
     public boolean damageEntity(DamageSource damagesource, float i) {
         boolean out = super.damageEntity(damagesource, i);
-        if (!out)
+        if (!out) {
             return false;
+        }
         EntityLiving damager;
         if (damagesource.getEntity() instanceof EntityLiving) {
             damager = (EntityLiving) damagesource.getEntity();

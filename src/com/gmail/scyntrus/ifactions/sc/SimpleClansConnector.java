@@ -12,11 +12,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class SimpleClansConnector implements Factions {
-    
+
     private SimpleClans SCInstance;
 
     private static SimpleClansConnector instance;
-    
+
     private SimpleClansConnector(Plugin plugin) {
         instance = this;
         try {
@@ -41,7 +41,7 @@ public class SimpleClansConnector implements Factions {
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("net.sacredlabyrinth.phaed.simpleclans.SimpleClans")) {
             log.append("FOUND net.sacredlabyrinth.phaed.simpleclans.SimpleClans\n");
-            System.out.println("["+pluginName+"] SimpleClans detected.");
+            System.out.println("[" + pluginName + "] SimpleClans detected.");
             new SimpleClansConnector(plugin);
         }
         return instance;
@@ -79,7 +79,7 @@ public class SimpleClansConnector implements Factions {
         if (cPlayer.isLeader()) return Rank.LEADER;
         return Rank.MEMBER;
     }
-    
+
     @Override
     public boolean supportsLandOwnership() {
         return false;

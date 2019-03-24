@@ -7,7 +7,7 @@ import com.gmail.scyntrus.ifactions.Rank;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import us.forseth11.feudal.core.Feudal;
+import de.browniecodez.feudal.main.Main;
 import us.forseth11.feudal.kingdoms.Kingdom;
 import us.forseth11.feudal.kingdoms.Land;
 import us.forseth11.feudal.user.User;
@@ -22,7 +22,7 @@ public class FeudalConnector implements Factions {
         instance = this;
         plugin.getServer().getPluginManager().registerEvents(new FeudalListener(plugin), plugin);
         if (FactionsManager.classExists("me.forseth11.Turrets.TurretAttackMobEvent")) {
-            System.out.println("["+plugin.getName()+"] Turrets detected.");
+            System.out.println("[" + plugin.getName() + "] Turrets detected.");
             plugin.getServer().getPluginManager().registerEvents(new TurretsListener(plugin), plugin);
         }
     }
@@ -34,7 +34,7 @@ public class FeudalConnector implements Factions {
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("us.forseth11.feudal.core.Feudal")) {
             log.append("FOUND us.forseth11.feudal.core.Feudal\n");
-            System.out.println("["+pluginName+"] Feudal detected.");
+            System.out.println("[" + pluginName + "] Feudal detected.");
             new FeudalConnector(plugin);
         }
         return instance;
@@ -43,13 +43,13 @@ public class FeudalConnector implements Factions {
     @Override
     public Faction getFactionAt(Location loc) {
         Land l = new Land(loc);
-        Kingdom nativeObject = Feudal.getLandKingdom(l);
+        Kingdom nativeObject = Main.getLandKingdom(l);
         return new FeudalKingdom(nativeObject);
     }
 
     @Override
     public Faction getFactionByName(String name) {
-        ArrayList<Kingdom> kingdoms = Feudal.getKingdoms();
+        ArrayList<Kingdom> kingdoms = Main.getKingdoms();
         // horribly inefficient but I can't do anything about it for now
         for (Kingdom k : kingdoms) {
             if (k.getName().equals(name)) {
@@ -61,9 +61,9 @@ public class FeudalConnector implements Factions {
 
     @Override
     public Faction getPlayerFaction(Player player) {
-        User u = Feudal.getUser(player.getUniqueId().toString());
+        User u = Main.getUser(player.getUniqueId().toString());
         if (u == null) return null;
-        Object nativeObject = Feudal.getKingdom(u.getKingdomUUID());
+        Object nativeObject = Main.getKingdom(u.getKingdomUUID());
         return nativeObject != null ? new FeudalKingdom(nativeObject) : null;
     }
 
@@ -75,9 +75,9 @@ public class FeudalConnector implements Factions {
     @Override
     public Rank getPlayerRank(Player player) {
         String uuid = player.getUniqueId().toString();
-        User u = Feudal.getUser(uuid);
+        User u = Main.getUser(uuid);
         if (u == null) return Rank.UNKNOWN;
-        Kingdom k = Feudal.getKingdom(u.getKingdomUUID());
+        Kingdom k = Main.getKingdom(u.getKingdomUUID());
         if (k == null) return Rank.UNKNOWN;
         us.forseth11.feudal.kingdoms.Rank rank = k.getRank(uuid);
         switch (rank) {
@@ -93,7 +93,7 @@ public class FeudalConnector implements Factions {
                 return Rank.MEMBER;
         }
     }
-    
+
     @Override
     public boolean supportsLandOwnership() {
         return true;

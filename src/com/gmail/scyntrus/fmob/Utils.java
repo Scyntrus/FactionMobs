@@ -33,10 +33,11 @@ public class Utils {
         if (entity == null || faction == null || faction.isNone()) {
             return 0;
         }
-        if (FactionMobs.checkMyPet && entity.getBukkitEntity().hasMetadata("MyPet"))
+        if (FactionMobs.checkMyPet && entity.getBukkitEntity().hasMetadata("MyPet")) {
             return 0;
+        }
         if (entity instanceof EntityPlayer) {
-            Player player = ((EntityPlayer)entity).getBukkitEntity();
+            Player player = ((EntityPlayer) entity).getBukkitEntity();
             if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) return 1;
             int res = FactionsManager.getPlayerFaction(player).getRelationTo(faction);
             return attackAll && res == 0 ? -1 : res;
@@ -82,8 +83,9 @@ public class Utils {
     }
 
     public static void giveColorArmor(FactionMob entity) {
-        if (!FactionMobs.equipArmor)
+        if (!FactionMobs.equipArmor) {
             return;
+        }
         int color = -1;
         if (entity.getFaction() == null) {
             return;
@@ -114,8 +116,9 @@ public class Utils {
                 i.setTag(n);
             }
             NBTTagCompound n2 = n.getCompound("display");
-            if (!n.hasKey("display"))
+            if (!n.hasKey("display")) {
                 n.set("display", n2);
+            }
             n2.setInt("color", color);
         }
 
@@ -159,8 +162,9 @@ public class Utils {
     public static void copyDefaultConfig() {
         InputStream stream = Utils.class.getResourceAsStream("/config.yml");
         if (stream == null) {
-            if (!FactionMobs.silentErrors)
+            if (!FactionMobs.silentErrors) {
                 System.out.println("Unable to find default config.yml");
+            }
             return;
         }
         OutputStream resStreamOut = null;
@@ -180,8 +184,9 @@ public class Utils {
                 ErrorManager.handleError("Unable to close config.yml resource.", e);
             }
             try {
-                if (resStreamOut != null)
+                if (resStreamOut != null) {
                     resStreamOut.close();
+                }
             } catch (Exception e) {
                 ErrorManager.handleError("Unable to close configDefaults.yml.", e);
             }
@@ -191,8 +196,9 @@ public class Utils {
     private static class EntityHolder {
         EntityLiving val = null;
     }
-    
+
     public static final double closeEnough = 2.25;
+
     private static double optimizedEntitySearchSlice(Faction faction, EntityLiving entity, EntityHolder result, Collection<Entity> slice, double x, double y, double z, double range2, boolean attackAll) {
         for (Entity entity1 : slice) {
             if (entity1.isAlive() && entity1 instanceof EntityLiving) {
@@ -203,8 +209,9 @@ public class Utils {
                     if (entity.hasLineOfSight(entity1)) {
                         range2 = tempRange2;
                         result.val = (EntityLiving) entity1;
-                        if (range2 < closeEnough)
+                        if (range2 < closeEnough) {
                             return 0;
+                        }
                     }
                 }
             }
@@ -219,20 +226,23 @@ public class Utils {
 
             if (!entitySlices[starty].isEmpty()) {
                 range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty], x, y, z, range2, attackAll);
-                if (range2 == 0)
+                if (range2 == 0) {
                     return 0;
-            }
-            
-            for (int dy = 1; dy <= disty; dy++) {
-                if (starty-dy > 0 && !entitySlices[starty-dy].isEmpty()) {
-                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty-dy], x, y, z, range2, attackAll);
-                    if (range2 == 0)
-                        return 0;
                 }
-                if (starty+dy < entitySlices.length-1 && !entitySlices[starty+dy].isEmpty()) {
-                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty+dy], x, y, z, range2, attackAll);
-                    if (range2 == 0)
+            }
+
+            for (int dy = 1; dy <= disty; dy++) {
+                if (starty - dy > 0 && !entitySlices[starty - dy].isEmpty()) {
+                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty - dy], x, y, z, range2, attackAll);
+                    if (range2 == 0) {
                         return 0;
+                    }
+                }
+                if (starty + dy < entitySlices.length - 1 && !entitySlices[starty + dy].isEmpty()) {
+                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty + dy], x, y, z, range2, attackAll);
+                    if (range2 == 0) {
+                        return 0;
+                    }
                 }
                 if (result.val != null) {
                     return range2;
@@ -244,7 +254,7 @@ public class Utils {
         }
         return range2;
     }
-    
+
     public static EntityLiving optimizedTargetSearch(FactionMob mob, double range) {
         double x = mob.getlocX();
         double y = mob.getlocY();
@@ -259,7 +269,7 @@ public class Utils {
         int startz = MathHelper.floor(z / 16.0D);
         double range2 = range * range;
         starty = MathHelper.clamp(starty, 0, 15);
-        
+
         WorldServer world = (WorldServer) mob.getEntity().getWorld();
 
         Faction faction = mob.getFaction();
@@ -271,11 +281,12 @@ public class Utils {
         if (range2 == 0) {
             return result.val;
         }
-        
+
         for (int i1 = i; i1 <= j; i1++) {
             for (int j1 = k; j1 <= l; j1++) {
-                if (i1 == startx && j1 == startz)
+                if (i1 == startx && j1 == startz) {
                     continue;
+                }
                 if (world.getChunkProviderServer().isLoaded(i1, j1)) {
                     range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2, attackAll);
                     if (range2 == 0) {
@@ -284,11 +295,11 @@ public class Utils {
                 }
             }
         }
-        
+
         return result.val;
     }
-    
-    
+
+
     private static void optimizedEntityAgroChunk(Faction faction, Chunk chunk, double x, double y, double z, double range2, int y1, int y2, EntityLiving damager) {
         try {
             @SuppressWarnings("unchecked")
@@ -312,10 +323,11 @@ public class Utils {
             ErrorManager.handleError(e);
         }
     }
-    
+
     public static void optimizedAoeAgro(Faction faction, Location loc, double range, EntityLiving damager) {
-        if (faction == null || faction.isNone() || !damager.isAlive())
+        if (faction == null || faction.isNone() || !damager.isAlive()) {
             return;
+        }
         double x = loc.getX();
         double y = loc.getY();
         double z = loc.getZ();
@@ -326,9 +338,9 @@ public class Utils {
         int y1 = MathHelper.clamp(MathHelper.floor((y - range) / 16.0D), 0, 15);
         int y2 = MathHelper.clamp(MathHelper.floor((y + range) / 16.0D), 0, 15);
         double range2 = range * range;
-        
+
         WorldServer world = ((CraftWorld) loc.getWorld()).getHandle();
-        
+
         for (int i1 = i; i1 <= j; i1++) {
             for (int j1 = k; j1 <= l; j1++) {
                 if (world.getChunkProviderServer().isLoaded(i1, j1)) {

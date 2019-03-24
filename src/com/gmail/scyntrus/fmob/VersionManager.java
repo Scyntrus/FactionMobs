@@ -1,19 +1,20 @@
 package com.gmail.scyntrus.fmob;
 
 public class VersionManager {
-    
+
     public static class VersionException extends Exception {
         private static final long serialVersionUID = 1L;
+
         public VersionException(String message) {
             super(message);
         }
     }
-    
+
     public static void checkVersion() throws VersionException {
         if (Package.getPackage("org.bukkit.craftbukkit.v1_13_R2") != null) {
             return;
         }
-        
+
         try {
             Class<?> tmpMcpcClass = Class.forName("za.co.mcportcentral.entity.CraftCustomEntity");
             if (tmpMcpcClass != null) {
@@ -35,6 +36,6 @@ public class VersionManager {
             }
         }
 
-        throw new VersionException("You are running an unsupported version of CraftBukkit (Requires: v1_13_R2, Found:"+foundVersion+"). Please download a newer version. FactionMobs will not be enabled.");
+        throw new VersionException("You are running an unsupported version of CraftBukkit (Requires: v1_13_R2, Found:" + foundVersion + "). Please download a newer version. FactionMobs will not be enabled.");
     }
 }

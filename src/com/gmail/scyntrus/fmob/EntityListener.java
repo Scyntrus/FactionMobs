@@ -48,8 +48,9 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onEntityTarget(EntityTargetEvent e) {
-        if (e.getEntity() instanceof CraftExperienceOrb)
+        if (e.getEntity() instanceof CraftExperienceOrb) {
             return;
+        }
         Entity entity = ((CraftEntity) e.getEntity()).getHandle();
         if (entity instanceof FactionMob) {
             e.setCancelled(true);
@@ -76,7 +77,7 @@ public class EntityListener implements Listener {
                         return;
                     } else if (wolf.isTamed()) {
                         if (wolf.getOwner() != null) {
-                            if (fmob.getEntity().getGoalTarget() != null && 
+                            if (fmob.getEntity().getGoalTarget() != null &&
                                     fmob.getEntity().getGoalTarget().equals(wolf.getOwner())) {
                                 return;
                             }
@@ -110,10 +111,10 @@ public class EntityListener implements Listener {
         if (e.getHand() != EquipmentSlot.HAND) {
             return;
         }
-        if (((CraftEntity)e.getRightClicked()).getHandle() instanceof FactionMob) {
-            FactionMob fmob = (FactionMob) ((CraftEntity)e.getRightClicked()).getHandle();
+        if (((CraftEntity) e.getRightClicked()).getHandle() instanceof FactionMob) {
+            FactionMob fmob = (FactionMob) ((CraftEntity) e.getRightClicked()).getHandle();
             fmob.updateMob();
-            if(!fmob.getEntity().isAlive()) {
+            if (!fmob.getEntity().isAlive()) {
                 FactionMobs.mobList.remove(fmob);
                 return;
             }
@@ -166,7 +167,7 @@ public class EntityListener implements Listener {
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.updateList(), 1L);
     }
 
-    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof CraftLivingEntity)) return;
         CraftLivingEntity entity = (CraftLivingEntity) e.getEntity();
@@ -219,15 +220,16 @@ public class EntityListener implements Listener {
         }
     }
 
-    @EventHandler(priority=EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageByEntity2(EntityDamageByEntityEvent e) {
         if (((CraftEntity) e.getEntity()).getHandle() instanceof FactionMob
                 && e.getEntity().hasMetadata("NPC")) {
             e.getEntity().removeMetadata("NPC", plugin);
         }
 
-        if (!(e.getDamager() instanceof CraftLivingEntity))
+        if (!(e.getDamager() instanceof CraftLivingEntity)) {
             return;
+        }
         CraftEntity entity = (CraftEntity) e.getEntity();
         CraftLivingEntity damager = (CraftLivingEntity) e.getDamager();
 
@@ -263,7 +265,7 @@ public class EntityListener implements Listener {
                     if (fmob.getFaction() == null) {
                         return;
                     }
-                    e.setDeathMessage(Messages.get(Message.INTERACT_PLAYERDEATH,e.getEntity().getDisplayName(),
+                    e.setDeathMessage(Messages.get(Message.INTERACT_PLAYERDEATH, e.getEntity().getDisplayName(),
                             fmob.getFactionName(), fmob.getLocalizedName()));
                 }
             }
@@ -289,11 +291,11 @@ public class EntityListener implements Listener {
             int count = 0;
             for (FactionMob fmob : plugin.playerSelections.get(player.getName())) {
                 if (fmob.getSpawn().getWorld().getName().equals(loc.getWorld().getName())) {
-                    double tmpX = (1.5-(count%4))*1.5;
-                    double tmpZ = ((-1.) - Math.floor(count / 4.))*1.5;
+                    double tmpX = (1.5 - (count % 4)) * 1.5;
+                    double tmpZ = ((-1.) - Math.floor(count / 4.)) * 1.5;
                     double tmpH = Math.hypot(tmpX, tmpZ);
                     double angle = Math.atan2(tmpZ, tmpX) + (loc.getYaw() * Math.PI / 180.);
-                    fmob.setPoi(loc.getX() + tmpH*Math.cos(angle), loc.getY(), loc.getZ() + tmpH*Math.sin(angle));
+                    fmob.setPoi(loc.getX() + tmpH * Math.cos(angle), loc.getY(), loc.getZ() + tmpH * Math.sin(angle));
                     count += 1;
                 }
             }
@@ -344,7 +346,7 @@ public class EntityListener implements Listener {
         }
     }
 
-    @EventHandler(priority=EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onChunkLoad(ChunkLoadEvent e) {
         FactionMobs.scheduleChunkMobLoad = true;
         // Continuously check for the running task, as other plugins may cancel tasks to reduce load
@@ -354,7 +356,7 @@ public class EntityListener implements Listener {
         }
     }
 
-    @EventHandler(priority=EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onCreatureSpawn(CreatureSpawnEvent e) {
         if (((CraftLivingEntity) e.getEntity()).getHandle() instanceof FactionMob) {
             e.setCancelled(false);

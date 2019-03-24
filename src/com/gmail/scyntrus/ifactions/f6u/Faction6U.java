@@ -10,20 +10,21 @@ class Faction6U extends Faction {
 
     public com.massivecraft.factions.Faction faction;
 
-    public Faction6U (com.massivecraft.factions.Faction faction) {
+    public Faction6U(com.massivecraft.factions.Faction faction) {
         this.faction = faction;
     }
 
-    public Faction6U (Object faction) {
+    public Faction6U(Object faction) {
         this((com.massivecraft.factions.Faction) faction);
     }
 
     public static Method getRelationTo;
+
     @Override
     public int getRelationTo(Faction other) {
         if (faction == null || isNone()) return 0;
         try {
-            Object rel = getRelationTo.invoke(faction, ((Faction6U)other).faction);
+            Object rel = getRelationTo.invoke(faction, ((Faction6U) other).faction);
             if (rel.equals(Relation.ENEMY)) {
                 return -1;
             } else if (rel.equals(Relation.NEUTRAL)) {
@@ -38,6 +39,7 @@ class Faction6U extends Faction {
     }
 
     public static Method isNone;
+
     @Override
     public boolean isNone() {
         try {
@@ -50,6 +52,7 @@ class Faction6U extends Faction {
     }
 
     public static Method getTag;
+
     @Override
     public String getName() {
         try {
@@ -62,6 +65,7 @@ class Faction6U extends Faction {
     }
 
     public static Method getPower;
+
     @Override
     public double getPower() {
         try {
@@ -74,6 +78,7 @@ class Faction6U extends Faction {
     }
 
     public static Method noMonstersInTerritory;
+
     @Override
     public boolean monstersNotAllowed() {
         try {
