@@ -32,8 +32,8 @@ public class FeudalConnector implements Factions {
             return instance;
         }
         String pluginName = plugin.getName();
-        if (FactionsManager.classExists("us.forseth11.feudal.core.Feudal")) {
-            log.append("FOUND us.forseth11.feudal.core.Feudal\n");
+        if (FactionsManager.classExists("de.browniecodez.feudal.main.Main")) {
+            log.append("FOUND de.browniecodez.feudal.main.Main\n");
             System.out.println("[" + pluginName + "] Feudal detected.");
             new FeudalConnector(plugin);
         }
