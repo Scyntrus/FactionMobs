@@ -46,11 +46,13 @@ public class Factions6U implements Factions {
             getByTagMethod = com.massivecraft.factions.Factions.class.getMethod("getByTag", String.class);
             boardInstance = Board.class.getMethod("getInstance").invoke(null);
             boardGetFactionAt = Board.class.getMethod("getFactionAt", FLocation.class);
-            Faction6U.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", RelationParticipator.class);
+            Faction6U.getRelationTo = com.massivecraft.factions.Faction.class
+                    .getMethod("getRelationTo", RelationParticipator.class);
             Faction6U.isNone = com.massivecraft.factions.Faction.class.getMethod("isNone");
             Faction6U.getTag = com.massivecraft.factions.Faction.class.getMethod("getTag");
             Faction6U.getPower = com.massivecraft.factions.Faction.class.getMethod("getPower");
-            Faction6U.noMonstersInTerritory = com.massivecraft.factions.Faction.class.getMethod("noMonstersInTerritory");
+            Faction6U.noMonstersInTerritory = com.massivecraft.factions.Faction.class
+                    .getMethod("noMonstersInTerritory");
         } catch (Exception e) {
             ErrorManager.handleError(e);
             instance = null;

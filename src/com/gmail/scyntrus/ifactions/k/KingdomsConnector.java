@@ -4,12 +4,12 @@ import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.Factions;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import com.songoda.kingdoms.constants.land.SimpleChunkLocation;
 import com.songoda.kingdoms.constants.player.KingdomPlayer;
 import com.songoda.kingdoms.manager.game.GameManagement;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class KingdomsConnector implements Factions {
 

@@ -3,7 +3,7 @@ package com.gmail.scyntrus.ifactions.k;
 import com.gmail.scyntrus.fmob.FactionMob;
 import com.gmail.scyntrus.fmob.FactionMobs;
 import com.gmail.scyntrus.ifactions.Faction;
-import net.minecraft.server.v1_13_R2.Entity;
+import net.minecraft.server.v1_14_R1.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 
 class Kingdom extends Faction {
@@ -51,7 +51,8 @@ class Kingdom extends Faction {
 
     @Override
     public void processMob(FactionMob mob) {
-        mob.getEntity().getBukkitEntity().setMetadata("kingdom+" + this.getName(), new FixedMetadataValue(FactionMobs.instance, true));
+        mob.getEntity().getBukkitEntity()
+                .setMetadata("kingdom+" + this.getName(), new FixedMetadataValue(FactionMobs.instance, true));
     }
 
     @Override

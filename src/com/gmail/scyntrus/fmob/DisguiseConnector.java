@@ -14,7 +14,7 @@ public class DisguiseConnector {
         }
     }
 
-    public static void disguiseAsPlayer(net.minecraft.server.v1_13_R2.Entity entity) {
+    public static void disguiseAsPlayer(net.minecraft.server.v1_14_R1.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
         if (disguise instanceof PlayerDisguise) {
@@ -28,7 +28,7 @@ public class DisguiseConnector {
         DisguiseAPI.disguiseToAll(bukkitEntity, disguise);
     }
 
-    public static void disguiseAsPolarBear(net.minecraft.server.v1_13_R2.Entity entity) {
+    public static void disguiseAsPolarBear(net.minecraft.server.v1_14_R1.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
         if (disguise != null && disguise.getType() == DisguiseType.POLAR_BEAR) {
@@ -38,7 +38,7 @@ public class DisguiseConnector {
         DisguiseAPI.disguiseToAll(bukkitEntity, disguise);
     }
 
-    public static void disguiseAsIronGolem(net.minecraft.server.v1_13_R2.Entity entity) {
+    public static void disguiseAsIronGolem(net.minecraft.server.v1_14_R1.Entity entity) {
         Entity bukkitEntity = entity.getBukkitEntity();
         Disguise disguise = DisguiseAPI.getDisguise(bukkitEntity);
         if (disguise != null && disguise.getType() == DisguiseType.IRON_GOLEM) {

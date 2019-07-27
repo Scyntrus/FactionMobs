@@ -46,16 +46,19 @@ public class Factions6 implements Factions {
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("com.massivecraft.factions.struct.Relation")) {
             log.append("FOUND com.massivecraft.factions.struct.Relation\n");
-            fPlayersGet = FactionsManager.tryGetMethod(com.massivecraft.factions.FPlayers.class, "get", OfflinePlayer.class);
+            fPlayersGet = FactionsManager
+                    .tryGetMethod(com.massivecraft.factions.FPlayers.class, "get", OfflinePlayer.class);
             if (fPlayersGet != null) {
                 log.append("FOUND com.massivecraft.factions.FPlayers.get(OfflinePlayer)\n");
                 System.out.println("[" + pluginName + "] Factions 1.6-U(old) detected");
                 new Factions6(plugin);
             } else {
-                fPlayersGet = FactionsManager.tryGetMethod(com.massivecraft.factions.FPlayers.class, "get", Player.class);
+                fPlayersGet = FactionsManager
+                        .tryGetMethod(com.massivecraft.factions.FPlayers.class, "get", Player.class);
                 if (fPlayersGet != null) {
                     log.append("FOUND com.massivecraft.factions.FPlayers.get(Player)\n");
-                    System.out.println("[" + pluginName + "] Factions 1.6 detected. It is recommended you update to Factions 2.");
+                    System.out
+                            .println("[" + pluginName + "] Factions 1.6 detected. It is recommended you update to Factions 2.");
                     new Factions6(plugin);
                 }
             }

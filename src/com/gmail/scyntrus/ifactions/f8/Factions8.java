@@ -35,7 +35,8 @@ public class Factions8 implements Factions {
             factionsInstance = (com.massivecraft.factions.Factions) factionsInstanceField.get(null);
             getByTagMethod = com.massivecraft.factions.Factions.class.getMethod("getByTag", String.class);
             fPlayerGetRoleMethod = FPlayer.class.getMethod("getRole");
-            Faction8.getRelationTo = com.massivecraft.factions.Faction.class.getMethod("getRelationTo", RelationParticipator.class);
+            Faction8.getRelationTo = com.massivecraft.factions.Faction.class
+                    .getMethod("getRelationTo", RelationParticipator.class);
             Faction8.getFlag = com.massivecraft.factions.Faction.class.getMethod("getFlag", FFlag.class);
         } catch (Exception e) {
             ErrorManager.handleError(e);
@@ -51,7 +52,8 @@ public class Factions8 implements Factions {
         String pluginName = plugin.getName();
         if (FactionsManager.classExists("com.massivecraft.factions.struct.Rel")) {
             log.append("FOUND com.massivecraft.factions.struct.Rel\n");
-            System.out.println("[" + pluginName + "] Factions 1.8 detected. It is recommended you update to Factions 2.");
+            System.out
+                    .println("[" + pluginName + "] Factions 1.8 detected. It is recommended you update to Factions 2.");
             instance = new Factions8(plugin);
         }
         return instance;

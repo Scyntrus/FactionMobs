@@ -7,13 +7,13 @@ import com.gmail.scyntrus.fmob.mobs.Swordsman;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import net.minecraft.server.v1_13_R2.Entity;
+import net.minecraft.server.v1_14_R1.Entity;
 import org.bukkit.Location;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
@@ -45,11 +45,12 @@ public class FmcCommand implements CommandExecutor {
             sender.sendMessage("World not found");
             return false;
         }
-        net.minecraft.server.v1_13_R2.World world = ((CraftWorld) craftWorld).getHandle();
+        net.minecraft.server.v1_14_R1.World world = ((CraftWorld) craftWorld).getHandle();
 
         Location loc;
         try {
-            loc = new Location(craftWorld, Double.parseDouble(split[3]), Double.parseDouble(split[4]), Double.parseDouble(split[5]));
+            loc = new Location(craftWorld, Double.parseDouble(split[3]), Double.parseDouble(split[4]), Double
+                    .parseDouble(split[5]));
         } catch (Exception e) {
             sender.sendMessage("Invalid coordinates");
             return false;
@@ -125,13 +126,15 @@ public class FmcCommand implements CommandExecutor {
         FactionMobs.mobList.add(newMob);
 
         if (split.length > 6) {
-            if (split[6].equalsIgnoreCase("moveToPoint") || split[6].equalsIgnoreCase("move") || split[6].equalsIgnoreCase("point")) {
+            if (split[6].equalsIgnoreCase("moveToPoint") || split[6].equalsIgnoreCase("move") || split[6]
+                    .equalsIgnoreCase("point")) {
                 if (split.length < 10) {
                     sender.sendMessage("Not enough arguments for move order");
                     return false;
                 }
                 try {
-                    newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double.parseDouble(split[9]));
+                    newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double
+                            .parseDouble(split[9]));
                     newMob.setCommand(FactionMob.Command.poi);
                 } catch (Exception e) {
                     sender.sendMessage("Invalid move coordinates");
@@ -144,7 +147,8 @@ public class FmcCommand implements CommandExecutor {
                     return false;
                 }
                 try {
-                    newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double.parseDouble(split[9]));
+                    newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double
+                            .parseDouble(split[9]));
                     newMob.setCommand(FactionMob.Command.ppoi);
                 } catch (Exception e) {
                     sender.sendMessage("Invalid patrol coordinates");
@@ -158,7 +162,8 @@ public class FmcCommand implements CommandExecutor {
                 }
                 try {
                     newMob.setCommand(FactionMob.Command.path);
-                    newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double.parseDouble(split[9]));
+                    newMob.setPoi(Double.parseDouble(split[7]), Double.parseDouble(split[8]), Double
+                            .parseDouble(split[9]));
                     Location spawnLoc = newMob.getSpawn();
                     spawnLoc.setX(Double.parseDouble(split[10]));
                     spawnLoc.setY(Double.parseDouble(split[11]));

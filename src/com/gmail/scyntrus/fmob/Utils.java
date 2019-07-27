@@ -2,24 +2,24 @@ package com.gmail.scyntrus.fmob;
 
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import net.minecraft.server.v1_13_R2.Chunk;
-import net.minecraft.server.v1_13_R2.Entity;
-import net.minecraft.server.v1_13_R2.EntityAnimal;
-import net.minecraft.server.v1_13_R2.EntityCreeper;
-import net.minecraft.server.v1_13_R2.EntityLiving;
-import net.minecraft.server.v1_13_R2.EntityPlayer;
-import net.minecraft.server.v1_13_R2.EntitySlime;
-import net.minecraft.server.v1_13_R2.EntityWolf;
-import net.minecraft.server.v1_13_R2.EnumItemSlot;
-import net.minecraft.server.v1_13_R2.IMonster;
-import net.minecraft.server.v1_13_R2.ItemStack;
-import net.minecraft.server.v1_13_R2.Items;
-import net.minecraft.server.v1_13_R2.MathHelper;
-import net.minecraft.server.v1_13_R2.NBTTagCompound;
-import net.minecraft.server.v1_13_R2.WorldServer;
+import net.minecraft.server.v1_14_R1.Chunk;
+import net.minecraft.server.v1_14_R1.Entity;
+import net.minecraft.server.v1_14_R1.EntityAnimal;
+import net.minecraft.server.v1_14_R1.EntityCreeper;
+import net.minecraft.server.v1_14_R1.EntityLiving;
+import net.minecraft.server.v1_14_R1.EntityPlayer;
+import net.minecraft.server.v1_14_R1.EntitySlime;
+import net.minecraft.server.v1_14_R1.EntityWolf;
+import net.minecraft.server.v1_14_R1.EnumItemSlot;
+import net.minecraft.server.v1_14_R1.IMonster;
+import net.minecraft.server.v1_14_R1.ItemStack;
+import net.minecraft.server.v1_14_R1.Items;
+import net.minecraft.server.v1_14_R1.MathHelper;
+import net.minecraft.server.v1_14_R1.NBTTagCompound;
+import net.minecraft.server.v1_14_R1.WorldServer;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -176,7 +176,8 @@ public class Utils {
                 resStreamOut.write(buffer, 0, readBytes);
             }
         } catch (Exception e) {
-            ErrorManager.handleError("Unable to create configDefaults.yml. Check permissions or create it manually.", e);
+            ErrorManager
+                    .handleError("Unable to create configDefaults.yml. Check permissions or create it manually.", e);
         } finally {
             try {
                 stream.close();
@@ -264,7 +265,8 @@ public class Utils {
         int k = MathHelper.floor((z - range) / 16.0D);
         int l = MathHelper.floor((z + range) / 16.0D);
         int starty = MathHelper.floor(y / 16.0D);
-        int disty = Math.max(MathHelper.floor((y + range) / 16.0D) - starty, starty - MathHelper.floor((y - range) / 16.0D));
+        int disty = Math
+                .max(MathHelper.floor((y + range) / 16.0D) - starty, starty - MathHelper.floor((y - range) / 16.0D));
         int startx = MathHelper.floor(x / 16.0D);
         int startz = MathHelper.floor(z / 16.0D);
         double range2 = range * range;
@@ -277,7 +279,8 @@ public class Utils {
         EntityHolder result = new EntityHolder();
         boolean attackAll = mob.getAttackAll();
 
-        range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(startx, startz), starty, disty, x, y, z, range2, attackAll);
+        range2 = optimizedEntitySearchChunk(faction, entity, result, world
+                .getChunkAt(startx, startz), starty, disty, x, y, z, range2, attackAll);
         if (range2 == 0) {
             return result.val;
         }
@@ -288,7 +291,8 @@ public class Utils {
                     continue;
                 }
                 if (world.getChunkProvider().isLoaded(i1, j1)) {
-                    range2 = optimizedEntitySearchChunk(faction, entity, result, world.getChunkAt(i1, j1), starty, disty, x, y, z, range2, attackAll);
+                    range2 = optimizedEntitySearchChunk(faction, entity, result, world
+                            .getChunkAt(i1, j1), starty, disty, x, y, z, range2, attackAll);
                     if (range2 == 0) {
                         return result.val;
                     }
@@ -310,7 +314,8 @@ public class Utils {
                         if (entity1.isAlive() && entity1 instanceof FactionMob) {
                             FactionMob fmob = (FactionMob) entity1;
                             Faction otherFaction = fmob.getFaction();
-                            if (faction.getRelationTo(otherFaction) == 1 && Utils.FactionCheck(damager, otherFaction, true) < 1
+                            if (faction.getRelationTo(otherFaction) == 1 && Utils
+                                    .FactionCheck(damager, otherFaction, true) < 1
                                     && (entity1.locX - x) * (entity1.locX - x) + (entity1.locY - y) * (entity1.locY - y)
                                     + (entity1.locZ - z) * (entity1.locZ - z) < range2) {
                                 fmob.softAgro(damager);

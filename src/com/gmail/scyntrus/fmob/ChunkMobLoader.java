@@ -1,6 +1,6 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_13_R2.WorldServer;
+import net.minecraft.server.v1_14_R1.WorldServer;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 public class ChunkMobLoader implements Runnable {
@@ -16,7 +16,8 @@ public class ChunkMobLoader implements Runnable {
         if (FactionMobs.scheduleChunkMobLoad) {
             FactionMobs.scheduleChunkMobLoad = false;
             for (FactionMob fmob : FactionMobs.mobList) {
-                if (!((WorldServer) fmob.getEntity().world).getTracker().trackedEntities.b(fmob.getEntity().getId())) {
+                if (!((WorldServer) fmob.getEntity().world).getChunkProvider().playerChunkMap.trackedEntities
+                        .containsKey(fmob.getEntity().getId())) {
                     try {
                         fmob.getEntity().world.addEntity(fmob.getEntity(), SpawnReason.CUSTOM);
                     } catch (Exception e) {

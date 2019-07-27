@@ -73,7 +73,8 @@ public class ConfigManager {
                             f.set(obj, opt.min());
                         }
                     }
-                } catch (IllegalAccessException e) {
+                } catch (Throwable e) {
+                    ErrorManager.handleError("Error loading config option: " + f.toString());
                     ErrorManager.handleError(e);
                 }
             }

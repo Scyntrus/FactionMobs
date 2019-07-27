@@ -11,41 +11,43 @@ import com.gmail.scyntrus.fmob.ReflectionManager;
 import com.gmail.scyntrus.fmob.Utils;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import net.minecraft.server.v1_13_R2.DamageSource;
-import net.minecraft.server.v1_13_R2.EntityCreature;
-import net.minecraft.server.v1_13_R2.EntityHuman;
-import net.minecraft.server.v1_13_R2.EntityLiving;
-import net.minecraft.server.v1_13_R2.EntityPlayer;
-import net.minecraft.server.v1_13_R2.EntityPotion;
-import net.minecraft.server.v1_13_R2.EntityProjectile;
-import net.minecraft.server.v1_13_R2.EntityWitch;
-import net.minecraft.server.v1_13_R2.EnumItemSlot;
-import net.minecraft.server.v1_13_R2.EnumMonsterType;
-import net.minecraft.server.v1_13_R2.GenericAttributes;
-import net.minecraft.server.v1_13_R2.IRegistry;
-import net.minecraft.server.v1_13_R2.IWorldReader;
-import net.minecraft.server.v1_13_R2.ItemStack;
-import net.minecraft.server.v1_13_R2.Items;
-import net.minecraft.server.v1_13_R2.MathHelper;
-import net.minecraft.server.v1_13_R2.MinecraftKey;
-import net.minecraft.server.v1_13_R2.MobEffects;
-import net.minecraft.server.v1_13_R2.NBTTagCompound;
-import net.minecraft.server.v1_13_R2.PathfinderGoalArrowAttack;
-import net.minecraft.server.v1_13_R2.PathfinderGoalFloat;
-import net.minecraft.server.v1_13_R2.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_13_R2.PathfinderGoalMoveTowardsTarget;
-import net.minecraft.server.v1_13_R2.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_13_R2.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_13_R2.PotionRegistry;
-import net.minecraft.server.v1_13_R2.PotionUtil;
-import net.minecraft.server.v1_13_R2.Potions;
-import net.minecraft.server.v1_13_R2.SoundCategory;
-import net.minecraft.server.v1_13_R2.SoundEffects;
-import net.minecraft.server.v1_13_R2.World;
+import net.minecraft.server.v1_14_R1.DamageSource;
+import net.minecraft.server.v1_14_R1.Entity;
+import net.minecraft.server.v1_14_R1.EntityCreature;
+import net.minecraft.server.v1_14_R1.EntityHuman;
+import net.minecraft.server.v1_14_R1.EntityLiving;
+import net.minecraft.server.v1_14_R1.EntityPlayer;
+import net.minecraft.server.v1_14_R1.EntityPotion;
+import net.minecraft.server.v1_14_R1.EntityProjectile;
+import net.minecraft.server.v1_14_R1.EntityTypes;
+import net.minecraft.server.v1_14_R1.EntityWitch;
+import net.minecraft.server.v1_14_R1.EnumItemSlot;
+import net.minecraft.server.v1_14_R1.EnumMonsterType;
+import net.minecraft.server.v1_14_R1.GenericAttributes;
+import net.minecraft.server.v1_14_R1.IRegistry;
+import net.minecraft.server.v1_14_R1.IWorldReader;
+import net.minecraft.server.v1_14_R1.ItemStack;
+import net.minecraft.server.v1_14_R1.Items;
+import net.minecraft.server.v1_14_R1.MathHelper;
+import net.minecraft.server.v1_14_R1.MinecraftKey;
+import net.minecraft.server.v1_14_R1.MobEffects;
+import net.minecraft.server.v1_14_R1.NBTTagCompound;
+import net.minecraft.server.v1_14_R1.PathfinderGoalArrowAttack;
+import net.minecraft.server.v1_14_R1.PathfinderGoalFloat;
+import net.minecraft.server.v1_14_R1.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_14_R1.PathfinderGoalMoveTowardsTarget;
+import net.minecraft.server.v1_14_R1.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_14_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_14_R1.PotionRegistry;
+import net.minecraft.server.v1_14_R1.PotionUtil;
+import net.minecraft.server.v1_14_R1.SoundCategory;
+import net.minecraft.server.v1_14_R1.SoundEffects;
+import net.minecraft.server.v1_14_R1.Vec3D;
+import net.minecraft.server.v1_14_R1.World;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_13_R2.util.CraftChatMessage;
+import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_14_R1.util.CraftChatMessage;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -86,17 +88,16 @@ public class Mage extends EntityWitch implements FactionMob {
     public double poiX = 0, poiY = 0, poiZ = 0;
     public Command command = Command.poi;
 
-    public Mage(World world) {
-        super(world);
+    public Mage(EntityTypes<? extends Entity> type, World world) {
+        super(EntityTypes.WITCH, world);
         this.forceDie();
     }
 
     public Mage(Location spawnLoc, Faction faction) {
-        super(((CraftWorld) spawnLoc.getWorld()).getHandle());
+        super(EntityTypes.WITCH, ((CraftWorld) spawnLoc.getWorld()).getHandle());
         this.setSpawn(spawnLoc);
         this.setFaction(faction);
         this.persistent = true;
-        this.fireProof = false;
         this.canPickUpLoot = false;
         this.setHealth(maxHp);
         this.Q = 1.5F; // TODO: Update name on version change (E: Entity.stepHeight)
@@ -133,7 +134,7 @@ public class Mage extends EntityWitch implements FactionMob {
         super.initAttributes();
         getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(FactionMobs.mobNavRange);
         getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(FactionMobs.mobSpeed);
-        getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHp);
+        getAttributeInstance(GenericAttributes.MAX_HEALTH).setValue(maxHp);
     }
 
     @Override
@@ -144,7 +145,8 @@ public class Mage extends EntityWitch implements FactionMob {
             if (this.getGoalTarget() == null || !this.getGoalTarget().isAlive()) {
                 this.findTarget();
             } else {
-                double dist = Utils.dist3D(this.locX, this.getGoalTarget().locX, this.locY, this.getGoalTarget().locY, this.locZ, this.getGoalTarget().locZ);
+                double dist = Utils.dist3D(this.locX, this.getGoalTarget().locX, this.locY, this
+                        .getGoalTarget().locY, this.locZ, this.getGoalTarget().locZ);
                 if (dist > range) {
                     this.findTarget();
                 } else if (dist > 4) {
@@ -153,14 +155,17 @@ public class Mage extends EntityWitch implements FactionMob {
             }
             if (this.getGoalTarget() == null) {
                 if (this.command == Command.home) {
-                    this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), 1.0);
+                    this.getNavigation()
+                            .a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), 1.0);
                 } else if (this.command == Command.poi) {
                     this.getNavigation().a(p.set(this.poiX, this.poiY, this.poiZ), 1.0);
                 } else if (this.command == Command.wander) {
                     // intentionally empty
                 } else if (this.command == Command.phome) {
-                    this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc.getZ()), FactionMobs.mobPatrolSpeed);
-                    if (Utils.dist3D(this.locX, this.spawnLoc.getX(), this.locY, this.spawnLoc.getY(), this.locZ, this.spawnLoc.getZ()) < 1) {
+                    this.getNavigation().a(p.set(this.spawnLoc.getX(), this.spawnLoc.getY(), this.spawnLoc
+                            .getZ()), FactionMobs.mobPatrolSpeed);
+                    if (Utils.dist3D(this.locX, this.spawnLoc.getX(), this.locY, this.spawnLoc
+                            .getY(), this.locZ, this.spawnLoc.getZ()) < 1) {
                         this.command = Command.ppoi;
                     }
                 } else if (this.command == Command.ppoi) {
@@ -191,7 +196,8 @@ public class Mage extends EntityWitch implements FactionMob {
             if (this.attackedBy.isAlive()
                     && this.attackedBy.world.getWorldData().getName().equals(this.world.getWorldData().getName())
                     && Utils.FactionCheck(this.attackedBy, this.faction, this.attackAll) < 1) {
-                double dist = Utils.dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ);
+                double dist = Utils
+                        .dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ);
                 if (dist < 16) {
                     this.setTarget(this.attackedBy);
                     return this.attackedBy;
@@ -365,7 +371,7 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public boolean isTypeNotPersistent() {
+    public boolean isTypeNotPersistent(double d) {
         return false;
     }
 
@@ -485,7 +491,7 @@ public class Mage extends EntityWitch implements FactionMob {
         if (this.getHealth() > 0) {
             this.dead = false;
         }
-        this.an = false; //TODO: Update name on version change (E: Entity.inPortal)
+        this.ai = false; //TODO: Update name on version change (E: Entity.inPortal)
         super.tick();
     }
 
@@ -507,7 +513,8 @@ public class Mage extends EntityWitch implements FactionMob {
                 this.setCustomName(CraftChatMessage.fromStringOrNull(
                         Messages.get(Messages.Message.NAMETAG_RED, factionName, localizedName)));
             } else {
-                this.setCustomName(CraftChatMessage.fromStringOrNull(Messages.get(Messages.Message.NAMETAG, factionName, localizedName)));
+                this.setCustomName(CraftChatMessage
+                        .fromStringOrNull(Messages.get(Messages.Message.NAMETAG, factionName, localizedName)));
             }
             this.setCustomNameVisible(true);
         } else {
@@ -519,43 +526,46 @@ public class Mage extends EntityWitch implements FactionMob {
     }
 
     @Override
-    public void a(EntityLiving paramEntityLiving, float paramFloat) {  //TODO: Update name on version change (E: EntityWitch.attackEntityWithRangedAttack)
+    public void a(EntityLiving entityliving, float paramFloat) {  //TODO: Update name on version change (E: EntityWitch.attackEntityWithRangedAttack)
         if (l()) { //TODO: Update name on version change (E: EntityWitch.isDrinkingPotion)
             return;
         }
 
-        double d1 = paramEntityLiving.locY + paramEntityLiving.getHeadHeight() - 1.1D;
-        double d2 = paramEntityLiving.locX + paramEntityLiving.motX - this.locX;
+        Vec3D vec3d = entityliving.getMot();
+        double d1 = entityliving.locY + entityliving.getHeadHeight() - 1.1D;
+        double d2 = entityliving.locX + vec3d.x - this.locX;
         double d3 = d1 - this.locY;
-        double d4 = paramEntityLiving.locZ + paramEntityLiving.motZ - this.locZ;
+        double d4 = entityliving.locZ + vec3d.z - this.locZ;
         float f = MathHelper.sqrt(d2 * d2 + d4 * d4);
 
-        PotionRegistry localPotionRegistry = HARMING_POTION;
-        if ((f >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.SLOWER_MOVEMENT))) {
-            localPotionRegistry = SLOWNESS_POTION;
-        } else if ((paramEntityLiving.getHealth() >= 8.0F) && (!paramEntityLiving.hasEffect(MobEffects.POISON))
-                && (paramEntityLiving.getMonsterType() != EnumMonsterType.UNDEAD)
-                && (paramEntityLiving.getMonsterType() != EnumMonsterType.ARTHROPOD)) {
-            localPotionRegistry = POISON_POTION;
-        } else if ((f <= 3.0F) && (!paramEntityLiving.hasEffect(MobEffects.WEAKNESS)) && (this.random.nextFloat() < 0.25F)) {
-            localPotionRegistry = WEAKNESS_POTION;
-        } else if (paramEntityLiving.getMonsterType() == EnumMonsterType.UNDEAD) {
-            localPotionRegistry = HEALING_POTION;
+        PotionRegistry potionRegistry = HARMING_POTION;
+        if ((f >= 8.0F) && (!entityliving.hasEffect(MobEffects.SLOWER_MOVEMENT))) {
+            potionRegistry = SLOWNESS_POTION;
+        } else if ((entityliving.getHealth() >= 8.0F) && (!entityliving.hasEffect(MobEffects.POISON))
+                && (entityliving.getMonsterType() != EnumMonsterType.UNDEAD)
+                && (entityliving.getMonsterType() != EnumMonsterType.ARTHROPOD)) {
+            potionRegistry = POISON_POTION;
+        } else if ((f <= 3.0F) && (!entityliving.hasEffect(MobEffects.WEAKNESS)) && (this.random
+                .nextFloat() < 0.25F)) {
+            potionRegistry = WEAKNESS_POTION;
+        } else if (entityliving.getMonsterType() == EnumMonsterType.UNDEAD) {
+            potionRegistry = HEALING_POTION;
         }
 
-        this.setSlot(EnumItemSlot.MAINHAND, PotionUtil.a( //TODO: Update name on version change (E: addPotionToItemStack)
-                new ItemStack(Items.SPLASH_POTION), localPotionRegistry));
+        this.setSlot(EnumItemSlot.MAINHAND, PotionUtil
+                .a( //TODO: Update name on version change (E: addPotionToItemStack)
+                        new ItemStack(Items.SPLASH_POTION), potionRegistry));
 
-        EntityPotion localEntityPotion = new EntityPotion(this.world, this, PotionUtil.a( //TODO: Update name on version change (E: addPotionToItemStack)
-                new ItemStack(Items.SPLASH_POTION), localPotionRegistry));
-        localEntityPotion.pitch -= -20.0F;
-        localEntityPotion.shoot(d2, d3 + f * 0.2F, d4, 0.75F, 8.0F);
+        EntityPotion entityPotion = new EntityPotion(this.world, this);
+        entityPotion.setItem(PotionUtil.a(new ItemStack(Items.SPLASH_POTION), potionRegistry));
+        entityPotion.pitch -= -20.0F;
+        entityPotion.shoot(d2, d3 + f * 0.2F, d4, 0.75F, 8.0F);
         this.world.a( // TODO: Update name on version change (E: World.playSound)
                 null, this.locX, this.locY, this.locZ,
                 SoundEffects.ENTITY_WITCH_THROW,
                 SoundCategory.HOSTILE,
                 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
 
-        this.world.addEntity(localEntityPotion);
+        this.world.addEntity(entityPotion);
     }
 }

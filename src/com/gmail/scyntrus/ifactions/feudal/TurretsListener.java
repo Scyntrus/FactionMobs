@@ -1,13 +1,13 @@
 package com.gmail.scyntrus.ifactions.feudal;
 
 import com.gmail.scyntrus.fmob.FactionMob;
+import de.browniecodez.feudal.main.Main;
 import me.forseth11.Turrets.TurretAttackMobEvent;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftLivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-import de.browniecodez.feudal.main.Main;
 import us.forseth11.feudal.kingdoms.Kingdom;
 import us.forseth11.feudal.user.User;
 
@@ -26,7 +26,9 @@ public class TurretsListener implements Listener {
             if (user != null) {
                 Kingdom k = Main.getKingdom(user.getKingdomUUID());
                 if (k != null) {
-                    if (new FeudalKingdom(k).getRelationTo(((FactionMob) ((CraftLivingEntity) e.getTarget()).getHandle()).getFaction()) > 0) {
+                    if (new FeudalKingdom(k)
+                            .getRelationTo(((FactionMob) ((CraftLivingEntity) e.getTarget()).getHandle())
+                                    .getFaction()) > 0) {
                         e.setCancelled(true);
                     }
                 }

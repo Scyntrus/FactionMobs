@@ -4,15 +4,15 @@ import com.gmail.scyntrus.fmob.Messages.Message;
 import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
-import net.minecraft.server.v1_13_R2.Entity;
-import net.minecraft.server.v1_13_R2.EntityInsentient;
-import net.minecraft.server.v1_13_R2.EntityIronGolem;
-import net.minecraft.server.v1_13_R2.EntityLiving;
-import net.minecraft.server.v1_13_R2.EntityWolf;
+import net.minecraft.server.v1_14_R1.Entity;
+import net.minecraft.server.v1_14_R1.EntityInsentient;
+import net.minecraft.server.v1_14_R1.EntityIronGolem;
+import net.minecraft.server.v1_14_R1.EntityLiving;
+import net.minecraft.server.v1_14_R1.EntityWolf;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftExperienceOrb;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftExperienceOrb;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -122,7 +122,8 @@ public class EntityListener implements Listener {
             player.sendMessage(Messages.get(Message.INTERACT_INFO, fmob.getLocalizedName(), fmob.getFactionName(),
                     fmob.getEntity().getHealth(), fmob.getEntity().getMaxHealth()));
             Faction playerFaction = FactionsManager.getPlayerFaction(player);
-            if (player.hasPermission("fmob.order") && playerFaction != null && playerFaction.equals(fmob.getFaction())) {
+            if (player.hasPermission("fmob.order") && playerFaction != null && playerFaction
+                    .equals(fmob.getFaction())) {
                 List<FactionMob> selection = plugin.getPlayerSelection(player);
                 if (selection.contains(fmob)) {
                     selection.remove(fmob);
@@ -211,9 +212,11 @@ public class EntityListener implements Listener {
                     }
                     player.sendMessage(Messages.get(Message.INTERACT_HITFRIENDLY, fmob.getLocalizedName()));
                     // disable gaining mcMMO exp when hitting friendly mobs
-                    fmob.getEntity().getBukkitEntity().setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
+                    fmob.getEntity().getBukkitEntity()
+                            .setMetadata("NPC", new FixedMetadataValue(FactionMobs.instance, true));
                 } else {
-                    player.sendMessage(Messages.get(Message.INTERACT_NOHITALLY, fmob.getFactionName(), fmob.getLocalizedName()));
+                    player.sendMessage(Messages
+                            .get(Message.INTERACT_NOHITALLY, fmob.getFactionName(), fmob.getLocalizedName()));
                     e.setCancelled(true);
                 }
             }
@@ -282,7 +285,8 @@ public class EntityListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent e) {
-        if (plugin.mobLeader.contains(e.getPlayer().getName()) && plugin.playerSelections.containsKey(e.getPlayer().getName())) {
+        if (plugin.mobLeader.contains(e.getPlayer().getName()) && plugin.playerSelections
+                .containsKey(e.getPlayer().getName())) {
             if (e.getFrom().distance(e.getTo()) < 0.00001) {
                 return;
             }
@@ -352,7 +356,8 @@ public class EntityListener implements Listener {
         // Continuously check for the running task, as other plugins may cancel tasks to reduce load
         if (!plugin.getServer().getScheduler().isCurrentlyRunning(FactionMobs.chunkMobLoadTask) &&
                 !plugin.getServer().getScheduler().isQueued(FactionMobs.chunkMobLoadTask)) {
-            FactionMobs.chunkMobLoadTask = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new ChunkMobLoader(plugin), 4, 4);
+            FactionMobs.chunkMobLoadTask = plugin.getServer().getScheduler()
+                    .scheduleSyncRepeatingTask(plugin, new ChunkMobLoader(plugin), 4, 4);
         }
     }
 

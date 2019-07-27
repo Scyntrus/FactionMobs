@@ -1,6 +1,8 @@
 package com.gmail.scyntrus.fmob;
 
-import net.minecraft.server.v1_13_R2.PathfinderGoal;
+import net.minecraft.server.v1_14_R1.PathfinderGoal;
+
+import java.util.EnumSet;
 
 public class PathfinderGoalFmobCommand extends PathfinderGoal {
 
@@ -8,7 +10,7 @@ public class PathfinderGoalFmobCommand extends PathfinderGoal {
 
     public PathfinderGoalFmobCommand(FactionMob mob) {
         this.mob = mob;
-        this.a(1); //TODO: Update name on version change (setMutexBits)
+        this.a(EnumSet.of(Type.MOVE, Type.JUMP)); //TODO: Update name on version change (setMutexBits)
     }
 
     @Override

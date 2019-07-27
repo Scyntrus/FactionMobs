@@ -17,7 +17,8 @@ public class FeudalListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
-        if (e.getMessage().toLowerCase().startsWith("/f delete") || e.getMessage().toLowerCase().startsWith("/f name")) {
+        if (e.getMessage().toLowerCase().startsWith("/f delete") || e.getMessage().toLowerCase()
+                .startsWith("/f name")) {
             plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new FeudalChecker(), 1);
         }
     }

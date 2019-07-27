@@ -68,7 +68,8 @@ public class FactionsManager {
             return true;
         } else {
             ErrorManager.handleError(log.toString());
-            ErrorManager.handleError("No compatible version of Factions detected. " + pluginName + " will not be enabled.");
+            ErrorManager
+                    .handleError("No compatible version of Factions detected. " + pluginName + " will not be enabled.");
             return false;
         }
     }
