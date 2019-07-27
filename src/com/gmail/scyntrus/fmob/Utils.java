@@ -200,7 +200,9 @@ public class Utils {
 
     public static final double closeEnough = 2.25;
 
-    private static double optimizedEntitySearchSlice(Faction faction, EntityLiving entity, EntityHolder result, Collection<Entity> slice, double x, double y, double z, double range2, boolean attackAll) {
+    private static double optimizedEntitySearchSlice(Faction faction, EntityLiving entity, EntityHolder result,
+                                                     Collection<Entity> slice, double x, double y, double z,
+                                                     double range2, boolean attackAll) {
         for (Entity entity1 : slice) {
             if (entity1.isAlive() && entity1 instanceof EntityLiving) {
                 double tempRange2 = (entity1.locX - x) * (entity1.locX - x)
@@ -220,13 +222,16 @@ public class Utils {
         return range2;
     }
 
-    private static double optimizedEntitySearchChunk(Faction faction, EntityLiving entity, EntityHolder result, Chunk chunk, int starty, int disty, double x, double y, double z, double range2, boolean attackAll) {
+    private static double optimizedEntitySearchChunk(Faction faction, EntityLiving entity, EntityHolder result,
+                                                     Chunk chunk, int starty, int disty, double x, double y, double z,
+                                                     double range2, boolean attackAll) {
         try {
             @SuppressWarnings("unchecked")
             Collection<Entity>[] entitySlices = (Collection<Entity>[]) ReflectionManager.chunk_EntitySlices.get(chunk);
 
             if (!entitySlices[starty].isEmpty()) {
-                range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty], x, y, z, range2, attackAll);
+                range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty], x, y, z, range2,
+                        attackAll);
                 if (range2 == 0) {
                     return 0;
                 }
@@ -234,13 +239,15 @@ public class Utils {
 
             for (int dy = 1; dy <= disty; dy++) {
                 if (starty - dy > 0 && !entitySlices[starty - dy].isEmpty()) {
-                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty - dy], x, y, z, range2, attackAll);
+                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty - dy], x, y, z,
+                            range2, attackAll);
                     if (range2 == 0) {
                         return 0;
                     }
                 }
                 if (starty + dy < entitySlices.length - 1 && !entitySlices[starty + dy].isEmpty()) {
-                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty + dy], x, y, z, range2, attackAll);
+                    range2 = optimizedEntitySearchSlice(faction, entity, result, entitySlices[starty + dy], x, y, z,
+                            range2, attackAll);
                     if (range2 == 0) {
                         return 0;
                     }
@@ -304,7 +311,8 @@ public class Utils {
     }
 
 
-    private static void optimizedEntityAgroChunk(Faction faction, Chunk chunk, double x, double y, double z, double range2, int y1, int y2, EntityLiving damager) {
+    private static void optimizedEntityAgroChunk(Faction faction, Chunk chunk, double x, double y, double z,
+                                                 double range2, int y1, int y2, EntityLiving damager) {
         try {
             @SuppressWarnings("unchecked")
             Collection<Entity>[] entitySlices = (Collection<Entity>[]) ReflectionManager.chunk_EntitySlices.get(chunk);

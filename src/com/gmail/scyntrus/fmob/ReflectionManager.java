@@ -44,7 +44,8 @@ public class ReflectionManager {
                 good_PathfinderGoalSelector_GoalSet = true;
             } catch (Exception e2) {
                 ErrorManager
-                        .handleError("[Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
+                        .handleError(
+                                "[Minor Error] Field not found: PathfinderGoalSelector.b; Unable to override mob goals");
                 ErrorManager.handleError(e1);
                 ErrorManager.handleError(e2);
             }

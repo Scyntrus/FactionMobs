@@ -124,7 +124,8 @@ public class FactionMobs extends JavaPlugin {
 
         if (!FactionsManager.init(this)) {
             ErrorManager
-                    .handleError("You are running an unsupported version of Factions. Please contact the plugin author for more info.");
+                    .handleError(
+                            "You are running an unsupported version of Factions. Please contact the plugin author for more info.");
             this.getCommand("fm").setExecutor(new ErrorCommand(this));
             this.getCommand("fmc").setExecutor(new ErrorCommand(this));
             return;
@@ -233,7 +234,10 @@ public class FactionMobs extends JavaPlugin {
         }));
     }
 
-    private <T extends net.minecraft.server.v1_14_R1.Entity> void addEntityType(String entityName, EntityTypes.b<T> ctor, float width, float height) throws InvocationTargetException, IllegalAccessException {
+    private <T extends net.minecraft.server.v1_14_R1.Entity> void addEntityType(String entityName,
+                                                                                EntityTypes.b<T> ctor, float width,
+                                                                                float height)
+            throws InvocationTargetException, IllegalAccessException {
         EntityTypes.a entitytypes_a = EntityTypes.a.a(ctor, MONSTER)
                 .a() // ???
                 .b() // disable data fixer

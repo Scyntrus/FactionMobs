@@ -185,7 +185,8 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
                     && this.attackedBy.world.getWorldData().getName().equals(this.world.getWorldData().getName())
                     && Utils.FactionCheck(this.attackedBy, this.faction, this.attackAll) < 1) {
                 double dist = Utils
-                        .dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ, this.attackedBy.locZ);
+                        .dist3D(this.locX, this.attackedBy.locX, this.locY, this.attackedBy.locY, this.locZ,
+                                this.attackedBy.locZ);
                 if (dist < 16) {
                     this.setTarget(this.attackedBy);
                     return this.attackedBy;
@@ -427,12 +428,14 @@ public class SpiritBear extends EntityPolarBear implements FactionMob {
     }
 
     @Override
-    public boolean c(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: Entity.writeToNBTAtomically)
+    public boolean c(
+            NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: Entity.writeToNBTAtomically)
         return false;
     }
 
     @Override
-    public boolean d(NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: Entity.writeToNBTOptional)
+    public boolean d(
+            NBTTagCompound nbttagcompound) { //TODO: Update name on version change (E: Entity.writeToNBTOptional)
         return false;
     }
 

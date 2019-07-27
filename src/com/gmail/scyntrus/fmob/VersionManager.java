@@ -22,7 +22,8 @@ public class VersionManager {
                     ErrorManager.handleError("[FactionMobs] MCPC detected. MCPC compatibility is experimental.");
                 } else {
                     ErrorManager
-                            .handleError("[FactionMobs] WARNING: INCOMPATIBLE VERSION OF MCPC DETECTED, FactionMobs will probably not work.");
+                            .handleError(
+                                    "[FactionMobs] WARNING: INCOMPATIBLE VERSION OF MCPC DETECTED, FactionMobs will probably not work.");
                 }
                 return;
             }
@@ -37,6 +38,7 @@ public class VersionManager {
             }
         }
 
-        throw new VersionException("You are running an unsupported version of CraftBukkit (Requires: v1_14_R1, Found:" + foundVersion + "). Please download a newer version. FactionMobs will not be enabled.");
+        throw new VersionException(
+                "You are running an unsupported version of CraftBukkit (Requires: v1_14_R1, Found:" + foundVersion + "). Please download a newer version. FactionMobs will not be enabled.");
     }
 }

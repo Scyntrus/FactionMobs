@@ -58,7 +58,8 @@ public class Factions6 implements Factions {
                 if (fPlayersGet != null) {
                     log.append("FOUND com.massivecraft.factions.FPlayers.get(Player)\n");
                     System.out
-                            .println("[" + pluginName + "] Factions 1.6 detected. It is recommended you update to Factions 2.");
+                            .println(
+                                    "[" + pluginName + "] Factions 1.6 detected. It is recommended you update to Factions 2.");
                     new Factions6(plugin);
                 }
             }
