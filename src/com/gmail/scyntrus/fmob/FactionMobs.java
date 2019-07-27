@@ -8,9 +8,11 @@ import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
+import net.minecraft.server.v1_14_R1.Entity;
 import net.minecraft.server.v1_14_R1.EntityPositionTypes;
 import net.minecraft.server.v1_14_R1.EntityTypes;
 import net.minecraft.server.v1_14_R1.HeightMap.Type;
+import net.minecraft.server.v1_14_R1.IRegistry;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -238,13 +240,14 @@ public class FactionMobs extends JavaPlugin {
                                                                                 EntityTypes.b<T> ctor, float width,
                                                                                 float height)
             throws InvocationTargetException, IllegalAccessException {
-        EntityTypes.a entitytypes_a = EntityTypes.a.a(ctor, MONSTER)
+        entityName = entityName.toLowerCase();
+        EntityTypes.a<Entity> entitytypes_a = EntityTypes.a.a(ctor, MONSTER) //TODO: Update name on version change
                 .a() // ???
                 .b() // disable data fixer
                 // .c() is fireproof
-                .a(width, height); //entity size
-        EntityTypes<T> tempEntityType = (EntityTypes<T>) ReflectionManager.entityTypes_a
-                .invoke(null, entityName.toLowerCase(), entitytypes_a);
+                .a(width, height); // set entity size
+        EntityTypes<T> tempEntityType = (EntityTypes) IRegistry
+                .a(IRegistry.ENTITY_TYPE, entityName, entitytypes_a.a(entityName));
         ReflectionManager.entityPositionTypes_a
                 .invoke(null, tempEntityType, EntityPositionTypes.Surface.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES);
     }

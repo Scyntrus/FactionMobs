@@ -13,7 +13,6 @@ public class ReflectionManager {
     public static Field pathfinderGoalSelector_GoalSet = null;
     public static Field chunk_EntitySlices = null;
     public static Method entityPositionTypes_a = null;
-    public static Method entityTypes_a = null;
 
     public static boolean good_PathfinderGoalSelector_GoalSet = false;
 
@@ -24,10 +23,6 @@ public class ReflectionManager {
                     .getDeclaredMethod("a", //TODO: Update name on version change
                             EntityTypes.class, EntityPositionTypes.Surface.class, HeightMap.Type.class);
             entityPositionTypes_a.setAccessible(true);
-            entityTypes_a = EntityTypes.class
-                    .getDeclaredMethod("a", //TODO: Update name on version change
-                            String.class, EntityTypes.a.class);
-            entityTypes_a.setAccessible(true);
         } catch (Exception e1) {
             ErrorManager.handleError(e1);
             return false;
