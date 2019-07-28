@@ -564,12 +564,11 @@ public class Mage extends EntityWitch implements FactionMob {
         entityPotion.setItem(PotionUtil.a(new ItemStack(Items.SPLASH_POTION), potionRegistry));
         entityPotion.pitch -= -20.0F;
         entityPotion.shoot(d2, d3 + f * 0.2F, d4, 0.75F, 8.0F);
-        this.world.a( // TODO: Update name on version change (E: World.playSound)
+        this.world.playSound(
                 null, this.locX, this.locY, this.locZ,
                 SoundEffects.ENTITY_WITCH_THROW,
                 SoundCategory.HOSTILE,
                 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
-
         this.world.addEntity(entityPotion);
     }
 }
