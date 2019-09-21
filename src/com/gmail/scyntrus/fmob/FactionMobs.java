@@ -8,9 +8,12 @@ import com.gmail.scyntrus.fmob.mobs.Titan;
 import com.gmail.scyntrus.ifactions.Faction;
 import com.gmail.scyntrus.ifactions.FactionsManager;
 import com.gmail.scyntrus.ifactions.Rank;
+import net.minecraft.server.v1_14_R1.BlockPosition;
 import net.minecraft.server.v1_14_R1.Entity;
 import net.minecraft.server.v1_14_R1.EntityPositionTypes;
 import net.minecraft.server.v1_14_R1.EntityTypes;
+import net.minecraft.server.v1_14_R1.EnumMobSpawn;
+import net.minecraft.server.v1_14_R1.GeneratorAccess;
 import net.minecraft.server.v1_14_R1.HeightMap.Type;
 import net.minecraft.server.v1_14_R1.IRegistry;
 import org.bstats.bukkit.Metrics;
@@ -236,6 +239,11 @@ public class FactionMobs extends JavaPlugin {
         }));
     }
 
+    public static boolean dummySpawnCheck(EntityTypes entitytypes, GeneratorAccess generatoraccess,
+                                          EnumMobSpawn enummobspawn, BlockPosition blockposition, Random random) {
+        return false;
+    }
+
     private <T extends net.minecraft.server.v1_14_R1.Entity> void addEntityType(String entityName,
                                                                                 EntityTypes.b<T> ctor, float width,
                                                                                 float height)
@@ -248,8 +256,10 @@ public class FactionMobs extends JavaPlugin {
                 .a(width, height); // set entity size
         EntityTypes<T> tempEntityType = (EntityTypes) IRegistry
                 .a(IRegistry.ENTITY_TYPE, entityName, entitytypes_a.a(entityName));
+        EntityPositionTypes.b tempFunc = FactionMobs::dummySpawnCheck;
         ReflectionManager.entityPositionTypes_a
-                .invoke(null, tempEntityType, EntityPositionTypes.Surface.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES);
+                .invoke(null, tempEntityType, EntityPositionTypes.Surface.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES,
+                        tempFunc);
     }
 
     @Override

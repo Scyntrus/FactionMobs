@@ -21,7 +21,7 @@ public class ReflectionManager {
             chunk_EntitySlices = Chunk.class.getDeclaredField("entitySlices");
             entityPositionTypes_a = EntityPositionTypes.class
                     .getDeclaredMethod("a", //TODO: Update name on version change
-                            EntityTypes.class, EntityPositionTypes.Surface.class, HeightMap.Type.class);
+                            EntityTypes.class, EntityPositionTypes.Surface.class, HeightMap.Type.class, EntityPositionTypes.b.class);
             entityPositionTypes_a.setAccessible(true);
         } catch (Exception e1) {
             ErrorManager.handleError(e1);
